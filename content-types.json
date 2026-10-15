@@ -1,0 +1,7 @@
+{
+  "types": {
+    "tech-thread": {"instruction_file": "instructions/tech-thread.md", "min_tweets": 5, "max_tweets": 10, "max_chars": 280},
+    "marketing-post": {"instruction_file": "instructions/marketing-post.md", "min_tweets": 1, "max_tweets": 1, "max_chars": 280, "require_review_invitation": true}
+  }
+}
+

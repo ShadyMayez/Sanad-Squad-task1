@@ -1,0 +1,42 @@
+{
+  "$defs": {
+    "FailureRecord": {
+      "properties": {
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "dropped",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "status"
+      ],
+      "title": "FailureRecord",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/FailureRecord"
+  },
+  "type": "array"
+}

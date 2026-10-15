@@ -1,0 +1,55 @@
+{
+  "tweets": [
+    "A callee can reenter a contract before its first invocation finishes.",
+    "This happens when state is updated after an external call, allowing repeated use of stale state.",
+    "The root cause is that control flow passes to the callee before the initial update completes.",
+    "Remediation involves performing internal state changes before the external call.",
+    "Using checks-effects-interactions ensures state is safe before any interaction occurs.",
+    "A reentrancy lock blocks the unwanted callback into the protected path.",
+    "It does not prevent control passing to the external callee itself."
+  ],
+  "claims": [
+    {
+      "text": "A callee can reenter a contract before its first invocation finishes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "This happens when state is updated after an external call, allowing repeated use of stale state.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "The root cause is that control flow passes to the callee before the initial update completes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Remediation involves performing internal state changes before the external call.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Using checks-effects-interactions ensures state is safe before any interaction occurs.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "A reentrancy lock blocks the unwanted callback into the protected path.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "It does not prevent control passing to the external callee itself.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    }
+  ]
+}

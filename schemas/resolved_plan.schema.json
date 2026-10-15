@@ -1,0 +1,50 @@
+{
+  "$defs": {
+    "Slot": {
+      "properties": {
+        "focus": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Focus"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "Slot",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "slots": {
+      "items": {
+        "$ref": "#/$defs/Slot"
+      },
+      "minItems": 1,
+      "title": "Slots",
+      "type": "array"
+    }
+  },
+  "required": [
+    "slots"
+  ],
+  "title": "Plan",
+  "type": "object"
+}

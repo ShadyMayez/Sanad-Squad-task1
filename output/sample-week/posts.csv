@@ -1,0 +1,39 @@
+Post Text,Image
+"1/7 A callee can reenter a contract before its first invocation finishes.
+
+2/7 This happens when state is updated after an external call, allowing repeated use of stale state.
+
+3/7 The root cause is that control flow passes to the callee before the initial update completes.
+
+4/7 Remediation involves performing internal state changes before the external call.
+
+5/7 Using checks-effects-interactions ensures state is safe before any interaction occurs.
+
+6/7 A reentrancy lock blocks the unwanted callback into the protected path.
+
+7/7 It does not prevent control passing to the external callee itself.",spec:visual_specs/thread_1.md
+Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues.,spec:visual_specs/post_1.md
+"1/6 When a withdrawal function lacks authorization checks, any caller can trigger the transfer.
+
+2/6 The root cause is often omitting access control logic before the Ether moves.
+
+3/6 Implementing msg.sender checks against a stored owner prevents unauthorized triggers.
+
+4/6 Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.
+
+5/6 Without these controls, the contract's balance becomes vulnerable to external calls.
+
+6/6 Auditors should verify that every transfer path includes explicit access restrictions.",spec:visual_specs/thread_2.md
+Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers.,spec:visual_specs/post_2.md
+"1/6 Contracts relying on single price feeds risk executing logic based on distorted market data.
+
+2/6 Security-critical calculations often fail because they trust an unvalidated or manipulable source.
+
+3/6 Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.
+
+4/6 Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.
+
+5/6 Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.
+
+6/6 Using time-weighted averages over sufficient windows further resists rapid price distortion attacks.",spec:visual_specs/thread_3.md
+Review how a single failing external call can revert a wider transaction and prevent progress for other participants.,spec:visual_specs/post_3.md

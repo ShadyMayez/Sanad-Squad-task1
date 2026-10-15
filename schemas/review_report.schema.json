@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "ClaimSupport": {
+      "properties": {
+        "claim_text": {
+          "title": "Claim Text",
+          "type": "string"
+        },
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "evidence_quote": {
+          "title": "Evidence Quote",
+          "type": "string"
+        },
+        "supported": {
+          "title": "Supported",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "claim_text",
+        "evidence_id",
+        "evidence_quote",
+        "supported"
+      ],
+      "title": "ClaimSupport",
+      "type": "object"
+    },
+    "Review": {
+      "properties": {
+        "approved": {
+          "title": "Approved",
+          "type": "boolean"
+        },
+        "brand_voice": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Brand Voice",
+          "type": "integer"
+        },
+        "claim_support": {
+          "items": {
+            "$ref": "#/$defs/ClaimSupport"
+          },
+          "title": "Claim Support",
+          "type": "array"
+        },
+        "clarity": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Clarity",
+          "type": "integer"
+        },
+        "corrections": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Corrections",
+          "type": "array"
+        },
+        "factual_support": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Factual Support",
+          "type": "integer"
+        },
+        "grounding_assessment": {
+          "title": "Grounding Assessment",
+          "type": "string"
+        },
+        "platform_format": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Platform Format",
+          "type": "integer"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "technical_correctness": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Technical Correctness",
+          "type": "integer"
+        },
+        "usefulness": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Usefulness",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "factual_support",
+        "technical_correctness",
+        "brand_voice",
+        "clarity",
+        "platform_format",
+        "usefulness",
+        "approved",
+        "grounding_assessment"
+      ],
+      "title": "Review",
+      "type": "object"
+    },
+    "ReviewRecord": {
+      "properties": {
+        "attempts": {
+          "items": {
+            "$ref": "#/$defs/Review"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "attempts"
+      ],
+      "title": "ReviewRecord",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/ReviewRecord"
+  },
+  "type": "array"
+}

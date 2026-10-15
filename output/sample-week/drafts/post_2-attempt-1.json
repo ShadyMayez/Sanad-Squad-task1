@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers."
+  ],
+  "claims": [
+    {
+      "text": "Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

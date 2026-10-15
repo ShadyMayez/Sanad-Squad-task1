@@ -1,0 +1,48 @@
+{
+  "tweets": [
+    "Contracts relying on single price feeds risk executing logic based on distorted market data.",
+    "Security-critical calculations often fail because they trust an unvalidated or manipulable source.",
+    "Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.",
+    "Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.",
+    "Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.",
+    "Using time-weighted averages over sufficient windows further resists rapid price distortion attacks."
+  ],
+  "claims": [
+    {
+      "text": "Contracts relying on single price feeds risk executing logic based on distorted market data.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Security-critical calculations often fail because they trust an unvalidated or manipulable source.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Using time-weighted averages over sufficient windows further resists rapid price distortion attacks.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "$defs": {
+    "AcceptedRecord": {
+      "properties": {
+        "completion_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Completion Tokens"
+        },
+        "drafts": {
+          "items": {
+            "$ref": "#/$defs/Draft"
+          },
+          "title": "Drafts",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "image_spec_reference": {
+          "title": "Image Spec Reference",
+          "type": "string"
+        },
+        "prompt_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Prompt Tokens"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "reviews": {
+          "items": {
+            "$ref": "#/$defs/Review"
+          },
+          "title": "Reviews",
+          "type": "array"
+        },
+        "slot": {
+          "$ref": "#/$defs/Slot"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "status": {
+          "const": "accepted",
+          "title": "Status",
+          "type": "string"
+        },
+        "topic": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Topic"
+        },
+        "validations": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Validations",
+          "type": "array"
+        },
+        "visual_spec": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Visual Spec"
+        }
+      },
+      "required": [
+        "slot",
+        "status",
+        "image_spec_reference"
+      ],
+      "title": "AcceptedRecord",
+      "type": "object"
+    },
+    "Claim": {
+      "properties": {
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "text": {
+          "minLength": 5,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "evidence_ids"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "ClaimSupport": {
+      "properties": {
+        "claim_text": {
+          "title": "Claim Text",
+          "type": "string"
+        },
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "evidence_quote": {
+          "title": "Evidence Quote",
+          "type": "string"
+        },
+        "supported": {
+          "title": "Supported",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "claim_text",
+        "evidence_id",
+        "evidence_quote",
+        "supported"
+      ],
+      "title": "ClaimSupport",
+      "type": "object"
+    },
+    "Draft": {
+      "properties": {
+        "claims": {
+          "items": {
+            "$ref": "#/$defs/Claim"
+          },
+          "title": "Claims",
+          "type": "array"
+        },
+        "tweets": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Tweets",
+          "type": "array"
+        }
+      },
+      "required": [
+        "tweets"
+      ],
+      "title": "Draft",
+      "type": "object"
+    },
+    "Evidence": {
+      "properties": {
+        "excerpt": {
+          "minLength": 12,
+          "title": "Excerpt",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "url": {
+          "pattern": "^https://[^\\s]+$",
+          "title": "Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "url",
+        "excerpt"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Review": {
+      "properties": {
+        "approved": {
+          "title": "Approved",
+          "type": "boolean"
+        },
+        "brand_voice": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Brand Voice",
+          "type": "integer"
+        },
+        "claim_support": {
+          "items": {
+            "$ref": "#/$defs/ClaimSupport"
+          },
+          "title": "Claim Support",
+          "type": "array"
+        },
+        "clarity": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Clarity",
+          "type": "integer"
+        },
+        "corrections": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Corrections",
+          "type": "array"
+        },
+        "factual_support": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Factual Support",
+          "type": "integer"
+        },
+        "grounding_assessment": {
+          "title": "Grounding Assessment",
+          "type": "string"
+        },
+        "platform_format": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Platform Format",
+          "type": "integer"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "technical_correctness": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Technical Correctness",
+          "type": "integer"
+        },
+        "usefulness": {
+          "maximum": 5,
+          "minimum": 0,
+          "title": "Usefulness",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "factual_support",
+        "technical_correctness",
+        "brand_voice",
+        "clarity",
+        "platform_format",
+        "usefulness",
+        "approved",
+        "grounding_assessment"
+      ],
+      "title": "Review",
+      "type": "object"
+    },
+    "Slot": {
+      "properties": {
+        "focus": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Focus"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "title": "Slot",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/AcceptedRecord"
+  },
+  "type": "array"
+}

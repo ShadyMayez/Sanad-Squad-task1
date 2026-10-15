@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues."
+  ],
+  "claims": [
+    {
+      "text": "Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

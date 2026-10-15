@@ -1,0 +1,126 @@
+{
+  "$defs": {
+    "FailureRecord": {
+      "properties": {
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "dropped",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "status"
+      ],
+      "title": "FailureRecord",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "completion_tokens_recorded": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Completion Tokens Recorded"
+    },
+    "dropped": {
+      "title": "Dropped",
+      "type": "integer"
+    },
+    "elapsed_seconds": {
+      "title": "Elapsed Seconds",
+      "type": "number"
+    },
+    "external_model_api_charges_usd": {
+      "title": "External Model Api Charges Usd",
+      "type": "number"
+    },
+    "failed": {
+      "title": "Failed",
+      "type": "integer"
+    },
+    "local_inference_cost": {
+      "title": "Local Inference Cost",
+      "type": "string"
+    },
+    "model": {
+      "title": "Model",
+      "type": "string"
+    },
+    "peak_simultaneous_ollama_calls": {
+      "title": "Peak Simultaneous Ollama Calls",
+      "type": "integer"
+    },
+    "planned": {
+      "title": "Planned",
+      "type": "integer"
+    },
+    "prompt_tokens_recorded": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Prompt Tokens Recorded"
+    },
+    "reasons": {
+      "items": {
+        "$ref": "#/$defs/FailureRecord"
+      },
+      "title": "Reasons",
+      "type": "array"
+    },
+    "shipped": {
+      "title": "Shipped",
+      "type": "integer"
+    },
+    "usage_complete": {
+      "title": "Usage Complete",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "model",
+    "planned",
+    "shipped",
+    "dropped",
+    "failed",
+    "reasons",
+    "elapsed_seconds",
+    "prompt_tokens_recorded",
+    "completion_tokens_recorded",
+    "usage_complete",
+    "peak_simultaneous_ollama_calls",
+    "external_model_api_charges_usd",
+    "local_inference_cost"
+  ],
+  "title": "Summary",
+  "type": "object"
+}

@@ -1,0 +1,69 @@
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+from .schemas import AcceptedRecord, FailureRecord, Plan, ResearchRecord, ReviewRecord, SlotResult, Summary, ValidationRecord
+
+
+def dump_json(path: Path, value):
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
+
+
+def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: float, model_name: str, peak_active: int) -> dict:
+    if output.exists():
+        raise FileExistsError(f"Output already exists: {output}")
+    output.mkdir(parents=True)
+    (output / "drafts").mkdir()
+    (output / "visual_specs").mkdir()
+    by_id = {r.slot.id: r for r in results}
+    ordered = [by_id[s.id] for s in plan.slots]
+    dump_json(output / "resolved_plan.json", plan.model_dump())
+    dump_json(output / "research_log.json", [ResearchRecord.model_validate({"slot_id": r.slot.id, "topic": r.topic, "source_ids": r.source_ids,
+        "evidence": [e.model_dump() for e in r.evidence], "status": r.status,
+        "reason": r.reason}).model_dump() for r in ordered])
+    for r in ordered:
+        for attempt, draft in enumerate(r.drafts, 1):
+            dump_json(output / "drafts" / f"{r.slot.id}-attempt-{attempt}.json", draft.model_dump())
+    dump_json(output / "validation_report.json", [ValidationRecord(slot_id=r.slot.id, attempts=r.validations).model_dump() for r in ordered])
+    dump_json(output / "review_report.json", [ReviewRecord(slot_id=r.slot.id, attempts=r.reviews).model_dump() for r in ordered])
+    accepted = []
+    for r in ordered:
+        if r.status != "accepted":
+            continue
+        spec_path = f"visual_specs/{r.slot.id}.md"
+        (output / spec_path).write_text(r.visual_spec or "")
+        accepted.append(AcceptedRecord.model_validate({**r.model_dump(), "image_spec_reference": f"spec:{spec_path}"}).model_dump(exclude={"visual_spec"}))
+    dump_json(output / "accepted_content.json", accepted)
+    failures = [FailureRecord(slot_id=r.slot.id, status=r.status, reason=r.reason).model_dump() for r in ordered if r.status != "accepted"]
+    dump_json(output / "failures.json", failures)
+    with (output / "posts.csv").open("w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Post Text", "Image"])
+        for r in ordered:
+            if r.status != "accepted":
+                continue
+            tweets = r.drafts[-1].tweets
+            text = "\n\n".join(f"{i}/{len(tweets)} {tweet}" for i, tweet in enumerate(tweets, 1)) if len(tweets) > 1 else tweets[0]
+            writer.writerow([text, f"spec:visual_specs/{r.slot.id}.md"])
+    prompt_values = [r.prompt_tokens for r in ordered]
+    completion_values = [r.completion_tokens for r in ordered]
+    summary = {
+        "model": model_name,
+        "planned": len(plan.slots),
+        "shipped": sum(r.status == "accepted" for r in ordered),
+        "dropped": sum(r.status == "dropped" for r in ordered),
+        "failed": sum(r.status == "failed" for r in ordered),
+        "reasons": failures,
+        "elapsed_seconds": round(elapsed, 3),
+        "prompt_tokens_recorded": sum(x for x in prompt_values if x is not None) if any(x is not None for x in prompt_values) else None,
+        "completion_tokens_recorded": sum(x for x in completion_values if x is not None) if any(x is not None for x in completion_values) else None,
+        "usage_complete": all(r.prompt_tokens is not None and r.completion_tokens is not None for r in ordered),
+        "peak_simultaneous_ollama_calls": peak_active,
+        "external_model_api_charges_usd": 0.0,
+        "local_inference_cost": "Electricity and hardware excluded; not measured",
+    }
+    summary = Summary.model_validate(summary).model_dump()
+    dump_json(output / "summary.json", summary)
+    return summary
+

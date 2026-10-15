@@ -1,0 +1,32 @@
+{
+  "$defs": {
+    "ValidationRecord": {
+      "properties": {
+        "attempts": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "attempts"
+      ],
+      "title": "ValidationRecord",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/ValidationRecord"
+  },
+  "type": "array"
+}
