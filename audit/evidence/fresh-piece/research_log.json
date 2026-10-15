@@ -1,0 +1,18 @@
+[
+  {
+    "slot_id": "piece_1",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://swcregistry.io/docs/SWC-107/",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee."
+      }
+    ],
+    "status": "accepted",
+    "reason": null
+  }
+]

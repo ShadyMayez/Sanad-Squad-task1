@@ -1,0 +1,594 @@
+[
+  {
+    "slot": {
+      "id": "thread_1",
+      "type": "tech-thread",
+      "focus": "reentrancy"
+    },
+    "status": "accepted",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://swcregistry.io/docs/SWC-107/",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "A callee can reenter a contract before its first invocation finishes.",
+          "This happens when state is updated after an external call, allowing repeated use of stale state.",
+          "The root cause is that control flow passes to the callee before the initial update completes.",
+          "Remediation involves performing internal state changes before the external call.",
+          "Using checks-effects-interactions ensures state is safe before any interaction occurs.",
+          "A reentrancy lock blocks the unwanted callback into the protected path.",
+          "It does not prevent control passing to the external callee itself."
+        ],
+        "claims": [
+          {
+            "text": "A callee can reenter a contract before its first invocation finishes.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "This happens when state is updated after an external call, allowing repeated use of stale state.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "The root cause is that control flow passes to the callee before the initial update completes.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "Remediation involves performing internal state changes before the external call.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "Using checks-effects-interactions ensures state is safe before any interaction occurs.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "A reentrancy lock blocks the unwanted callback into the protected path.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "It does not prevent control passing to the external callee itself.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All claims in the draft are fully supported by the provided evidence for SWC-107. The distinction between blocking a callback and preventing control transfer is accurately reflected. No banned words or characters were used. The content adheres to the educational tone without making unsupported guarantees.",
+        "claim_support": [
+          {
+            "claim_text": "A callee can reenter a contract before its first invocation finishes.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes.",
+            "supported": true
+          },
+          {
+            "claim_text": "This happens when state is updated after an external call, allowing repeated use of stale state.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes.",
+            "supported": true
+          },
+          {
+            "claim_text": "The root cause is that control flow passes to the callee before the initial update completes.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes.",
+            "supported": true
+          },
+          {
+            "claim_text": "Remediation involves performing internal state changes before the external call.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock.",
+            "supported": true
+          },
+          {
+            "claim_text": "Using checks-effects-interactions ensures state is safe before any interaction occurs.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock.",
+            "supported": true
+          },
+          {
+            "claim_text": "A reentrancy lock blocks the unwanted callback into the protected path.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": true
+          },
+          {
+            "claim_text": "It does not prevent control passing to the external callee itself.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1684,
+    "completion_tokens": 1072,
+    "image_spec_reference": "spec:visual_specs/thread_1.md"
+  },
+  {
+    "slot": {
+      "id": "post_1",
+      "type": "marketing-post",
+      "focus": null
+    },
+    "status": "accepted",
+    "topic": "Unchecked Call Return Value",
+    "source_ids": [
+      "SWC-104"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-104",
+        "url": "https://swcregistry.io/docs/SWC-104/",
+        "excerpt": "Low-level calls return a success value. A low-level call may fail and return false while the caller continues. Ignoring that return value can leave contract accounting inconsistent because the caller may record an operation as successful when the call failed."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues."
+        ],
+        "claims": [
+          {
+            "text": "Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues.",
+            "evidence_ids": [
+              "SWC-104"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The draft meets all rubric thresholds. The single claim is fully supported by the cited evidence without contradiction or unsupported mechanics.",
+        "claim_support": [
+          {
+            "claim_text": "Review the return value from low-level calls to prevent accounting inconsistencies when a call fails but execution continues.",
+            "evidence_id": "SWC-104",
+            "evidence_quote": "Ignoring that return value can leave contract accounting inconsistent because the caller may record an operation as successful when the call failed.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1393,
+    "completion_tokens": 287,
+    "image_spec_reference": "spec:visual_specs/post_1.md"
+  },
+  {
+    "slot": {
+      "id": "thread_2",
+      "type": "tech-thread",
+      "focus": null
+    },
+    "status": "accepted",
+    "topic": "Unprotected Ether Withdrawal",
+    "source_ids": [
+      "SWC-105"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-105",
+        "url": "https://swcregistry.io/docs/SWC-105/",
+        "excerpt": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "When a withdrawal function lacks authorization checks, any caller can trigger the transfer.",
+          "The root cause is often omitting access control logic before the Ether moves.",
+          "Implementing msg.sender checks against a stored owner prevents unauthorized triggers.",
+          "Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.",
+          "Without these controls, the contract's balance becomes vulnerable to external calls.",
+          "Auditors should verify that every transfer path includes explicit access restrictions."
+        ],
+        "claims": [
+          {
+            "text": "When a withdrawal function lacks authorization checks, any caller can trigger the transfer.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          },
+          {
+            "text": "The root cause is often omitting access control logic before the Ether moves.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          },
+          {
+            "text": "Implementing msg.sender checks against a stored owner prevents unauthorized triggers.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          },
+          {
+            "text": "Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          },
+          {
+            "text": "Without these controls, the contract's balance becomes vulnerable to external calls.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          },
+          {
+            "text": "Auditors should verify that every transfer path includes explicit access restrictions.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All claims are strictly supported by the provided SWC-105 excerpt. The text accurately reflects the mechanism of missing access controls and the standard mitigation (msg.sender checks/onlyOwner) without violating brand rules or fabricating evidence.",
+        "claim_support": [
+          {
+            "claim_text": "When a withdrawal function lacks authorization checks, any caller can trigger the transfer.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds.",
+            "supported": true
+          },
+          {
+            "claim_text": "The root cause is often omitting access control logic before the Ether moves.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds.",
+            "supported": true
+          },
+          {
+            "claim_text": "Implementing msg.sender checks against a stored owner prevents unauthorized triggers.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+            "supported": true
+          },
+          {
+            "claim_text": "Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+            "supported": true
+          },
+          {
+            "claim_text": "Without these controls, the contract's balance becomes vulnerable to external calls.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds.",
+            "supported": true
+          },
+          {
+            "claim_text": "Auditors should verify that every transfer path includes explicit access restrictions.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "Implement controls so withdrawals can only be triggered by authorized parties.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1594,
+    "completion_tokens": 894,
+    "image_spec_reference": "spec:visual_specs/thread_2.md"
+  },
+  {
+    "slot": {
+      "id": "post_2",
+      "type": "marketing-post",
+      "focus": "access control"
+    },
+    "status": "accepted",
+    "topic": "Unprotected Ether Withdrawal",
+    "source_ids": [
+      "SWC-105"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-105",
+        "url": "https://swcregistry.io/docs/SWC-105/",
+        "excerpt": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers."
+        ],
+        "claims": [
+          {
+            "text": "Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers.",
+            "evidence_ids": [
+              "SWC-105"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The draft accurately reflects the vulnerability described in SWC-105 regarding missing access restrictions on ether transfers. The claim directly addresses the risk of arbitrary withdrawals and suggests the specific mitigation (checking msg.sender against an authorized owner) found in the cited evidence. No banned words or characters are present, and the content adheres to the educational tone without making unsupported guarantees.",
+        "claim_support": [
+          {
+            "claim_text": "Review whether your withdrawal functions check msg.sender against an authorized owner to prevent unauthorized fund transfers.",
+            "evidence_id": "SWC-105",
+            "evidence_quote": "Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1395,
+    "completion_tokens": 341,
+    "image_spec_reference": "spec:visual_specs/post_2.md"
+  },
+  {
+    "slot": {
+      "id": "thread_3",
+      "type": "tech-thread",
+      "focus": "oracle manipulation"
+    },
+    "status": "accepted",
+    "topic": "Price Oracle Manipulation",
+    "source_ids": [
+      "SCWE-028",
+      "OWASP-SC03"
+    ],
+    "evidence": [
+      {
+        "id": "SCWE-028",
+        "url": "https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/",
+        "excerpt": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic; validate inputs and use resilient oracle sources."
+      },
+      {
+        "id": "OWASP-SC03",
+        "url": "https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/",
+        "excerpt": "Aggregate multiple price sources. Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "Contracts relying on single price feeds risk executing logic based on distorted market data.",
+          "Security-critical calculations often fail because they trust an unvalidated or manipulable source.",
+          "Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.",
+          "Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.",
+          "Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.",
+          "Using time-weighted averages over sufficient windows further resists rapid price distortion attacks."
+        ],
+        "claims": [
+          {
+            "text": "Contracts relying on single price feeds risk executing logic based on distorted market data.",
+            "evidence_ids": [
+              "SCWE-028"
+            ]
+          },
+          {
+            "text": "Security-critical calculations often fail because they trust an unvalidated or manipulable source.",
+            "evidence_ids": [
+              "SCWE-028"
+            ]
+          },
+          {
+            "text": "Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.",
+            "evidence_ids": [
+              "SCWE-028"
+            ]
+          },
+          {
+            "text": "Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.",
+            "evidence_ids": [
+              "SCWE-028"
+            ]
+          },
+          {
+            "text": "Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.",
+            "evidence_ids": [
+              "OWASP-SC03"
+            ]
+          },
+          {
+            "text": "Using time-weighted averages over sufficient windows further resists rapid price distortion attacks.",
+            "evidence_ids": [
+              "OWASP-SC03"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All claims are strictly supported by the provided evidence excerpts without contradiction or hallucination. The draft adheres to brand rules: no banned words, characters, or hashtags are present; the tone is precise and practical; and the content avoids sales pressure while inviting technical review.",
+        "claim_support": [
+          {
+            "claim_text": "Contracts relying on single price feeds risk executing logic based on distorted market data.",
+            "evidence_id": "SCWE-028",
+            "evidence_quote": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic",
+            "supported": true
+          },
+          {
+            "claim_text": "Security-critical calculations often fail because they trust an unvalidated or manipulable source.",
+            "evidence_id": "SCWE-028",
+            "evidence_quote": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic",
+            "supported": true
+          },
+          {
+            "claim_text": "Exploits targeting these weaknesses distort contract logic by feeding the system inaccurate prices.",
+            "evidence_id": "SCWE-028",
+            "evidence_quote": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic",
+            "supported": true
+          },
+          {
+            "claim_text": "Mitigation requires validating inputs and switching to resilient oracle sources rather than single points of failure.",
+            "evidence_id": "SCWE-028",
+            "evidence_quote": "validate inputs and use resilient oracle sources",
+            "supported": true
+          },
+          {
+            "claim_text": "Aggregating multiple price sources creates a buffer against short-lived attempts to manipulate the feed.",
+            "evidence_id": "OWASP-SC03",
+            "evidence_quote": "Aggregate multiple price sources. Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations.",
+            "supported": true
+          },
+          {
+            "claim_text": "Using time-weighted averages over sufficient windows further resists rapid price distortion attacks.",
+            "evidence_id": "OWASP-SC03",
+            "evidence_quote": "Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1760,
+    "completion_tokens": 942,
+    "image_spec_reference": "spec:visual_specs/thread_3.md"
+  },
+  {
+    "slot": {
+      "id": "post_3",
+      "type": "marketing-post",
+      "focus": null
+    },
+    "status": "accepted",
+    "topic": "DoS with Failed Call",
+    "source_ids": [
+      "SWC-113"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-113",
+        "url": "https://swcregistry.io/docs/SWC-113/",
+        "excerpt": "A failing external call can revert a wider transaction and prevent progress for other participants."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "Review how a single failing external call can revert a wider transaction and prevent progress for other participants."
+        ],
+        "claims": [
+          {
+            "text": "Review how a single failing external call can revert a wider transaction and prevent progress for other participants.",
+            "evidence_ids": [
+              "SWC-113"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The draft accurately reflects the provided evidence without fabrication or unsupported assertions.",
+        "claim_support": [
+          {
+            "claim_text": "Review how a single failing external call can revert a wider transaction and prevent progress for other participants.",
+            "evidence_id": "SWC-113",
+            "evidence_quote": "A failing external call can revert a wider transaction and prevent progress for other participants.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1330,
+    "completion_tokens": 266,
+    "image_spec_reference": "spec:visual_specs/post_3.md"
+  }
+]

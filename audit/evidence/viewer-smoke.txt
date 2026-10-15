@@ -1,0 +1,5 @@
+Headless Google Chrome local-file smoke test, 2026-10-15.
+Command: google-chrome --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=1000 --dump-dom file:///home/shady/sandsquad/audit/visuals/workflow_viewer.html
+Observed rendered DOM: 6 execution cards, 5 run metrics, 16 interactive workflow nodes.
+Screenshot: audit/visuals/viewer_preview.png (1600x950).
+This checks local loading and generated DOM; manual click interactions were not instrumented.

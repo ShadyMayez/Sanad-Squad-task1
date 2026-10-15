@@ -1,0 +1,129 @@
+{
+  "folder": "audit/evidence/fresh-week",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 6,
+    "shipped": 6,
+    "dropped": 0,
+    "failed": 0,
+    "reasons": [],
+    "elapsed_seconds": 172.639,
+    "prompt_tokens_recorded": 9156,
+    "completion_tokens_recorded": 3802,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "slots": [
+    {
+      "id": "thread_1",
+      "type": "tech-thread",
+      "focus": "reentrancy",
+      "topic": "Reentrancy",
+      "source_ids": [
+        "SWC-107"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 7,
+      "duration_seconds": null
+    },
+    {
+      "id": "post_1",
+      "type": "marketing-post",
+      "focus": null,
+      "topic": "Unchecked Call Return Value",
+      "source_ids": [
+        "SWC-104"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 1,
+      "duration_seconds": null
+    },
+    {
+      "id": "thread_2",
+      "type": "tech-thread",
+      "focus": null,
+      "topic": "Unprotected Ether Withdrawal",
+      "source_ids": [
+        "SWC-105"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 6,
+      "duration_seconds": null
+    },
+    {
+      "id": "post_2",
+      "type": "marketing-post",
+      "focus": "access control",
+      "topic": "Unprotected Ether Withdrawal",
+      "source_ids": [
+        "SWC-105"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 1,
+      "duration_seconds": null
+    },
+    {
+      "id": "thread_3",
+      "type": "tech-thread",
+      "focus": "oracle manipulation",
+      "topic": "Price Oracle Manipulation",
+      "source_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 6,
+      "duration_seconds": null
+    },
+    {
+      "id": "post_3",
+      "type": "marketing-post",
+      "focus": null,
+      "topic": "DoS with Failed Call",
+      "source_ids": [
+        "SWC-113"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 1,
+      "duration_seconds": null
+    }
+  ],
+  "csv_rows": 6,
+  "artifact_sha256": {
+    "summary.json": "c05a2219ab656ba2efe5191d423845830fc4ec83c17b29b789ba69306a896029",
+    "posts.csv": "05f7c7decd62afb13ba2c9cf5bba8eaa02ed0d08d6f0d4cad9bfcddc11b94ed0",
+    "accepted_content.json": "3178fa483b6c33d59e066d69a69e16cd22561029cf6d7d034306407be53bf1c4"
+  }
+}

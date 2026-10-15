@@ -1,0 +1,43 @@
+{
+  "folder": "audit/evidence/fresh-piece",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 1,
+    "shipped": 1,
+    "dropped": 0,
+    "failed": 0,
+    "reasons": [],
+    "elapsed_seconds": 39.303,
+    "prompt_tokens_recorded": 1676,
+    "completion_tokens_recorded": 1019,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "slots": [
+    {
+      "id": "piece_1",
+      "type": "tech-thread",
+      "focus": "reentrancy",
+      "topic": "Reentrancy",
+      "source_ids": [
+        "SWC-107"
+      ],
+      "status": "accepted",
+      "draft_count": 1,
+      "content_revisions": 0,
+      "review_count": 1,
+      "final_review_approved": true,
+      "visual_spec": true,
+      "tweet_count": 6,
+      "duration_seconds": null
+    }
+  ],
+  "csv_rows": 1,
+  "artifact_sha256": {
+    "summary.json": "ccea093b23d22502c931cfc28ec8d4dff9cef451919cd32f7260d681a20bd445",
+    "posts.csv": "d7f9773d461443a5a1b7f7d21d0fcd753d9b34c64992b68d313abae0dda44246",
+    "accepted_content.json": "1920a74b908cd98135bdc507b553b2be4c1a7bc2ad8d5cda52d3108527d57f36"
+  }
+}

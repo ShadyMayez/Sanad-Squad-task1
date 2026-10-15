@@ -1,0 +1,1 @@
+Error: Unsupported content type 'invalid'; supported: ['tech-thread', 'marketing-post']

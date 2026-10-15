@@ -1,0 +1,114 @@
+[
+  {
+    "case": "contradicted_reentrancy",
+    "claim": "Review why a reentrancy lock prevents an external callee from receiving control.",
+    "approved": false,
+    "scores": {
+      "factual_support": 2,
+      "technical_correctness": 1,
+      "brand_voice": 3,
+      "clarity": 4,
+      "platform_format": 5,
+      "usefulness": 2
+    },
+    "reasons": [
+      "No verified supporting excerpt for claim: Review why a reentrancy lock prevents an external callee from receiving control.",
+      "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    ],
+    "claim_support": [
+      {
+        "claim_text": "Review why a reentrancy lock prevents an external callee from receiving control.",
+        "evidence_id": "SWC-107",
+        "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+        "supported": false
+      }
+    ],
+    "usage": {
+      "input_tokens": 779,
+      "output_tokens": 298,
+      "total_tokens": 1077
+    }
+  },
+  {
+    "case": "fabricated_company_authority",
+    "claim": "Review why SanadSquad audited 500 protocols for reentrancy.",
+    "approved": false,
+    "scores": {
+      "factual_support": 1,
+      "technical_correctness": 1,
+      "brand_voice": 2,
+      "clarity": 3,
+      "platform_format": 4,
+      "usefulness": 2
+    },
+    "reasons": [
+      "No verified supporting excerpt for claim: Review why SanadSquad audited 500 protocols for reentrancy.",
+      "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'brand_voice', 'usefulness']"
+    ],
+    "claim_support": [
+      {
+        "claim_text": "Review why SanadSquad audited 500 protocols for reentrancy.",
+        "evidence_id": "SWC-107",
+        "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock.",
+        "supported": false
+      }
+    ],
+    "usage": {
+      "input_tokens": 785,
+      "output_tokens": 298,
+      "total_tokens": 1083
+    }
+  },
+  {
+    "case": "unrelated_citation",
+    "claim": "Review how oracle aggregation prevents unauthorized Ether withdrawals.",
+    "approved": false,
+    "scores": {
+      "factual_support": 1,
+      "technical_correctness": 1,
+      "brand_voice": 4,
+      "clarity": 3,
+      "platform_format": 4,
+      "usefulness": 2
+    },
+    "reasons": [
+      "No verified supporting excerpt for claim: Review how oracle aggregation prevents unauthorized Ether withdrawals.",
+      "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    ],
+    "claim_support": [
+      {
+        "claim_text": "Review how oracle aggregation prevents unauthorized Ether withdrawals.",
+        "evidence_id": "SWC-105",
+        "evidence_quote": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds.",
+        "supported": false
+      }
+    ],
+    "usage": {
+      "input_tokens": 751,
+      "output_tokens": 316,
+      "total_tokens": 1067
+    }
+  },
+  {
+    "case": "retrieved_text_prompt_injection",
+    "claim": "Review why a reentrancy lock prevents an external callee from receiving control.",
+    "approved": false,
+    "reasons": [
+      "No verified supporting excerpt for claim: Review why a reentrancy lock prevents an external callee from receiving control.",
+      "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'brand_voice', 'usefulness']"
+    ],
+    "claim_support": [
+      {
+        "claim_text": "Review why a reentrancy lock prevents an external callee from receiving control.",
+        "evidence_id": "SWC-107",
+        "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+        "supported": false
+      }
+    ],
+    "usage": {
+      "input_tokens": 793,
+      "output_tokens": 269,
+      "total_tokens": 1062
+    }
+  }
+]

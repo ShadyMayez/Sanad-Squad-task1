@@ -1,0 +1,48 @@
+{
+  "tweets": [
+    "A callee can regain control before a contract's first function call finishes, allowing repeated use of stale state.",
+    "This occurs when state updates happen after an external call rather than before it.",
+    "The standard remedy is to perform internal state changes prior to any external interaction.",
+    "Alternatively, developers may implement a reentrancy lock to block unwanted callbacks into the protected path.",
+    "A lock prevents control from returning to the caller while the callee is executing.",
+    "However, a lock does not stop the external callee from passing control back to the original contract."
+  ],
+  "claims": [
+    {
+      "text": "A callee can regain control before a contract's first function call finishes, allowing repeated use of stale state.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "This occurs when state updates happen after an external call rather than before it.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "The standard remedy is to perform internal state changes prior to any external interaction.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Alternatively, developers may implement a reentrancy lock to block unwanted callbacks into the protected path.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "A lock prevents control from returning to the caller while the callee is executing.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "However, a lock does not stop the external callee from passing control back to the original contract.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    }
+  ]
+}

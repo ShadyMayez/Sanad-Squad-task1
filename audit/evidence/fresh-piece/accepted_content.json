@@ -1,0 +1,130 @@
+[
+  {
+    "slot": {
+      "id": "piece_1",
+      "type": "tech-thread",
+      "focus": "reentrancy"
+    },
+    "status": "accepted",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://swcregistry.io/docs/SWC-107/",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee."
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "A callee can regain control before a contract's first function call finishes, allowing repeated use of stale state.",
+          "This occurs when state updates happen after an external call rather than before it.",
+          "The standard remedy is to perform internal state changes prior to any external interaction.",
+          "Alternatively, developers may implement a reentrancy lock to block unwanted callbacks into the protected path.",
+          "A lock prevents control from returning to the caller while the callee is executing.",
+          "However, a lock does not stop the external callee from passing control back to the original contract."
+        ],
+        "claims": [
+          {
+            "text": "A callee can regain control before a contract's first function call finishes, allowing repeated use of stale state.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "This occurs when state updates happen after an external call rather than before it.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "The standard remedy is to perform internal state changes prior to any external interaction.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "Alternatively, developers may implement a reentrancy lock to block unwanted callbacks into the protected path.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "A lock prevents control from returning to the caller while the callee is executing.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "However, a lock does not stop the external callee from passing control back to the original contract.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All claims are strictly supported by the provided SWC-107 excerpt. The draft accurately reflects that external calls can regain control before state updates complete, identifies pre-call state changes as the standard remedy, and correctly nuances the limitation of reentrancy locks (blocking callbacks but not preventing control transfer). No banned words or characters were used. The content adheres to the educational tone without making unsupported guarantees.",
+        "claim_support": [
+          {
+            "claim_text": "A callee can regain control before a contract's first function call finishes, allowing repeated use of stale state.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes.",
+            "supported": true
+          },
+          {
+            "claim_text": "This occurs when state updates happen after an external call rather than before it.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "An external contract can take over control flow and call back before the first function invocation finishes.",
+            "supported": true
+          },
+          {
+            "claim_text": "The standard remedy is to perform internal state changes prior to any external interaction.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock.",
+            "supported": true
+          },
+          {
+            "claim_text": "Alternatively, developers may implement a reentrancy lock to block unwanted callbacks into the protected path.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": true
+          },
+          {
+            "claim_text": "A lock prevents control from returning to the caller while the callee is executing.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": true
+          },
+          {
+            "claim_text": "However, a lock does not stop the external callee from passing control back to the original contract.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": true
+          }
+        ]
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 1676,
+    "completion_tokens": 1019,
+    "image_spec_reference": "spec:visual_specs/piece_1.md"
+  }
+]

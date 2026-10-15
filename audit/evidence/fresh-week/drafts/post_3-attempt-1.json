@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review how a single failing external call can revert a wider transaction and prevent progress for other participants."
+  ],
+  "claims": [
+    {
+      "text": "Review how a single failing external call can revert a wider transaction and prevent progress for other participants.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

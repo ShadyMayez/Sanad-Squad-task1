@@ -1,0 +1,104 @@
+[
+  {
+    "vulnerability_id": "SWC-107",
+    "evidence_id": "SWC-107",
+    "url": "https://swcregistry.io/docs/SWC-107/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-104",
+    "evidence_id": "SWC-104",
+    "url": "https://swcregistry.io/docs/SWC-104/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-105",
+    "evidence_id": "SWC-105",
+    "url": "https://swcregistry.io/docs/SWC-105/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-106",
+    "evidence_id": "SWC-106",
+    "url": "https://swcregistry.io/docs/SWC-106/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-112",
+    "evidence_id": "SWC-112",
+    "url": "https://swcregistry.io/docs/SWC-112/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-113",
+    "evidence_id": "SWC-113",
+    "url": "https://swcregistry.io/docs/SWC-113/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-114",
+    "evidence_id": "SWC-114",
+    "url": "https://swcregistry.io/docs/SWC-114/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-115",
+    "evidence_id": "SWC-115",
+    "url": "https://swcregistry.io/docs/SWC-115/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-116",
+    "evidence_id": "SWC-116",
+    "url": "https://swcregistry.io/docs/SWC-116/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-120",
+    "evidence_id": "SWC-120",
+    "url": "https://swcregistry.io/docs/SWC-120/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-101",
+    "evidence_id": "SWC-101",
+    "url": "https://swcregistry.io/docs/SWC-101/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-109",
+    "evidence_id": "SWC-109",
+    "url": "https://swcregistry.io/docs/SWC-109/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-117",
+    "evidence_id": "SWC-117",
+    "url": "https://swcregistry.io/docs/SWC-117/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-100",
+    "evidence_id": "SWC-100",
+    "url": "https://swcregistry.io/docs/SWC-100/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SWC-110",
+    "evidence_id": "SWC-110",
+    "url": "https://swcregistry.io/docs/SWC-110/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SCWE-028",
+    "evidence_id": "SCWE-028",
+    "url": "https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/",
+    "http_status": 200
+  },
+  {
+    "vulnerability_id": "SCWE-028",
+    "evidence_id": "OWASP-SC03",
+    "url": "https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/",
+    "http_status": 200
+  }
+]

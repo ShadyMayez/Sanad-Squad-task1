@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1860 1100" role="img" aria-label="SanadSquad actual LangGraph architecture"><defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#091427"/><stop offset="1" stop-color="#101f38"/></linearGradient>
+ <marker id="arrow-base" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#7e95b5" stroke-width="2"/></marker>
+ <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#3dd6a5" stroke-width="2"/></marker>
+ <marker id="arrow-red" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#ff7187" stroke-width="2"/></marker>
+ <marker id="arrow-amber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#f7bb61" stroke-width="2"/></marker>
+ </defs><style>
+ .title{font:700 20px system-ui,sans-serif;fill:#f3f8ff}
+ .sub{font:15px system-ui,sans-serif;fill:#b8c9df}
+ .route{font:700 15px system-ui,sans-serif}
+ .section{font:700 16px system-ui,sans-serif;letter-spacing:2px;fill:#8da4c5}
+ .node{cursor:pointer}
+ .node:hover rect:first-child,.node:focus rect:first-child{stroke-width:4}
+ </style><rect width="1860" height="1100" fill="url(#bg)"/>
+<text x="50" y="68" font-family="system-ui,sans-serif" font-size="36" font-weight="800" fill="#f3f8ff">SanadSquad · Actual workflow</text>
+<text x="50" y="100" font-family="system-ui,sans-serif" font-size="17" fill="#a4bbd7">One weekly LangGraph fan-out, six isolated slots, one shared model instance per run</text>
+<text x="50" y="390" class="section">PER-SLOT INNER STATEGRAPH</text>
+<g class="node" data-node="inputs" tabindex="0" role="button" aria-label="Editable inputs">
+      <rect x="50" y="140" width="230" height="170" rx="16" fill="#14243e" stroke="#83a5ff" stroke-width="2"/>
+      <rect x="50" y="140" width="230" height="7" rx="4" fill="#83a5ff"/>
+      <text x="68" y="175" class="title">Editable inputs</text><text x="68" y="202" class="sub">plan · brand · KB</text><text x="68" y="224" class="sub">writer files · rubric</text><text x="68" y="246" class="sub">registry · environment</text></g>
+<g class="node" data-node="orchestrator" tabindex="0" role="button" aria-label="Week orchestrator">
+      <rect x="335" y="140" width="250" height="170" rx="16" fill="#14243e" stroke="#83a5ff" stroke-width="2"/>
+      <rect x="335" y="140" width="250" height="7" rx="4" fill="#83a5ff"/>
+      <text x="353" y="175" class="title">Week orchestrator</text><text x="353" y="202" class="sub">CLI validates + overrides</text><text x="353" y="224" class="sub">LangGraph WeekState</text><text x="353" y="246" class="sub">Send one worker / slot</text></g>
+<g class="node" data-node="fanout" tabindex="0" role="button" aria-label="Six Send branches">
+      <rect x="640" y="120" width="360" height="210" rx="16" fill="#14243e" stroke="#83a5ff" stroke-width="2"/>
+      <rect x="640" y="120" width="360" height="7" rx="4" fill="#83a5ff"/>
+      <text x="658" y="155" class="title">Six Send branches</text><text x="658" y="182" class="sub">thread_1  ·  post_1</text><text x="658" y="204" class="sub">thread_2  ·  post_2</text><text x="658" y="226" class="sub">thread_3  ·  post_3</text><text x="658" y="248" class="sub">3 technical  ·  3 marketing</text></g>
+<g class="node" data-node="skill" tabindex="0" role="button" aria-label="Shared EvidenceLookup">
+      <rect x="1060" y="140" width="300" height="150" rx="16" fill="#14243e" stroke="#b39aff" stroke-width="2"/>
+      <rect x="1060" y="140" width="300" height="7" rx="4" fill="#b39aff"/>
+      <text x="1078" y="175" class="title">Shared EvidenceLookup</text><text x="1078" y="202" class="sub">Research selects KB topic</text><text x="1078" y="224" class="sub">Reviewer checks cited IDs</text><text x="1078" y="246" class="sub">Local excerpts + URLs</text></g>
+<g class="node" data-node="limiter" tabindex="0" role="button" aria-label="Ollama service">
+      <rect x="1415" y="140" width="390" height="150" rx="16" fill="#14243e" stroke="#b39aff" stroke-width="2"/>
+      <rect x="1415" y="140" width="390" height="7" rx="4" fill="#b39aff"/>
+      <text x="1433" y="175" class="title">Ollama service</text><text x="1433" y="202" class="sub">qwen3.5:4b · ChatOllama</text><text x="1433" y="224" class="sub">1 active call per model instance</text><text x="1433" y="246" class="sub">Timeout + bounded transport retry</text></g>
+<g class="node" data-node="research" tabindex="0" role="button" aria-label="Research">
+      <rect x="50" y="455" width="240" height="150" rx="16" fill="#14243e" stroke="#46c6e8" stroke-width="2"/>
+      <rect x="50" y="455" width="240" height="7" rx="4" fill="#46c6e8"/>
+      <text x="68" y="490" class="title">Research</text><text x="68" y="517" class="sub">Topic + source provenance</text><text x="68" y="539" class="sub">Failure → isolated slot</text></g>
+<g class="node" data-node="writer" tabindex="0" role="button" aria-label="Registered writer">
+      <rect x="345" y="455" width="240" height="150" rx="16" fill="#14243e" stroke="#46c6e8" stroke-width="2"/>
+      <rect x="345" y="455" width="240" height="7" rx="4" fill="#46c6e8"/>
+      <text x="363" y="490" class="title">Registered writer</text><text x="363" y="517" class="sub">Technical or marketing file</text><text x="363" y="539" class="sub">Draft + claim IDs</text></g>
+<g class="node" data-node="validator" tabindex="0" role="button" aria-label="Code validator">
+      <rect x="640" y="455" width="240" height="150" rx="16" fill="#14243e" stroke="#6be0c2" stroke-width="2"/>
+      <rect x="640" y="455" width="240" height="7" rx="4" fill="#6be0c2"/>
+      <text x="658" y="490" class="title">Code validator</text><text x="658" y="517" class="sub">Length · brand · links</text><text x="658" y="539" class="sub">Sentence + evidence IDs</text></g>
+<g class="node" data-node="reviewer" tabindex="0" role="button" aria-label="Reviewer">
+      <rect x="935" y="455" width="240" height="150" rx="16" fill="#14243e" stroke="#46c6e8" stroke-width="2"/>
+      <rect x="935" y="455" width="240" height="7" rx="4" fill="#46c6e8"/>
+      <text x="953" y="490" class="title">Reviewer</text><text x="953" y="517" class="sub">Six rubric scores</text><text x="953" y="539" class="sub">Reasons + support quotes</text></g>
+<g class="node" data-node="decision" tabindex="0" role="button" aria-label="Decision">
+      <rect x="1230" y="455" width="240" height="150" rx="16" fill="#14243e" stroke="#f7bb61" stroke-width="2"/>
+      <rect x="1230" y="455" width="240" height="7" rx="4" fill="#f7bb61"/>
+      <text x="1248" y="490" class="title">Decision</text><text x="1248" y="517" class="sub">Approved AND hard-valid?</text><text x="1248" y="539" class="sub">Attempt counter ≤ 2</text></g>
+<g class="node" data-node="visual" tabindex="0" role="button" aria-label="Visual Agent">
+      <rect x="1525" y="455" width="280" height="150" rx="16" fill="#14243e" stroke="#3dd6a5" stroke-width="2"/>
+      <rect x="1525" y="455" width="280" height="7" rx="4" fill="#3dd6a5"/>
+      <text x="1543" y="490" class="title">Visual Agent</text><text x="1543" y="517" class="sub">Written image specification</text><text x="1543" y="539" class="sub">Accepted pieces only</text></g>
+<g class="node" data-node="failed" tabindex="0" role="button" aria-label="Failed slot">
+      <rect x="50" y="775" width="250" height="125" rx="16" fill="#14243e" stroke="#ff7187" stroke-width="2"/>
+      <rect x="50" y="775" width="250" height="7" rx="4" fill="#ff7187"/>
+      <text x="68" y="810" class="title">Failed slot</text><text x="68" y="837" class="sub">Agent/source exception</text><text x="68" y="859" class="sub">Other slots continue</text></g>
+<g class="node" data-node="revision" tabindex="0" role="button" aria-label="One revision">
+      <rect x="365" y="775" width="265" height="125" rx="16" fill="#14243e" stroke="#f7bb61" stroke-width="2"/>
+      <rect x="365" y="775" width="265" height="7" rx="4" fill="#f7bb61"/>
+      <text x="383" y="810" class="title">One revision</text><text x="383" y="837" class="sub">Review feedback → writer</text><text x="383" y="859" class="sub">No third draft</text></g>
+<g class="node" data-node="dropped" tabindex="0" role="button" aria-label="Dropped slot">
+      <rect x="690" y="775" width="265" height="125" rx="16" fill="#14243e" stroke="#ff7187" stroke-width="2"/>
+      <rect x="690" y="775" width="265" height="7" rx="4" fill="#ff7187"/>
+      <text x="708" y="810" class="title">Dropped slot</text><text x="708" y="837" class="sub">Second rejection</text><text x="708" y="859" class="sub">Never reaches Visual/CSV</text></g>
+<g class="node" data-node="aggregate" tabindex="0" role="button" aria-label="Deterministic collection">
+      <rect x="1015" y="775" width="340" height="125" rx="16" fill="#14243e" stroke="#3dd6a5" stroke-width="2"/>
+      <rect x="1015" y="775" width="340" height="7" rx="4" fill="#3dd6a5"/>
+      <text x="1033" y="810" class="title">Deterministic collection</text><text x="1033" y="837" class="sub">Results sorted by plan order</text><text x="1033" y="859" class="sub">Failures retained per slot</text></g>
+<g class="node" data-node="artifacts" tabindex="0" role="button" aria-label="Run folder + export">
+      <rect x="1415" y="775" width="390" height="155" rx="16" fill="#14243e" stroke="#83a5ff" stroke-width="2"/>
+      <rect x="1415" y="775" width="390" height="7" rx="4" fill="#83a5ff"/>
+      <text x="1433" y="810" class="title">Run folder + export</text><text x="1433" y="837" class="sub">JSON trail · drafts · reviews</text><text x="1433" y="859" class="sub">accepted-only posts.csv</text><text x="1433" y="881" class="sub">spec:visual_specs/&lt;slot&gt;.md</text></g>
+<path d="M280 225 H335" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M585 225 H640" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M820 330 V375 H170 V455" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M290 530 H345" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M585 530 H640" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M880 530 H935" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M1175 530 H1230" fill="none" stroke="#7e95b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)"/>
+<path d="M1470 530 H1525" fill="none" stroke="#3dd6a5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-green)"/><text x="1475" y="515" class="route" fill="#3dd6a5">approve</text>
+<path d="M1640 605 V750 H1185 V775" fill="none" stroke="#3dd6a5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<path d="M1350 605 V680 H822 V775" fill="none" stroke="#ff7187" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/><text x="880" y="666" class="route" fill="#ff7187">second rejection</text>
+<path d="M1280 605 V700 H497 V775" fill="none" stroke="#f7bb61" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-amber)"/><text x="676" y="687" class="route" fill="#f7bb61">first rejection</text>
+<path d="M497 775 V665 H465 V605" fill="none" stroke="#f7bb61" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-amber)"/><text x="375" y="692" class="route" fill="#f7bb61">feedback</text>
+<path d="M170 605 V740 H175 V775" fill="none" stroke="#ff7187" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/><text x="55" y="724" class="route" fill="#ff7187">agent error</text>
+<path d="M175 900 V958 H1080 V900" fill="none" stroke="#ff7187" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<path d="M822 900 V982 H1215 V900" fill="none" stroke="#ff7187" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-red)"/>
+<path d="M1355 838 H1415" fill="none" stroke="#3dd6a5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-green)"/>
+<path d="M1195 290 V360 H170 V455" fill="none" stroke="#b39aff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)" stroke-dasharray="8 8"/>
+<path d="M1250 290 V390 H1055 V455" fill="none" stroke="#b39aff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)" stroke-dasharray="8 8"/>
+<path d="M1550 290 V410 H465 V455" fill="none" stroke="#b39aff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)" stroke-dasharray="8 8"/>
+<path d="M1670 290 V420 H1055 V455" fill="none" stroke="#b39aff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow-base)" stroke-dasharray="8 8"/>
+<text x="50" y="1010" font-family="system-ui,sans-serif" font-size="17" fill="#9db5d2">Solid arrows: graph routes   ·   dashed purple: shared service access   ·   green: accepted   ·   amber: revision   ·   coral: drop/failure</text>
+<text x="50" y="1040" font-family="system-ui,sans-serif" font-size="15" fill="#7189aa">Architecture paths are implemented possibilities. The observed six-slot run took only the accepted route.</text>
+</svg>

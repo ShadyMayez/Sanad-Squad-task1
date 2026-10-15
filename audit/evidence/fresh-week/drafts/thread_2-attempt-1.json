@@ -1,0 +1,48 @@
+{
+  "tweets": [
+    "When a withdrawal function lacks authorization checks, any caller can trigger the transfer.",
+    "The root cause is often omitting access control logic before the Ether moves.",
+    "Implementing msg.sender checks against a stored owner prevents unauthorized triggers.",
+    "Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.",
+    "Without these controls, the contract's balance becomes vulnerable to external calls.",
+    "Auditors should verify that every transfer path includes explicit access restrictions."
+  ],
+  "claims": [
+    {
+      "text": "When a withdrawal function lacks authorization checks, any caller can trigger the transfer.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "The root cause is often omitting access control logic before the Ether moves.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Implementing msg.sender checks against a stored owner prevents unauthorized triggers.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Using onlyOwner modifiers ensures only designated parties can initiate withdrawals.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Without these controls, the contract's balance becomes vulnerable to external calls.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Auditors should verify that every transfer path includes explicit access restrictions.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}
