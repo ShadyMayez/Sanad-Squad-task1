@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "Claim t4 asserts using a reentrancy lock is a 'common mitigation.' The source text (SWC-107#5/#6) only identifies 'reentrancy lock' as an example within parentheses; it does not assert frequency or commonality. This is an unsupported factual claim.; Claim t5 asserts that following the ordering is a definitive solution to avoid weaknesses. The source text (SWC-107#4) lists this as one of 'best practices' but does not validate it as the sole or primary method, nor does it confirm the specific 'ordering' implied by the tweet context constitutes the definitive solution.; The presence of two INSUFFICIENT_EVIDENCE atomic verdicts (t4s1c1 and t5s1c1) blocks approval per mandatory gate rules.; No verified supporting excerpt for claim: A malicious contract may call back into the caller before the first function invocation finishes.; No verified supporting excerpt for claim: This may cause different invocations of the same function to interact in undesirable ways.; No verified supporting excerpt for claim: Make sure all internal state changes are performed before executing an external call.; No verified supporting excerpt for claim: Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.; No verified supporting excerpt for claim: Following this ordering is a best practice to avoid reentrancy weaknesses.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected spans (SWC-107#5 and SWC-107#6) only define the name of the pattern ('Checks-Effects-Interactions') and introduce the term 'reentrancy lock' as an example within parentheses. Neither span contains the specific phrase 'common mitigation' nor asserts that using such locks is a common practice. The claim's assertion about frequency ('common') is not entailed by the provided text, which merely identifies the concept.; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-107#4) states that making internal state changes before execution is a 'best practice' to avoid reentrancy weaknesses. However, it does not explicitly confirm that 'this ordering' (referring to the specific sequence implied by the tweet context) constitutes the sole or primary method for avoiding such weaknesses. The span lists multiple best practices but fails to definitively validate the claim's assertion about a specific 'ordering' being the definitive solution, leaving the entailment incomplete.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    }
+  ],
+  "elapsed_seconds": 211.824,
+  "prompt_tokens_recorded": 27186,
+  "completion_tokens_recorded": 3527,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

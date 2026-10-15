@@ -1,0 +1,229 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The source text explicitly states that a major danger of calling external contracts is that they can take over control flow, which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#1"
+            ],
+            "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished', which directly entails the claim's proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly states that reentrancy 'may cause the different invocations of the function to interact in undesirable ways,' which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#5"
+            ],
+            "reason": "The source text explicitly states 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' as a best practice, which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      },
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The source text explicitly states that a major danger of calling external contracts is that they can take over control flow, which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#1"
+            ],
+            "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished', which directly entails the claim's proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly states that reentrancy 'may cause the different invocations of the function to interact in undesirable ways,' which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#5"
+            ],
+            "reason": "The source text explicitly states 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' as a best practice, which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      }
+    ],
+    "latencies_seconds": [
+      54.40594030400098,
+      54.92637938400003
+    ]
+  }
+]

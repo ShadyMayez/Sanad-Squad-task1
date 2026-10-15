@@ -1,0 +1,243 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Description One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The source quotation explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim's proposition, which states the same event occurs 'before the first invocation finishes.' The qualifier 'before' in the claim matches the temporal condition described in the source.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source text explicitly states that reentrancy attacks may cause different invocations of a function to interact in undesirable ways, which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Remediation The best practices to avoid Reentrancy weaknesses are: Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#4"
+            ],
+            "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [],
+            "supporting_span_ids": [],
+            "reason": "Skeptical span audit: The selected span 'This is known as the Checks-Effects-Interactions pattern Use a reentrancy lock (ie.' mentions the term 'reentrancy lock' but does not assert that one should use it, nor does it establish the claim's implied advice or recommendation. The phrase 'Use a...' appears to be an incomplete sentence fragment from the original text rather than a standalone assertion of fact contained within this specific span. Without additional context establishing the intent or validity of using such a lock, the evidence is insufficient to support the full atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s2c1",
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [],
+            "supporting_span_ids": [],
+            "reason": "Skeptical span audit: The selected span 'OpenZeppelin's ReentrancyGuard ).' is a sentence fragment that lacks a predicate, subject context, or any assertion of fact. It does not entail the full atomic claim because it contains no propositional content to verify truth or falsehood. A fragment ending in a period and parenthesis cannot independently support a factual proposition without additional context defining what is being said about ReentrancyGuard.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      },
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Description One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The source quotation explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim's proposition, which states the same event occurs 'before the first invocation finishes.' The qualifier 'before' in the claim matches the temporal condition described in the source.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source text explicitly states that reentrancy attacks may cause different invocations of a function to interact in undesirable ways, which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Remediation The best practices to avoid Reentrancy weaknesses are: Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#4"
+            ],
+            "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [],
+            "supporting_span_ids": [],
+            "reason": "Skeptical span audit: The selected span 'This is known as the Checks-Effects-Interactions pattern Use a reentrancy lock (ie.' mentions the term 'reentrancy lock' but does not assert that one should use it, nor does it establish the claim's implied advice or recommendation. The span merely introduces the concept within a definition of the Checks-Effects-Interactions pattern without providing the supporting assertion that a reentrancy lock is required or recommended.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s2c1",
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [],
+            "supporting_span_ids": [],
+            "reason": "Skeptical span audit: The selected span 'OpenZeppelin's ReentrancyGuard ).' is a sentence fragment that lacks a predicate, subject context, or any assertion of fact. It does not contain information regarding the functionality, safety properties, or behavior of OpenZeppelin's ReentrancyGuard. Without a complete statement establishing what the contract does or how it behaves, no evidence exists within this span to support the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      }
+    ],
+    "latencies_seconds": [
+      67.45189237800514,
+      67.58584711099684
+    ]
+  }
+]

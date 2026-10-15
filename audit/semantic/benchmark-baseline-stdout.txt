@@ -1,0 +1,35 @@
+A exact_support: expected=SUPPORTED actual=VERIFICATION_ERROR (9.4s)
+B correct_paraphrase: expected=SUPPORTED actual=SUPPORTED (8.0s)
+C topical_similarity: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (6.9s)
+D vulnerability_confusion: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (7.7s)
+E causal_reversal: expected=CONTRADICTED actual=CONTRADICTED (8.9s)
+F incorrect_negation: expected=CONTRADICTED actual=CONTRADICTED (6.4s)
+G universal_overclaim: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (10.3s)
+H missing_conditions: expected=CONTRADICTED actual=CONTRADICTED (8.0s)
+I fabricated_statistics: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.1s)
+J fabricated_source: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+K real_unrelated_source: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.2s)
+L misleading_quote: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (7.7s)
+M conflicting_evidence: expected=CONTRADICTED actual=CONTRADICTED (10.5s)
+N prompt_injection: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (27.7s)
+O partial_support: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (9.3s)
+P malformed_model_output: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+Q marketing_hallucination: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.8s)
+R technical_mitigation_mismatch: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (9.5s)
+S version_context_mismatch: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (7.1s)
+T missing_runtime_evidence: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+{
+  "model": "qwen3.5:4b",
+  "n": 20,
+  "model_n": 17,
+  "supported_precision": 1.0,
+  "supported_recall": 0.5,
+  "dangerous_false_accept_rate": 0.0,
+  "false_reject_rate": 0.5,
+  "accuracy": 0.55,
+  "mean_verification_latency_seconds": 7.83215,
+  "prompt_tokens_recorded": 10144,
+  "completion_tokens_recorded": 3640,
+  "usage_complete": false,
+  "external_model_api_charges_usd": 0.0
+}

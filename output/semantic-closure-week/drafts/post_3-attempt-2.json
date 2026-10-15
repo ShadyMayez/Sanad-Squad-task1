@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review your external calls and isolate them in separate transactions."
+  ],
+  "claims": [
+    {
+      "text": "Review your external calls and isolate them in separate transactions.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

@@ -1,20 +1,402 @@
 {
   "vulnerabilities": [
-    {"id":"SWC-107","name":"Reentrancy","severity":"high","category":"external calls","description":"A callee can reenter a contract before its first invocation finishes.","root_cause":"State is updated after an external call, allowing repeated use of stale state.","evidence":[{"id":"SWC-107","url":"https://swcregistry.io/docs/SWC-107/","excerpt":"An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee."}]},
-    {"id":"SWC-104","name":"Unchecked Call Return Value","severity":"medium","category":"external calls","description":"A low-level call can fail while the caller continues as if it succeeded.","root_cause":"The return value from the call is not checked.","evidence":[{"id":"SWC-104","url":"https://swcregistry.io/docs/SWC-104/","excerpt":"Low-level calls return a success value. A low-level call may fail and return false while the caller continues. Ignoring that return value can leave contract accounting inconsistent because the caller may record an operation as successful when the call failed."}]},
-    {"id":"SWC-105","name":"Unprotected Ether Withdrawal","severity":"critical","category":"access control","description":"An unauthorized caller can withdraw funds when a withdrawal function lacks authorization.","root_cause":"A sensitive withdrawal path omits access control.","evidence":[{"id":"SWC-105","url":"https://swcregistry.io/docs/SWC-105/","excerpt":"Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier."}]},
-    {"id":"SWC-106","name":"Unprotected SELFDESTRUCT","severity":"high","category":"access control","description":"A caller may trigger contract destruction behavior if the operation is not protected.","root_cause":"The sensitive selfdestruct operation lacks authorization.","evidence":[{"id":"SWC-106","url":"https://swcregistry.io/docs/SWC-106/","excerpt":"Unrestricted access to selfdestruct can let an unauthorized actor trigger destructive contract behavior."}]},
-    {"id":"SWC-112","name":"Delegatecall to Untrusted Callee","severity":"high","category":"external calls","description":"Delegated code executes in the calling contract's context and may alter its storage.","root_cause":"A contract delegates execution to an attacker-controlled address.","evidence":[{"id":"SWC-112","url":"https://swcregistry.io/docs/SWC-112/","excerpt":"Delegatecall runs callee code with the caller's storage and balance; untrusted callees can change caller state."}]},
-    {"id":"SWC-113","name":"DoS with Failed Call","severity":"medium","category":"denial of service","description":"One reverting external call can block an operation for everyone.","root_cause":"A batch or critical path depends on a recipient call succeeding.","evidence":[{"id":"SWC-113","url":"https://swcregistry.io/docs/SWC-113/","excerpt":"A failing external call can revert a wider transaction and prevent progress for other participants."}]},
-    {"id":"SWC-114","name":"Transaction Order Dependence","severity":"medium","category":"ordering","description":"A transaction's result can change based on another transaction's ordering.","root_cause":"Contract logic assumes an unguaranteed order of pending transactions.","evidence":[{"id":"SWC-114","url":"https://swcregistry.io/docs/SWC-114/","excerpt":"Transactions visible before inclusion may be reordered, changing outcomes when logic depends on ordering."}]},
-    {"id":"SWC-115","name":"Authorization through tx.origin","severity":"high","category":"access control","description":"Using tx.origin for authorization can permit calls relayed through a malicious contract.","root_cause":"Authorization checks the transaction origin rather than the immediate caller.","evidence":[{"id":"SWC-115","url":"https://swcregistry.io/docs/SWC-115/","excerpt":"tx.origin identifies the original transaction sender, not the immediate caller, so it is unsafe for authorization."}]},
-    {"id":"SWC-116","name":"Block Timestamp Dependence","severity":"low","category":"environment","description":"Timestamp-dependent logic may be influenced within permitted block production bounds.","root_cause":"Security-critical behavior relies on a timestamp as an exact or unpredictable value.","evidence":[{"id":"SWC-116","url":"https://swcregistry.io/docs/SWC-116/","excerpt":"Block timestamps are not exact clocks and should not be relied upon for critical randomness or precision."}]},
-    {"id":"SWC-120","name":"Weak Sources of Randomness","severity":"high","category":"randomness","description":"Predictable on-chain values cannot provide secure randomness for adversarial outcomes.","root_cause":"Random outcomes depend on manipulable or observable block data.","evidence":[{"id":"SWC-120","url":"https://swcregistry.io/docs/SWC-120/","excerpt":"Blockchain attributes used as randomness can be observed or influenced and are unsuitable for secure random outcomes."}]},
-    {"id":"SWC-101","name":"Integer Overflow and Underflow","severity":"medium","category":"arithmetic","description":"Unchecked arithmetic in relevant compiler versions or unchecked blocks can wrap values.","root_cause":"Arithmetic is performed without overflow checks in a context where wrapping is unsafe.","evidence":[{"id":"SWC-101","url":"https://swcregistry.io/docs/SWC-101/","excerpt":"Arithmetic overflow or underflow can produce unexpected values when checks are absent; compiler behavior varies by version."}]},
-    {"id":"SWC-109","name":"Uninitialized Storage Pointer","severity":"high","category":"storage","description":"An uninitialized storage reference can overwrite an unintended storage slot.","root_cause":"A local storage pointer is declared without explicit initialization.","evidence":[{"id":"SWC-109","url":"https://swcregistry.io/docs/SWC-109/","excerpt":"Uninitialized storage pointers can reference unexpected storage locations and corrupt contract state."}]},
-    {"id":"SWC-117","name":"Signature Malleability","severity":"medium","category":"cryptography","description":"Different valid signatures may represent the same signed message, defeating signature-byte uniqueness checks.","root_cause":"Logic treats signature bytes as a unique identifier without normalization.","evidence":[{"id":"SWC-117","url":"https://swcregistry.io/docs/SWC-117/","excerpt":"ECDSA signatures can have multiple valid representations for the same message unless canonicalization is enforced."}]},
-    {"id":"SWC-100","name":"Function Default Visibility","severity":"medium","category":"access control","description":"Older Solidity code may expose functions unintentionally when visibility is omitted.","root_cause":"A function declaration relies on a compiler default instead of explicit visibility.","evidence":[{"id":"SWC-100","url":"https://swcregistry.io/docs/SWC-100/","excerpt":"Older Solidity versions allowed functions without explicit visibility, which could expose functions publicly."}]},
-    {"id":"SWC-110","name":"Assert Violation","severity":"medium","category":"logic","description":"An invalid internal invariant can cause an assert failure and revert.","root_cause":"Program logic permits a state that violates an asserted invariant.","evidence":[{"id":"SWC-110","url":"https://swcregistry.io/docs/SWC-110/","excerpt":"An assert failure indicates a violated internal invariant and causes the transaction to revert."}]},
-    {"id":"SCWE-028","name":"Price Oracle Manipulation","severity":"high","category":"oracle manipulation","description":"A contract can act on a distorted price when it relies on a manipulable oracle feed.","root_cause":"Security-critical calculations trust an unvalidated or manipulable price source.","evidence":[{"id":"SCWE-028","url":"https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/","excerpt":"Price oracle manipulation exploits weaknesses in price feeds to distort contract logic; validate inputs and use resilient oracle sources."},{"id":"OWASP-SC03","url":"https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/","excerpt":"Aggregate multiple price sources. Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold."}]}
+    {
+      "id": "SWC-107",
+      "name": "Reentrancy",
+      "severity": "high",
+      "category": "external calls",
+      "description": "A callee can reenter a contract before its first invocation finishes.",
+      "root_cause": "State is updated after an external call, allowing repeated use of stale state.",
+      "evidence": [
+        {
+          "id": "SWC-107",
+          "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/entries/docs/SWC-107.md",
+          "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+          "snapshot_path": "source_snapshots/SWC-107-canonical.txt",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "retrieved_at": "2026-10-15",
+          "source_type": "official registry Markdown, normalized excerpt",
+          "source_title": "SWC-107 Reentrancy, official SWC Registry",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "quote_start": 97,
+          "quote_end": 732
+        }
+      ]
+    },
+    {
+      "id": "SWC-104",
+      "name": "Unchecked Call Return Value",
+      "severity": "medium",
+      "category": "external calls",
+      "description": "A low-level call can fail while the caller continues as if it succeeded.",
+      "root_cause": "The return value from the call is not checked.",
+      "evidence": [
+        {
+          "id": "SWC-104",
+          "url": "https://swcregistry.io/docs/SWC-104/",
+          "excerpt": "Low-level calls return a success value. A low-level call may fail and return false while the caller continues. Ignoring that return value can leave contract accounting inconsistent because the caller may record an operation as successful when the call failed.",
+          "snapshot_path": "source_snapshots/SWC-104.txt",
+          "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Unchecked Call Return Value",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic. Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+          "quote_start": 950,
+          "quote_end": 1370
+        }
+      ]
+    },
+    {
+      "id": "SWC-105",
+      "name": "Unprotected Ether Withdrawal",
+      "severity": "critical",
+      "category": "access control",
+      "description": "An unauthorized caller can withdraw funds when a withdrawal function lacks authorization.",
+      "root_cause": "A sensitive withdrawal path omits access control.",
+      "evidence": [
+        {
+          "id": "SWC-105",
+          "url": "https://swcregistry.io/docs/SWC-105/",
+          "excerpt": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+          "snapshot_path": "source_snapshots/SWC-105.txt",
+          "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Unprotected Ether Withdrawal",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "quote_start": 976,
+          "quote_end": 1366
+        }
+      ]
+    },
+    {
+      "id": "SWC-106",
+      "name": "Unprotected SELFDESTRUCT",
+      "severity": "high",
+      "category": "access control",
+      "description": "A caller may trigger contract destruction behavior if the operation is not protected.",
+      "root_cause": "The sensitive selfdestruct operation lacks authorization.",
+      "evidence": [
+        {
+          "id": "SWC-106",
+          "url": "https://swcregistry.io/docs/SWC-106/",
+          "excerpt": "Unrestricted access to selfdestruct can let an unauthorized actor trigger destructive contract behavior.",
+          "snapshot_path": "source_snapshots/SWC-106.txt",
+          "snapshot_sha256": "5ee929e9b8189263b41613e21d7c225031bbe22a08d1c3520f942444e32328e0",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Unprotected SELFDESTRUCT",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Due to missing or insufficient access controls, malicious parties can self-destruct the contract. Remediation Consider removing the self-destruct functionality unless it is absolutely required. If there is a valid use-case, it is recommended to implement a multisig scheme so that multiple parties must approve the self-destruct action.",
+          "quote_start": 984,
+          "quote_end": 1332
+        }
+      ]
+    },
+    {
+      "id": "SWC-112",
+      "name": "Delegatecall to Untrusted Callee",
+      "severity": "high",
+      "category": "external calls",
+      "description": "Delegated code executes in the calling contract's context and may alter its storage.",
+      "root_cause": "A contract delegates execution to an attacker-controlled address.",
+      "evidence": [
+        {
+          "id": "SWC-112",
+          "url": "https://swcregistry.io/docs/SWC-112/",
+          "excerpt": "Delegatecall runs callee code with the caller's storage and balance; untrusted callees can change caller state.",
+          "snapshot_path": "source_snapshots/SWC-112.txt",
+          "snapshot_sha256": "f631ec7a137316bc664aff0691a9b836cd513dd77f71aed26621203b3dd492da",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Delegatecall to Untrusted Callee",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not change their values. This allows a smart contract to dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract. Calling into untrusted contracts is very dangerous, as the code at the target address can change any storage values of the caller and has full control over the caller's balance. Remediation Use delegatecall with caution and make sure to never call into untrusted contracts.",
+          "quote_start": 930,
+          "quote_end": 1650
+        }
+      ]
+    },
+    {
+      "id": "SWC-113",
+      "name": "DoS with Failed Call",
+      "severity": "medium",
+      "category": "denial of service",
+      "description": "One reverting external call can block an operation for everyone.",
+      "root_cause": "A batch or critical path depends on a recipient call succeeding.",
+      "evidence": [
+        {
+          "id": "SWC-113",
+          "url": "https://swcregistry.io/docs/SWC-113/",
+          "excerpt": "A failing external call can revert a wider transaction and prevent progress for other participants.",
+          "snapshot_path": "source_snapshots/SWC-113.txt",
+          "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "DoS with Failed Call",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "quote_start": 914,
+          "quote_end": 1393
+        }
+      ]
+    },
+    {
+      "id": "SWC-114",
+      "name": "Transaction Order Dependence",
+      "severity": "medium",
+      "category": "ordering",
+      "description": "A transaction's result can change based on another transaction's ordering.",
+      "root_cause": "Contract logic assumes an unguaranteed order of pending transactions.",
+      "evidence": [
+        {
+          "id": "SWC-114",
+          "url": "https://swcregistry.io/docs/SWC-114/",
+          "excerpt": "Transactions visible before inclusion may be reordered, changing outcomes when logic depends on ordering.",
+          "snapshot_path": "source_snapshots/SWC-114.txt",
+          "snapshot_sha256": "ad4e0e0c098fdf93ca77437116a685b04ef28a3cf02f0e2faadb6f50c574df99",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Transaction Order Dependence",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description The Ethereum network processes transactions in blocks, with new blocks getting confirmed approximately every 17 seconds. Miners review the transactions they have received and select which ones to include in a block, based on who has paid a high enough gas price to be included. Additionally, when transactions are sent to the Ethereum network, they are forwarded to each node for processing. Thus, a person who is running an Ethereum node can tell which transactions are going to occur before they are finalized. A race condition vulnerability occurs when code depends on the order of the transactions submitted to it. The simplest example of a race condition is when a smart contract gives a reward for submitting information. Suppose a contract will give out 1 token to the first person who solves a math problem. Alice solves the problem and submits the answer to the network with a standard gas price. Eve runs an Ethereum node and can see the answer to the math problem in the transaction that Alice submitted to the network.",
+          "quote_start": 961,
+          "quote_end": 2003
+        }
+      ]
+    },
+    {
+      "id": "SWC-115",
+      "name": "Authorization through tx.origin",
+      "severity": "high",
+      "category": "access control",
+      "description": "Using tx.origin for authorization can permit calls relayed through a malicious contract.",
+      "root_cause": "Authorization checks the transaction origin rather than the immediate caller.",
+      "evidence": [
+        {
+          "id": "SWC-115",
+          "url": "https://swcregistry.io/docs/SWC-115/",
+          "excerpt": "tx.origin identifies the original transaction sender, not the immediate caller, so it is unsafe for authorization.",
+          "snapshot_path": "source_snapshots/SWC-115.txt",
+          "snapshot_sha256": "608594c5dd768d7dc998f69d2299e3567ebbbc19a993dd9ceb06bac1d29787ef",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Authorization through tx.origin",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description tx.origin is a global variable in Solidity which returns the address of the account that sent the transaction. Using the variable for authorization could make a contract vulnerable if an authorized account calls into a malicious contract. A call could be made to the vulnerable contract that passes the authorization check since tx.origin returns the original sender of the transaction which in this case is the authorized account. Remediation tx.origin should not be used for authorization.",
+          "quote_start": 971,
+          "quote_end": 1474
+        }
+      ]
+    },
+    {
+      "id": "SWC-116",
+      "name": "Block Timestamp Dependence",
+      "severity": "low",
+      "category": "environment",
+      "description": "Timestamp-dependent logic may be influenced within permitted block production bounds.",
+      "root_cause": "Security-critical behavior relies on a timestamp as an exact or unpredictable value.",
+      "evidence": [
+        {
+          "id": "SWC-116",
+          "url": "https://swcregistry.io/docs/SWC-116/",
+          "excerpt": "Block timestamps are not exact clocks and should not be relied upon for critical randomness or precision.",
+          "snapshot_path": "source_snapshots/SWC-116.txt",
+          "snapshot_sha256": "461243845cfd7d4fcf9b303172b1fa798d0a5f413ce6904680e7826274138857",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Block Timestamp Dependence",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp , and block.number can give you a sense of the current time or a time delta, however, they are not safe to use for most purposes. In the case of block.timestamp , developers often attempt to use it to trigger time-dependent events. As Ethereum is decentralized, nodes can synchronize time only to some degree. Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so. However, miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected), nor can they set the timestamp too far ahead in the future. Taking all of the above into consideration, developers can't rely on the preciseness of the provided timestamp. As for block.number , considering the block time on Ethereum is generally about 14 seconds, it's possible to predict the time delta between blocks. However, block times are not constant and are subject to change for a variety of reasons, e.g. fork reorganisations and the difficulty bomb.",
+          "quote_start": 988,
+          "quote_end": 2115
+        }
+      ]
+    },
+    {
+      "id": "SWC-120",
+      "name": "Weak Sources of Randomness",
+      "severity": "high",
+      "category": "randomness",
+      "description": "Predictable on-chain values cannot provide secure randomness for adversarial outcomes.",
+      "root_cause": "Random outcomes depend on manipulable or observable block data.",
+      "evidence": [
+        {
+          "id": "SWC-120",
+          "url": "https://swcregistry.io/docs/SWC-120/",
+          "excerpt": "Blockchain attributes used as randomness can be observed or influenced and are unsuitable for secure random outcomes.",
+          "snapshot_path": "source_snapshots/SWC-120.txt",
+          "snapshot_sha256": "e6d7661b94ccc51fcaf28cd6f2ccd253ab97c2084fbef46deb0e7f479734450c",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Weak Sources of Randomness",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Ability to generate random numbers is very helpful in all kinds of applications. One obvious example is gambling DApps, where pseudo-random number generator is used to pick the winner. However, creating a strong enough source of randomness in Ethereum is very challenging. For example, use of block.timestamp is insecure, as a miner can choose to provide any timestamp within a few seconds and still get his block accepted by others. Use of blockhash , block.difficulty and other fields is also insecure, as they're controlled by the miner. If the stakes are high, the miner can mine lots of blocks in a short time by renting hardware, pick the block that has required block hash for him to win, and drop all others. Remediation Using external sources of randomness via oracles, and cryptographically checking the outcome of the oracle on-chain. e.g. Chainlink VRF . This approach does not rely on trusting the oracle, as a falsly generated random number will be rejected by the on-chain portion of the system. Using commitment scheme , e.g. RANDAO .",
+          "quote_start": 1007,
+          "quote_end": 2069
+        }
+      ]
+    },
+    {
+      "id": "SWC-101",
+      "name": "Integer Overflow and Underflow",
+      "severity": "medium",
+      "category": "arithmetic",
+      "description": "Unchecked arithmetic in relevant compiler versions or unchecked blocks can wrap values.",
+      "root_cause": "Arithmetic is performed without overflow checks in a context where wrapping is unsafe.",
+      "evidence": [
+        {
+          "id": "SWC-101",
+          "url": "https://swcregistry.io/docs/SWC-101/",
+          "excerpt": "Arithmetic overflow or underflow can produce unexpected values when checks are absent; compiler behavior varies by version.",
+          "snapshot_path": "source_snapshots/SWC-101.txt",
+          "snapshot_sha256": "4285112273f0fce0215f121dd0d1f70f4a49f16e04730fbfdf9df4bbad510621",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Integer Overflow and Underflow",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description An overflow/underflow happens when an arithmetic operation reaches the maximum or minimum size of a type. For instance if a number is stored in the uint8 type, it means that the number is stored in a 8 bits unsigned number ranging from 0 to 2^8-1. In computer programming, an integer overflow occurs when an arithmetic operation attempts to create a numeric value that is outside of the range that can be represented with a given number of bits – either larger than the maximum or lower than the minimum representable value.",
+          "quote_start": 1005,
+          "quote_end": 1541
+        }
+      ]
+    },
+    {
+      "id": "SWC-109",
+      "name": "Uninitialized Storage Pointer",
+      "severity": "high",
+      "category": "storage",
+      "description": "An uninitialized storage reference can overwrite an unintended storage slot.",
+      "root_cause": "A local storage pointer is declared without explicit initialization.",
+      "evidence": [
+        {
+          "id": "SWC-109",
+          "url": "https://swcregistry.io/docs/SWC-109/",
+          "excerpt": "Uninitialized storage pointers can reference unexpected storage locations and corrupt contract state.",
+          "snapshot_path": "source_snapshots/SWC-109.txt",
+          "snapshot_sha256": "372ddb12fa26bedbd4a8a2b350a84dea44de51e56b795378f6e1444ba1dab2ce",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Uninitialized Storage Pointer",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Uninitialized local storage variables can point to unexpected storage locations in the contract, which can lead to intentional or unintentional vulnerabilities. Remediation Check if the contract requires a storage object as in many situations this is actually not the case. If a local variable is sufficient, mark the storage location of the variable explicitly with the memory attribute. If a storage variable is needed then initialise it upon declaration and additionally specify the storage location storage .",
+          "quote_start": 902,
+          "quote_end": 1426
+        }
+      ]
+    },
+    {
+      "id": "SWC-117",
+      "name": "Signature Malleability",
+      "severity": "medium",
+      "category": "cryptography",
+      "description": "Different valid signatures may represent the same signed message, defeating signature-byte uniqueness checks.",
+      "root_cause": "Logic treats signature bytes as a unique identifier without normalization.",
+      "evidence": [
+        {
+          "id": "SWC-117",
+          "url": "https://swcregistry.io/docs/SWC-117/",
+          "excerpt": "ECDSA signatures can have multiple valid representations for the same message unless canonicalization is enforced.",
+          "snapshot_path": "source_snapshots/SWC-117.txt",
+          "snapshot_sha256": "6a5bfd2afc273912dfe2160836ac2259c36816d08d04fb6a13f7cbdf4f572fd9",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Signature Malleability",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description The implementation of a cryptographic signature system in Ethereum contracts often assumes that the signature is unique, but signatures can be altered without the possession of the private key and still be valid. The EVM specification defines several so-called ‘precompiled’ contracts one of them being ecrecover which executes the elliptic curve public key recovery. A malicious user can slightly modify the three values v , r and s to create other valid signatures. A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash. Valid signatures could be created by a malicious user to replay previously signed messages.",
+          "quote_start": 912,
+          "quote_end": 1632
+        }
+      ]
+    },
+    {
+      "id": "SWC-100",
+      "name": "Function Default Visibility",
+      "severity": "medium",
+      "category": "access control",
+      "description": "Older Solidity code may expose functions unintentionally when visibility is omitted.",
+      "root_cause": "A function declaration relies on a compiler default instead of explicit visibility.",
+      "evidence": [
+        {
+          "id": "SWC-100",
+          "url": "https://swcregistry.io/docs/SWC-100/",
+          "excerpt": "Older Solidity versions allowed functions without explicit visibility, which could expose functions publicly.",
+          "snapshot_path": "source_snapshots/SWC-100.txt",
+          "snapshot_sha256": "04805871505d541f1530480828cafe53c03ef3a0f487ee471713cb6a09530203",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Function Default Visibility",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description Functions that do not have a function visibility type specified are public by default. This can lead to a vulnerability if a developer forgot to set the visibility and a malicious user is able to make unauthorized or unintended state changes. Remediation Functions can be specified as being external , public , internal or private . It is recommended to make a conscious decision on which visibility type is appropriate for a function.",
+          "quote_start": 950,
+          "quote_end": 1397
+        }
+      ]
+    },
+    {
+      "id": "SWC-110",
+      "name": "Assert Violation",
+      "severity": "medium",
+      "category": "logic",
+      "description": "An invalid internal invariant can cause an assert failure and revert.",
+      "root_cause": "Program logic permits a state that violates an asserted invariant.",
+      "evidence": [
+        {
+          "id": "SWC-110",
+          "url": "https://swcregistry.io/docs/SWC-110/",
+          "excerpt": "An assert failure indicates a violated internal invariant and causes the transaction to revert.",
+          "snapshot_path": "source_snapshots/SWC-110.txt",
+          "snapshot_sha256": "89e28976fae08d66b0e4bf5ee1a4e98bcd1642559bf7042495d8cb25753bdf90",
+          "retrieved_at": "2026-10-15",
+          "source_type": "SWC Registry",
+          "source_title": "Assert Violation",
+          "scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "source_quote": "Description The Solidity assert() function is meant to assert invariants. Properly functioning code should never reach a failing assert statement. A reachable assertion can mean one of two things: A bug exists in the contract that allows it to enter an invalid state; The assert statement is used incorrectly, e.g. to validate inputs. Remediation Consider whether the condition checked in the assert() is actually an invariant. If not, replace the assert() statement with a require() statement.",
+          "quote_start": 902,
+          "quote_end": 1396
+        }
+      ]
+    },
+    {
+      "id": "SCWE-028",
+      "name": "Price Oracle Manipulation",
+      "severity": "high",
+      "category": "oracle manipulation",
+      "description": "A contract can act on a distorted price when it relies on a manipulable oracle feed.",
+      "root_cause": "Security-critical calculations trust an unvalidated or manipulable price source.",
+      "evidence": [
+        {
+          "id": "SCWE-028",
+          "url": "https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/",
+          "excerpt": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic; validate inputs and use resilient oracle sources.",
+          "snapshot_path": "source_snapshots/SCWE-028.txt",
+          "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+          "retrieved_at": "2026-10-15",
+          "source_type": "OWASP Smart Contract Security",
+          "source_title": "Price Oracle Manipulation",
+          "scope": "Use the documented oracle conditions and threat model",
+          "source_quote": "Description ¶ Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic. Remediation ¶ Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+          "quote_start": 400,
+          "quote_end": 830
+        },
+        {
+          "id": "OWASP-SC03",
+          "url": "https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/",
+          "excerpt": "Aggregate multiple price sources. Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold.",
+          "snapshot_path": "source_snapshots/OWASP-SC03.txt",
+          "snapshot_sha256": "ef8c53cd5aa51a9bf61b7347dc36992f74104f63bd27e8a7afee1bc6d400287d",
+          "retrieved_at": "2026-10-15",
+          "source_type": "OWASP Smart Contract Security",
+          "source_title": "Price Oracle Manipulation",
+          "scope": "Use the documented oracle conditions and threat model",
+          "source_quote": "Aggregate multiple sources : Use median/mean of several DEXs / oracles. Reject outliers and anomalous deviations. Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold. Liquidity-aware design : Avoid basing core prices on illiquid pools . Cap impact of a single pool/feed on global pricing. Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations). Use circuit breakers and rate limiting on parameter changes. Monitoring & alerting : Track price deviations between your oracle and reference markets. Set automated alerts for out-of-band movements or stuck oracles.",
+          "quote_start": 6337,
+          "quote_end": 7046
+        }
+      ]
+    }
   ]
 }

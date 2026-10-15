@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review low-level call return values because execution resumes even if called contracts throw exceptions."
+  ],
+  "claims": [
+    {
+      "text": "Review low-level call return values because execution resumes even if called contracts throw exceptions.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

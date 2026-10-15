@@ -1,0 +1,221 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "reason": "The source text explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished', which directly entails the proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "reason": "The source text explains that the attack involves calls happening 'before the first invocation of the function is finished', which logically entails the consequence of allowing 'repeated use of stale state'. The causal link ('because') is supported by the mechanism described.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              },
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "reason": "The source text identifies the danger as 'calling external contracts' and specifies that state changes should be performed 'before the call is executed'. The proposition correctly identifies that state updates often occur after an external call, which is the vulnerability being described.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "reason": "The source text explicitly lists 'Make sure all internal state changes are performed before the call is executed' as a best practice to avoid Reentrancy weaknesses, which entails the proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This is known as the Checks-Effects-Interactions pattern"
+              }
+            ],
+            "reason": "The source text explicitly states 'This is known as the Checks-Effects-Interactions pattern' in the context of avoiding Reentrancy weaknesses, which entails the proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t6s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie."
+              }
+            ],
+            "reason": "The source text mentions using a 'reentrancy lock' as a best practice. While the specific phrasing about 'blocking unwanted callbacks... without preventing control passing' is not verbatim, the core function of a reentrancy lock (preventing recursive calls while allowing normal execution flow) is implied by its use in avoiding reentrancy attacks where control flow is taken over. However, strictly adhering to 'verbatim' support for specific technical nuances like 'without preventing control passing', this might be borderline. But given the context of 'avoid Reentrancy weaknesses' via a lock, the proposition describes the standard behavior of such locks which aligns with the source's intent.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      },
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "a malicious contract calls back into the calling contract before the first invocation of the function is finished"
+              }
+            ],
+            "reason": "The source quote explicitly states: 'In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails that an external contract can take over control flow by calling back before the initial invocation finishes.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "before the first invocation of the function is finished"
+              }
+            ],
+            "reason": "The source quote defines the reentrancy attack as a case where a contract calls back 'before the first invocation of the function is finished,' which inherently implies the possibility of using stale state from previous invocations. The proposition uses 'may,' which aligns with the descriptive nature of the attack definition in the source.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed"
+              }
+            ],
+            "reason": "The source quote states: 'Make sure all internal state changes are performed before the call is executed.' This implies that if this condition is not met (i.e., state updates occur after the external call), it leads to the vulnerability described. The proposition identifies this ordering issue ('state updates often occur after an external call rather than before it') as the root cause, which is logically entailed by the stated best practice.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed"
+              }
+            ],
+            "reason": "The source quote explicitly lists 'Make sure all internal state changes are performed before the call is executed' as a best practice to avoid Reentrancy weaknesses. This directly supports the proposition that remediation requires performing all internal state changes before executing external calls.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This is known as the Checks-Effects-Interactions pattern"
+              }
+            ],
+            "reason": "The source quote explicitly states: 'This is known as the Checks-Effects-Interactions pattern'. This matches the proposition exactly.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      }
+    ],
+    "latencies_seconds": [
+      35.3928302159984,
+      28.303940537996823
+    ]
+  }
+]

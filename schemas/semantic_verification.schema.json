@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "SemanticRecord": {
+      "properties": {
+        "attempts": {
+          "items": {
+            "$ref": "#/$defs/SemanticReport"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "latencies_seconds": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Latencies Seconds",
+          "type": "array"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "attempts",
+        "latencies_seconds"
+      ],
+      "title": "SemanticRecord",
+      "type": "object"
+    },
+    "SemanticReport": {
+      "properties": {
+        "verdicts": {
+          "items": {
+            "$ref": "#/$defs/SemanticVerdict"
+          },
+          "title": "Verdicts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "verdicts"
+      ],
+      "title": "SemanticReport",
+      "type": "object"
+    },
+    "SemanticVerdict": {
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "missing_information": {
+          "default": "",
+          "title": "Missing Information",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 8,
+          "title": "Reason",
+          "type": "string"
+        },
+        "scope_mismatch": {
+          "default": "",
+          "title": "Scope Mismatch",
+          "type": "string"
+        },
+        "supporting_span_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supporting Span Ids",
+          "type": "array"
+        },
+        "supporting_spans": {
+          "items": {
+            "$ref": "#/$defs/SupportingSpan"
+          },
+          "title": "Supporting Spans",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "CONTRADICTED",
+            "INSUFFICIENT_EVIDENCE",
+            "AMBIGUOUS",
+            "VERIFICATION_ERROR"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "verification_error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verification Error"
+        }
+      },
+      "required": [
+        "claim_id",
+        "verdict",
+        "reason"
+      ],
+      "title": "SemanticVerdict",
+      "type": "object"
+    },
+    "SupportingSpan": {
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 8,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "quote"
+      ],
+      "title": "SupportingSpan",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/SemanticRecord"
+  },
+  "type": "array"
+}

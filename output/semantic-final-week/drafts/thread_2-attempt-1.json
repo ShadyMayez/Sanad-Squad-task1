@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "Malicious actors can drain Ether from a contract if access controls are missing or insufficient.",
+    "This risk often stems from unintentionally exposing initialization functions to the public.",
+    "If a function meant for the constructor is wrongly named, its code runs at runtime instead of setup.",
+    "Anyone can then call that exposed code to re-initialize the contract and steal funds.",
+    "Reviewers should verify that only the constructor executes during deployment and no other init logic remains public."
+  ],
+  "claims": [
+    {
+      "text": "Malicious actors can drain Ether from a contract if access controls are missing or insufficient.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "This risk often stems from unintentionally exposing initialization functions to the public.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "If a function meant for the constructor is wrongly named, its code runs at runtime instead of setup.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Anyone can then call that exposed code to re-initialize the contract and steal funds.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Reviewers should verify that only the constructor executes during deployment and no other init logic remains public.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

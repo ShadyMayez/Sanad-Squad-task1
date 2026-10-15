@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review initialization function visibility to prevent malicious parties from re-initializing the contract and withdrawing Ether."
+  ],
+  "claims": [
+    {
+      "text": "Review initialization function visibility to prevent malicious parties from re-initializing the contract and withdrawing Ether.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

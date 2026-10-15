@@ -1,0 +1,9 @@
+{
+  "slots": [
+    {
+      "id": "piece_1",
+      "type": "tech-thread",
+      "focus": "reentrancy"
+    }
+  ]
+}

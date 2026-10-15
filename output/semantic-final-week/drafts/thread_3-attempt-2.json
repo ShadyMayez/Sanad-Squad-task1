@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic.",
+    "This can lead to unauthorized actions, loss of funds, or exploitation of the contract's core logic.",
+    "Remediation requires using decentralized oracles for price data.",
+    "Ensure all oracle data is properly validated before use.",
+    "Aggregate multiple sources like median or mean of several DEXs and oracles."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "This can lead to unauthorized actions, loss of funds, or exploitation of the contract's core logic.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Remediation requires using decentralized oracles for price data.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Ensure all oracle data is properly validated before use.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Aggregate multiple sources like median or mean of several DEXs and oracles.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

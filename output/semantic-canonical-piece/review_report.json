@@ -1,0 +1,48 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 5,
+        "platform_format": 2,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Platform format violation: The draft consists of five separate tweet strings, but the brand rules forbid hashtags and require separately readable tweets for a single topic. A technical thread on reentrancy must be presented as one cohesive post (or clearly linked threads) rather than fragmented lines that break the narrative flow.",
+          "Technical nuance: While the Checks-Effects-Interactions pattern is correctly identified, the draft omits the critical condition that state changes must occur *before* the call to prevent reentrancy. The source text says 'Make sure all internal state changes are performed before the call is executed,' which implies the order, but the tweet format obscures this causal relationship.",
+          "Scores below rubric threshold: ['platform_format']"
+        ],
+        "corrections": [
+          "Combine the five lines into a single coherent paragraph or two clearly linked tweets to maintain narrative continuity.",
+          "Ensure the sequence of state changes and calls is explicitly ordered in the text to reinforce the 'before' condition required for safety."
+        ],
+        "grounding_assessment": "All five claims are verbatim or near-verbatim extractions from the SWC-107 source text. The semantic report confirms full support for every proposition. The content accurately describes reentrancy mechanics and cites the Checks-Effects-Interactions pattern and ReentrancyGuard as standard mitigations.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 5,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 5,
+        "platform_format": 2,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "The draft violates the brand rule forbidding em dashes (—). Claim t5 uses 'ie' which is acceptable, but the presence of any banned character pattern in the source text ruleset requires strict adherence. While the provided tweet list does not explicitly contain an em dash, the instruction to avoid them applies to all generated content. However, a more critical failure is the platform format.",
+          "The draft presents five separate sentences as a single logical block rather than distinct tweets. The brand rules require 'separately readable tweets of the assigned type'. A list of five independent sentences without line breaks or clear tweet delimiters fails the minimum readability threshold for Twitter threads, resulting in a score of 2.",
+          "While factual and technical accuracy is perfect (scores 5 and 4), the platform format defect prevents approval. The content must be split into individual tweets to meet the 'separately readable' requirement.",
+          "Scores below rubric threshold: ['platform_format']"
+        ],
+        "corrections": [
+          "Split the five sentences into five distinct tweet entries, ensuring each stands alone as a complete thought.",
+          "Verify that no em dashes (—) are used in any final output; replace with commas or rephrasing if necessary."
+        ],
+        "grounding_assessment": "All five claims are verbatim or near-verbatim extractions from the SWC-107 source text. The semantic report confirms full support for every claim with no missing information or scope mismatch. The content accurately reflects the official registry definition of reentrancy and its remediation.",
+        "claim_support": []
+      }
+    ]
+  }
+]

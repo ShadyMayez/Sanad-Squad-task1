@@ -1,0 +1,14 @@
+{
+  "tweets": [
+    "Isolate external calls into separate transactions to prevent DoS conditions if they fail.",
+    "Isolate external calls into separate transactions to prevent DoS conditions if they fail."
+  ],
+  "claims": [
+    {
+      "text": "Isolate external calls into separate transactions to prevent DoS conditions if they fail.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

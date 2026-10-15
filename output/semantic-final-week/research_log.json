@@ -1,0 +1,167 @@
+[
+  {
+    "slot_id": "thread_1",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://swcregistry.io/docs/SWC-107/",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+        "source_title": "Reentrancy",
+        "source_type": "SWC Registry",
+        "snapshot_path": "source_snapshots/SWC-107.txt",
+        "snapshot_sha256": "70de2a144ff940626d5664c2ac45039ce10bbbf7ddae782e9917cc6628618aa9",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways. Remediation The best practices to avoid Reentrancy weaknesses are: Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard ).",
+        "quote_start": 895,
+        "quote_end": 1533,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "dropped",
+    "reason": "No verified supporting excerpt for claim: Calling external contracts risks losing control flow before your function finishes.; No verified supporting excerpt for claim: A malicious contract can reenter your code mid-execution, causing interactions to behave undesirably.; No verified supporting excerpt for claim: The best practice is to perform all internal state changes before making any external calls.; No verified supporting excerpt for claim: OpenZeppelin's ReentrancyGuard is cited as an example of such a mechanism.; No verified supporting excerpt for claim: This ordering prevents the attacker from taking control during your function's execution.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected spans (SWC-107#5 and SWC-107#6) describe the Checks-Effects-Interactions pattern and mention OpenZeppelin's ReentrancyGuard as a reentrancy lock. However, they do not explicitly state that it is cited as an example of 'such a mechanism' (the specific antecedent context implied by 'such') or confirm the citation relationship itself. The text merely identifies the contract as a lock within the pattern; it does not assert the act of citing it as an example of the broader mechanism described in the claim's context.; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected spans describe best practices (performing state changes before calls, using locks) but do not explicitly state that 'this ordering prevents the attacker from taking control.' The claim asserts a causal prevention mechanism ('prevents...') which is not directly entailed by the advisory nature of the remediation steps provided in the evidence.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+  },
+  {
+    "slot_id": "post_1",
+    "topic": "Unchecked Call Return Value",
+    "source_ids": [
+      "SWC-104"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-104",
+        "url": "https://swcregistry.io/docs/SWC-104/",
+        "excerpt": "Low-level calls return a success value. A low-level call may fail and return false while the caller continues. Ignoring that return value can leave contract accounting inconsistent because the caller may record an operation as successful when the call failed.",
+        "source_title": "Unchecked Call Return Value",
+        "source_type": "SWC Registry",
+        "snapshot_path": "source_snapshots/SWC-104.txt",
+        "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic. Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+        "quote_start": 950,
+        "quote_end": 1370,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "dropped",
+    "reason": "No verified supporting excerpt for claim: Review low-level call return values because execution resumes even if called contracts throw exceptions."
+  },
+  {
+    "slot_id": "thread_2",
+    "topic": "Unprotected Ether Withdrawal",
+    "source_ids": [
+      "SWC-105"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-105",
+        "url": "https://swcregistry.io/docs/SWC-105/",
+        "excerpt": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+        "source_title": "Unprotected Ether Withdrawal",
+        "source_type": "SWC Registry",
+        "snapshot_path": "source_snapshots/SWC-105.txt",
+        "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+        "quote_start": 976,
+        "quote_end": 1366,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "dropped",
+    "reason": "Claim t5s1c1 and t5s1c2 are not supported by the provided evidence. The source text describes the vulnerability (exposed constructor code allowing re-initialization) but does not state that reviewers should check if 'only the constructor executes' or assert that 'no other init logic remains public'.; The deterministic errors confirm that these specific assertions cannot be inferred from the SWC-105 description.; Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval.; No verified supporting excerpt for claim: SWC-105 notes this bug is sometimes caused by unintentionally exposing initialization functions.; No verified supporting excerpt for claim: Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.; No verified supporting excerpt for claim: By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code.; No verified supporting excerpt for claim: The exposed code can be called by anyone to re-initialize the contract, potentially allowing withdrawal of Ether.; No verified supporting excerpt for claim: Reviewers should check if only the constructor executes during deployment and no other init logic remains public.; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: The source text describes a vulnerability where re-initialization occurs due to exposed constructor code, but it does not explicitly state that reviewers should check if 'only the constructor executes' or that no other init logic remains public. The claim prescribes a specific reviewer action and condition ('only the constructor') which is not entailed by the descriptive nature of the SWC entry.; Atomic claim t5s1c2: INSUFFICIENT_EVIDENCE: The source text describes a vulnerability where re-initialization is possible due to exposed constructor code, but it does not state that 'no other init logic remains public' as a condition or requirement. The claim makes a specific assertion about the absence of other public initialization functions, which cannot be inferred from the general description of the bug's cause.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+  },
+  {
+    "slot_id": "post_2",
+    "topic": "Unprotected Ether Withdrawal",
+    "source_ids": [
+      "SWC-105"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-105",
+        "url": "https://swcregistry.io/docs/SWC-105/",
+        "excerpt": "Missing access restrictions on functions that transfer ether can allow arbitrary users to withdraw funds. Implement controls so withdrawals can only be triggered by authorized parties. The source's sample access control checks msg.sender against a stored creator or owner and uses an onlyOwner modifier.",
+        "source_title": "Unprotected Ether Withdrawal",
+        "source_type": "SWC Registry",
+        "snapshot_path": "source_snapshots/SWC-105.txt",
+        "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+        "quote_start": 976,
+        "quote_end": 1366,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "dropped",
+    "reason": "No verified supporting excerpt for claim: Review function visibility to ensure initialization code cannot be called by anyone.; Expected 1-1 tweets, got 2; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) states that wrongly named constructor code 'can be called by anyone to re-initialize the contract.' The atomic claim asserts a preventative action: 'Review function visibility to ensure initialization code cannot be called by anyone.' While the source confirms the risk of unauthorized calls, it does not support the specific remediation strategy (reviewing function visibility) nor does it guarantee that this method ensures the outcome ('cannot be called'). The source describes a consequence of a naming error, whereas the claim prescribes a verification process and its definitive result. A possibility ('can') in the source does not entail the certainty ('cannot') required by the claim's assertion of success.; Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) states that wrongly named constructor code 'can be called by anyone to re-initialize the contract.' The atomic claim asserts a positive action ('Review function visibility') as a necessary condition to ensure initialization code 'cannot be called by anyone.' The source text describes a vulnerability scenario where code *is* callable, but it does not explicitly state that reviewing visibility is the specific mechanism required to prevent this, nor does it confirm that such a review would successfully achieve the negative outcome ('cannot be called'). The claim presents a prescriptive solution and a guaranteed result that are not fully entailed by the descriptive warning in the source text.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'brand_voice', 'clarity', 'platform_format', 'usefulness']"
+  },
+  {
+    "slot_id": "thread_3",
+    "topic": "Price Oracle Manipulation",
+    "source_ids": [
+      "SCWE-028",
+      "OWASP-SC03"
+    ],
+    "evidence": [
+      {
+        "id": "SCWE-028",
+        "url": "https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/",
+        "excerpt": "Price oracle manipulation exploits weaknesses in price feeds to distort contract logic; validate inputs and use resilient oracle sources.",
+        "source_title": "Price Oracle Manipulation",
+        "source_type": "OWASP Smart Contract Security",
+        "snapshot_path": "source_snapshots/SCWE-028.txt",
+        "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description ¶ Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic. Remediation ¶ Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+        "quote_start": 400,
+        "quote_end": 830,
+        "scope": "Use the documented oracle conditions and threat model"
+      },
+      {
+        "id": "OWASP-SC03",
+        "url": "https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/",
+        "excerpt": "Aggregate multiple price sources. Use time-weighted averages (TWAPs) over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold.",
+        "source_title": "Price Oracle Manipulation",
+        "source_type": "OWASP Smart Contract Security",
+        "snapshot_path": "source_snapshots/OWASP-SC03.txt",
+        "snapshot_sha256": "ef8c53cd5aa51a9bf61b7347dc36992f74104f63bd27e8a7afee1bc6d400287d",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Aggregate multiple sources : Use median/mean of several DEXs / oracles. Reject outliers and anomalous deviations. Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold. Liquidity-aware design : Avoid basing core prices on illiquid pools . Cap impact of a single pool/feed on global pricing. Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations). Use circuit breakers and rate limiting on parameter changes. Monitoring & alerting : Track price deviations between your oracle and reference markets. Set automated alerts for out-of-band movements or stuck oracles.",
+        "quote_start": 6337,
+        "quote_end": 7046,
+        "scope": "Use the documented oracle conditions and threat model"
+      }
+    ],
+    "status": "dropped",
+    "reason": "Claim t1s1c1 is strictly entailed by SCWE-028's definition of price oracle manipulation.; Claims t2s1c1 is a direct aggregation of the three listed consequences in SCWE-028.; Claims t3s1c1 and t4s1c1 are verbatim restatements of remediation steps in SCWE-028.; Claim t5s1c1 is strictly entailed by OWASP-SC03's recommendation to use median/mean aggregation.; No banned words, characters, or hashtags are present in the draft."
+  },
+  {
+    "slot_id": "post_3",
+    "topic": "DoS with Failed Call",
+    "source_ids": [
+      "SWC-113"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-113",
+        "url": "https://swcregistry.io/docs/SWC-113/",
+        "excerpt": "A failing external call can revert a wider transaction and prevent progress for other participants.",
+        "source_title": "DoS with Failed Call",
+        "source_type": "SWC Registry",
+        "snapshot_path": "source_snapshots/SWC-113.txt",
+        "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+        "quote_start": 914,
+        "quote_end": 1393,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "dropped",
+    "reason": "No verified supporting excerpt for claim: Isolate external calls into separate transactions to prevent DoS conditions if they fail.; Expected 1-1 tweets, got 2; Marketing post requires a practical invitation to review or inspect the contract; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected spans establish that external calls can cause DoS conditions and suggest isolating them to minimize damage, but they do not explicitly state that isolation into separate transactions is the mechanism to prevent DoS conditions if those specific calls fail. The claim asserts a causal prevention ('to prevent'), while the evidence only suggests mitigation ('to minimize the damage'). A mitigation strategy does not logically entail that it prevents the adverse event itself.; Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected spans establish that external calls can cause DoS conditions and suggest isolating them to minimize damage, but they do not explicitly state that isolation into separate transactions is the mechanism to prevent DoS conditions if those specific calls fail. The claim asserts a causal prevention ('to prevent'), while the evidence only suggests mitigation ('to minimize the damage'). A mitigation strategy does not logically entail that it prevents the adverse condition entirely.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'brand_voice', 'clarity', 'platform_format', 'usefulness']"
+  }
+]

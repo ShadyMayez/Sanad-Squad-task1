@@ -1,0 +1,62 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      [
+        "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific consequence of missing access controls (malicious parties withdrawing Ether), but it does not explicitly state that 'Legacy SWC guidance' exists or applies to the compiler and EVM applicability mentioned in the claim. The claim asserts the existence and scope of 'Legacy SWC guidance,' while the evidence only provides a descriptive fact about contract vulnerabilities without confirming the specific guidance document's status or applicability.",
+        "Atomic claim t5s1c2: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) describes a specific consequence of wrongly naming a constructor function (it ends up in runtime bytecode and can be called to re-initialize). It does not support the broader claim that one must 'check compiler and EVM applicability' as a general guidance step. The evidence establishes a risk associated with incorrect naming but does not entail the procedural requirement or the scope of checking both compiler and EVM applicability mentioned in the claim.",
+        "Atomic claim t5s1c3: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific vulnerability mechanism where malicious parties can withdraw Ether due to missing access controls. It does not explicitly state or imply the broader concept of 'EVM applicability' as a general property or guidance point. The claim 'EVM applicability' is too broad and lacks direct textual support from the provided span, which focuses on a specific security flaw rather than the general applicability of EVM rules."
+      ],
+      [
+        "Expected 5-10 tweets, got 4"
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      [
+        "Marketing post requires a practical invitation to review or inspect the contract"
+      ],
+      [
+        "Marketing post requires a practical invitation to review or inspect the contract",
+        "Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: The source text describes a specific vulnerability (SWC-105) where missing access controls allow Ether withdrawal due to exposed initialization functions. It does not contain advice, recommendations, or obligations for teams to verify their own contracts. The claim is prescriptive ('should'), while the evidence is descriptive of a bug's cause and effect."
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      [
+        "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data' confirms the existence of such loss but lacks the specific temporal and logical qualifiers present in the claim. The claim asserts that this loss occurs 'within the contract's logic' and uses the possibility qualifier 'may'. The evidence does not specify the location ('within the contract's logic') nor does it explicitly support the probabilistic nature ('may') of the event, making the full claim unentailed by the provided text."
+      ],
+      [
+        "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary context to support the claim that 'It can lead to loss of funds or data.' The span confirms the existence of these losses but fails to establish the causal relationship ('lead to') or the antecedent subject ('It'). Without evidence linking a specific action, event, or condition to the potential loss, the claim's assertion of causality cannot be verified."
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      [
+        "Marketing post requires a practical invitation to review or inspect the contract"
+      ],
+      [
+        "Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-113#0) states that external calls 'can fail', which establishes possibility, not a mandatory requirement. The claim uses the imperative 'Review your external calls' as an instruction or recommendation. A source stating a potential risk ('can cause a DoS') does not entail that one should actively review them; it only suggests they are dangerous. The second span discusses isolation strategies but does not explicitly mandate reviewing calls. Therefore, the evidence fails to support the prescriptive nature of the claim.",
+        "Atomic claim t1s1c2: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span states that isolating calls into separate transactions is 'better to minimize damage' and notes the transaction can be initiated by the recipient. It does not explicitly assert the specific action of 'isolating them in separate transactions' as a general rule or requirement, nor does it confirm the scope applies to all external calls without qualification. The claim presents this as a directive ('Review... and isolate'), while the evidence offers a recommendation for damage minimization based on a specific condition (recipient initiation). The certainty and prescriptive nature of the claim are not fully entailed by the advisory tone of the source text."
+      ]
+    ]
+  }
+]

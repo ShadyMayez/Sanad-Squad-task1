@@ -1,0 +1,20 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 3,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are verbatim or near-verbatim matches to the provided SWC-107 excerpt. The semantic report confirms full support for every claim with exact quote spans. The content accurately describes reentrancy mechanics and standard remediation without inventing facts or misrepresenting scope.",
+        "claim_support": []
+      }
+    ]
+  }
+]

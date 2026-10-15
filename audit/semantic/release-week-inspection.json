@@ -1,0 +1,542 @@
+{
+  "run": "/home/shady/sandsquad/output/semantic-release-week",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 6,
+    "shipped": 3,
+    "dropped": 3,
+    "failed": 0,
+    "reasons": [
+      {
+        "slot_id": "thread_2",
+        "status": "dropped",
+        "reason": "Platform format failure: The draft contains only 3 tweets, but the deterministic error report explicitly states 'Expected 5-10 tweets, got 3'. This violates the mandatory platform_format gate (score 0).; Usefulness reduced by thread length: While the content is accurate, a single tweet per point fails to provide the concrete inspection habit or failure mode context that educational threads typically require for this audience.; Correction required: Expand the draft to meet the 5-10 tweet minimum. For example, split the cause-and-effect into separate tweets and add a concluding tweet about review habits (e.g., 'Check function naming against constructor logic').; Do not invent new facts; simply restructure existing claims into a longer thread.; Expected 5-10 tweets, got 3; Scores below rubric threshold: ['factual_support', 'platform_format', 'usefulness']"
+      },
+      {
+        "slot_id": "post_2",
+        "status": "dropped",
+        "reason": "The claim asserts a general verification step ('Check if your constructor...') that is not fully supported by the source. The source (SWC-105) describes a specific failure mode caused by 'wrongly naming' a function, resulting in runtime bytecode exposure. It does not establish the universal necessity of checking for 'payable/constructor' markings as the primary preventive measure against this specific bug.; The claim conflates the cause (wrong naming leading to runtime bytecode) with a transaction attribute (payable). The source states that wrong naming causes the code to be callable by anyone; it does not state that being marked 'payable' is the condition for this exposure. This creates a technical ambiguity regarding the specific verification step required.; The atomic semantic report flags INSUFFICIENT_EVIDENCE because the selected span details a specific error scenario rather than establishing the general rule or efficacy of the broader check described in the claim.; No verified supporting excerpt for claim: Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks.; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) describes a specific scenario where a function is 'wrongly named' as a constructor, causing it to appear in runtime bytecode and be callable. It does not support the claim's broader instruction to 'Check if your constructor is marked payable/constructor or exposed...' as a general verification step for all constructors. The span explains the consequence of a specific error (wrong naming) rather than establishing the necessity of checking for exposure in runtime bytecode as a universal preventive measure against re-initialization attacks. The relationship between the action ('check if exposed') and the outcome ('prevent re-initialization') is not fully entailed because the source only details one failure mode, not the general rule or the efficacy of the check described in the claim.; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+      },
+      {
+        "slot_id": "thread_3",
+        "status": "dropped",
+        "reason": "Claim t3 ('It may cause loss of funds or data') is not fully supported by SCWE-028 because the source quote 'Loss of funds or data' lacks the modal qualifier ('may') and causal context required to establish that these losses are a potential consequence of manipulation, rather than just existing risks.; The atomic gate INSUFFICIENT_EVIDENCE for claim t3s1c1 blocks approval as per deterministic error rules.; No verified supporting excerpt for claim: Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.; No verified supporting excerpt for claim: This can lead to unauthorized actions by malicious actors.; No verified supporting excerpt for claim: It may cause loss of funds or data.; No verified supporting excerpt for claim: Use decentralized oracles and leverage multiple sources for price data.; No verified supporting excerpt for claim: Ensure all oracle data is properly validated before use.; Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary modal qualifier ('may') and the causal context to support the claim 'It may cause loss of funds or data.' The span states the potential outcome but does not explicitly assert that it is a possible consequence of an action, nor does it establish the causal link required by the claim. Without the qualifier indicating possibility, the evidence only confirms the existence of such losses without proving they are a potential risk.; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+      }
+    ],
+    "elapsed_seconds": 580.873,
+    "prompt_tokens_recorded": 84640,
+    "completion_tokens_recorded": 9980,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "slots": [
+    {
+      "id": "thread_1",
+      "type": "tech-thread",
+      "topic": "Reentrancy",
+      "status": "accepted",
+      "source_ids": [
+        "SWC-107"
+      ],
+      "provenance_errors": [],
+      "draft_count": 1,
+      "review_count": 1,
+      "final_atomic_claims": 5,
+      "verdict_counts": {
+        "SUPPORTED": 5
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#0"
+          ],
+          "reason": "The source text explicitly states that a major danger of calling external contracts is that they can take over control flow, which directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t2s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#1"
+          ],
+          "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished', which directly entails the claim's proposition.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t3s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#2"
+          ],
+          "reason": "The source text explicitly states that reentrancy 'may cause the different invocations of the function to interact in undesirable ways,' which directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t4s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "Make sure all internal state changes are performed before the call is executed."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#3"
+          ],
+          "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t5s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#5"
+          ],
+          "reason": "The source text explicitly states 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' as a best practice, which directly entails the claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [
+        "One of the major dangers of calling external contracts is that they can take over the control flow.",
+        "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+        "This may cause the different invocations of the function to interact in undesirable ways.",
+        "Make sure all internal state changes are performed before the call is executed.",
+        "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+      ],
+      "visual_spec": "spec:visual_specs/thread_1.md",
+      "reason": null
+    },
+    {
+      "id": "post_1",
+      "type": "marketing-post",
+      "topic": "Unchecked Call Return Value",
+      "status": "accepted",
+      "source_ids": [
+        "SWC-104"
+      ],
+      "provenance_errors": [],
+      "draft_count": 1,
+      "review_count": 1,
+      "final_atomic_claims": 1,
+      "verdict_counts": {
+        "SUPPORTED": 1
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-104"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-104",
+              "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-104#3"
+          ],
+          "reason": "The source text explicitly states in the Remediation section that when using low-level call methods, one must handle the possibility of failure by checking the return value. This directly entails the claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [
+        "Check the return value when using low-level call methods."
+      ],
+      "visual_spec": "spec:visual_specs/post_1.md",
+      "reason": null
+    },
+    {
+      "id": "thread_2",
+      "type": "tech-thread",
+      "topic": "Unprotected Ether Withdrawal",
+      "status": "dropped",
+      "source_ids": [
+        "SWC-105"
+      ],
+      "provenance_errors": [],
+      "draft_count": 2,
+      "review_count": 2,
+      "final_atomic_claims": 4,
+      "verdict_counts": {
+        "SUPPORTED": 8,
+        "INSUFFICIENT_EVIDENCE": 3
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-105"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-105",
+              "quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-105#0"
+          ],
+          "reason": "The source quotation explicitly states that due to missing access controls, malicious parties can withdraw some or all Ether, which directly entails the atomic proposition.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t2s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-105"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-105",
+              "quote": "This bug is sometimes caused by unintentionally exposing initialization functions."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-105#1"
+          ],
+          "reason": "The source quotation explicitly states that the bug is 'sometimes caused by unintentionally exposing initialization functions,' which directly entails the atomic proposition.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t3s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-105"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-105",
+              "quote": "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-105#2"
+          ],
+          "reason": "The source text explicitly states that wrongly naming a constructor function causes its code to end up in the runtime bytecode, which directly entails the proposition.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t3s1c2",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-105"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-105",
+              "quote": "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-105#2"
+          ],
+          "reason": "The source text explicitly states that wrongly named constructor code 'can be called by anyone to re-initialize the contract,' which directly entails the claim's proposition.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [],
+      "visual_spec": null,
+      "reason": "Platform format failure: The draft contains only 3 tweets, but the deterministic error report explicitly states 'Expected 5-10 tweets, got 3'. This violates the mandatory platform_format gate (score 0).; Usefulness reduced by thread length: While the content is accurate, a single tweet per point fails to provide the concrete inspection habit or failure mode context that educational threads typically require for this audience.; Correction required: Expand the draft to meet the 5-10 tweet minimum. For example, split the cause-and-effect into separate tweets and add a concluding tweet about review habits (e.g., 'Check function naming against constructor logic').; Do not invent new facts; simply restructure existing claims into a longer thread.; Expected 5-10 tweets, got 3; Scores below rubric threshold: ['factual_support', 'platform_format', 'usefulness']"
+    },
+    {
+      "id": "post_2",
+      "type": "marketing-post",
+      "topic": "Unprotected Ether Withdrawal",
+      "status": "dropped",
+      "source_ids": [
+        "SWC-105"
+      ],
+      "provenance_errors": [],
+      "draft_count": 2,
+      "review_count": 2,
+      "final_atomic_claims": 1,
+      "verdict_counts": {
+        "SUPPORTED": 1,
+        "INSUFFICIENT_EVIDENCE": 1
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "evidence_ids": [
+            "SWC-105"
+          ],
+          "supporting_spans": [],
+          "supporting_span_ids": [],
+          "reason": "Skeptical span audit: The selected span (SWC-105#2) describes a specific scenario where a function is 'wrongly named' as a constructor, causing it to appear in runtime bytecode and be callable. It does not support the claim's broader instruction to 'Check if your constructor is marked payable/constructor or exposed...' as a general verification step for all constructors. The span explains the consequence of a specific error (wrong naming) rather than establishing the necessity of checking for exposure in runtime bytecode as a universal preventive measure against re-initialization attacks. The relationship between the action ('check if exposed') and the outcome ('prevent re-initialization') is not fully entailed because the source only details one failure mode, not the general rule or the efficacy of the check described in the claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [],
+      "visual_spec": null,
+      "reason": "The claim asserts a general verification step ('Check if your constructor...') that is not fully supported by the source. The source (SWC-105) describes a specific failure mode caused by 'wrongly naming' a function, resulting in runtime bytecode exposure. It does not establish the universal necessity of checking for 'payable/constructor' markings as the primary preventive measure against this specific bug.; The claim conflates the cause (wrong naming leading to runtime bytecode) with a transaction attribute (payable). The source states that wrong naming causes the code to be callable by anyone; it does not state that being marked 'payable' is the condition for this exposure. This creates a technical ambiguity regarding the specific verification step required.; The atomic semantic report flags INSUFFICIENT_EVIDENCE because the selected span details a specific error scenario rather than establishing the general rule or efficacy of the broader check described in the claim.; No verified supporting excerpt for claim: Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks.; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) describes a specific scenario where a function is 'wrongly named' as a constructor, causing it to appear in runtime bytecode and be callable. It does not support the claim's broader instruction to 'Check if your constructor is marked payable/constructor or exposed...' as a general verification step for all constructors. The span explains the consequence of a specific error (wrong naming) rather than establishing the necessity of checking for exposure in runtime bytecode as a universal preventive measure against re-initialization attacks. The relationship between the action ('check if exposed') and the outcome ('prevent re-initialization') is not fully entailed because the source only details one failure mode, not the general rule or the efficacy of the check described in the claim.; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+    },
+    {
+      "id": "thread_3",
+      "type": "tech-thread",
+      "topic": "Price Oracle Manipulation",
+      "status": "dropped",
+      "source_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ],
+      "provenance_errors": [],
+      "draft_count": 2,
+      "review_count": 2,
+      "final_atomic_claims": 6,
+      "verdict_counts": {
+        "SUPPORTED": 10,
+        "INSUFFICIENT_EVIDENCE": 2
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SCWE-028",
+              "quote": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic."
+            }
+          ],
+          "supporting_span_ids": [
+            "SCWE-028#0"
+          ],
+          "reason": "The source quotation explicitly defines Price Oracle manipulation as the exploitation of vulnerabilities in price oracles to manipulate contract logic, which directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t2s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SCWE-028",
+              "quote": "This can lead to: - Unauthorized actions by malicious actors."
+            }
+          ],
+          "supporting_span_ids": [
+            "SCWE-028#1"
+          ],
+          "reason": "The source text explicitly states that price oracle manipulation 'can lead to: - Unauthorized actions by malicious actors.' This directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t3s1c1",
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [],
+          "supporting_span_ids": [],
+          "reason": "Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary modal qualifier ('may') and the causal context to support the claim 'It may cause loss of funds or data.' The span states the potential outcome but does not explicitly assert that it is a possible consequence of an action, nor does it establish the causal link required by the claim. Without the qualifier indicating possibility, the evidence only confirms the existence of such losses without proving they are a potential risk.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t4s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SCWE-028",
+              "quote": "Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data."
+            }
+          ],
+          "supporting_span_ids": [
+            "SCWE-028#4"
+          ],
+          "reason": "The source text in SCWE-028 explicitly states to 'Use decentralized oracles' as a remediation measure for price oracle manipulation. This directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t4s1c2",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SCWE-028",
+              "quote": "Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data."
+            }
+          ],
+          "supporting_span_ids": [
+            "SCWE-028#4"
+          ],
+          "reason": "The claim 'leverage multiple sources for price data' is directly supported by the source text in SCWE-028#4, which states: 'Leverage multiple decentralized oracles for price data.' The phrase 'multiple sources' corresponds semantically to 'multiple decentralized oracles', and the action 'leverage' matches exactly.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        },
+        {
+          "claim_id": "t5s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SCWE-028"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SCWE-028",
+              "quote": "Validate inputs: Ensure all oracle data is properly validated before use."
+            }
+          ],
+          "supporting_span_ids": [
+            "SCWE-028#5"
+          ],
+          "reason": "The source quotation explicitly states under the Remediation section that one must 'Ensure all oracle data is properly validated before use', which directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [],
+      "visual_spec": null,
+      "reason": "Claim t3 ('It may cause loss of funds or data') is not fully supported by SCWE-028 because the source quote 'Loss of funds or data' lacks the modal qualifier ('may') and causal context required to establish that these losses are a potential consequence of manipulation, rather than just existing risks.; The atomic gate INSUFFICIENT_EVIDENCE for claim t3s1c1 blocks approval as per deterministic error rules.; No verified supporting excerpt for claim: Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.; No verified supporting excerpt for claim: This can lead to unauthorized actions by malicious actors.; No verified supporting excerpt for claim: It may cause loss of funds or data.; No verified supporting excerpt for claim: Use decentralized oracles and leverage multiple sources for price data.; No verified supporting excerpt for claim: Ensure all oracle data is properly validated before use.; Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary modal qualifier ('may') and the causal context to support the claim 'It may cause loss of funds or data.' The span states the potential outcome but does not explicitly assert that it is a possible consequence of an action, nor does it establish the causal link required by the claim. Without the qualifier indicating possibility, the evidence only confirms the existence of such losses without proving they are a potential risk.; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+    },
+    {
+      "id": "post_3",
+      "type": "marketing-post",
+      "topic": "DoS with Failed Call",
+      "status": "accepted",
+      "source_ids": [
+        "SWC-113"
+      ],
+      "provenance_errors": [],
+      "draft_count": 1,
+      "review_count": 1,
+      "final_atomic_claims": 1,
+      "verdict_counts": {
+        "SUPPORTED": 1
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-113"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-113",
+              "quote": "To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-113#1"
+          ],
+          "reason": "The source text explicitly states that external calls should be 'isolated each external call into its own transaction that can be initiated by the recipient of the call' to minimize damage from failures. This directly entails the atomic claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null
+        }
+      ],
+      "final_tweets": [
+        "Isolate each external call into its own transaction that can be initiated by the recipient of the call."
+      ],
+      "visual_spec": "spec:visual_specs/post_3.md",
+      "reason": null
+    }
+  ],
+  "csv_rows": 3,
+  "all_accepted_claims_pinned": true
+}

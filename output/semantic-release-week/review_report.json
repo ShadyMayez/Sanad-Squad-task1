@@ -1,0 +1,219 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 3,
+        "usefulness": 4,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are verbatim or near-verbatim matches to the SWC-107 source quote. The semantic report confirms full support for every factual clause without blending unrelated evidence or omitting conditions.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-104 remediation guidance regarding low-level call methods. The claim is fully supported by the verbatim span of the source quote and contains no invented facts or omitted conditions.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 2,
+        "platform_format": 1,
+        "usefulness": 2,
+        "approved": false,
+        "reasons": [
+          "The draft fails platform format requirements by splitting a single logical unit into five tweets, resulting in an unusable thread structure where context is lost between t3 and t4.",
+          "Claim t5 asserts 'Legacy SWC guidance' and 'check compiler' as explicit facts. The atomic report confirms these are not supported by the source quote; they are metadata attributes, creating a factual gap.",
+          "The fragmentation destroys clarity for developers attempting to follow the security mechanism described in t3/t4.",
+          "Usefulness is severely reduced because the meta-claims (t5) lack evidentiary grounding, making them appear as invented authority.",
+          "No verified supporting excerpt for claim: Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.",
+          "No verified supporting excerpt for claim: This bug is sometimes caused by unintentionally exposing initialization functions.",
+          "No verified supporting excerpt for claim: By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code.",
+          "No verified supporting excerpt for claim: and can be called by anyone to re-initialize the contract.",
+          "No verified supporting excerpt for claim: Legacy SWC guidance; check compiler and EVM applicability.",
+          "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific consequence of missing access controls (malicious parties withdrawing Ether), but it does not explicitly state that 'Legacy SWC guidance' exists or applies to the compiler and EVM applicability mentioned in the claim. The claim asserts the existence and scope of 'Legacy SWC guidance,' while the evidence only provides a descriptive fact about contract vulnerabilities without confirming the specific guidance document's status or applicability.",
+          "Atomic claim t5s1c2: INSUFFICIENT_EVIDENCE: The source quotation discusses the nature of SWC-105 (unprotected Ether withdrawal) and potential causes like misnamed constructor functions, but it does not explicitly state that developers should 'check compiler' as a specific action or requirement. The phrase 'check compiler and EVM applicability' appears only in the scope metadata describing the guidance's context, not as a direct instruction within the descriptive text of the vulnerability itself.",
+          "Atomic claim t5s1c3: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific vulnerability mechanism where malicious parties can withdraw Ether due to missing access controls. It does not explicitly state or imply the broader concept of 'EVM applicability' as a general property or guidance point. The claim 'EVM applicability' is too broad and lacks direct textual support from the provided span, which focuses on a specific security flaw rather than the general applicability of EVM rules.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'clarity', 'platform_format', 'usefulness']"
+        ],
+        "corrections": [
+          "Combine claims t1 through t5 into a single tweet to preserve the logical flow of the vulnerability description and its context.",
+          "Remove the specific instruction 'check compiler and EVM applicability' from the tweet text. Instead, phrase it as a general observation: 'This guidance notes that such issues depend on compiler behavior and EVM specifics.'",
+          "Ensure the final tweet remains under 280 characters by merging the split segments."
+        ],
+        "grounding_assessment": "The draft splits a single coherent technical explanation into five separate tweets. Claims t3 and t4 are factually supported by the SWC-105 quote regarding constructor code execution. However, claims t5 ('Legacy SWC guidance...') and t6 (implied in the split) assert specific meta-information about compiler checks and EVM applicability that is not explicitly stated in the provided source text; this information resides only in the `scope` metadata, not the descriptive quote itself.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 3,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 4,
+        "platform_format": 0,
+        "usefulness": 2,
+        "approved": false,
+        "reasons": [
+          "Platform format failure: The draft contains only 3 tweets, but the deterministic error report explicitly states 'Expected 5-10 tweets, got 3'. This violates the mandatory platform_format gate (score 0).",
+          "Usefulness reduced by thread length: While the content is accurate, a single tweet per point fails to provide the concrete inspection habit or failure mode context that educational threads typically require for this audience.",
+          "Correction required: Expand the draft to meet the 5-10 tweet minimum. For example, split the cause-and-effect into separate tweets and add a concluding tweet about review habits (e.g., 'Check function naming against constructor logic').",
+          "Do not invent new facts; simply restructure existing claims into a longer thread.",
+          "Expected 5-10 tweets, got 3",
+          "Scores below rubric threshold: ['factual_support', 'platform_format', 'usefulness']"
+        ],
+        "corrections": [],
+        "grounding_assessment": "The three tweets accurately reflect the source quote for SWC-105 regarding unprotected Ether withdrawal and constructor exposure. The language is precise, sober, and free of banned phrases or hype.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 5,
+        "brand_voice": 3,
+        "clarity": 5,
+        "platform_format": 2,
+        "usefulness": 1,
+        "approved": false,
+        "reasons": [
+          "The draft fails the mandatory gate: 'Marketing post requires a practical security action'. The tweet states a vulnerability but offers no actionable review habit, inspection step, or mitigation strategy for engineers to apply.",
+          "Platform format score reduced because the content lacks a concrete takeaway, rendering it generic and low utility despite factual accuracy.",
+          "Marketing post requires a practical security action",
+          "Scores below rubric threshold: ['platform_format', 'usefulness']"
+        ],
+        "corrections": [
+          "Add a specific, actionable instruction such as: 'Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks.'",
+          "Ensure every vulnerability claim includes a corresponding practical review habit or inspection step to satisfy the mandatory gate."
+        ],
+        "grounding_assessment": "The tweet text is a verbatim excerpt from the SWC-105 source quote and accurately reflects the mechanism of unprotected Ether withdrawal due to missing access controls or exposed initialization functions. The factual claim is fully supported by the provided evidence.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "The claim asserts a general verification step ('Check if your constructor...') that is not fully supported by the source. The source (SWC-105) describes a specific failure mode caused by 'wrongly naming' a function, resulting in runtime bytecode exposure. It does not establish the universal necessity of checking for 'payable/constructor' markings as the primary preventive measure against this specific bug.",
+          "The claim conflates the cause (wrong naming leading to runtime bytecode) with a transaction attribute (payable). The source states that wrong naming causes the code to be callable by anyone; it does not state that being marked 'payable' is the condition for this exposure. This creates a technical ambiguity regarding the specific verification step required.",
+          "The atomic semantic report flags INSUFFICIENT_EVIDENCE because the selected span details a specific error scenario rather than establishing the general rule or efficacy of the broader check described in the claim.",
+          "No verified supporting excerpt for claim: Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks.",
+          "Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) describes a specific scenario where a function is 'wrongly named' as a constructor, causing it to appear in runtime bytecode and be callable. It does not support the claim's broader instruction to 'Check if your constructor is marked payable/constructor or exposed...' as a general verification step for all constructors. The span explains the consequence of a specific error (wrong naming) rather than establishing the necessity of checking for exposure in runtime bytecode as a universal preventive measure against re-initialization attacks. The relationship between the action ('check if exposed') and the outcome ('prevent re-initialization') is not fully entailed because the source only details one failure mode, not the general rule or the efficacy of the check described in the claim.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Replace the broad instruction with a more precise one grounded in the source: 'Verify that functions intended as constructors are not exposed in runtime bytecode to prevent re-initialization attacks.'",
+          "Remove the specific reference to 'payable/constructor' marking unless additional evidence supports it as a direct cause for SWC-105, as the source attributes the issue to incorrect naming rather than transaction flags."
+        ],
+        "grounding_assessment": "The draft correctly identifies the risk of re-initialization attacks and suggests checking constructor exposure. However, the specific instruction to verify if a constructor is 'marked payable/constructor' conflates two distinct concepts: function visibility (runtime bytecode) and transaction requirements (payable flag). The source quote (SWC-105) explicitly attributes the runtime bytecode issue to 'wrongly naming' a function as a constructor, not to it being marked 'payable'. While checking for payable constructors is generally good practice, the claim's phrasing implies that the 'payable/constructor' marking itself causes the exposure described in SWC-105, which is technically imprecise based on the provided evidence.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Claim t3 ('It may cause loss of funds or data within the contract's logic') asserts a specific causal mechanism ('within the contract's logic'). The cited evidence span ('Loss of funds or data') confirms the existence of loss but fails to establish that the loss occurs specifically due to contractual logic exploitation. This creates an unsupported assertion about the scope of the damage.",
+          "The semantic report flags this as INSUFFICIENT_EVIDENCE, which blocks approval under mandatory gate rules.",
+          "No verified supporting excerpt for claim: Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.",
+          "No verified supporting excerpt for claim: This can lead to unauthorized actions by malicious actors.",
+          "No verified supporting excerpt for claim: It may cause loss of funds or data within the contract's logic.",
+          "No verified supporting excerpt for claim: Use decentralized oracles and leverage multiple sources for price data.",
+          "No verified supporting excerpt for claim: Ensure all oracle data is properly validated before use in contracts.",
+          "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data' confirms the existence of such loss but fails to establish the specific causal mechanism ('within the contract's logic') asserted in the claim. The span lacks the necessary context regarding the contractual environment or logical conditions that would make the loss occur specifically within the contract's code, rendering it insufficient to support the full proposition.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Remove the phrase 'within the contract's logic' from Claim t3. The source text supports 'Loss of funds or data' generally, but does not explicitly link it to the internal logic mechanism in the provided span.",
+          "Revised claim: 'It may cause loss of funds or data.'",
+          "Alternatively, if retaining the causal scope is necessary, cite a different span from SCWE-028 that explicitly mentions contract logic exploitation."
+        ],
+        "grounding_assessment": "The draft accurately reflects the definition of Price Oracle Manipulation and its general consequences (unauthorized actions, loss of funds) as cited in SCWE-028. The remediation advice to use decentralized oracles and validate inputs is also supported by the source text.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Claim t3 ('It may cause loss of funds or data') is not fully supported by SCWE-028 because the source quote 'Loss of funds or data' lacks the modal qualifier ('may') and causal context required to establish that these losses are a potential consequence of manipulation, rather than just existing risks.",
+          "The atomic gate INSUFFICIENT_EVIDENCE for claim t3s1c1 blocks approval as per deterministic error rules.",
+          "No verified supporting excerpt for claim: Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.",
+          "No verified supporting excerpt for claim: This can lead to unauthorized actions by malicious actors.",
+          "No verified supporting excerpt for claim: It may cause loss of funds or data.",
+          "No verified supporting excerpt for claim: Use decentralized oracles and leverage multiple sources for price data.",
+          "No verified supporting excerpt for claim: Ensure all oracle data is properly validated before use.",
+          "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary modal qualifier ('may') and the causal context to support the claim 'It may cause loss of funds or data.' The span states the potential outcome but does not explicitly assert that it is a possible consequence of an action, nor does it establish the causal link required by the claim. Without the qualifier indicating possibility, the evidence only confirms the existence of such losses without proving they are a potential risk.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Replace 'It may cause loss of funds or data.' with 'This can lead to loss of funds or data.' to align with the source's phrasing 'This can lead to: - Loss of funds or data.', which establishes the causal link.",
+          "Alternatively, rephrase to 'Exploitation can result in loss of funds or data' to explicitly connect the action to the outcome."
+        ],
+        "grounding_assessment": "The draft accurately reflects the definition of Price Oracle Manipulation and correctly identifies unauthorized actions as a consequence. However, the claim regarding 'loss of funds or data' lacks explicit causal linkage to the manipulation event in the provided evidence, which lists these as potential outcomes rather than direct consequences of exploitation.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet text is a verbatim match to the supported span in SWC-113. The claim accurately reflects the source's recommendation regarding transaction isolation for external calls.",
+        "claim_support": []
+      }
+    ]
+  }
+]

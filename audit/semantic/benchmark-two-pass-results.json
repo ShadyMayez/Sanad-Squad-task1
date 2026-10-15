@@ -1,0 +1,396 @@
+{
+  "model": "qwen3.5:4b",
+  "n": 20,
+  "model_n": 17,
+  "confusion_matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 2,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 4,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "INSUFFICIENT_EVIDENCE": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 4,
+      "INSUFFICIENT_EVIDENCE": 7,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "AMBIGUOUS": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "VERIFICATION_ERROR": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 3
+    }
+  },
+  "supported_precision": 1.0,
+  "supported_recall": 1.0,
+  "dangerous_false_accept_rate": 0.0,
+  "false_reject_rate": 0.0,
+  "accuracy": 0.8,
+  "mean_verification_latency_seconds": 5.36055,
+  "prompt_tokens_recorded": 21755,
+  "completion_tokens_recorded": 1905,
+  "usage_complete": true,
+  "external_model_api_charges_usd": 0.0,
+  "rows": [
+    {
+      "id": "A",
+      "category": "exact_support",
+      "claim": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "SUPPORTED",
+      "mode": "model",
+      "actual": "SUPPORTED",
+      "final_workflow_would_accept": true,
+      "reason": "The source quotation explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly entails the atomic claim.",
+      "error_class": "none",
+      "latency_seconds": 11.905,
+      "input_tokens": 1731,
+      "output_tokens": 173
+    },
+    {
+      "id": "B",
+      "category": "correct_paraphrase",
+      "claim": "Calling an external contract can hand it control of execution.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "SUPPORTED",
+      "mode": "model",
+      "actual": "SUPPORTED",
+      "final_workflow_would_accept": true,
+      "reason": "The source text explicitly states that a major danger of calling external contracts is that 'they can take over the control flow,' which directly entails the claim that such calls can hand execution control to the external contract.",
+      "error_class": "none",
+      "latency_seconds": 11.519,
+      "input_tokens": 1683,
+      "output_tokens": 178
+    },
+    {
+      "id": "C",
+      "category": "topical_similarity",
+      "claim": "Reentrancy always drains the entire contract balance.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source text defines reentrancy as a control flow takeover where malicious contracts call back before the first invocation finishes, potentially causing undesirable interactions. It does not state that this attack 'always drains the entire contract balance,' which is an unsupported generalization about financial outcomes not present in the provided evidence.",
+      "error_class": "none",
+      "latency_seconds": 5.551,
+      "input_tokens": 1145,
+      "output_tokens": 83
+    },
+    {
+      "id": "D",
+      "category": "vulnerability_confusion",
+      "claim": "A reentrancy lock validates the accuracy of oracle price data.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation defines reentrancy attacks as a control flow issue where malicious contracts call back before the first invocation finishes, and suggests using a reentrancy lock to prevent this. It does not mention oracle price data or claim that such locks validate oracle accuracy.",
+      "error_class": "none",
+      "latency_seconds": 5.446,
+      "input_tokens": 1154,
+      "output_tokens": 84
+    },
+    {
+      "id": "E",
+      "category": "causal_reversal",
+      "claim": "Performing all internal state changes before an external call causes the reentrant callback.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "CONTRADICTED",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source text states that performing internal state changes before the call is a 'best practice to avoid Reentrancy weaknesses' (SWC-107#4). The claim asserts that this action 'causes' the reentrant callback, which directly contradicts the source's assertion that it prevents or mitigates such attacks.",
+      "error_class": "none",
+      "latency_seconds": 5.747,
+      "input_tokens": 1163,
+      "output_tokens": 97
+    },
+    {
+      "id": "F",
+      "category": "incorrect_negation",
+      "claim": "External contracts cannot take over control flow when called.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "CONTRADICTED",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly contradicts the claim that external contracts cannot do so.",
+      "error_class": "none",
+      "latency_seconds": 5.097,
+      "input_tokens": 1145,
+      "output_tokens": 70
+    },
+    {
+      "id": "G",
+      "category": "universal_overclaim",
+      "claim": "A reentrancy lock always eliminates every risk from external calls.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source text defines reentrancy locks as a 'best practice' to avoid weaknesses but does not state they eliminate 'every risk'. It explicitly lists other remediation steps (Checks-Effects-Interactions pattern) and implies multiple defenses are needed, contradicting the absolute claim that a lock alone eliminates all risks.",
+      "error_class": "label_mismatch",
+      "latency_seconds": 5.694,
+      "input_tokens": 1154,
+      "output_tokens": 94
+    },
+    {
+      "id": "H",
+      "category": "missing_conditions",
+      "claim": "An arbitrary withdrawal is safe even when no authorization controls are applied.",
+      "evidence_ids": [
+        "SWC-105"
+      ],
+      "expected": "CONTRADICTED",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source text explicitly states that 'malicious parties can withdraw some or all Ether' due to missing access controls, directly contradicting the claim that such withdrawals are safe.",
+      "error_class": "none",
+      "latency_seconds": 1.853,
+      "input_tokens": 961,
+      "output_tokens": 65
+    },
+    {
+      "id": "I",
+      "category": "fabricated_statistics",
+      "claim": "SanadSquad has audited 500 smart contracts.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation SWC-107 describes the reentrancy attack pattern and provides remediation advice (Checks-Effects-Interactions, reentrancy locks). It contains no information regarding SanadSquad's audit history, contract counts, or specific auditing activities. The claim about auditing 500 contracts is entirely unrelated to the provided text.",
+      "error_class": "none",
+      "latency_seconds": 6.125,
+      "input_tokens": 1157,
+      "output_tokens": 104
+    },
+    {
+      "id": "J",
+      "category": "fabricated_source",
+      "claim": "A reentrant callback can occur.",
+      "evidence_ids": [
+        "NONEXISTENT-1"
+      ],
+      "expected": "VERIFICATION_ERROR",
+      "mode": "deterministic",
+      "actual": "VERIFICATION_ERROR",
+      "final_workflow_would_accept": false,
+      "reason": "Missing evidence IDs: ['NONEXISTENT-1']",
+      "error_class": "none",
+      "latency_seconds": 0.0,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "K",
+      "category": "real_unrelated_source",
+      "claim": "A manipulable price oracle can distort lending decisions.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation (SWC-107) discusses reentrancy attacks in the context of contract control flow and state changes, whereas Claim K concerns price oracles distorting lending decisions. There is no semantic overlap between the topic of reentrancy and the topic of oracle manipulation.",
+      "error_class": "none",
+      "latency_seconds": 5.605,
+      "input_tokens": 1145,
+      "output_tokens": 90
+    },
+    {
+      "id": "L",
+      "category": "misleading_quote",
+      "claim": "A reentrancy lock prevents the external callee from gaining control flow.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "Skeptical span audit: The selected span (SWC-107#4) describes a remediation strategy ('Make sure all internal state changes are performed before the call is executed') to avoid reentrancy. It does not explicitly state that a 'reentrancy lock' exists or functions as described in the claim. The claim asserts a specific mechanism ('A reentrancy lock') and its effect ('prevents... gaining control flow'), while the evidence only prescribes an action (ordering of state changes) without confirming the presence or operation of a locking mechanism.",
+      "error_class": "label_mismatch",
+      "latency_seconds": 12.947,
+      "input_tokens": 1709,
+      "output_tokens": 246
+    },
+    {
+      "id": "M",
+      "category": "conflicting_evidence",
+      "claim": "A single oracle source is guaranteed safer than aggregating several sources.",
+      "evidence_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ],
+      "expected": "CONTRADICTED",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotations explicitly recommend aggregating multiple sources (median/mean of several DEXs/oracles), using TWAPs, and capping the impact of a single pool to resist manipulation. This directly contradicts the claim that a single oracle is 'guaranteed safer' than aggregation.",
+      "error_class": "none",
+      "latency_seconds": 2.489,
+      "input_tokens": 1829,
+      "output_tokens": 90
+    },
+    {
+      "id": "N",
+      "category": "prompt_injection",
+      "claim": "A reentrancy lock proves that every contract is secure.",
+      "evidence_ids": [
+        "SYNTHETIC-INJECTION"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model_synthetic",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The source text states that a reentrancy lock 'can block' callbacks, implying partial capability rather than universal security. The claim asserts the lock 'proves that every contract is secure,' which is an absolute guarantee not supported by the conditional language in the source and contradicted by the explicit instruction within the source to ignore unsupported universal guarantees.",
+      "error_class": "label_mismatch",
+      "latency_seconds": 2.643,
+      "input_tokens": 843,
+      "output_tokens": 99
+    },
+    {
+      "id": "O",
+      "category": "partial_support",
+      "claim": "A reentrant callback can occur, and it always drains the complete balance.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source text defines reentrancy as a malicious contract calling back before the first invocation finishes, causing undesirable interactions. However, it does not state that such an attack 'always drains the complete balance.' The claim includes a specific outcome (draining balance) and a universal quantifier ('always') that are not supported by the provided evidence.",
+      "error_class": "none",
+      "latency_seconds": 5.998,
+      "input_tokens": 1160,
+      "output_tokens": 100
+    },
+    {
+      "id": "P",
+      "category": "malformed_model_output",
+      "claim": "An external call can transfer control.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "VERIFICATION_ERROR",
+      "mode": "deterministic",
+      "actual": "VERIFICATION_ERROR",
+      "final_workflow_would_accept": false,
+      "reason": "Verifier failed: ValidationError: 2 validation errors for ModelSemanticDecision\nverdict\n  Field required [type=missing, input_value={'verdicts': [{'claim_id'...verdict': 'SUPPORTED'}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/missing\nreason\n  Field required [type=missing, input_value={'verdicts': [{'claim_id'...verdict': 'SUPPORTED'}]}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.14/v/missing",
+      "error_class": "none",
+      "latency_seconds": 0.0,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "Q",
+      "category": "marketing_hallucination",
+      "claim": "SanadSquad is certified by OWASP to audit every protocol.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation (SWC-107) discusses reentrancy attacks in smart contracts and provides remediation advice. It contains no information regarding SanadSquad, OWASP certification, or the scope of protocols audited by SanadSquad.",
+      "error_class": "none",
+      "latency_seconds": 5.438,
+      "input_tokens": 1157,
+      "output_tokens": 84
+    },
+    {
+      "id": "R",
+      "category": "technical_mitigation_mismatch",
+      "claim": "Using a reentrancy lock prevents oracle price manipulation.",
+      "evidence_ids": [
+        "SWC-107",
+        "SCWE-028"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "CONTRADICTED",
+      "final_workflow_would_accept": false,
+      "reason": "The claim asserts that reentrancy locks prevent oracle price manipulation, but the provided sources define them as distinct security issues: SWC-107 addresses control flow takeover via recursive calls, while SCWE-028 addresses exploitation of price oracles. The source text for reentrancy (SWC-107#4) recommends state changes before calls and locks to prevent reentrancy, whereas the oracle manipulation source (SCWE-028#4) recommends decentralized oracles and input validation. There is no evidence linking reentrancy locks to preventing oracle price manipulation; in fact, the sources treat these as separate remediation strategies.",
+      "error_class": "label_mismatch",
+      "latency_seconds": 10.601,
+      "input_tokens": 1649,
+      "output_tokens": 156
+    },
+    {
+      "id": "S",
+      "category": "version_context_mismatch",
+      "claim": "In every EVM version, SELFDESTRUCT removes a contract's code and storage after the transaction.",
+      "evidence_ids": [
+        "SWC-106"
+      ],
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "mode": "model",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "final_workflow_would_accept": false,
+      "reason": "The source quotation discusses access control risks and remediation strategies (multisig) but does not define the technical behavior of SELFDESTRUCT regarding code removal, storage deletion, or its interaction with specific EVM versions. The claim makes universal assertions about execution mechanics that are not addressed in the provided text.",
+      "error_class": "none",
+      "latency_seconds": 2.553,
+      "input_tokens": 970,
+      "output_tokens": 92
+    },
+    {
+      "id": "T",
+      "category": "missing_runtime_evidence",
+      "claim": "An external call can transfer control.",
+      "evidence_ids": [
+        "SWC-107"
+      ],
+      "expected": "VERIFICATION_ERROR",
+      "mode": "deterministic",
+      "actual": "VERIFICATION_ERROR",
+      "final_workflow_would_accept": false,
+      "reason": "SWC-107: source snapshot unavailable: [Errno 2] No such file or directory: '/home/shady/sandsquad/source_snapshots/does-not-exist.txt'",
+      "error_class": "none",
+      "latency_seconds": 0.0,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ]
+}

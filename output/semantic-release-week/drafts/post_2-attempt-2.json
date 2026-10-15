@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks."
+  ],
+  "claims": [
+    {
+      "text": "Check if your constructor is marked payable/constructor or exposed in runtime bytecode to prevent re-initialization attacks.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

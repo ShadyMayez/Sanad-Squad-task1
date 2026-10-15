@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "Claim t5 ('This is known as the Checks-Effects-Interactions pattern Use a reentrancy lock...') fails because the source text introduces the term 'reentrancy lock' within a definition of C-E-I but does not explicitly assert that one should use it. The span lacks the predicate required to support the recommendation.; Claim t5s2 ('OpenZeppelin's ReentrancyGuard.') is rejected as a sentence fragment with no predicate or assertion of fact regarding its functionality, preventing any evidence-based support.; The presence of two INSUFFICIENT_EVIDENCE atomic verdicts and deterministic errors blocks approval per the mandatory gate rules.; No verified supporting excerpt for claim: One of the major dangers of calling external contracts is that they can take over the control flow.; No verified supporting excerpt for claim: In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.; No verified supporting excerpt for claim: This may cause the different invocations of the function to interact in undesirable ways.; No verified supporting excerpt for claim: Make sure all internal state changes are performed before the call is executed.; No verified supporting excerpt for claim: Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard ).; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'This is known as the Checks-Effects-Interactions pattern Use a reentrancy lock (ie.' mentions the term 'reentrancy lock' but does not assert that one should use it, nor does it establish the claim's implied advice or recommendation. The span merely introduces the concept within a definition of the Checks-Effects-Interactions pattern without providing the supporting assertion that a reentrancy lock is required or recommended.; Atomic claim t5s2c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'OpenZeppelin's ReentrancyGuard ).' is a sentence fragment that lacks a predicate, subject context, or any assertion of fact. It does not contain information regarding the functionality, safety properties, or behavior of OpenZeppelin's ReentrancyGuard. Without a complete statement establishing what the contract does or how it behaves, no evidence exists within this span to support the atomic claim.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    }
+  ],
+  "elapsed_seconds": 227.237,
+  "prompt_tokens_recorded": 30698,
+  "completion_tokens_recorded": 3670,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

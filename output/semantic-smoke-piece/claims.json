@@ -1,0 +1,193 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 110,
+          "span": "A malicious contract can take over control flow by calling back before the first function invocation finishes.",
+          "proposition": "A malicious contract can take over control flow by calling back before the first function invocation finishes.",
+          "sentence": "A malicious contract can take over control flow by calling back before the first function invocation finishes.",
+          "qualifiers": [
+            "can",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 113,
+          "span": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "proposition": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "sentence": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "qualifiers": [
+            "may",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 94,
+          "span": "The root cause is that state updates often occur after an external call rather than before it.",
+          "proposition": "The root cause is that state updates often occur after an external call rather than before it.",
+          "sentence": "The root cause is that state updates often occur after an external call rather than before it.",
+          "qualifiers": [
+            "often",
+            "after",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 95,
+          "span": "Remediation requires performing all internal state changes before executing any external calls.",
+          "proposition": "Remediation requires performing all internal state changes before executing any external calls.",
+          "sentence": "Remediation requires performing all internal state changes before executing any external calls.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 101,
+          "span": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "proposition": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "sentence": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 123,
+          "span": "Using a reentrancy lock blocks unwanted callbacks into the protected path without preventing control passing to the callee.",
+          "proposition": "Using a reentrancy lock blocks unwanted callbacks into the protected path without preventing control passing to the callee.",
+          "sentence": "Using a reentrancy lock blocks unwanted callbacks into the protected path without preventing control passing to the callee.",
+          "qualifiers": [
+            "without"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 110,
+          "span": "An external contract can take over control flow by calling back before the first function invocation finishes.",
+          "proposition": "An external contract can take over control flow by calling back before the first function invocation finishes.",
+          "sentence": "An external contract can take over control flow by calling back before the first function invocation finishes.",
+          "qualifiers": [
+            "can",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 113,
+          "span": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "proposition": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "sentence": "This allows repeated use of stale state because external contracts may reenter before the initial call completes.",
+          "qualifiers": [
+            "may",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 94,
+          "span": "The root cause is that state updates often occur after an external call rather than before it.",
+          "proposition": "The root cause is that state updates often occur after an external call rather than before it.",
+          "sentence": "The root cause is that state updates often occur after an external call rather than before it.",
+          "qualifiers": [
+            "often",
+            "after",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 95,
+          "span": "Remediation requires performing all internal state changes before executing any external calls.",
+          "proposition": "Remediation requires performing all internal state changes before executing any external calls.",
+          "sentence": "Remediation requires performing all internal state changes before executing any external calls.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 101,
+          "span": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "proposition": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "sentence": "This approach is known as the Checks-Effects-Interactions pattern for avoiding reentrancy weaknesses.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ]
+    ]
+  }
+]

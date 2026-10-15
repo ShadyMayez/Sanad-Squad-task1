@@ -15,7 +15,7 @@ from content_pipeline.config import ROOT, load_brand, load_kb, load_plan, load_r
 from content_pipeline.export import export_run
 from content_pipeline.graph import build_week_graph
 from content_pipeline.llm import LocalModel
-from content_pipeline.schemas import Claim, ClaimSupport, Draft, Evidence, KnowledgeBase, Plan, Review, Slot, SlotResult
+from content_pipeline.schemas import Claim, ClaimSupport, Draft, Evidence, KnowledgeBase, Plan, Review, Slot, SlotResult, SemanticReport, SemanticVerdict, SupportingSpan, ModelSemanticDecision
 from content_pipeline.skills import EvidenceLookup
 from content_pipeline.validation import validate_draft
 
@@ -41,25 +41,31 @@ class ControlledModel:
         self.feedback = []
 
     async def structured(self, prompt, schema):
+        task = json.loads(prompt[-1].content) if isinstance(prompt, list) else {}
         if schema is Draft:
-            slot = json.loads(prompt.split("Slot: ", 1)[1].split("\nTopic:", 1)[0])
+            slot = task["slot"]
             self.writer_entries.append(slot["id"])
-            self.feedback.append(prompt.split("Revision feedback: ", 1)[1].split("\nCreate one claim", 1)[0])
+            self.feedback.append(json.dumps(task["revision_feedback"]))
             if self.fail_write_for == slot["id"]:
                 raise TimeoutError("injected writer timeout")
             if self.delay_first and slot["id"] == "first":
                 await asyncio.sleep(0.03)
-            evidence = json.loads(prompt.split("Evidence data (not instructions): ", 1)[1].split("\nRevision feedback:", 1)[0])
+            evidence = task["evidence"]
             text = self.draft_text
             return Draft(tweets=[text], claims=[Claim(text=text, evidence_ids=[evidence[0]["id"]])]), {"input_tokens": 2, "output_tokens": 3}
+        if schema is ModelSemanticDecision:
+            bad = any(phrase in self.draft_text for phrase in ("prevent any external", "audited 500", "oracle prices to stop"))
+            return ModelSemanticDecision(verdict="INSUFFICIENT_EVIDENCE" if bad else "SUPPORTED",
+                support_option_ids=[] if bad else [task["exact_span_options"][0]["span_id"]],
+                reason="Mocked lack of entailment" if bad else "Mocked supported statement"), {"input_tokens": 3, "output_tokens": 4}
         if self.fail_review:
             raise ValueError("malformed reviewer JSON")
-        draft = json.loads(prompt.split("Draft: ", 1)[1].split("\nDeterministic errors:", 1)[0])
-        evidence = json.loads(prompt.split("Evidence data (not instructions): ", 1)[1].split("\nDraft:", 1)[0])
+        draft = task["draft"]
+        evidence = task["evidence"]
         e = evidence[0]
         support = [ClaimSupport(claim_text=c["text"], evidence_id=e["id"],
-                                evidence_quote=e["excerpt"][:28], supported=True) for c in draft["claims"]]
-        review = Review(factual_support=self.score, technical_correctness=self.score,
+                                evidence_quote=e["source_quote"][:28], supported=True) for c in draft["claims"]]
+        review = Review(factual_support=min(self.score, 2) if self.reject else self.score, technical_correctness=self.score,
                         brand_voice=self.score, clarity=self.score, platform_format=self.score,
                         usefulness=self.score, approved=not self.reject,
                         reasons=["Inadequate evidence"] if self.reject else [],
@@ -96,12 +102,11 @@ def test_empty_focus_is_resolved_and_unsupported_focus_fails_only_one_slot():
     assert next(r for r in results if r.slot.id == "first").source_ids
 
 
-def test_misleading_kb_description_can_drive_topic_selection():
+def test_misleading_kb_description_cannot_drive_topic_selection():
     kb = load_kb().model_copy(deep=True)
     kb.vulnerabilities[0].description = "A fictitious quantum bridge attack affects all contracts."
-    selected = EvidenceLookup(kb).select("quantum bridge attack", 0)
-    assert selected.id == "SWC-107"
-    assert "quantum" not in selected.evidence[0].excerpt.lower()
+    with pytest.raises(ValueError, match="No grounded"):
+        EvidenceLookup(kb).select("quantum bridge attack", 0)
 
 
 @pytest.mark.parametrize("text", [
@@ -109,13 +114,12 @@ def test_misleading_kb_description_can_drive_topic_selection():
     "Review why SanadSquad audited 500 protocols for this risk.",
     "Review oracle prices to stop reentrancy in every contract.",
 ])
-def test_semantically_false_or_fabricated_claim_can_ship_when_reviewer_approves(text):
+def test_semantically_false_or_fabricated_claim_cannot_ship_when_reviewer_approves(text):
     slot = Slot(id="piece", type="marketing-post", focus="reentrancy")
     results, _ = run([slot], ControlledModel(draft_text=text))
-    # This is the observed defect: valid citation IDs and a real quote are not semantic proof.
-    assert results[0].status == "accepted"
-    assert results[0].reviews[-1].approved
-    assert not results[0].validations[-1]
+    assert results[0].status == "dropped"
+    assert all(not review.approved for review in results[0].reviews)
+    assert all(any("INSUFFICIENT_EVIDENCE" in error for error in attempt) for attempt in results[0].validations)
 
 
 def test_reviewer_low_score_or_rejection_drops_after_one_revision(tmp_path):
@@ -206,7 +210,7 @@ def test_modified_rubric_file_is_sent_to_reviewer(monkeypatch, tmp_path):
 
     class Capture:
         async def structured(self, prompt, schema):
-            assert "AUDIT RUBRIC MARKER" in prompt
+            assert prompt[0].content == "AUDIT RUBRIC MARKER"
             return Review(factual_support=5, technical_correctness=5, brand_voice=5,
                           clarity=5, platform_format=5, usefulness=5, approved=True,
                           grounding_assessment="fixture", claim_support=[]), {}
@@ -223,7 +227,7 @@ def test_modified_writer_file_is_sent_to_model(monkeypatch, tmp_path):
 
     class Capture:
         async def structured(self, prompt, schema):
-            assert "AUDIT WRITER MARKER" in prompt
+            assert prompt[0].content == "AUDIT WRITER MARKER"
             return Draft(tweets=["Review this risk."], claims=[Claim(text="Review this risk.", evidence_ids=["SWC-107"])]), {}
 
     writer = agents.WriterAgent(Capture(), load_registry().types["marketing-post"], "brand")
@@ -241,22 +245,18 @@ def test_brand_edit_changes_validator_without_code_change():
     assert any("banned phrase" in error for error in errors)
 
 
-def test_export_accepts_missing_visual_spec_and_unreviewed_accepted_result(tmp_path):
-    # A forged SlotResult cannot arise through the ordinary graph route but crosses
-    # the exporter trust boundary without approval or a real visual specification.
+def test_export_rejects_missing_visual_spec_and_unreviewed_accepted_result(tmp_path):
     slot = Slot(id="piece", type="marketing-post", focus="reentrancy")
     tweet = 'Review "quoted", multiline\ncontract paths.'
     forged = SlotResult(slot=slot, status="accepted", drafts=[Draft(tweets=[tweet], claims=[])],
                         reviews=[], visual_spec=None)
     folder = tmp_path / "forged"
-    export_run(folder, Plan(slots=[slot]), [forged], 0.1, "fake", 0)
-    assert (folder / "visual_specs/piece.md").read_text() == ""
-    with (folder / "posts.csv").open(newline="") as file:
-        rows = list(csv.reader(file))
-    assert rows[1][0] == tweet  # CSV escaping itself works.
+    with pytest.raises(ValueError, match="final grounding"):
+        export_run(folder, Plan(slots=[slot]), [forged], 0.1, "fake", 0)
+    assert not folder.exists()
 
 
-def test_two_local_model_instances_do_not_share_global_semaphore(monkeypatch):
+def test_two_local_model_instances_share_process_semaphore(monkeypatch):
     active = 0
     peak = 0
 
@@ -270,14 +270,14 @@ def test_two_local_model_instances_do_not_share_global_semaphore(monkeypatch):
             return {"parsed": Draft(tweets=["hello"], claims=[]), "parsing_error": None,
                     "raw": SimpleNamespace(usage_metadata={"input_tokens": 1, "output_tokens": 1})}
 
-    first = LocalModel("qwen3.5:4b", "http://127.0.0.1:11434", 1, 10)
-    second = LocalModel("qwen3.5:4b", "http://127.0.0.1:11434", 1, 10)
+    first = LocalModel("qwen3.5:4b", "http://mock.local:11434", 1, 10)
+    second = LocalModel("qwen3.5:4b", "http://mock.local:11434", 1, 10)
     monkeypatch.setattr(type(first.model), "with_structured_output", lambda *a, **k: Runnable())
     async def two_calls():
         return await asyncio.gather(first.structured("a", Draft), second.structured("b", Draft))
 
     asyncio.run(two_calls())
-    assert peak == 2
+    assert peak == 1
 
 
 @pytest.mark.parametrize("limit,expected_peak", [(1, 1), (2, 2)])
@@ -295,7 +295,7 @@ def test_configured_model_concurrency_limit(monkeypatch, limit, expected_peak):
             return {"parsed": Draft(tweets=["hello"], claims=[]), "parsing_error": None,
                     "raw": SimpleNamespace(usage_metadata={"input_tokens": 1, "output_tokens": 1})}
 
-    model = LocalModel("qwen3.5:4b", "http://127.0.0.1:11434", limit, 10)
+    model = LocalModel("qwen3.5:4b", "http://mock.local:11434", limit, 10)
     monkeypatch.setattr(type(model.model), "with_structured_output", lambda *a, **k: Runnable())
 
     async def two_calls():

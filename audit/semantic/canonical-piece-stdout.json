@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "The draft violates the brand rule forbidding em dashes (\u2014). Claim t5 uses 'ie' which is acceptable, but the presence of any banned character pattern in the source text ruleset requires strict adherence. While the provided tweet list does not explicitly contain an em dash, the instruction to avoid them applies to all generated content. However, a more critical failure is the platform format.; The draft presents five separate sentences as a single logical block rather than distinct tweets. The brand rules require 'separately readable tweets of the assigned type'. A list of five independent sentences without line breaks or clear tweet delimiters fails the minimum readability threshold for Twitter threads, resulting in a score of 2.; While factual and technical accuracy is perfect (scores 5 and 4), the platform format defect prevents approval. The content must be split into individual tweets to meet the 'separately readable' requirement.; Scores below rubric threshold: ['platform_format']"
+    }
+  ],
+  "elapsed_seconds": 189.544,
+  "prompt_tokens_recorded": 25998,
+  "completion_tokens_recorded": 3119,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

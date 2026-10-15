@@ -1,0 +1,34 @@
+{
+  "tweets": [
+    "Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.",
+    "This bug is sometimes caused by unintentionally exposing initialization functions.",
+    "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code.",
+    "and can be called by anyone to re-initialize the contract."
+  ],
+  "claims": [
+    {
+      "text": "Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "This bug is sometimes caused by unintentionally exposing initialization functions.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "and can be called by anyone to re-initialize the contract.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

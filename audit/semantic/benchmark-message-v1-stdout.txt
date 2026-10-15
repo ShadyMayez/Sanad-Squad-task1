@@ -1,0 +1,35 @@
+A exact_support: expected=SUPPORTED actual=VERIFICATION_ERROR (8.7s)
+B correct_paraphrase: expected=SUPPORTED actual=VERIFICATION_ERROR (6.0s)
+C topical_similarity: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.5s)
+D vulnerability_confusion: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.8s)
+E causal_reversal: expected=CONTRADICTED actual=CONTRADICTED (5.8s)
+F incorrect_negation: expected=CONTRADICTED actual=CONTRADICTED (5.1s)
+G universal_overclaim: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (7.4s)
+H missing_conditions: expected=CONTRADICTED actual=CONTRADICTED (5.2s)
+I fabricated_statistics: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.5s)
+J fabricated_source: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+K real_unrelated_source: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.8s)
+L misleading_quote: expected=INSUFFICIENT_EVIDENCE actual=VERIFICATION_ERROR (9.8s)
+M conflicting_evidence: expected=CONTRADICTED actual=CONTRADICTED (8.1s)
+N prompt_injection: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (6.3s)
+O partial_support: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.2s)
+P malformed_model_output: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+Q marketing_hallucination: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.7s)
+R technical_mitigation_mismatch: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (8.2s)
+S version_context_mismatch: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (8.4s)
+T missing_runtime_evidence: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+{
+  "model": "qwen3.5:4b",
+  "n": 20,
+  "model_n": 17,
+  "supported_precision": null,
+  "supported_recall": 0.0,
+  "dangerous_false_accept_rate": 0.0,
+  "false_reject_rate": 1.0,
+  "accuracy": 0.7,
+  "mean_verification_latency_seconds": 5.72595,
+  "prompt_tokens_recorded": 13810,
+  "completion_tokens_recorded": 1957,
+  "usage_complete": true,
+  "external_model_api_charges_usd": 0.0
+}

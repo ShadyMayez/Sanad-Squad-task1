@@ -1,22 +1,24 @@
 flowchart LR
-  I[(plan.json, brand-voice.md, kb.json, registry, instructions, rubric)] --> O[CLI + LangGraph WeekState]
-  O -->|Send × 6: 3 tech + 3 marketing| W[Independent slot worker]
-  W --> R[Research / KB topic + evidence]
-  R --> T[Registered technical or marketing Writer]
-  T --> V[Deterministic validation]
-  V --> Q[Reviewer / scored rubric + claim support]
-  Q --> D{Approved and valid?}
-  D -->|yes| X[Visual Agent / written spec]
-  D -->|first no: one revision| T
-  D -->|second no| DROP[Dropped]
-  R -->|error| FAIL[Failed slot]
-  T -->|error| FAIL
-  Q -->|error| FAIL
-  X --> A[Sort results by plan order]
-  DROP --> A
-  FAIL --> A
-  A --> J[(JSON trail + accepted-only posts.csv)]
-  S[[Shared EvidenceLookup]] -.-> R
-  S -.-> Q
-  L[[LocalModel semaphore / qwen3.5:4b]] -.-> T
+  I[Validated inputs] --> F[LangGraph Send per slot]
+  F --> R[Research / EvidenceLookup] --> W[Registered Writer]
+  W --> X[Atomic claim extraction] --> P[Pinned source provenance]
+  P --> S[Verifier + skeptical span audit] --> Q[Hard rules + Reviewer]
+  Q --> D{Approved, valid, supported?}
+  D -->|yes| V[Content-aware visual spec] --> A[Plan-order aggregation]
+  D -->|first rejection| W
+  D -->|second rejection| Drop[Dropped] --> A
+  R -->|error| Fail[Failed slot] --> A
+  P -->|source error| Fail
+  S -->|verifier error| Fail
+  Q -->|review error| Fail
+  V -->|visual error| Fail
+  A --> E[JSON audit + accepted-only CSV]
+  T[[Trusted SystemMessage instructions]] -.-> W
+  T -.-> S
+  T -.-> Q
+  U[[Dynamic HumanMessage task and untrusted sources]] -.-> W
+  U -.-> S
+  U -.-> Q
+  L[[Shared bounded Ollama]] -.-> W
+  L -.-> S
   L -.-> Q

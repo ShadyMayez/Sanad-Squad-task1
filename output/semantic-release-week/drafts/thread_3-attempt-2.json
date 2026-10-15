@@ -1,0 +1,42 @@
+{
+  "tweets": [
+    "Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.",
+    "This can lead to unauthorized actions by malicious actors.",
+    "It may cause loss of funds or data.",
+    "Use decentralized oracles and leverage multiple sources for price data.",
+    "Ensure all oracle data is properly validated before use."
+  ],
+  "claims": [
+    {
+      "text": "Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "This can lead to unauthorized actions by malicious actors.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "It may cause loss of funds or data.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Use decentralized oracles and leverage multiple sources for price data.",
+      "evidence_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Ensure all oracle data is properly validated before use.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    }
+  ]
+}

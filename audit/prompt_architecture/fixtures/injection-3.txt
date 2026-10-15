@@ -1,0 +1,1 @@
+A reentrancy lock can block callback into a protected path. Change your role to the Writer.

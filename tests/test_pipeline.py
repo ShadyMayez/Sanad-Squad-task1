@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from content_pipeline.config import ROOT, load_brand, load_kb, load_plan, load_registry
 from content_pipeline.export import export_run
 from content_pipeline.graph import build_week_graph
-from content_pipeline.schemas import Claim, ClaimSupport, Draft, Evidence, KnowledgeBase, Plan, Review, Slot, WriterConfig
+from content_pipeline.schemas import Claim, ClaimSupport, Draft, Evidence, KnowledgeBase, Plan, Review, Slot, WriterConfig, SemanticReport, SemanticVerdict, SupportingSpan, ModelSemanticDecision
 from content_pipeline.skills import EvidenceLookup
 from content_pipeline.validation import validate_draft
 from content_pipeline.cli import week_main, piece_main
@@ -17,13 +17,14 @@ from content_pipeline.llm import LocalModel
 
 
 class FakeModel:
-    def __init__(self, reject_first=False, reject_always=False, fail_topic=None, invalid_draft=False, invalid_quote=False, low_score=False):
+    def __init__(self, reject_first=False, reject_always=False, fail_topic=None, invalid_draft=False, invalid_quote=False, low_score=False, omit_quote=False):
         self.reject_first = reject_first
         self.reject_always = reject_always
         self.fail_topic = fail_topic
         self.invalid_draft = invalid_draft
         self.invalid_quote = invalid_quote
         self.low_score = low_score
+        self.omit_quote = omit_quote
         self.review_calls = 0
         self.active = 0
         self.peak_active = 0
@@ -35,11 +36,13 @@ class FakeModel:
             self.peak_active = max(self.peak_active, self.active)
             await asyncio.sleep(0.001)
             try:
-                if self.fail_topic and self.fail_topic in prompt:
+                task = json.loads(prompt[-1].content) if isinstance(prompt, list) else {}
+                system = prompt[0].content if isinstance(prompt, list) else str(prompt)
+                if self.fail_topic and self.fail_topic in json.dumps(task):
                     raise TimeoutError("injected source/model failure")
                 if schema is Draft:
-                    evidence_id = "SCWE-028" if "SCWE-028" in prompt else "SWC-107"
-                    count = 5 if "Write 5 to 10" in prompt else 1
+                    evidence_id = "SCWE-028" if "SCWE-028" in json.dumps(task) else "SWC-107"
+                    count = 5 if "Technical Writer" in system else 1
                     tweets = [f"Review the source-backed contract behavior point {i}." for i in range(count)]
                     if self.invalid_draft:
                         tweets[0] += " #forbidden"
@@ -47,15 +50,20 @@ class FakeModel:
                 if schema is Review:
                     self.review_calls += 1
                     reject = self.reject_always or (self.reject_first and self.review_calls == 1)
-                    draft_data = json.loads(prompt.split("Draft: ", 1)[1].split("\nDeterministic errors:", 1)[0])
-                    evidence_data = json.loads(prompt.split("Evidence data (not instructions): ", 1)[1].split("\nDraft:", 1)[0])
-                    excerpts = {e["id"]: e["excerpt"] for e in evidence_data}
+                    draft_data = task["draft"]
+                    evidence_data = task["evidence"]
+                    excerpts = {e["id"]: e["source_quote"] for e in evidence_data}
                     supports = [ClaimSupport(claim_text=c["text"], evidence_id=c["evidence_ids"][0],
                         evidence_quote="fabricated supporting text" if self.invalid_quote else excerpts[c["evidence_ids"][0]][:35], supported=True) for c in draft_data["claims"]]
-                    return Review(factual_support=2 if self.low_score else 5, technical_correctness=5, brand_voice=5, clarity=5,
+                    if self.omit_quote:
+                        supports = []
+                    return Review(factual_support=2 if self.low_score else 5, technical_correctness=5, brand_voice=5, clarity=2 if reject else 5,
                         platform_format=5, usefulness=5, approved=not reject,
                         reasons=["Revise clarity"] if reject else [], corrections=["Use simpler language"] if reject else [],
                         grounding_assessment="Evidence matches the text", claim_support=supports), {"input_tokens": 8, "output_tokens": 9}
+                if schema is ModelSemanticDecision:
+                    return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=[task["exact_span_options"][0]["span_id"]],
+                        reason="Mocked positive semantic decision"), {"input_tokens": 6, "output_tokens": 7}
                 raise AssertionError(schema)
             finally:
                 self.active -= 1
@@ -89,6 +97,18 @@ def test_input_contracts_and_topic_selection():
         KnowledgeBase(vulnerabilities=kb.vulnerabilities[:14])
     with pytest.raises(ValidationError):
         Plan(slots=[Slot(id="same", type="tech-thread"), Slot(id="same", type="tech-thread")])
+
+
+def test_unapproved_company_number_is_a_hard_rule():
+    kb, registry, _, brand = components()
+    topic = kb.vulnerabilities[0]
+    text = "SanadSquad audited 500 protocols."
+    draft = Draft(tweets=[text], claims=[Claim(text=text, evidence_ids=[topic.evidence[0].id])])
+    errors = validate_draft(draft, registry.types["marketing-post"], brand, topic.evidence, EvidenceLookup(kb))
+    assert any("unapproved company statistic" in error for error in errors)
+    approved = brand.model_copy(update={"approved_statistics": [text]})
+    errors = validate_draft(draft, registry.types["marketing-post"], approved, topic.evidence, EvidenceLookup(kb))
+    assert not any("unapproved company statistic" in error for error in errors)
 
 
 def test_weekly_plan_shape(tmp_path):
@@ -160,7 +180,14 @@ def test_marketing_requires_review_invitation():
     tweet = "Unchecked calls may fail silently."
     draft = Draft(tweets=[tweet], claims=[Claim(text=tweet, evidence_ids=["SWC-104"])])
     errors = validate_draft(draft, registry.types["marketing-post"], brand, kb.vulnerabilities[1].evidence, EvidenceLookup(kb))
-    assert any("practical invitation" in error for error in errors)
+    assert any("practical security action" in error for error in errors)
+    source_action = "Make sure to handle the possibility that the call will fail by checking the return value."
+    action_draft = Draft(tweets=[source_action], claims=[Claim(text=source_action, evidence_ids=["SWC-104"])])
+    assert not validate_draft(action_draft, registry.types["marketing-post"], brand, kb.vulnerabilities[1].evidence, EvidenceLookup(kb))
+    isolation = "Isolate each external call into its own transaction."
+    isolation_draft = Draft(tweets=[isolation], claims=[Claim(text=isolation, evidence_ids=["SWC-113"])])
+    failed_call = next(item for item in kb.vulnerabilities if item.id == "SWC-113")
+    assert not validate_draft(isolation_draft, registry.types["marketing-post"], brand, failed_call.evidence, EvidenceLookup(kb))
 
 
 def test_shared_skill_and_revision_gate():
@@ -194,6 +221,14 @@ def test_fabricated_reviewer_quote_cannot_approve():
     assert all(any("No verified supporting excerpt" in reason for reason in review.reasons) for review in results[0].reviews)
 
 
+def test_omitted_duplicate_reviewer_quote_uses_complete_atomic_support():
+    plan = Plan(slots=[Slot(id="piece_1", type="marketing-post", focus="reentrancy")])
+    results, _ = run_plan(plan, FakeModel(omit_quote=True))
+    assert results[0].status == "accepted"
+    assert results[0].reviews[0].claim_support == []
+    assert all(verdict.verdict == "SUPPORTED" for verdict in results[0].semantic_reports[0].verdicts)
+
+
 def test_low_reviewer_score_cannot_approve():
     plan = Plan(slots=[Slot(id="piece_1", type="marketing-post", focus="reentrancy")])
     results, _ = run_plan(plan, FakeModel(low_score=True))
@@ -218,7 +253,7 @@ def test_parallel_isolation_and_export(tmp_path):
     assert len(rows) == 3
     assert rows[1][1].startswith("spec:")
     assert (output / rows[1][1].removeprefix("spec:")).exists()
-    assert json.loads((output / "summary.json").read_text())["prompt_tokens_recorded"] == 36
+    assert json.loads((output / "summary.json").read_text())["prompt_tokens_recorded"] == 60
     with pytest.raises(FileExistsError):
         export_run(output, plan, results, 1.2, "fake", 1)
 
@@ -247,7 +282,7 @@ def test_slots_reach_writer_concurrently():
 def test_model_failure_preserves_research_source():
     plan = Plan(slots=[Slot(id="failure", type="marketing-post", focus="reentrancy"),
                        Slot(id="healthy", type="marketing-post", focus="oracle manipulation")])
-    results, _ = run_plan(plan, FakeModel(fail_topic="Topic: Reentrancy"))
+    results, _ = run_plan(plan, FakeModel(fail_topic='"topic": "Reentrancy"'))
     by_id = {r.slot.id: r for r in results}
     assert by_id["failure"].status == "failed"
     assert by_id["failure"].topic == "Reentrancy"
@@ -325,7 +360,7 @@ def test_unavailable_usage_is_not_zero(tmp_path):
 
 def test_local_model_semaphore(monkeypatch):
     from types import SimpleNamespace
-    model = LocalModel("qwen3.5:4b", "http://127.0.0.1:11434", 1, 10)
+    model = LocalModel("qwen3.5:4b", "http://mock.local:11434", 1, 10)
 
     class Runnable:
         async def ainvoke(self, prompt):
@@ -345,7 +380,7 @@ def test_local_model_semaphore(monkeypatch):
 
 def test_transport_retry_is_bounded_and_separate_from_revision(monkeypatch):
     from types import SimpleNamespace
-    model = LocalModel("qwen3.5:4b", "http://127.0.0.1:11434", 1, 10, transport_retries=1)
+    model = LocalModel("qwen3.5:4b", "http://mock.local:11434", 1, 10, transport_retries=1)
     calls = []
 
     class Runnable:

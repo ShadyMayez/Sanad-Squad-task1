@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review low-level call return values so failed calls do not go unnoticed in contract logic."
+  ],
+  "claims": [
+    {
+      "text": "Review low-level call return values so failed calls do not go unnoticed in contract logic.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

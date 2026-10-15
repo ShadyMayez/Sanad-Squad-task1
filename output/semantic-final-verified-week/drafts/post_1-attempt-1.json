@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Check the return value when using low-level call methods."
+  ],
+  "claims": [
+    {
+      "text": "Check the return value when using low-level call methods.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

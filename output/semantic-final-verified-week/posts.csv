@@ -1,0 +1,12 @@
+Post Text,Image
+"1/5 One of the major dangers of calling external contracts is that they can take over the control flow.
+
+2/5 In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.
+
+3/5 This may cause the different invocations of the function to interact in undesirable ways.
+
+4/5 Make sure all internal state changes are performed before the call is executed.
+
+5/5 Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",spec:visual_specs/thread_1.md
+Check the return value when using low-level call methods.,spec:visual_specs/post_1.md
+Isolate each external call into its own transaction that can be initiated by the recipient of the call.,spec:visual_specs/post_3.md

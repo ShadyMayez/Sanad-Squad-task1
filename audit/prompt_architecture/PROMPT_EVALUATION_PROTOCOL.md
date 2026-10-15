@@ -1,0 +1,7 @@
+# Fixed evaluation protocol before final six-slot run
+
+Compare the unchanged historical `output/sample-week/` (six first-pass accepted pieces, 9,156/3,802 recorded tokens, five independently flagged unsupported/overbroad sentences) with a separately saved post-refactor six-slot run. This is not a controlled A/B model experiment because the evidence snapshots, semantic gate, and prompts all changed together; attribute improvements only to the combined closure.
+
+Deterministic gates: all baseline and new tests pass; one revision maximum; no non-SUPPORTED final atomic verdict in any exported row; source hashes and quoted offsets verify; rejected pieces have no visual/CSV row. Live checks: exact format, claim/source relationships, first-pass versus revised counts, latency, recorded usage, prompt-injection probes, and content-aware visual relevance. Label unavailable timings and raw-provider measurements honestly. A lower ship count is acceptable when caused by a documented grounding rejection; a zero-ship run is evidence of a functioning safety gate but not sufficient evidence of useful content quality.
+
+The 20-item semantic benchmark labels and criteria are fixed in `audit/semantic/fixtures/benchmark.json` and `audit/semantic/04_ADVERSARIAL_BENCHMARK.md`. The initial run is saved as `benchmark-baseline-results.json`; the final prompt/message integration will be scored on the unchanged fixture. No label edits are permitted after observing outcomes.

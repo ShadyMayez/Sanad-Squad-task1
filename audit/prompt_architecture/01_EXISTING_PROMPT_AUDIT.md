@@ -1,0 +1,9 @@
+# Existing prompt architecture baseline
+
+Recorded before the message-role refactor. The baseline pipeline concatenated each writer instruction, brand rules, slot/topic fields, evidence JSON, and revision feedback into **one string** in `content_pipeline/agents.py`. The Reviewer similarly combined its rubric and dynamic content into one string. `LocalModel.structured` passed that string to `ChatOllama.with_structured_output`; no real `SystemMessage`/`HumanMessage` separation existed. The semantic verifier introduced during the ongoing grounding closure initially used the same string pattern. Research is deterministic and correctly has no model prompt. Visual Agent used one mostly fixed topic template and did not see the accepted draft or claim verdicts.
+
+Pydantic constrained Draft and Review outputs, Python handled format checks, and the LangGraph revision limit was real. A shared `LocalModel` enforced calls within one run; the current closure changed it to a process-shared per-event-loop limit for matching endpoint/model instances. These controls do not make untrusted evidence into trusted instructions. The previous independent audit found five unsupported or overbroad sentences in the original accepted sample, which is the factual-reliability baseline.
+
+Prompt files lacked a clear agent identity, workflow position, explicit evidence authority boundary, short valid/invalid examples, and dimension-specific reviewer scoring anchors. The Reviewer quote-substring check verified provenance of a selected phrase but not entailment. The ongoing semantic closure adds independent claim-level verdicts and pinned source quotations; this prompt refactor will route those through distinct message roles instead of adding another reviewer-like component.
+
+Baseline regression before either closure: 45/45 tests passed. The original six-slot sample remains untouched. This report describes the baseline, not the final state.

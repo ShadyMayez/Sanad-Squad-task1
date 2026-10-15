@@ -1,0 +1,35 @@
+A exact_support: expected=SUPPORTED actual=SUPPORTED (11.9s)
+B correct_paraphrase: expected=SUPPORTED actual=SUPPORTED (11.5s)
+C topical_similarity: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.6s)
+D vulnerability_confusion: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.4s)
+E causal_reversal: expected=CONTRADICTED actual=CONTRADICTED (5.7s)
+F incorrect_negation: expected=CONTRADICTED actual=CONTRADICTED (5.1s)
+G universal_overclaim: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (5.7s)
+H missing_conditions: expected=CONTRADICTED actual=CONTRADICTED (1.9s)
+I fabricated_statistics: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.1s)
+J fabricated_source: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+K real_unrelated_source: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.6s)
+L misleading_quote: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (12.9s)
+M conflicting_evidence: expected=CONTRADICTED actual=CONTRADICTED (2.5s)
+N prompt_injection: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (2.6s)
+O partial_support: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (6.0s)
+P malformed_model_output: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+Q marketing_hallucination: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (5.4s)
+R technical_mitigation_mismatch: expected=INSUFFICIENT_EVIDENCE actual=CONTRADICTED (10.6s)
+S version_context_mismatch: expected=INSUFFICIENT_EVIDENCE actual=INSUFFICIENT_EVIDENCE (2.6s)
+T missing_runtime_evidence: expected=VERIFICATION_ERROR actual=VERIFICATION_ERROR (0.0s)
+{
+  "model": "qwen3.5:4b",
+  "n": 20,
+  "model_n": 17,
+  "supported_precision": 1.0,
+  "supported_recall": 1.0,
+  "dangerous_false_accept_rate": 0.0,
+  "false_reject_rate": 0.0,
+  "accuracy": 0.8,
+  "mean_verification_latency_seconds": 5.36055,
+  "prompt_tokens_recorded": 21755,
+  "completion_tokens_recorded": 1905,
+  "usage_complete": true,
+  "external_model_api_charges_usd": 0.0
+}

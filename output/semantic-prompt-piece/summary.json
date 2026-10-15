@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "No verified supporting excerpt for claim: An external contract can seize control flow and call back before your function finishes.; No verified supporting excerpt for claim: This allows a malicious caller to re-enter your code mid-execution.; No verified supporting excerpt for claim: The root cause is updating state after the external call, relying on stale data.; No verified supporting excerpt for claim: Remediation requires performing all internal state changes before any external interaction.; No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.; No verified supporting excerpt for claim: A reentrancy lock blocks unwanted callbacks into protected paths but does not stop control passing to external callees.; Atomic claim t6s1c2: INSUFFICIENT_EVIDENCE: The provided source quote for SWC-107 ends abruptly at '(ie.' and does not contain the text 'but does not stop control passing to external callees'. This specific limitation is not present in the supplied quotation.; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    }
+  ],
+  "elapsed_seconds": 170.832,
+  "prompt_tokens_recorded": 10047,
+  "completion_tokens_recorded": 2791,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "factual_support": 0,
+        "technical_correctness": 0,
+        "brand_voice": 2,
+        "clarity": 1,
+        "platform_format": 0,
+        "usefulness": 0,
+        "approved": false,
+        "reasons": [
+          "No verified supporting excerpt for claim: An external contract can seize control flow and call back before your function finishes.",
+          "No verified supporting excerpt for claim: This allows a malicious caller to re-enter your code mid-execution.",
+          "No verified supporting excerpt for claim: The root cause is updating state after the external call, relying on stale data.",
+          "No verified supporting excerpt for claim: Remediation requires performing all internal state changes before any external interaction.",
+          "No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.",
+          "No verified supporting excerpt for claim: A reentrancy lock blocks unwanted callbacks into protected paths but does not stop control passing to external callees.",
+          "Atomic claim t1s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t1s1c2: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t2s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t3s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t4s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t5s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t6s1c1: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Atomic claim t6s1c2: VERIFICATION_ERROR: Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'brand_voice', 'clarity', 'platform_format', 'usefulness']"
+        ],
+        "corrections": [],
+        "grounding_assessment": "All six claims are unsupported. The semantic verification report returns VERIFICATION_ERROR for every claim because the verifier failed to locate source spans in the provided evidence. Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval.",
+        "claim_support": [
+          {
+            "claim_text": "An external contract can seize control flow and call back before your function finishes.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished.",
+            "supported": false
+          },
+          {
+            "claim_text": "This allows a malicious caller to re-enter your code mid-execution.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished.",
+            "supported": false
+          },
+          {
+            "claim_text": "The root cause is updating state after the external call, relying on stale data.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+            "supported": false
+          },
+          {
+            "claim_text": "Remediation requires performing all internal state changes before any external interaction.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+            "supported": false
+          },
+          {
+            "claim_text": "This approach is known as the Checks-Effects-Interactions pattern.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+            "supported": false
+          },
+          {
+            "claim_text": "A reentrancy lock blocks unwanted callbacks into protected paths but does not stop control passing to external callees.",
+            "evidence_id": "SWC-107",
+            "evidence_quote": "A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+            "supported": false
+          }
+        ]
+      },
+      {
+        "factual_support": 2,
+        "technical_correctness": 1,
+        "brand_voice": 3,
+        "clarity": 4,
+        "platform_format": 3,
+        "usefulness": 2,
+        "approved": false,
+        "reasons": [
+          "No verified supporting excerpt for claim: An external contract can seize control flow and call back before your function finishes.",
+          "No verified supporting excerpt for claim: This allows a malicious caller to re-enter your code mid-execution.",
+          "No verified supporting excerpt for claim: The root cause is updating state after the external call, relying on stale data.",
+          "No verified supporting excerpt for claim: Remediation requires performing all internal state changes before any external interaction.",
+          "No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.",
+          "No verified supporting excerpt for claim: A reentrancy lock blocks unwanted callbacks into protected paths but does not stop control passing to external callees.",
+          "Atomic claim t6s1c2: INSUFFICIENT_EVIDENCE: The provided source quote for SWC-107 ends abruptly at '(ie.' and does not contain the text 'but does not stop control passing to external callees'. This specific limitation is not present in the supplied quotation.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+        ],
+        "corrections": [
+          "Remove the claim that a reentrancy lock prevents control passing to external callees. The correct technical fact is that a lock blocks the callback into the protected path, but the control flow can still pass to the external callee if not managed via Checks-Effects-Interactions.",
+          "Replace 'relying on stale data' with 'interacting with state updated by the external contract before your own updates are complete', which aligns more closely with the source text."
+        ],
+        "grounding_assessment": "The draft contains a critical atomic error regarding the function of reentrancy locks. Claim t6s1c2 states that a lock 'does not stop control passing to external callees.' The provided evidence (SWC-107) explicitly contradicts this, stating: 'A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.' While the semantic report marked t6s1c2 as INSUFFICIENT_EVIDENCE due to the truncated quote, the deterministic error confirms the text is factually unsupported by the provided source. Furthermore, Claim t3s1c1 ('relying on stale data') is a weak inference; the source prescribes 'Checks-Effects-Interactions' to avoid interaction with stale state but does not explicitly define the failure mode as 'stale data'.",
+        "claim_support": []
+      }
+    ]
+  }
+]

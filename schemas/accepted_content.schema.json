@@ -2,6 +2,16 @@
   "$defs": {
     "AcceptedRecord": {
       "properties": {
+        "atomic_claims": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/AtomicClaim"
+            },
+            "type": "array"
+          },
+          "title": "Atomic Claims",
+          "type": "array"
+        },
         "completion_tokens": {
           "anyOf": [
             {
@@ -44,6 +54,13 @@
           "default": null,
           "title": "Prompt Tokens"
         },
+        "provenance_errors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Provenance Errors",
+          "type": "array"
+        },
         "reason": {
           "anyOf": [
             {
@@ -61,6 +78,13 @@
             "$ref": "#/$defs/Review"
           },
           "title": "Reviews",
+          "type": "array"
+        },
+        "semantic_reports": {
+          "items": {
+            "$ref": "#/$defs/SemanticReport"
+          },
+          "title": "Semantic Reports",
           "type": "array"
         },
         "slot": {
@@ -90,6 +114,11 @@
           "default": null,
           "title": "Topic"
         },
+        "usage_measurements_complete": {
+          "default": true,
+          "title": "Usage Measurements Complete",
+          "type": "boolean"
+        },
         "validations": {
           "items": {
             "items": {
@@ -98,6 +127,13 @@
             "type": "array"
           },
           "title": "Validations",
+          "type": "array"
+        },
+        "verification_latencies_seconds": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Verification Latencies Seconds",
           "type": "array"
         },
         "visual_spec": {
@@ -119,6 +155,80 @@
         "image_spec_reference"
       ],
       "title": "AcceptedRecord",
+      "type": "object"
+    },
+    "AtomicClaim": {
+      "properties": {
+        "candidate_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Candidate Evidence Ids",
+          "type": "array"
+        },
+        "claim_type": {
+          "default": "factual",
+          "enum": [
+            "factual",
+            "uncertain"
+          ],
+          "title": "Claim Type",
+          "type": "string"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "proposition": {
+          "minLength": 1,
+          "title": "Proposition",
+          "type": "string"
+        },
+        "qualifiers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Qualifiers",
+          "type": "array"
+        },
+        "sentence": {
+          "minLength": 1,
+          "title": "Sentence",
+          "type": "string"
+        },
+        "span": {
+          "minLength": 1,
+          "title": "Span",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "tweet_index": {
+          "minimum": 0,
+          "title": "Tweet Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "tweet_index",
+        "start",
+        "end",
+        "span",
+        "proposition",
+        "sentence",
+        "candidate_evidence_ids"
+      ],
+      "title": "AtomicClaim",
       "type": "object"
     },
     "Claim": {
@@ -206,6 +316,114 @@
         "id": {
           "title": "Id",
           "type": "string"
+        },
+        "quote_end": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote End"
+        },
+        "quote_start": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quote Start"
+        },
+        "retrieved_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved At"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        },
+        "snapshot_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot Path"
+        },
+        "snapshot_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snapshot Sha256"
+        },
+        "source_quote": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Quote"
+        },
+        "source_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Title"
+        },
+        "source_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Type"
         },
         "url": {
           "pattern": "^https://[^\\s]+$",
@@ -302,6 +520,110 @@
       "title": "Review",
       "type": "object"
     },
+    "SemanticReport": {
+      "properties": {
+        "verdicts": {
+          "items": {
+            "$ref": "#/$defs/SemanticVerdict"
+          },
+          "title": "Verdicts",
+          "type": "array"
+        }
+      },
+      "required": [
+        "verdicts"
+      ],
+      "title": "SemanticReport",
+      "type": "object"
+    },
+    "SemanticVerdict": {
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "missing_information": {
+          "default": "",
+          "title": "Missing Information",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 8,
+          "title": "Reason",
+          "type": "string"
+        },
+        "scope_mismatch": {
+          "default": "",
+          "title": "Scope Mismatch",
+          "type": "string"
+        },
+        "supporting_span_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supporting Span Ids",
+          "type": "array"
+        },
+        "supporting_spans": {
+          "items": {
+            "$ref": "#/$defs/SupportingSpan"
+          },
+          "title": "Supporting Spans",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "CONTRADICTED",
+            "INSUFFICIENT_EVIDENCE",
+            "AMBIGUOUS",
+            "VERIFICATION_ERROR"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "verification_error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verification Error"
+        }
+      },
+      "required": [
+        "claim_id",
+        "verdict",
+        "reason"
+      ],
+      "title": "SemanticVerdict",
+      "type": "object"
+    },
     "Slot": {
       "properties": {
         "focus": {
@@ -331,6 +653,25 @@
         "type"
       ],
       "title": "Slot",
+      "type": "object"
+    },
+    "SupportingSpan": {
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "quote": {
+          "minLength": 8,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "quote"
+      ],
+      "title": "SupportingSpan",
       "type": "object"
     }
   },

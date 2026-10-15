@@ -4,7 +4,8 @@ from pathlib import Path
 from pydantic import TypeAdapter
 from content_pipeline.schemas import (
     AcceptedRecord, Draft, FailureRecord, Plan, ResearchRecord,
-    ReviewRecord, Summary, ValidationRecord,
+    ReviewRecord, Summary, ValidationRecord, ClaimsRecord, EvidenceProvenanceRecord,
+    SemanticRecord, GroundingSummary,
 )
 
 OUT = Path(__file__).resolve().parent.parent / "schemas"
@@ -18,6 +19,10 @@ contracts = {
     "accepted_content": list[AcceptedRecord],
     "failures": list[FailureRecord],
     "summary": Summary,
+    "claims": list[ClaimsRecord],
+    "evidence_provenance": list[EvidenceProvenanceRecord],
+    "semantic_verification": list[SemanticRecord],
+    "grounding_summary": GroundingSummary,
 }
 for name, contract in contracts.items():
     schema = TypeAdapter(contract).json_schema()

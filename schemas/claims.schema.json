@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "AtomicClaim": {
+      "properties": {
+        "candidate_evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Candidate Evidence Ids",
+          "type": "array"
+        },
+        "claim_type": {
+          "default": "factual",
+          "enum": [
+            "factual",
+            "uncertain"
+          ],
+          "title": "Claim Type",
+          "type": "string"
+        },
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "proposition": {
+          "minLength": 1,
+          "title": "Proposition",
+          "type": "string"
+        },
+        "qualifiers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Qualifiers",
+          "type": "array"
+        },
+        "sentence": {
+          "minLength": 1,
+          "title": "Sentence",
+          "type": "string"
+        },
+        "span": {
+          "minLength": 1,
+          "title": "Span",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "tweet_index": {
+          "minimum": 0,
+          "title": "Tweet Index",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "tweet_index",
+        "start",
+        "end",
+        "span",
+        "proposition",
+        "sentence",
+        "candidate_evidence_ids"
+      ],
+      "title": "AtomicClaim",
+      "type": "object"
+    },
+    "ClaimsRecord": {
+      "properties": {
+        "attempts": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/AtomicClaim"
+            },
+            "type": "array"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "slot_id": {
+          "title": "Slot Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "slot_id",
+        "attempts"
+      ],
+      "title": "ClaimsRecord",
+      "type": "object"
+    }
+  },
+  "items": {
+    "$ref": "#/$defs/ClaimsRecord"
+  },
+  "type": "array"
+}

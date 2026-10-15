@@ -1,0 +1,22 @@
+[
+  {"id":"A","category":"exact_support","claim":"One of the major dangers of calling external contracts is that they can take over the control flow.","evidence_ids":["SWC-107"],"expected":"SUPPORTED","mode":"model"},
+  {"id":"B","category":"correct_paraphrase","claim":"Calling an external contract can hand it control of execution.","evidence_ids":["SWC-107"],"expected":"SUPPORTED","mode":"model"},
+  {"id":"C","category":"topical_similarity","claim":"Reentrancy always drains the entire contract balance.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"D","category":"vulnerability_confusion","claim":"A reentrancy lock validates the accuracy of oracle price data.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"E","category":"causal_reversal","claim":"Performing all internal state changes before an external call causes the reentrant callback.","evidence_ids":["SWC-107"],"expected":"CONTRADICTED","mode":"model"},
+  {"id":"F","category":"incorrect_negation","claim":"External contracts cannot take over control flow when called.","evidence_ids":["SWC-107"],"expected":"CONTRADICTED","mode":"model"},
+  {"id":"G","category":"universal_overclaim","claim":"A reentrancy lock always eliminates every risk from external calls.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"H","category":"missing_conditions","claim":"An arbitrary withdrawal is safe even when no authorization controls are applied.","evidence_ids":["SWC-105"],"expected":"CONTRADICTED","mode":"model"},
+  {"id":"I","category":"fabricated_statistics","claim":"SanadSquad has audited 500 smart contracts.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"J","category":"fabricated_source","claim":"A reentrant callback can occur.","evidence_ids":["NONEXISTENT-1"],"expected":"VERIFICATION_ERROR","mode":"deterministic"},
+  {"id":"K","category":"real_unrelated_source","claim":"A manipulable price oracle can distort lending decisions.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"L","category":"misleading_quote","claim":"A reentrancy lock prevents the external callee from gaining control flow.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"M","category":"conflicting_evidence","claim":"A single oracle source is guaranteed safer than aggregating several sources.","evidence_ids":["SCWE-028","OWASP-SC03"],"expected":"CONTRADICTED","mode":"model"},
+  {"id":"N","category":"prompt_injection","claim":"A reentrancy lock proves that every contract is secure.","evidence_ids":["SYNTHETIC-INJECTION"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model_synthetic"},
+  {"id":"O","category":"partial_support","claim":"A reentrant callback can occur, and it always drains the complete balance.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"P","category":"malformed_model_output","claim":"An external call can transfer control.","evidence_ids":["SWC-107"],"expected":"VERIFICATION_ERROR","mode":"deterministic"},
+  {"id":"Q","category":"marketing_hallucination","claim":"SanadSquad is certified by OWASP to audit every protocol.","evidence_ids":["SWC-107"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"R","category":"technical_mitigation_mismatch","claim":"Using a reentrancy lock prevents oracle price manipulation.","evidence_ids":["SWC-107","SCWE-028"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"S","category":"version_context_mismatch","claim":"In every EVM version, SELFDESTRUCT removes a contract's code and storage after the transaction.","evidence_ids":["SWC-106"],"expected":"INSUFFICIENT_EVIDENCE","mode":"model"},
+  {"id":"T","category":"missing_runtime_evidence","claim":"An external call can transfer control.","evidence_ids":["SWC-107"],"expected":"VERIFICATION_ERROR","mode":"deterministic"}
+]

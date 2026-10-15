@@ -1,0 +1,14 @@
+{
+  "tweets": [
+    "Review function visibility to ensure initialization code cannot be called by anyone.",
+    "Review function visibility to ensure initialization code cannot be called by anyone."
+  ],
+  "claims": [
+    {
+      "text": "Review function visibility to ensure initialization code cannot be called by anyone.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

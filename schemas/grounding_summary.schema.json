@@ -1,0 +1,36 @@
+{
+  "properties": {
+    "accepted_claims": {
+      "title": "Accepted Claims",
+      "type": "integer"
+    },
+    "atomic_claims_evaluated": {
+      "title": "Atomic Claims Evaluated",
+      "type": "integer"
+    },
+    "slots": {
+      "title": "Slots",
+      "type": "integer"
+    },
+    "verdict_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Verdict Counts",
+      "type": "object"
+    },
+    "verification_latency_seconds": {
+      "title": "Verification Latency Seconds",
+      "type": "number"
+    }
+  },
+  "required": [
+    "slots",
+    "atomic_claims_evaluated",
+    "verdict_counts",
+    "verification_latency_seconds",
+    "accepted_claims"
+  ],
+  "title": "GroundingSummary",
+  "type": "object"
+}

@@ -1,0 +1,14 @@
+{
+  "python": "3.12.13",
+  "ollama_server": "0.40.3",
+  "model": "qwen3.5:4b",
+  "model_id": "c46e961bbacc",
+  "packages": {
+    "langchain": "1.4.6",
+    "langgraph": "1.2.15",
+    "langchain-ollama": "1.1.0",
+    "pydantic": "2.14.1",
+    "pytest": "9.1.1",
+    "httpx": "0.28.1"
+  }
+}

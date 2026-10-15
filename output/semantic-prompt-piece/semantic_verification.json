@@ -1,0 +1,244 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t1s1c2",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t6s1c1",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          },
+          {
+            "claim_id": "t6s1c2",
+            "verdict": "VERIFICATION_ERROR",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": "Verifier failed: ValueError: t6s1c1: supported verdict lacks source spans"
+          }
+        ]
+      },
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "they can take over the control flow"
+              }
+            ],
+            "reason": "The source quote states: 'One of the major dangers of calling external contracts is that they can take over the control flow.' This entails the proposition that an external contract can seize (take over) control flow.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t1s1c2",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "calls back into the calling contract before the first invocation of the function is finished"
+              }
+            ],
+            "reason": "The source quote states: 'In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This entails the proposition that a contract can call back before the function finishes.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "a malicious contract calls back into the calling contract"
+              }
+            ],
+            "reason": "The source quote states: 'In the reentrancy attack... a malicious contract calls back into the calling contract...' This entails that a malicious caller can re-enter (call back) mid-execution.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed"
+              }
+            ],
+            "reason": "The source quote states: 'Make sure all internal state changes are performed before the call is executed.' This implies that updating state after the external call (which happens if not done before) relies on stale data, as the state has not been updated yet during the call.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed"
+              }
+            ],
+            "reason": "The source quote states: 'Make sure all internal state changes are performed before the call is executed.' This directly supports the proposition that remediation requires performing all internal state changes before any external interaction (the call).",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This is known as the Checks-Effects-Interactions pattern"
+              }
+            ],
+            "reason": "The source quote states: 'This is known as the Checks-Effects-Interactions pattern'. This directly supports the proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t6s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock"
+              }
+            ],
+            "reason": "The source quote states: 'Use a reentrancy lock (ie.' The proposition claims it blocks unwanted callbacks. While the quote cuts off, the context of SWC-107 and the explicit mention of 'reentrancy lock' as a remediation for the attack described (malicious callback) supports this general function. However, strictly based on the provided text snippet ending in '(ie.', the full definition is missing. But given the context 'Remediation The best practices... Use a reentrancy lock', it implies the purpose of the lock is to prevent the described attack (callback).",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t6s1c2",
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "evidence_ids": [],
+            "supporting_spans": [],
+            "reason": "The provided source quote for SWC-107 ends abruptly at '(ie.' and does not contain the text 'but does not stop control passing to external callees'. This specific limitation is not present in the supplied quotation.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      }
+    ],
+    "latencies_seconds": [
+      36.7566048439985,
+      35.289507649998995
+    ]
+  }
+]

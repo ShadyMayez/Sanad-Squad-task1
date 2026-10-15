@@ -1,0 +1,165 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 97,
+          "span": "A malicious contract can call back into the caller before the first function invocation finishes.",
+          "proposition": "A malicious contract can call back into the caller before the first function invocation finishes.",
+          "sentence": "A malicious contract can call back into the caller before the first function invocation finishes.",
+          "qualifiers": [
+            "can",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 87,
+          "span": "This allows different invocations of the same function to interact in undesirable ways.",
+          "proposition": "This allows different invocations of the same function to interact in undesirable ways.",
+          "sentence": "This allows different invocations of the same function to interact in undesirable ways.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 94,
+          "span": "The best practice is to perform all internal state changes before executing the external call.",
+          "proposition": "The best practice is to perform all internal state changes before executing the external call.",
+          "sentence": "The best practice is to perform all internal state changes before executing the external call.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 75,
+          "span": "This ordering approach is known as the Checks-Effects-Interactions pattern.",
+          "proposition": "This ordering approach is known as the Checks-Effects-Interactions pattern.",
+          "sentence": "This ordering approach is known as the Checks-Effects-Interactions pattern.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 85,
+          "span": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is also recommended.",
+          "proposition": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is also recommended.",
+          "sentence": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is also recommended.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 97,
+          "span": "A malicious contract may call back into the caller before the first function invocation finishes.",
+          "proposition": "A malicious contract may call back into the caller before the first function invocation finishes.",
+          "sentence": "A malicious contract may call back into the caller before the first function invocation finishes.",
+          "qualifiers": [
+            "may",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 90,
+          "span": "This may cause different invocations of the same function to interact in undesirable ways.",
+          "proposition": "This may cause different invocations of the same function to interact in undesirable ways.",
+          "sentence": "This may cause different invocations of the same function to interact in undesirable ways.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 85,
+          "span": "Make sure all internal state changes are performed before executing an external call.",
+          "proposition": "Make sure all internal state changes are performed before executing an external call.",
+          "sentence": "Make sure all internal state changes are performed before executing an external call.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 88,
+          "span": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.",
+          "proposition": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.",
+          "sentence": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 74,
+          "span": "Following this ordering is a best practice to avoid reentrancy weaknesses.",
+          "proposition": "Following this ordering is a best practice to avoid reentrancy weaknesses.",
+          "sentence": "Following this ordering is a best practice to avoid reentrancy weaknesses.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ]
+    ]
+  }
+]

@@ -1,0 +1,294 @@
+[
+  {
+    "slot": {
+      "id": "piece_1",
+      "type": "tech-thread",
+      "focus": "reentrancy"
+    },
+    "status": "accepted",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/entries/docs/SWC-107.md",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+        "source_title": "SWC-107 Reentrancy, official SWC Registry",
+        "source_type": "official registry Markdown, normalized excerpt",
+        "snapshot_path": "source_snapshots/SWC-107-canonical.txt",
+        "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+        "quote_start": 97,
+        "quote_end": 732,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "drafts": [
+      {
+        "tweets": [
+          "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "This may cause the different invocations of the function to interact in undesirable ways.",
+          "Make sure all internal state changes are performed before the call is executed.",
+          "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+        ],
+        "claims": [
+          {
+            "text": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "This may cause the different invocations of the function to interact in undesirable ways.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "Make sure all internal state changes are performed before the call is executed.",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          },
+          {
+            "text": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+            "evidence_ids": [
+              "SWC-107"
+            ]
+          }
+        ]
+      }
+    ],
+    "validations": [
+      []
+    ],
+    "reviews": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 3,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are verbatim or near-verbatim matches to the provided SWC-107 excerpt. The semantic report confirms full support for every claim with exact quote spans. The content accurately describes reentrancy mechanics and standard remediation without inventing facts or misrepresenting scope.",
+        "claim_support": []
+      }
+    ],
+    "reason": null,
+    "prompt_tokens": 12625,
+    "completion_tokens": 1330,
+    "usage_measurements_complete": true,
+    "atomic_claims": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 99,
+          "span": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "proposition": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "sentence": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 121,
+          "span": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "proposition": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "sentence": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "qualifiers": [
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 89,
+          "span": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "proposition": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "sentence": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 79,
+          "span": "Make sure all internal state changes are performed before the call is executed.",
+          "proposition": "Make sure all internal state changes are performed before the call is executed.",
+          "sentence": "Make sure all internal state changes are performed before the call is executed.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 59,
+          "span": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "proposition": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "sentence": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ]
+    ],
+    "semantic_reports": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The source text explicitly states that a major danger of calling external contracts is that they can take over control flow, which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t2s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#1"
+            ],
+            "reason": "The source text explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished', which directly entails the claim's proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t3s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly states that reentrancy 'may cause the different invocations of the function to interact in undesirable ways,' which directly entails the atomic claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t4s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source text explicitly states as a best practice to 'Make sure all internal state changes are performed before the call is executed', which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          },
+          {
+            "claim_id": "t5s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#5"
+            ],
+            "reason": "The source text explicitly states 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' as a best practice, which directly entails the claim.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null
+          }
+        ]
+      }
+    ],
+    "verification_latencies_seconds": [
+      54.138722864001465
+    ],
+    "provenance_errors": [],
+    "image_spec_reference": "spec:visual_specs/piece_1.md"
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      [
+        "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific consequence of missing access controls (malicious parties withdrawing Ether), but it does not explicitly state that 'Legacy SWC guidance' exists or applies to the compiler and EVM applicability mentioned in the claim. The claim asserts the existence and scope of 'Legacy SWC guidance,' while the evidence only provides a descriptive fact about contract vulnerabilities without confirming the specific guidance document's status or applicability.",
+        "Atomic claim t5s1c2: INSUFFICIENT_EVIDENCE: The source quotation discusses the nature of SWC-105 (unprotected Ether withdrawal) and potential causes like misnamed constructor functions, but it does not explicitly state that developers should 'check compiler' as a specific action or requirement. The phrase 'check compiler and EVM applicability' appears only in the scope metadata describing the guidance's context, not as a direct instruction within the descriptive text of the vulnerability itself.",
+        "Atomic claim t5s1c3: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#0) describes a specific vulnerability mechanism where malicious parties can withdraw Ether due to missing access controls. It does not explicitly state or imply the broader concept of 'EVM applicability' as a general property or guidance point. The claim 'EVM applicability' is too broad and lacks direct textual support from the provided span, which focuses on a specific security flaw rather than the general applicability of EVM rules."
+      ],
+      [
+        "Expected 5-10 tweets, got 3"
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      [
+        "Marketing post requires a practical security action"
+      ],
+      [
+        "Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span (SWC-105#2) describes a specific scenario where a function is 'wrongly named' as a constructor, causing it to appear in runtime bytecode and be callable. It does not support the claim's broader instruction to 'Check if your constructor is marked payable/constructor or exposed...' as a general verification step for all constructors. The span explains the consequence of a specific error (wrong naming) rather than establishing the necessity of checking for exposure in runtime bytecode as a universal preventive measure against re-initialization attacks. The relationship between the action ('check if exposed') and the outcome ('prevent re-initialization') is not fully entailed because the source only details one failure mode, not the general rule or the efficacy of the check described in the claim."
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      [
+        "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data' confirms the existence of such loss but fails to establish the specific causal mechanism ('within the contract's logic') asserted in the claim. The span lacks the necessary context regarding the contractual environment or logical conditions that would make the loss occur specifically within the contract's code, rendering it insufficient to support the full proposition."
+      ],
+      [
+        "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The selected span 'Loss of funds or data.' lacks the necessary modal qualifier ('may') and the causal context to support the claim 'It may cause loss of funds or data.' The span states the potential outcome but does not explicitly assert that it is a possible consequence of an action, nor does it establish the causal link required by the claim. Without the qualifier indicating possibility, the evidence only confirms the existence of such losses without proving they are a potential risk."
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      []
+    ]
+  }
+]

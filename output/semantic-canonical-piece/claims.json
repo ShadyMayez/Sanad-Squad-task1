@@ -1,0 +1,169 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 99,
+          "span": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "proposition": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "sentence": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 121,
+          "span": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "proposition": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "sentence": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "qualifiers": [
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 89,
+          "span": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "proposition": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "sentence": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 79,
+          "span": "Make sure all internal state changes are performed before the call is executed.",
+          "proposition": "Make sure all internal state changes are performed before the call is executed.",
+          "sentence": "Make sure all internal state changes are performed before the call is executed.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 59,
+          "span": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "proposition": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "sentence": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 99,
+          "span": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "proposition": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "sentence": "One of the major dangers of calling external contracts is that they can take over the control flow.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 121,
+          "span": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "proposition": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "sentence": "In the reentrancy attack, a malicious contract calls back into the calling contract before the first invocation finishes.",
+          "qualifiers": [
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 89,
+          "span": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "proposition": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "sentence": "This may cause the different invocations of the function to interact in undesirable ways.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 79,
+          "span": "Make sure all internal state changes are performed before the call is executed.",
+          "proposition": "Make sure all internal state changes are performed before the call is executed.",
+          "sentence": "Make sure all internal state changes are performed before the call is executed.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 59,
+          "span": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "proposition": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "sentence": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ]
+    ]
+  }
+]

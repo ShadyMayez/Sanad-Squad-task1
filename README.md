@@ -1,6 +1,6 @@
 # SanadSquad local content pipeline
 
-Generates a six-slot week of grounded X content for a smart contract security auditing firm. Uses the local `qwen3.5:4b` Ollama model, LangChain's `ChatOllama`, and LangGraph. Nothing is published or scheduled.
+Generates a six-slot week of X content for a smart contract security auditing firm. Uses the local `qwen3.5:4b` Ollama model, LangChain's `ChatOllama`, and LangGraph. A claim-level evidence gate checks generated text before export. Nothing is published or scheduled.
 
 ## Setup
 
@@ -30,9 +30,19 @@ Edit `brand-voice.md` (the JSON block holds enforceable rules), `kb.json`, `plan
 
 Every run writes `resolved_plan.json`, `research_log.json`, drafts, `validation_report.json`, `review_report.json`, `accepted_content.json`, `failures.json`, `visual_specs/`, `posts.csv`, and `summary.json`. See [artifact schemas](docs/SCHEMAS.md). Only accepted pieces enter `posts.csv`. Its columns are exactly `Post Text,Image`. Each technical thread is one CSV record; numbered tweets are separated by blank lines within the quoted Post Text field. `Image` values such as `spec:visual_specs/thread_1.md` point to written specifications, not image media. Convert them to actual images before importing into a scheduler that expects media files.
 
-Source IDs and claim-to-evidence mappings stay in the draft and accepted JSON, not in public post text. The local KB contains evidence excerpts and source URLs so a run works offline once dependencies and Ollama are installed. Optional live web research is not implemented in this version.
+Source IDs and claim-to-evidence mappings stay in the draft and accepted JSON, not in public post text. The local KB contains pinned source snapshots, SHA-256 digests, exact quotations and offsets, source scope, and URLs. After installation, the content run can work without web access. `claims.json`, `evidence_provenance.json`, `semantic_verification.json`, and `grounding_summary.json` record the new atomic claim gate. A `SUPPORTED` decision is a fallible local-model judgment, not a mathematical proof; review the saved quotations before publishing. Optional live web research is not implemented.
+
+The production Writer, Reviewer, and Semantic Verifier load separate editable instructions as LangChain `SystemMessage` objects. Dynamic assignments and source material enter JSON `HumanMessage` objects. The Research Agent and Visual Agent are deterministic. The default one-call Ollama limit is shared across local CLI processes with a file lock. Other configured limits apply within the process; see [architecture](ARCHITECTURE.md).
+
+Agent instructions: [Technical Writer](instructions/tech-thread.md), [Marketing Writer](instructions/marketing-post.md), [Reviewer rubric](instructions/reviewer-rubric.md), [Semantic Verifier](instructions/semantic-verifier.md), [Skeptical support audit](instructions/semantic-skeptic.md), and [Visual Agent](instructions/visual-agent.md).
+
+The final real local run is [output/semantic-release-week](output/semantic-release-week/): **3 shipped, 3 dropped, 0 failed**. Its accepted content, claim verdicts, review scores, reasons, written specs, CSV, and usage summary are saved there. See the [manual content inspection](audit/semantic/FINAL_CONTENT_INSPECTION.md) and [acceptance matrix](ACCEPTANCE_MATRIX.md). Dropped slots are quality-gate outcomes, not publishable posts.
+
+Historical `output/sample-week/` predates the semantic closure and remains unchanged. New runs have their own directories. Evaluation reports are under `audit/semantic/` and `audit/prompt_architecture/`.
 
 ## Provenance
 
 The `reference-autopost-ai/` directory is an unchanged source snapshot at commit `5fa0ba548dee97051f37688348ba08e99f69c184`, with its MIT license. See `REFERENCE_AUDIT.md` for the adaptation decisions. The SWC Registry itself warns that its content has not been actively maintained since 2020; see `LIMITATIONS.md`.
+
+Pinned source-page adaptations under `source_snapshots/` have their own attribution and licenses: SWC Registry MIT and OWASP Smart Contract Security CC BY-SA 4.0. See [snapshot attribution](source_snapshots/README.md) before redistributing those files.
 

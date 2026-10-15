@@ -8,6 +8,15 @@ class Evidence(BaseModel):
     id: str
     url: str = Field(pattern=r"^https://[^\s]+$")
     excerpt: str = Field(min_length=12)
+    source_title: str | None = None
+    source_type: str | None = None
+    snapshot_path: str | None = None
+    snapshot_sha256: str | None = None
+    retrieved_at: str | None = None
+    source_quote: str | None = None
+    quote_start: int | None = None
+    quote_end: int | None = None
+    scope: str | None = None
 
 
 class Vulnerability(BaseModel):
@@ -28,7 +37,55 @@ class KnowledgeBase(BaseModel):
         ids = [v.id for v in self.vulnerabilities]
         if len(ids) != len(set(ids)):
             raise ValueError("knowledge-base vulnerability IDs must be unique")
+        evidence_ids = [e.id for v in self.vulnerabilities for e in v.evidence]
+        if len(evidence_ids) != len(set(evidence_ids)):
+            raise ValueError("knowledge-base evidence IDs must be unique")
         return self
+
+
+class AtomicClaim(BaseModel):
+    id: str
+    tweet_index: int = Field(ge=0)
+    start: int = Field(ge=0)
+    end: int = Field(gt=0)
+    span: str = Field(min_length=1)
+    proposition: str = Field(min_length=1)
+    sentence: str = Field(min_length=1)
+    qualifiers: list[str] = Field(default_factory=list)
+    claim_type: Literal["factual", "uncertain"] = "factual"
+    candidate_evidence_ids: list[str] = Field(min_length=1)
+
+
+class SupportingSpan(BaseModel):
+    evidence_id: str
+    quote: str = Field(min_length=8)
+
+
+class SemanticVerdict(BaseModel):
+    claim_id: str
+    verdict: Literal["SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "AMBIGUOUS", "VERIFICATION_ERROR"]
+    evidence_ids: list[str] = Field(default_factory=list)
+    supporting_spans: list[SupportingSpan] = Field(default_factory=list)
+    supporting_span_ids: list[str] = Field(default_factory=list)
+    reason: str = Field(min_length=8)
+    missing_information: str = ""
+    scope_mismatch: str = ""
+    confidence: float | None = Field(default=None, ge=0, le=1)
+    verification_error: str | None = None
+
+
+class SemanticReport(BaseModel):
+    verdicts: list[SemanticVerdict]
+
+
+class ModelSemanticDecision(BaseModel):
+    """Small local-model contract; claim/source IDs are assigned by Python."""
+    verdict: Literal["SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "AMBIGUOUS", "VERIFICATION_ERROR"]
+    support_option_ids: list[str] = Field(default_factory=list)
+    reason: str = Field(min_length=8)
+    missing_information: str = ""
+    scope_mismatch: str = ""
+    confidence: float | None = Field(default=None, ge=0, le=1)
 
 
 class Slot(BaseModel):
@@ -112,6 +169,11 @@ class SlotResult(BaseModel):
     visual_spec: str | None = None
     prompt_tokens: int | None = None
     completion_tokens: int | None = None
+    usage_measurements_complete: bool = True
+    atomic_claims: list[list[AtomicClaim]] = Field(default_factory=list)
+    semantic_reports: list[SemanticReport] = Field(default_factory=list)
+    verification_latencies_seconds: list[float] = Field(default_factory=list)
+    provenance_errors: list[str] = Field(default_factory=list)
 
 
 class ResearchRecord(BaseModel):
@@ -158,4 +220,29 @@ class Summary(BaseModel):
     peak_simultaneous_ollama_calls: int
     external_model_api_charges_usd: float
     local_inference_cost: str
+
+
+class ClaimsRecord(BaseModel):
+    slot_id: str
+    attempts: list[list[AtomicClaim]]
+
+
+class EvidenceProvenanceRecord(BaseModel):
+    slot_id: str
+    errors: list[str]
+    evidence: list[Evidence]
+
+
+class SemanticRecord(BaseModel):
+    slot_id: str
+    attempts: list[SemanticReport]
+    latencies_seconds: list[float]
+
+
+class GroundingSummary(BaseModel):
+    slots: int
+    atomic_claims_evaluated: int
+    verdict_counts: dict[str, int]
+    verification_latency_seconds: float
+    accepted_claims: int
 

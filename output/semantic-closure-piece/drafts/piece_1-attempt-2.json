@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "A malicious contract may call back into the caller before the first function invocation finishes.",
+    "This may cause different invocations of the same function to interact in undesirable ways.",
+    "Make sure all internal state changes are performed before executing an external call.",
+    "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.",
+    "Following this ordering is a best practice to avoid reentrancy weaknesses."
+  ],
+  "claims": [
+    {
+      "text": "A malicious contract may call back into the caller before the first function invocation finishes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "This may cause different invocations of the same function to interact in undesirable ways.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Make sure all internal state changes are performed before executing an external call.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Using a reentrancy lock, such as OpenZeppelin's ReentrancyGuard, is a common mitigation.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Following this ordering is a best practice to avoid reentrancy weaknesses.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    }
+  ]
+}

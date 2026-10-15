@@ -56,5 +56,7 @@ def load_registry() -> Registry:
 
 
 def load_kb() -> KnowledgeBase:
+    # Shape errors are global input errors. Source availability and integrity
+    # belong to the selected slot, so one broken snapshot cannot stop a week.
     return read_json(ROOT / "kb.json", KnowledgeBase)
 

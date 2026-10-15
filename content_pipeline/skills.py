@@ -20,7 +20,9 @@ class EvidenceLookup:
             raise ValueError(f"No specific KB topic found for focus {focus!r}")
         matches = []
         for item in self.kb.vulnerabilities:
-            haystack = f"{item.name} {item.category} {item.description} {item.root_cause}".lower()
+            # Topic routing uses vetted labels, not prose summaries that may drift
+            # from pinned source quotations or carry unreviewed wording.
+            haystack = f"{item.name} {item.category}".lower()
             score = len(words & set(re.findall(r"[a-z0-9]+", haystack))) / len(words)
             if score >= 0.75:
                 matches.append((score, item))

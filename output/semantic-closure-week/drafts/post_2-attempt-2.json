@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Teams should verify their own contracts for similar initialization exposure patterns."
+  ],
+  "claims": [
+    {
+      "text": "Teams should verify their own contracts for similar initialization exposure patterns.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}
