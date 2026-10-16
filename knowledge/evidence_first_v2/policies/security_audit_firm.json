@@ -1,0 +1,75 @@
+{
+  "business_id": "sanadsquad_security_audit",
+  "policy_version": "1.0.0",
+  "brand_profile": "Authoritative, cautious, deeply technical smart contract auditing firm.",
+  "target_audience": "Protocol founders, lead smart contract engineers, security researchers.",
+  "content_objectives": [
+    "Educate developers on subtle EVM vulnerability mechanisms",
+    "Promote rigorous auditing workflows"
+  ],
+  "approved_source_ids": [
+    "SWC-107",
+    "SWC-104",
+    "SWC-113",
+    "SWC-105",
+    "SCWE-028",
+    "SWC-107-1",
+    "OWASP-SC03",
+    "SRC_SWC_107",
+    "SRC_SWC_104",
+    "SRC_SWC_113",
+    "SRC_SWC_105",
+    "SRC_SCWE_028",
+    "SRC_OWASP_SC03",
+    "SRC_OZ_REENTRANCY",
+    "SRC_OZ_OWNABLE"
+  ],
+  "allowed_topics": [
+    "SWC-107",
+    "SWC-104",
+    "SWC-113",
+    "SWC-105",
+    "SCWE-028",
+    "reentrancy",
+    "access control",
+    "oracle manipulation",
+    "call return",
+    "failed call",
+    "price oracle",
+    "withdrawal",
+    "ether withdrawal"
+  ],
+  "prohibited_claim_categories": [
+    "100% secure",
+    "unhackable",
+    "revolutionary",
+    "zero risk",
+    "guaranteed exploit prevention"
+  ],
+  "platform_constraints": {
+    "max_tweet_chars": 280,
+    "min_tech_thread_tweets": 5,
+    "max_tech_thread_tweets": 10,
+    "marketing_post_tweets": 1,
+    "forbid_hashtags": true,
+    "allowed_domains": []
+  },
+  "mandatory_disclaimers": [],
+  "allowed_content_types": [
+    "tech-thread",
+    "marketing-post"
+  ],
+  "quality_thresholds": {
+    "min_factual_support": 4,
+    "min_technical_correctness": 4,
+    "min_brand_voice": 3,
+    "min_clarity": 3,
+    "min_platform_format": 3,
+    "min_usefulness": 3
+  },
+  "human_review_requirements": {
+    "require_human_approval_for_ship": false,
+    "flag_ambiguous_verdicts": true,
+    "flag_financial_or_legal_topics": true
+  }
+}

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -12,13 +13,23 @@ from .export import export_run
 from .graph import build_week_graph
 from .llm import LocalModel
 from .schemas import Plan, Slot
+from .proposition_catalog import load_catalog
+from .business_policy import load_business_policy
 
 
 def default_output(base: str) -> Path:
     return Path(base) / datetime.now().strftime("run-%Y%m%d-%H%M%S-%f")
 
 
-async def execute(plan: Plan, output: Path, model=None) -> dict:
+async def execute(
+    plan: Plan,
+    output: Path,
+    model=None,
+    mode: str | None = None,
+    policy: str | None = None,
+    authorization_mode: str = "publication_eligible",
+) -> dict:
+    mode = mode or os.getenv("SANADSQUAD_MODE", "evidence_first_v2")
     if output.exists():
         raise FileExistsError(f"Output already exists: {output}")
     brand_text, brand_rules = load_brand()
@@ -29,10 +40,32 @@ async def execute(plan: Plan, output: Path, model=None) -> dict:
         raise ValueError(f"Unsupported content type(s): {unknown}")
     cfg = settings()
     model = model or LocalModel(cfg["model"], cfg["base_url"], cfg["max_concurrency"], cfg["timeout"], cfg["transport_retries"])
-    app, _ = build_week_graph(model, kb, registry, brand_text, brand_rules)
+
+    catalog = None
+    business_policy = None
+    if mode == "evidence_first_v2":
+        catalog = load_catalog(ROOT / "knowledge" / "evidence_first_v2" / "catalog.json")
+        policy_source = policy or (ROOT / "knowledge" / "evidence_first_v2" / "policies" / "security_audit_firm.json")
+        business_policy = load_business_policy(policy_source)
+
+    app, _ = build_week_graph(
+        model,
+        kb,
+        registry,
+        brand_text,
+        brand_rules,
+        mode=mode,
+        catalog=catalog,
+        business_policy=business_policy,
+        authorization_mode=authorization_mode,
+    )
     started = time.monotonic()
-    state = await app.ainvoke({"plan": plan, "results": []})
-    summary = export_run(output, plan, state["results"], time.monotonic() - started, cfg["model"], model.peak_active)
+    state = await app.ainvoke({
+        "plan": plan,
+        "results": [],
+        "authorization_mode": authorization_mode,
+    })
+    summary = export_run(output, plan, state["results"], time.monotonic() - started, cfg["model"], model.peak_active, mode=mode)
     print(json.dumps(summary, indent=2))
     return summary
 
@@ -42,6 +75,14 @@ def week_main(argv=None) -> int:
     parser.add_argument("--plan", type=Path, default=ROOT / "plan.json")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--set", action="append", default=[], metavar="SLOT_ID=FOCUS")
+    parser.add_argument("--mode", choices=["legacy", "evidence_first_v2"], default=os.getenv("SANADSQUAD_MODE", "evidence_first_v2"))
+    parser.add_argument("--policy", help="Business policy profile name (e.g. security_audit_firm) or JSON path")
+    parser.add_argument(
+        "--authorization-mode",
+        choices=["publication_eligible", "pilot_evaluation"],
+        default="publication_eligible",
+        help="Authorization clearance mode (default: publication_eligible)",
+    )
     args = parser.parse_args(argv)
     try:
         registry = load_registry()
@@ -56,7 +97,20 @@ def week_main(argv=None) -> int:
             if not focus.strip():
                 raise ValueError("Override focus cannot be empty")
             slot_map[id].focus = focus.strip()
-        summary = asyncio.run(execute(plan, args.output or default_output(settings()["output_base"])))
+        exec_kwargs = {}
+        if args.mode:
+            exec_kwargs["mode"] = args.mode
+            if args.policy:
+                exec_kwargs["policy"] = args.policy
+            if args.authorization_mode:
+                exec_kwargs["authorization_mode"] = args.authorization_mode
+        summary = asyncio.run(
+            execute(
+                plan,
+                args.output or default_output(settings()["output_base"]),
+                **exec_kwargs,
+            )
+        )
         return 0 if summary["failed"] == 0 and summary["shipped"] > 0 else 1
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
@@ -68,13 +122,34 @@ def piece_main(argv=None) -> int:
     parser.add_argument("--type", required=True, help="Registered content type")
     parser.add_argument("--topic", required=True)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--mode", choices=["legacy", "evidence_first_v2"], default=os.getenv("SANADSQUAD_MODE", "evidence_first_v2"))
+    parser.add_argument("--policy", help="Business policy profile name (e.g. security_audit_firm) or JSON path")
+    parser.add_argument(
+        "--authorization-mode",
+        choices=["publication_eligible", "pilot_evaluation"],
+        default="publication_eligible",
+        help="Authorization clearance mode (default: publication_eligible)",
+    )
     args = parser.parse_args(argv)
     try:
         registry = load_registry()
         if args.type not in registry.types:
             raise ValueError(f"Unsupported content type {args.type!r}; supported: {list(registry.types)}")
         plan = Plan(slots=[Slot(id="piece_1", type=args.type, focus=args.topic)])
-        summary = asyncio.run(execute(plan, args.output or default_output(settings()["output_base"])))
+        exec_kwargs = {}
+        if args.mode:
+            exec_kwargs["mode"] = args.mode
+            if args.policy:
+                exec_kwargs["policy"] = args.policy
+            if args.authorization_mode:
+                exec_kwargs["authorization_mode"] = args.authorization_mode
+        summary = asyncio.run(
+            execute(
+                plan,
+                args.output or default_output(settings()["output_base"]),
+                **exec_kwargs,
+            )
+        )
         return 0 if summary["shipped"] == 1 else 1
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)

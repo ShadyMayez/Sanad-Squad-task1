@@ -1,0 +1,245 @@
+{
+  "$defs": {
+    "EvidenceWitness": {
+      "properties": {
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "snapshot_path": {
+          "title": "Snapshot Path",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "source_quote": {
+          "title": "Source Quote",
+          "type": "string"
+        },
+        "spans": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Spans",
+          "type": "array"
+        },
+        "scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scope"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "snapshot_path",
+        "snapshot_sha256",
+        "source_quote",
+        "spans"
+      ],
+      "title": "EvidenceWitness",
+      "type": "object"
+    },
+    "TypedRelation": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "relation_type": {
+          "enum": [
+            "CAUSES",
+            "ENABLES",
+            "REQUIRES_CONDITION",
+            "CAN_LEAD_TO",
+            "RECOMMENDS_FOR",
+            "MITIGATES",
+            "HAS_LIMITATION",
+            "APPLIES_TO_VERSION",
+            "ACTION_RATIONALE",
+            "INSTRUMENTAL",
+            "CONDITIONAL",
+            "TELEOLOGICAL"
+          ],
+          "title": "Relation Type",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "direction": {
+          "default": "source_to_target",
+          "title": "Direction",
+          "type": "string"
+        },
+        "modality": {
+          "default": "factual",
+          "title": "Modality",
+          "type": "string"
+        },
+        "scope": {
+          "default": "vulnerability_domain",
+          "title": "Scope",
+          "type": "string"
+        },
+        "evidence_span_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Span Ids",
+          "type": "array"
+        },
+        "catalog_version": {
+          "default": "2.0.0",
+          "title": "Catalog Version",
+          "type": "string"
+        },
+        "status": {
+          "default": "REVIEWED_FOR_PILOT",
+          "enum": [
+            "PROPOSED",
+            "REVIEWED_FOR_PILOT",
+            "APPROVED",
+            "REJECTED"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "relation_type",
+        "source_id",
+        "target_id",
+        "evidence_span_ids"
+      ],
+      "title": "TypedRelation",
+      "type": "object"
+    },
+    "VerifiedProposition": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "topic_id": {
+          "title": "Topic Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "DEFINITION",
+            "FACT",
+            "MECHANISM",
+            "PRECONDITION",
+            "CONSEQUENCE",
+            "RECOMMENDATION",
+            "LIMITATION"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "canonical_text": {
+          "title": "Canonical Text",
+          "type": "string"
+        },
+        "modality": {
+          "default": "factual",
+          "description": "epistemic modality: factual, possibility, recommendation, obligation",
+          "title": "Modality",
+          "type": "string"
+        },
+        "applicability": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "e.g. {'solidity_version': '<0.4.22'}",
+          "title": "Applicability",
+          "type": "object"
+        },
+        "evidence_span_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Span Ids",
+          "type": "array"
+        },
+        "status": {
+          "default": "REVIEWED_FOR_PILOT",
+          "enum": [
+            "PROPOSED",
+            "REVIEWED_FOR_PILOT",
+            "APPROVED",
+            "REJECTED"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "catalog_version": {
+          "default": "2.0.0",
+          "title": "Catalog Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "topic_id",
+        "kind",
+        "canonical_text",
+        "evidence_span_ids"
+      ],
+      "title": "VerifiedProposition",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "catalog_version": {
+      "default": "2.0.0",
+      "title": "Catalog Version",
+      "type": "string"
+    },
+    "propositions": {
+      "items": {
+        "$ref": "#/$defs/VerifiedProposition"
+      },
+      "title": "Propositions",
+      "type": "array"
+    },
+    "relations": {
+      "items": {
+        "$ref": "#/$defs/TypedRelation"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "evidence_witnesses": {
+      "additionalProperties": {
+        "$ref": "#/$defs/EvidenceWitness"
+      },
+      "title": "Evidence Witnesses",
+      "type": "object"
+    }
+  },
+  "required": [
+    "propositions",
+    "relations",
+    "evidence_witnesses"
+  ],
+  "title": "PropositionCatalog",
+  "type": "object"
+}

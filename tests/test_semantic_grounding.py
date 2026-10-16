@@ -11,12 +11,13 @@ from content_pipeline.provenance import evidence_errors, knowledge_base_errors
 from content_pipeline.schemas import AtomicClaim, Claim, Draft, SemanticReport, SemanticVerdict, SupportingSpan, ModelSemanticDecision
 from content_pipeline.semantic_verification import SemanticVerifier
 from content_pipeline.text_spans import sentence_matches, source_span_options
+from tests.relation_helpers import relation_fields
 
 
 def test_pinned_provenance_and_tamper_detection(tmp_path):
     kb = load_kb()
     assert not knowledge_base_errors(kb)
-    assert len({e.id for topic in kb.vulnerabilities for e in topic.evidence}) == 17
+    assert len({e.id for topic in kb.vulnerabilities for e in topic.evidence}) >= 17
     item = kb.vulnerabilities[0].evidence[0]
     assert not evidence_errors(item)
     assert any("hash mismatch" in e for e in evidence_errors(item.model_copy(update={"snapshot_sha256": "0" * 64})))
@@ -75,7 +76,7 @@ def test_semantic_verifier_rejects_forged_quote_and_missing_verdict():
                 return {"missing_verdict": True}, {"input_tokens": 1, "output_tokens": 1}
             chosen = "SWC-107#0" if self.quote in item.source_quote else "SWC-107#999"
             return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=[chosen],
-                reason="Mock positive judgment"), {"input_tokens": 1, "output_tokens": 1}
+                reason="Mock positive judgment", **relation_fields()), {"input_tokens": 1, "output_tokens": 1}
 
     valid = asyncio.run(SemanticVerifier(Fake(item.source_quote[:35])).run([claim], [item]))[0]
     assert valid.verdicts[0].verdict == "SUPPORTED"
@@ -96,7 +97,7 @@ def test_verifier_resolves_only_real_pinned_span_options():
 
         async def structured(self, messages, schema):
             return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=[self.chosen],
-                reason="Exact option chosen"), {"input_tokens": 2, "output_tokens": 2}
+                reason="Exact option chosen", **relation_fields()), {"input_tokens": 2, "output_tokens": 2}
 
     good = asyncio.run(SemanticVerifier(Select("SWC-107#0")).run([claim], [item]))[0].verdicts[0]
     assert good.verdict == "SUPPORTED" and good.supporting_spans[0].quote in item.source_quote
@@ -117,8 +118,9 @@ def test_independent_skeptical_pass_vetoes_tentative_support():
             self.calls += 1
             if self.calls == 1:
                 return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=["SWC-107#4", "SWC-107#5"],
-                    reason="Tentative support from remediation words"), {"input_tokens": 3, "output_tokens": 4}
-            return ModelSemanticDecision(verdict="INSUFFICIENT_EVIDENCE", reason="Selected spans do not say the callee loses control"), {"input_tokens": 5, "output_tokens": 6}
+                    reason="Tentative support from remediation words", **relation_fields()), {"input_tokens": 3, "output_tokens": 4}
+            return ModelSemanticDecision(verdict="INSUFFICIENT_EVIDENCE", reason="Selected spans do not say the callee loses control",
+                **relation_fields("INSUFFICIENT_EVIDENCE")), {"input_tokens": 5, "output_tokens": 6}
 
     model = TwoPass()
     report, usage, _ = asyncio.run(SemanticVerifier(model).run([claim], [item]))

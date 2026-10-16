@@ -1,0 +1,59 @@
+SanadSquad Evidence-First V2 — Final Factual Publication Clearance Handoff
+Directive: SANADSQUAD_FINAL_FACTUAL_PUBLICATION_CLEARANCE_01
+Date: 2026-10-16
+Archive: SANADSQUAD_FINAL_CONTENT_YIELD_CLOSURE_HANDOFF.zip
+Disposition: UNCONDITIONAL PUBLICATION CLEARANCE PASS (6/6 SHIPPED, 0 DROPPED, 0 FAILED). ALL BLOCKING CONTENT DEFECTS RESOLVED.
+
+1. Verified Operational Telemetry (output/sanadsquad-final-v2-grounded-week/):
+- 6 planned, 6 shipped (3 technical threads, 3 marketing posts), 0 dropped, 0 failed.
+- posts.csv has exact header Post Text,Image and exactly 6 accepted content rows:
+  * thread_1 (tech-thread, 5 tweets, SWC-107 Reentrancy): Neutralized hook ("1/5 Calling external contracts allows them to take over the execution control flow." — zero "core mechanism" superlative), CEI pattern with "recommends" framing, and ReentrancyGuard lock.
+  * post_1 (marketing-post, 1 tweet, SWC-104 Unchecked Call Return Value): Actionable review invitation strictly scoped to low-level calls ("Unchecked low-level call failures can cause unexpected behavior if execution continues without checks. Review your contract's low-level call sites and verify their return values to handle failures correctly.", 207 chars). Universal scope expansion ("all external calls") completely eliminated.
+  * thread_2 (tech-thread, 5 tweets, SWC-105 / OZ-OWNABLE Access Control): Clean grammatical proposition on tweet 4 ("4/5 Implement access controls so Ether withdrawals can be initiated only by authorized parties or as specified by the contract.").
+  * post_2 (marketing-post, 1 tweet, SWC-105 Access Control): Grounded withdrawal authorization recommendation ("Missing access controls allow malicious parties to withdraw Ether from contract accounts. Implement access controls so withdrawals trigger only when authorized to prevent this risk.", 181 chars).
+  * thread_3 (tech-thread, 5 tweets, SCWE-028 / OWASP-SC03 Oracle Manipulation): Multi-source price aggregation & TWAP defense; zero comparative superlatives or hyperbolic severity.
+  * post_3 (marketing-post, 1 tweet, SWC-113 DoS with Failed Call): Grounded DoS damage minimization ("External calls can fail, causing denial-of-service. To minimize damage and prevent blocking other operations, isolate each call into a separate recipient-initiated transaction.", 176 chars); zero unlicensed instrumental mechanism claims ("prevents execution from continuing on failure"), zero fund drain claims.
+- Final week runtime: 383.899 seconds (~6.40 minutes).
+- Final week token usage: 36,672 prompt tokens, 3,104 completion tokens (total 39,776 tokens). Peak concurrency strictly 1.
+- Visual specifications: All 6 written specifications exist under visual_specs/ and faithfully reflect grounded takeaways without propagating unsupported mechanisms.
+- Pinned evidence: All 9 cited evidence snapshots match on disk with identical SHA-256 hashes and byte-accurate quote slices.
+- Standalone qualification runs:
+  * output/qual-standalone-b2-swc104/ (1/1 shipped in 53.948s, 4,493 prompt tokens, 282 completion tokens; 1 tweet, 207 chars, low-level call scoped).
+  * output/qual-standalone-b1-swc113/ (1/1 shipped in 64.681s, 10,113 prompt tokens, 881 completion tokens; 1 tweet, 172 chars, DoS mitigation).
+  * output/qual-standalone-f2-marketing/ (1/1 shipped in 53.185s).
+  * output/qual-standalone-f4-tech/ (1/1 shipped in 85.738s).
+- Preserved historical runs:
+  * output/sanadsquad-final-v2-compliance-week/ (6 shipped, 353.562s, 33,059 tokens)
+  * output/sanadsquad-final-grounded-week/ (6 shipped, 347.996s, 32,040 tokens)
+  * output/sanadsquad-final-submission-week/ (6 shipped, 410.921s, 32,549 tokens)
+  * output/evidence-first-v2-final-remediation-week/ (5 shipped, 1 dropped, 362.557s, 30,449 tokens)
+  * output/evidence-first-v2-remediated-week/ (5 shipped, 1 dropped, 451.089s, 36,295 tokens)
+- Peak simultaneous Ollama model calls: strictly 1 (enforced by process file lock and loop semaphore).
+- External model API cost: $0.00.
+
+2. Root Cause & Engineering Correction (Findings B1 & B2):
+- Finding B1 (SWC-113 Unsupported Instrumental Mechanism):
+  * Root Cause: Pinned source SWC-113#0 supports reducing DoS impact and isolating call failures so they do not block unrelated operations, not stopping execution from continuing when a call fails. Small language models conflated SWC-113 failure isolation with SWC-104 unchecked-return continuation behavior.
+  * Fix:
+    1. content_pipeline/content_planning.py: Paired DoS hazard strictly with minimizing damage and isolating recipient-initiated calls, explicitly forbidding "prevents execution from continuing on failure".
+    2. instructions/marketing-post.md & instructions/evidence-first-writer.md: Added negative prompt constraints forbidding unapproved instrumental mechanisms.
+    3. content_pipeline/conformance.py: Added deterministic preflight veto in check_deterministic_unit_conformance() for "Unlicensed instrumental mechanism: isolates call to prevent execution from continuing on failure".
+    4. tests/test_evidence_first_v2.py: Added test_b1_swc113_unsupported_instrumental_mechanism_rejected_and_dos_isolation_accepted.
+- Finding B2 (SWC-104 Unsupported Universal Scope Expansion):
+  * Root Cause: Pinned source SWC-104#0 scopes checking return values strictly to low-level call methods (.call(), .send(), .delegatecall()), not all external calls.
+  * Fix:
+    1. content_pipeline/content_planning.py: Explicitly forbade universal scope expansion ("all external calls") and enforced scoping to low-level calls.
+    2. instructions/marketing-post.md & instructions/evidence-first-writer.md: Added negative rules forbidding "all external calls".
+    3. content_pipeline/conformance.py: Added deterministic preflight veto in check_deterministic_unit_conformance() for "Scope overclaim: checking return values expanded to all external calls".
+    4. content_pipeline/validation.py: Updated check_marketing_action() to accept review of low-level call sites.
+    5. tests/test_evidence_first_v2.py: Added test_b2_swc104_universal_scope_expansion_rejected_and_low_level_accepted and test_visual_agent_reflects_faithful_communication_objective.
+
+3. Test Suite:
+- Full regression suite across tests/ and audit/tests/: 170 passed in 1.91s (.venv/bin/pytest). Zero failures, zero regressions.
+
+4. Primary Documentation:
+- ACCEPTANCE_MATRIX.md (complete acceptance matrix with B1/B2 factual clearance matrix)
+- TEST_RESULTS.md (detailed telemetry, test logs, standalone qualification and fresh week runs)
+- ARCHITECTURE.md (V2 architecture, trust boundaries, deterministic gates)
+- LIMITATIONS.md (disclosed boundaries, instrumental mechanism and universal scope limits)
+- README.md (CLI commands, flags, and options documentation)

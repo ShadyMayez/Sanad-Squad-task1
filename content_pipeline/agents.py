@@ -5,7 +5,7 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage, SystemMessage
 from .config import ROOT
 from .llm import LocalModel
-from .schemas import AtomicClaim, Draft, Evidence, Review, SemanticReport, Slot, Vulnerability, WriterConfig
+from .schemas import AtomicClaim, Draft, Evidence, MarketingDraft, Review, SemanticReport, Slot, TechThreadDraft, Vulnerability, WriterConfig
 from .skills import EvidenceLookup
 
 
@@ -19,6 +19,50 @@ def evidence_task_records(evidence: list[Evidence]) -> list[dict]:
     return [{"id": e.id, "url": e.url, "source_title": e.source_title,
         "source_type": e.source_type, "snapshot_sha256": e.snapshot_sha256,
         "source_quote": e.source_quote, "scope": e.scope} for e in evidence]
+
+
+from .relation_integrity import DIRECT_CAUSAL, NORMATIVE_EVIDENCE, source_span_relation_hints
+
+
+def build_evidence_plan(topic: Vulnerability, is_thread: bool) -> dict:
+    """Construct an internal evidence plan mapping verified source points to content points."""
+    plan_steps = []
+    for ev in topic.evidence:
+        quote = ev.source_quote or ""
+        roles = source_span_relation_hints(quote)
+        is_remediation = "RECOMMENDATION" in roles or NORMATIVE_EVIDENCE.search(quote) is not None
+        has_causal = "CAUSAL_DESCRIPTION" in roles or DIRECT_CAUSAL.search(quote) is not None
+
+        step = {
+            "evidence_id": ev.id,
+            "source_title": ev.source_title,
+            "roles": roles,
+            "allowed_relations": ["DIRECT_RECOMMENDATION", "CONTEXTUAL_SUPPORT"] if is_remediation else (
+                ["DIRECT_CAUSAL_SUPPORT", "DIRECT_DESCRIPTIVE_SUPPORT", "CONTEXTUAL_SUPPORT"] if has_causal else
+                ["DIRECT_DESCRIPTIVE_SUPPORT", "CONTEXTUAL_SUPPORT"]
+            ),
+            "prohibited_inferences": [
+                "Do not invert remediation into root-cause claims without causal evidence",
+                "Do not claim universal 100% prevention or absolute safety guarantees",
+                "Do not invent unverified statistics, company clients, or external hacks",
+            ]
+        }
+        plan_steps.append(step)
+
+    if is_thread:
+        return {
+            "format": "technical_thread",
+            "target_tweets": "5 to 6 ordered tweets forming a progression: hazard -> mechanism -> state risk -> consequence -> mitigation -> takeaway",
+            "available_evidence_points": plan_steps,
+            "instruction": "Each tweet must teach one distinct point grounded in available_evidence_points. Do not invent filler."
+        }
+    else:
+        return {
+            "format": "marketing_post",
+            "pattern": "Action (Review...) -> grounded technical concern -> practical significance",
+            "available_evidence_points": plan_steps,
+            "instruction": "Write exactly one sentence as one tweet under 280 characters. Connect the review action to a grounded technical concern from the evidence."
+        }
 
 
 class ResearchAgent:
@@ -38,9 +82,12 @@ class WriterAgent:
     async def run(self, slot: Slot, topic: Vulnerability, feedback: list[str] | None = None) -> tuple[Draft, dict]:
         guidance = instruction(self.config.instruction_file)
         evidence = evidence_task_records(topic.evidence)
+        is_thread = self.config.max_tweets > 1
+        plan = build_evidence_plan(topic, is_thread)
         task = {"slot": slot.model_dump(), "topic": topic.name,
             "brand_rules": self.brand_text, "evidence": evidence,
-            "revision_feedback": feedback or [], "task": "Create a Draft; source_quote is the primary factual authority. Every public sentence needs an exact-text claim mapping with supplied evidence IDs."}
+            "evidence_plan": plan,
+            "revision_feedback": feedback or [], "task": "Create a Draft following the evidence_plan; source_quote is the primary factual authority. Every public sentence needs an exact-text claim mapping with supplied evidence IDs."}
         return await self.model.structured([SystemMessage(content=guidance), HumanMessage(content=json.dumps(task, ensure_ascii=False))], Draft)
 
 
@@ -59,6 +106,10 @@ class ReviewerAgent:
             "context_windows": [window.model_dump() for window in item.context_windows],
             "initial_verdict": item.initial_pass.verdict if item.initial_pass else None,
             "skeptical_verdict": item.skeptical_pass.verdict if item.skeptical_pass else None,
+            "claim_relations": item.claim_relations, "evidence_relation": item.evidence_relation,
+            "relationship_verdict": item.relationship_verdict,
+            "relation_integrity_passed": item.relation_integrity_passed,
+            "relation_error": item.relation_error,
             **({"reason": item.reason} if item.verdict != "SUPPORTED" else {})}
             for item in semantic.verdicts]} if semantic else None)
         task = {"brand_voice_guidance": self.brand_text.split("```json", 1)[0].strip(),
@@ -157,7 +208,125 @@ class VisualAgent:
             "Layout and composition: 16:9 landscape; headline upper left, diagram central, takeaway lower right, generous whitespace.\n"
             "Visual hierarchy: topic title, evidence-supported interaction, concise review action.\n"
             "Brand and typography: deep navy background, teal accents, white high-contrast labels, restrained sans-serif type.\n"
-            "Accessibility: readable labels and contrast; never convey meaning by color alone.\n"
-            "Prohibited depictions: no invented incident, client, loss amount, guarantee, or unsupported exploit step.\n\n"
             f"Design policy (editable):\n{guide}\n")
+
+
+class EvidenceFirstWriterAgent:
+    def __init__(
+        self,
+        model: LocalModel,
+        content_type: str | None = None,
+        role_instruction_file: str | None = None,
+        instruction_text: str | None = None,
+    ):
+        self.model = model
+        self.content_type = content_type
+        self.role_instruction_file = role_instruction_file
+        self._instruction_text = instruction_text
+
+    @property
+    def system_prompt(self) -> str:
+        if self._instruction_text is not None:
+            return self._instruction_text
+        base_rules = instruction("instructions/evidence-first-writer.md")
+        role_file = self.role_instruction_file
+        if not role_file and self.content_type:
+            if self.content_type == "tech-thread":
+                role_file = "instructions/tech-thread.md"
+            elif self.content_type == "marketing-post":
+                role_file = "instructions/marketing-post.md"
+        if role_file:
+            role_text = instruction(role_file)
+            return f"{role_text}\n\n---\n\n{base_rules}"
+        return base_rules
+
+    async def run(
+        self,
+        plan,
+        catalog,
+        targeted_feedback: list[dict] | None = None,
+        previous_tweets: list[str] | None = None,
+    ) -> tuple[Draft, dict]:
+        prop_map = {p.id: p for p in catalog.propositions}
+        rel_map = {r.id: r for r in catalog.relations}
+        is_marketing = (plan.content_type == "marketing-post")
+        exact_count = 1 if is_marketing else len(plan.units)
+        draft_schema = (
+            MarketingDraft
+            if is_marketing
+            else (TechThreadDraft if plan.content_type == "tech-thread" else Draft)
+        )
+
+        if is_marketing:
+            count_inst = (
+                "CRITICAL: The 'tweets' array in your output MUST contain EXACTLY 1 string (under 280 characters). "
+                "Multiple sentences inside this single tweet are permitted (e.g. combining the hazard and the recommended review action). "
+                "Do NOT produce multiple tweets or separate array items."
+            )
+        else:
+            count_inst = (
+                f"CRITICAL: The 'tweets' array in your output MUST contain EXACTLY {exact_count} strings "
+                "(one tweet corresponding to each planned unit, strictly 5 to 10 tweets total)."
+            )
+
+        plan_prompt_payload = {
+            "slot_id": plan.slot_id,
+            "topic_id": plan.topic_id,
+            "content_type": plan.content_type,
+            "exact_required_tweet_count": exact_count,
+            "count_instruction": count_inst,
+            "units": [
+                {
+                    "unit_id": u.id,
+                    "role": u.role,
+                    "required_qualifiers": u.required_qualifiers,
+                    "guidance": u.guidance,
+                    "canonical_propositions": [prop_map[pid].canonical_text for pid in u.proposition_ids if pid in prop_map],
+                    "approved_relations": [
+                        f"{rel_map[rid].source_id} --({rel_map[rid].relation_type})--> {rel_map[rid].target_id}"
+                        for rid in u.relation_ids if rid in rel_map
+                    ],
+                }
+                for u in plan.units
+            ],
+        }
+
+        if targeted_feedback:
+            is_marketing_count_violation = is_marketing and any(
+                fb.get("verdict") == "FORMAT_VIOLATION" or "COUNT_MISMATCH" in str(fb.get("unit_id", ""))
+                for fb in targeted_feedback
+            )
+            count_in_draft = len(previous_tweets) if previous_tweets else 2
+            if is_marketing_count_violation:
+                revision_instruction = (
+                    f"Marketing posts must contain exactly one tweet. Your draft contained {count_in_draft}. "
+                    "Rewrite the content as one coherent, source-grounded tweet within the platform character limit. "
+                    "Preserve only approved propositions and relations."
+                )
+            else:
+                revision_instruction = (
+                    f"The previous draft had {len(targeted_feedback)} issue(s). "
+                    f"You MUST produce exactly {exact_count} tweet(s) total in the `tweets` list. "
+                    "Fix the failing units according to the feedback below, while keeping conforming units stable."
+                )
+            prompt_content = {
+                "mode": "REVISION",
+                "instructions": revision_instruction,
+                "plan": plan_prompt_payload,
+                "previous_tweets": previous_tweets or [],
+                "targeted_feedback": targeted_feedback,
+            }
+        else:
+            prompt_content = plan_prompt_payload
+
+        draft, usage = await self.model.structured(
+            [
+                SystemMessage(content=self.system_prompt),
+                HumanMessage(content=json.dumps(prompt_content, ensure_ascii=False)),
+            ],
+            draft_schema,
+        )
+        if not isinstance(draft, Draft):
+            draft = draft_schema.model_validate(draft)
+        return draft, usage
 

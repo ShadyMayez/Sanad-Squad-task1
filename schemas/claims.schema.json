@@ -40,6 +40,23 @@
           "title": "Qualifiers",
           "type": "array"
         },
+        "relation_hints": {
+          "items": {
+            "enum": [
+              "DESCRIPTIVE_FACT",
+              "ROOT_CAUSE",
+              "EXECUTION_MECHANISM",
+              "CONSEQUENCE",
+              "MITIGATION_RECOMMENDATION",
+              "MITIGATION_EFFECTIVENESS",
+              "CONDITIONAL_CLAIM",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "title": "Relation Hints",
+          "type": "array"
+        },
         "sentence": {
           "minLength": 1,
           "title": "Sentence",

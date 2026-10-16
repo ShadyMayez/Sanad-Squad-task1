@@ -1,0 +1,75 @@
+RG01 SUPPORTED -> SUPPORTED (35.6s)
+RG02 SUPPORTED -> INSUFFICIENT_EVIDENCE (14.5s)
+RG03 SUPPORTED -> SUPPORTED (27.5s)
+RG04 SUPPORTED -> INSUFFICIENT_EVIDENCE (35.1s)
+RG05 SUPPORTED -> INSUFFICIENT_EVIDENCE (31.0s)
+RG06 SUPPORTED -> INSUFFICIENT_EVIDENCE (31.6s)
+RG07 SUPPORTED -> INSUFFICIENT_EVIDENCE (25.4s)
+RG08 SUPPORTED -> SUPPORTED (25.0s)
+RG09 SUPPORTED -> SUPPORTED (25.2s)
+RG10 SUPPORTED -> SUPPORTED (21.8s)
+RG11 INSUFFICIENT_EVIDENCE -> INSUFFICIENT_EVIDENCE (17.7s)
+RG12 INSUFFICIENT_EVIDENCE -> CONTRADICTED (15.7s)
+RG13 INSUFFICIENT_EVIDENCE -> CONTRADICTED (17.2s)
+RG14 INSUFFICIENT_EVIDENCE -> CONTRADICTED (14.2s)
+RG15 INSUFFICIENT_EVIDENCE -> CONTRADICTED (14.5s)
+RG16 INSUFFICIENT_EVIDENCE -> CONTRADICTED (13.7s)
+RG17 INSUFFICIENT_EVIDENCE -> CONTRADICTED (8.2s)
+RG18 INSUFFICIENT_EVIDENCE -> CONTRADICTED (9.2s)
+RG19 CONTRADICTED -> CONTRADICTED (7.4s)
+RG20 CONTRADICTED -> CONTRADICTED (7.5s)
+{
+  "count": 20,
+  "supported_precision": 1.0,
+  "supported_recall": 0.5,
+  "false_acceptance_rate": 0.0,
+  "unsupported_causal_false_accepts": [],
+  "supported_causal_false_rejects": [
+    "RG02"
+  ],
+  "recommendation_paraphrase_recall": 0.0,
+  "five_label_accuracy": 0.4,
+  "source_relation_classification_accuracy": 0.45,
+  "confusion_matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 5,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 5,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 2,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "INSUFFICIENT_EVIDENCE": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 7,
+      "INSUFFICIENT_EVIDENCE": 1,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "AMBIGUOUS": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "VERIFICATION_ERROR": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    }
+  },
+  "mean_latency_seconds": 19.883,
+  "prompt_tokens_recorded": 45027,
+  "completion_tokens_recorded": 5493,
+  "usage_complete": true,
+  "external_model_api_charges_usd": 0.0
+}

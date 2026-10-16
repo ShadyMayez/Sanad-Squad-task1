@@ -5,35 +5,71 @@ from .schemas import BrandRules, Draft, Evidence, WriterConfig
 from .skills import EvidenceLookup
 
 
-def validate_draft(draft: Draft, spec: WriterConfig, brand: BrandRules, evidence: list[Evidence], lookup: EvidenceLookup) -> list[str]:
+def check_marketing_action(text: str) -> bool:
+    """Return True if text contains a genuine actionable reader-oriented security recommendation or review invitation.
+
+    Must invite the reader to act (e.g. review, inspect, isolate, verify, ensure),
+    not merely describe passive contract code behavior (e.g. 'don't check return values' or 'fails to verify').
+    """
+    text_clean = text.strip()
+
+    action_patterns = [
+        # Direct imperative at sentence/clause start or coordinate clause (e.g. "Review...", "Inspect...", ", so isolate...", "; isolate...")
+        r"(?:^|[.!?;\n,]\s*)(?:Please\s+|so\s+)?(Review|Inspect|Audit|Examine|Assess|Verify|Validate|Isolate|Ensure|Check|Structure|Wrap|Implement)\b",
+        # Purpose/mitigation clause leading to action: "To mitigate this risk, isolate each external call..."
+        r"\bTo\s+(?:isolate|mitigate|prevent|avoid|address|handle|protect|reduce)[^,.]*,\s*(?:isolate|review|wrap|structure|implement|verify|check|ensure|inspect)\b",
+        # Prevention clause: "Prevent this by ensuring..."
+        r"\bPrevent this by\s+(?:ensuring|isolating|reviewing|verifying|implementing|structuring)\b",
+        # Action directives / recommendations
+        r"\b(?:make sure to|be sure to|recommend (?:reviewing|isolating|checking|verifying|auditing|implementing|using))\b",
+        r"\b(?:developers should|teams should|contracts must (?:handle|check|verify|isolate|ensure))\b",
+        r"\b(?:ensure (?:that\s+)?(?:return values|withdrawals|calls|contracts|each)\b)",
+        r"\b(?:explicitly (?:verify|check)|verify the returned|check the returned)\b",
+        # Direct verb-object actions: isolate each/external call, review contract/low-level call sites, etc.
+        r"\b(?:isolate|review|audit|inspect|verify|check)\s+(?:each|all|the|your|external|low-level)\b",
+    ]
+
+    for pat in action_patterns:
+        match = re.search(pat, text_clean, re.IGNORECASE)
+        if match:
+            start_pos = match.start()
+            prefix = text_clean[max(0, start_pos - 30):start_pos].lower()
+            if not re.search(r"\b(?:don't|doesn't|not|never|cannot|without|fails to|failing to)\s*$", prefix):
+                return True
+
+    return False
+
+
+def validate_brand_and_platform(
+    tweets: list[str],
+    brand: BrandRules,
+    spec: WriterConfig | None = None,
+) -> list[str]:
+    """Central deterministic validation for brand, platform, and content-type rules."""
     errors: list[str] = []
-    if not spec.min_tweets <= len(draft.tweets) <= spec.max_tweets:
-        errors.append(f"Expected {spec.min_tweets}-{spec.max_tweets} tweets, got {len(draft.tweets)}")
-    normalized_tweets = [" ".join(tweet.casefold().split()) for tweet in draft.tweets]
+
+    # 1. Content-type tweet count and review invitation
+    if spec:
+        if not (spec.min_tweets <= len(tweets) <= spec.max_tweets):
+            errors.append(f"Expected {spec.min_tweets}-{spec.max_tweets} tweets, got {len(tweets)}")
+        if spec.require_review_invitation:
+            full_text = " ".join(tweets)
+            if not check_marketing_action(full_text):
+                errors.append("Marketing post requires a practical security action")
+
+    # 2. Duplicate tweets check
+    normalized_tweets = [" ".join(tweet.casefold().split()) for tweet in tweets]
     if len(normalized_tweets) != len(set(normalized_tweets)):
         errors.append("Thread contains duplicate tweets")
-    if spec.require_review_invitation and not re.search(r"\b(review|check|audit|examine|inspect|verify|validate|assess|test|monitor|isolate|handle)\b|\bmake sure\b", " ".join(draft.tweets), re.IGNORECASE):
-        errors.append("Marketing post requires a practical security action")
-    mapped = {c.text.strip(): c for c in draft.claims}
-    if len(mapped) != len(draft.claims):
-        errors.append("Duplicate claim mappings")
-    for claim in draft.claims:
-        if not any(claim.text.strip() in tweet for tweet in draft.tweets):
-            errors.append(f"Claim text is absent from tweets: {claim.text!r}")
-        missing = lookup.verify_ids(evidence, claim.evidence_ids)
-        if missing:
-            errors.append(f"Claim cites unknown evidence IDs {missing}")
-        cited_text = " ".join(item.source_quote or "" for item in evidence if item.id in claim.evidence_ids).casefold()
-        for term in ("time-weighted", "twap", "threshold", "onlyowner", "msg.sender", "reentrancy lock", "circuit breaker", "flash loan", "checks-effects-interactions"):
-            equivalent = term == "time-weighted" and "twap" in cited_text
-            if term in claim.text.casefold() and term not in cited_text and not equivalent:
-                errors.append(f"Claim uses technical term {term!r} absent from its cited evidence")
-    for i, tweet in enumerate(draft.tweets, 1):
+
+    # 3. Per-tweet constraints: length, brand rules, banned characters, hashtags, banned words, unapproved links
+    max_chars = spec.max_chars if spec else 280
+    for i, tweet in enumerate(tweets, 1):
         if not tweet.strip():
             errors.append(f"Tweet {i} is empty")
-        serialized_length = len(tweet) + (len(f"{i}/{len(draft.tweets)} ") if len(draft.tweets) > 1 else 0)
-        if serialized_length > spec.max_chars:
-            errors.append(f"Tweet {i} exceeds {spec.max_chars} characters")
+        serialized_length = len(tweet) + (len(f"{i}/{len(tweets)} ") if len(tweets) > 1 else 0)
+        if serialized_length > max_chars:
+            errors.append(f"Tweet {i} exceeds {max_chars} characters")
         if re.search(r"\bSanadSquad\b", tweet, re.IGNORECASE) and re.search(r"\b\d+(?:[.,]\d+)?\b", tweet):
             if not any(stat.casefold() in tweet.casefold() for stat in brand.approved_statistics):
                 errors.append(f"Tweet {i} contains an unapproved company statistic")
@@ -49,9 +85,37 @@ def validate_draft(draft: Draft, spec: WriterConfig, brand: BrandRules, evidence
         for link in links:
             if link.rstrip(".,") not in brand.allowed_links:
                 errors.append(f"Tweet {i} contains unapproved link {link}")
+
+    return errors
+
+
+def validate_draft(
+    draft: Draft,
+    spec: WriterConfig,
+    brand: BrandRules,
+    evidence: list[Evidence],
+    lookup: EvidenceLookup,
+) -> list[str]:
+    """Validate full draft including brand/platform rules and claim mappings."""
+    errors = validate_brand_and_platform(draft.tweets, brand, spec)
+
+    mapped = {c.text.strip(): c for c in draft.claims}
+    if len(mapped) != len(draft.claims):
+        errors.append("Duplicate claim mappings")
+    for claim in draft.claims:
+        if not any(claim.text.strip() in tweet for tweet in draft.tweets):
+            errors.append(f"Claim text is absent from tweets: {claim.text!r}")
+        missing = lookup.verify_ids(evidence, claim.evidence_ids)
+        if missing:
+            errors.append(f"Claim cites unknown evidence IDs {missing}")
+        cited_text = " ".join(item.source_quote or "" for item in evidence if item.id in claim.evidence_ids).casefold()
+        for term in ("time-weighted", "twap", "threshold", "onlyowner", "msg.sender", "reentrancy lock", "circuit breaker", "flash loan", "checks-effects-interactions"):
+            equivalent = term == "time-weighted" and "twap" in cited_text
+            if term in claim.text.casefold() and term not in cited_text and not equivalent:
+                errors.append(f"Claim uses technical term {term!r} absent from its cited evidence")
+    for i, tweet in enumerate(draft.tweets, 1):
         sentences = re.split(r"(?<=[.!?])\s+", tweet.strip())
         for sentence in sentences:
             if sentence and not any(sentence in claim.text for claim in draft.claims):
                 errors.append(f"Tweet {i} has an unmapped sentence: {sentence!r}")
     return errors
-

@@ -15,6 +15,10 @@ class EvidenceLookup:
         self.calls.append("research")
         if not focus:
             return self.kb.vulnerabilities[index % len(self.kb.vulnerabilities)]
+        norm_focus = focus.strip().upper()
+        for item in self.kb.vulnerabilities:
+            if item.id.upper() == norm_focus:
+                return item
         words = set(re.findall(r"[a-z0-9]+", focus.lower())) - {"smart", "contract", "security", "vulnerability", "risk"}
         if not words:
             raise ValueError(f"No specific KB topic found for focus {focus!r}")

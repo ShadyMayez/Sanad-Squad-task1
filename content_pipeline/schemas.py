@@ -3,6 +3,13 @@ from __future__ import annotations
 from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
+ClaimRelation = Literal["DESCRIPTIVE_FACT", "ROOT_CAUSE", "EXECUTION_MECHANISM", "CONSEQUENCE",
+    "MITIGATION_RECOMMENDATION", "MITIGATION_EFFECTIVENESS", "CONDITIONAL_CLAIM", "OTHER"]
+EvidenceRelation = Literal["DIRECT_DESCRIPTIVE_SUPPORT", "DIRECT_CAUSAL_SUPPORT", "DIRECT_RECOMMENDATION",
+    "DIRECT_EFFECTIVENESS_SUPPORT", "CONTEXTUAL_SUPPORT", "INSUFFICIENT_RELATION",
+    "CONTRADICTORY_RELATION", "AMBIGUOUS_RELATION"]
+RelationshipVerdict = Literal["ENTAILED", "NOT_ENTAILED", "CONTRADICTED", "AMBIGUOUS"]
+
 
 class Evidence(BaseModel):
     id: str
@@ -43,6 +50,26 @@ class KnowledgeBase(BaseModel):
         return self
 
 
+
+class SentenceRelationRecord(BaseModel):
+    id: str
+    tweet_index: int = Field(ge=0)
+    sentence: str
+    start: int = Field(ge=0)
+    end: int = Field(gt=0)
+    connector: str
+    premise: str
+    conclusion: str
+    relation_type: Literal["CAUSAL", "INSTRUMENTAL", "TELEOLOGICAL", "ACTION_RATIONALE", "CONDITIONAL"]
+    candidate_evidence_ids: list[str] = Field(default_factory=list)
+    direction: str = "premise_to_conclusion"
+    quantifiers: list[str] = Field(default_factory=list)
+    conditions: list[str] = Field(default_factory=list)
+    supporting_spans: list[str] = Field(default_factory=list)
+    semantic_verdict: str | None = None
+    justification: str | None = None
+
+
 class AtomicClaim(BaseModel):
     id: str
     tweet_index: int = Field(ge=0)
@@ -54,6 +81,8 @@ class AtomicClaim(BaseModel):
     qualifiers: list[str] = Field(default_factory=list)
     claim_type: Literal["factual", "uncertain"] = "factual"
     candidate_evidence_ids: list[str] = Field(min_length=1)
+    relation_hints: list[ClaimRelation] = Field(default_factory=list)
+    sentence_relation: SentenceRelationRecord | None = None
 
 
 class SupportingSpan(BaseModel):
@@ -78,6 +107,13 @@ class VerificationPass(BaseModel):
     verdict: Literal["SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "AMBIGUOUS", "VERIFICATION_ERROR"]
     support_option_ids: list[str] = Field(default_factory=list)
     reason: str
+    claim_relations: list[ClaimRelation] = Field(default_factory=list)
+    evidence_relation: EvidenceRelation | None = None
+    relationship_verdict: RelationshipVerdict | None = None
+    contradiction_detected: bool | None = None
+    uncertainty_detected: bool | None = None
+    relation_error: str = ""
+    selected_source_roles: dict[str, list[str]] = Field(default_factory=dict)
 
 
 class SemanticVerdict(BaseModel):
@@ -95,10 +131,17 @@ class SemanticVerdict(BaseModel):
     proposed_supporting_spans: list[SupportingSpan] = Field(default_factory=list)
     initial_pass: VerificationPass | None = None
     skeptical_pass: VerificationPass | None = None
+    claim_relations: list[ClaimRelation] = Field(default_factory=list)
+    evidence_relation: EvidenceRelation | None = None
+    relationship_verdict: RelationshipVerdict | None = None
+    relation_integrity_passed: bool = False
+    relation_error: str = ""
+    selected_source_roles: dict[str, list[str]] = Field(default_factory=dict)
 
 
 class SemanticReport(BaseModel):
     verdicts: list[SemanticVerdict]
+    sentence_relations: list[SentenceRelationRecord] = Field(default_factory=list)
 
 
 class ModelSemanticDecision(BaseModel):
@@ -109,6 +152,12 @@ class ModelSemanticDecision(BaseModel):
     missing_information: str = ""
     scope_mismatch: str = ""
     confidence: float | None = Field(default=None, ge=0, le=1)
+    claim_relations: list[ClaimRelation] = Field(min_length=1)
+    evidence_relation: EvidenceRelation
+    relationship_verdict: RelationshipVerdict
+    contradiction_detected: bool
+    uncertainty_detected: bool
+    missing_relation_support: str = ""
 
 
 class Slot(BaseModel):
@@ -136,6 +185,22 @@ class Claim(BaseModel):
 class Draft(BaseModel):
     tweets: list[str] = Field(min_length=1)
     claims: list[Claim] = Field(default_factory=list)
+
+
+class MarketingDraft(Draft):
+    tweets: list[str] = Field(
+        min_length=1,
+        max_length=1,
+        description="Exactly one marketing post tweet (multiple sentences inside this single tweet are permitted, strictly under 280 characters).",
+    )
+
+
+class TechThreadDraft(Draft):
+    tweets: list[str] = Field(
+        min_length=5,
+        max_length=10,
+        description="Five to ten ordered technical thread tweets, each strictly under 280 characters.",
+    )
 
 
 class ClaimSupport(BaseModel):
@@ -179,6 +244,63 @@ class BrandRules(BaseModel):
     approved_statistics: list[str]
 
 
+class HumanApprovalRecord(BaseModel):
+    approver_id: str
+    approver_role: str
+    approved_at: str
+    approved_draft_hash: str
+    policy_id: str
+    policy_version: str
+    approval_witness: str
+    notes: str = ""
+
+    @property
+    def witness_signature(self) -> str:
+        return self.approval_witness
+
+    @classmethod
+    def create(
+        cls,
+        approver_id: str,
+        approver_role: str,
+        draft_text: str,
+        policy_id: str,
+        policy_version: str,
+        notes: str = "",
+    ) -> "HumanApprovalRecord":
+        import hashlib
+        from datetime import datetime, timezone
+        draft_hash = hashlib.sha256(draft_text.encode("utf-8")).hexdigest()
+        now_iso = datetime.now(timezone.utc).isoformat()
+        payload = f"{approver_id}:{approver_role}:{now_iso}:{draft_hash}:{policy_id}:{policy_version}"
+        witness = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        return cls(
+            approver_id=approver_id,
+            approver_role=approver_role,
+            approved_at=now_iso,
+            approved_draft_hash=draft_hash,
+            policy_id=policy_id,
+            policy_version=policy_version,
+            approval_witness=witness,
+            notes=notes,
+        )
+
+    def verify(self, draft_text: str, expected_policy_id: str, expected_policy_version: str) -> tuple[bool, str]:
+        import hashlib
+        draft_hash = hashlib.sha256(draft_text.encode("utf-8")).hexdigest()
+        if self.approved_draft_hash != draft_hash:
+            return False, f"Draft hash mismatch: approved {self.approved_draft_hash[:12]}... != current {draft_hash[:12]}..."
+        if self.policy_id != expected_policy_id:
+            return False, f"Policy ID mismatch: approved {self.policy_id!r} != expected {expected_policy_id!r}"
+        if self.policy_version != expected_policy_version:
+            return False, f"Policy version mismatch: approved {self.policy_version!r} != expected {expected_policy_version!r}"
+        payload = f"{self.approver_id}:{self.approver_role}:{self.approved_at}:{self.approved_draft_hash}:{self.policy_id}:{self.policy_version}"
+        expected_witness = hashlib.sha256(payload.encode("utf-8")).hexdigest()
+        if self.approval_witness != expected_witness:
+            return False, "Approval witness signature invalid"
+        return True, "Valid"
+
+
 class SlotResult(BaseModel):
     slot: Slot
     status: Literal["accepted", "dropped", "failed"]
@@ -194,9 +316,20 @@ class SlotResult(BaseModel):
     completion_tokens: int | None = None
     usage_measurements_complete: bool = True
     atomic_claims: list[list[AtomicClaim]] = Field(default_factory=list)
+    sentence_relations: list[list[SentenceRelationRecord]] = Field(default_factory=list)
     semantic_reports: list[SemanticReport] = Field(default_factory=list)
     verification_latencies_seconds: list[float] = Field(default_factory=list)
     provenance_errors: list[str] = Field(default_factory=list)
+    conformance_report: dict | None = None
+    evidence_plan: dict | None = None
+    human_approval_required: bool = False
+    human_approved: bool | None = None
+    human_approval_witness: dict | str | None = None
+    human_approval_record: HumanApprovalRecord | None = None
+    authorization_mode: str = "pilot_evaluation"
+    publication_status: str = "SHIPPED"
+    business_policy_version: str | None = None
+    pipeline_mode: str = "legacy"
 
 
 class ResearchRecord(BaseModel):
@@ -233,6 +366,7 @@ class Summary(BaseModel):
     model: str
     planned: int
     shipped: int
+    ready_for_human_review: int = 0
     dropped: int
     failed: int
     reasons: list[FailureRecord]
@@ -243,6 +377,7 @@ class Summary(BaseModel):
     peak_simultaneous_ollama_calls: int
     external_model_api_charges_usd: float
     local_inference_cost: str
+    pipeline_mode: str = "legacy"
 
 
 class ClaimsRecord(BaseModel):
@@ -257,6 +392,7 @@ class EvidenceProvenanceRecord(BaseModel):
 
 
 class SemanticRecord(BaseModel):
+    schema_version: Literal["2.0"] | None = None
     slot_id: str
     attempts: list[SemanticReport]
     latencies_seconds: list[float]

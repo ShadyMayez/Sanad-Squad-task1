@@ -1,0 +1,431 @@
+{
+  "summary": {
+    "evaluation_timestamp": "2026-10-16T15:02:31Z",
+    "total_cases_evaluated": 12,
+    "generative_cases_evaluated": 6,
+    "generative_conformance_rate": 1.0,
+    "adversarial_cases_evaluated": 6,
+    "adversarial_rejection_rate": 1.0,
+    "false_acceptance_count": 0,
+    "total_generative_tokens": 10419,
+    "average_tokens_per_generative_piece": 1736.5,
+    "total_generative_runtime_seconds": 257.54,
+    "average_runtime_per_piece_seconds": 42.92,
+    "go_no_go_decision": "GO_TO_STAGE_3"
+  },
+  "cases": [
+    {
+      "case_id": "GEN-01",
+      "type": "generative",
+      "topic_id": "SWC-107",
+      "content_type": "tech-thread",
+      "preflight_passed": true,
+      "plan_units_count": 6,
+      "generated_tweets": [
+        "Calling external contracts allows them to take over the execution control flow.",
+        "In a reentrancy attack, an external contract calls back into the caller before the initial invocation completes.",
+        "These recursive callbacks can cause separate function invocations to interact in undesirable ways.",
+        "The Checks-Effects-Interactions pattern mandates performing all internal state changes before external calls are executed.",
+        "Using a reentrancy lock, such as OpenZeppelin ReentrancyGuard, prevents reentrant function execution.",
+        "Recursive callbacks can cause separate function invocations to interact in undesirable ways. This interaction provides the rationale for applying Checks-Effects-Interactions."
+      ],
+      "all_conforming": true,
+      "conforming_units": 6,
+      "total_units": 6,
+      "revision_performed": true,
+      "unit_results": [
+        {
+          "unit_id": "GEN-01_u1",
+          "tweet_text": "Calling external contracts allows them to take over the execution control flow.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated tweet text is an exact match for the approved canonical proposition (PROP_SWC107_CONTROL_FLOW). It accurately expresses the mechanism that external contract calls can alter execution control flow without introducing unapproved facts, reversing causality, or violating scope constraints.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-01_u2",
+          "tweet_text": "In a reentrancy attack, an external contract calls back into the caller before the initial invocation completes.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated tweet text is an exact match to the approved canonical proposition (PROP_SWC107_REENTRANT_CALL). It accurately describes the mechanism of a reentrancy attack without introducing unapproved facts, reversing causality, or making absolute guarantees. The text faithfully realizes the assigned content unit.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-01_u3",
+          "tweet_text": "These recursive callbacks can cause separate function invocations to interact in undesirable ways.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated tweet text is a direct paraphrase of the approved canonical proposition (PROP_SWC107_UNDESIRABLE_INTERACTION). It accurately expresses the causal relationship defined in the plan without introducing unapproved technical details, reversing causality, or making absolute guarantees. The text faithfully realizes the assigned content unit.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-01_u4",
+          "tweet_text": "The Checks-Effects-Interactions pattern mandates performing all internal state changes before external calls are executed.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated tweet text is a direct paraphrase of the approved canonical proposition (PROP_SWC107_CEI_PATTERN). It accurately expresses the recommendation to perform internal state changes before external calls without introducing unlicensed assertions, reversing causal mechanisms, or violating scope constraints. The text faithfully realizes the assigned content unit.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-01_u5",
+          "tweet_text": "Using a reentrancy lock, such as OpenZeppelin ReentrancyGuard, prevents reentrant function execution.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated tweet text is an exact match to the approved canonical proposition (PROP_SWC107_REENTRANCY_GUARD). It accurately expresses the recommendation that using a reentrancy lock prevents reentrant function execution without introducing unapproved facts, reversing causality, or violating scope constraints.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-01_u6",
+          "tweet_text": "Recursive callbacks can cause separate function invocations to interact in undesirable ways. This interaction provides the rationale for applying Checks-Effects-Interactions.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text accurately expresses the approved proposition regarding SWC-107 (undesirable interactions from recursive callbacks) and correctly applies the approved relation to justify the CEI pattern. No unapproved facts, causal inversions, or scope violations are present.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 16.288,
+      "conformance_latency_seconds": 81.50399999999999,
+      "total_elapsed_seconds": 118.548,
+      "tokens": {
+        "input_tokens": 3377,
+        "output_tokens": 837
+      }
+    },
+    {
+      "case_id": "GEN-02",
+      "type": "generative",
+      "topic_id": "SWC-107",
+      "content_type": "marketing-post",
+      "preflight_passed": true,
+      "plan_units_count": 1,
+      "generated_tweets": [
+        "External contract calls can hijack execution flow, so always follow the Checks-Effects-Interactions pattern: validate inputs, update state internally first, then call externally. This applies to all Solidity code."
+      ],
+      "all_conforming": true,
+      "conforming_units": 1,
+      "total_units": 1,
+      "revision_performed": false,
+      "unit_results": [
+        {
+          "unit_id": "GEN-02_u1",
+          "tweet_text": "External contract calls can hijack execution flow, so always follow the Checks-Effects-Interactions pattern: validate inputs, update state internally first, then call externally. This applies to all Solidity code.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet accurately reflects the approved propositions: it correctly identifies that external calls can hijack control flow (PROP_SWC107_CONTROL_FLOW) and recommends performing internal state changes before external calls (PROP_SWC107_CEI_PATTERN). The causal link between the risk and the mitigation is preserved. The addition of 'validate inputs' is a standard component of the Checks-Effects-Interactions pattern implied by the canonical text, not an unlicensed assertion. The phrase 'applies to all Solidity code' is a generalization that does not contradict the approved propositions or introduce specific version boundaries where none were mandated in the plan.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 5.619,
+      "conformance_latency_seconds": 8.519,
+      "total_elapsed_seconds": 14.138,
+      "tokens": {
+        "input_tokens": 847,
+        "output_tokens": 126
+      }
+    },
+    {
+      "case_id": "GEN-03",
+      "type": "generative",
+      "topic_id": "SWC-104",
+      "content_type": "tech-thread",
+      "preflight_passed": true,
+      "plan_units_count": 5,
+      "generated_tweets": [
+        "Low-level message calls return a boolean, but that value is ignored by default. This silent failure mode is the root cause of SWC-104.",
+        "When a low-level call throws an exception or fails, execution does not stop; it simply resumes as if nothing happened.",
+        "If a contract relies on this resumption after a failed call, subsequent logic may execute with incorrect state or data, leading to unexpected behavior.",
+        "The fix is straightforward: always check the returned boolean value from low-level calls to ensure they succeed before proceeding.",
+        "Ignoring return values in low-level calls creates a hidden execution path that can break program logic. Always validate returns to prevent this."
+      ],
+      "all_conforming": true,
+      "conforming_units": 5,
+      "total_units": 5,
+      "revision_performed": false,
+      "unit_results": [
+        {
+          "unit_id": "GEN-03_u1",
+          "tweet_text": "Low-level message calls return a boolean, but that value is ignored by default. This silent failure mode is the root cause of SWC-104.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet accurately reflects the approved proposition regarding low-level message calls ignoring return values and correctly identifies this behavior as the root cause of SWC-104. The phrasing 'silent failure mode' is a valid descriptive elaboration that does not introduce unapproved technical facts or contradict the plan.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-03_u2",
+          "tweet_text": "When a low-level call throws an exception or fails, execution does not stop; it simply resumes as if nothing happened.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated text accurately reflects the approved proposition (PROP_SWC104_EXECUTION_RESUMES) by stating that execution resumes despite exceptions or failures. It correctly captures the causal mechanism described in the plan without introducing unapproved technical details, reversing causality, or making absolute guarantees beyond the scope of the provided canonical text.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-03_u3",
+          "tweet_text": "If a contract relies on this resumption after a failed call, subsequent logic may execute with incorrect state or data, leading to unexpected behavior.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated text accurately reflects the approved proposition regarding SWC-104. It correctly identifies the condition (reliance on execution resumption after a failed call) and the consequence (incorrect state/data leading to unexpected behavior), which aligns with the causal direction established in the approved relations. No unapproved technical facts, scope violations, or contradictions are present.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-03_u4",
+          "tweet_text": "The fix is straightforward: always check the returned boolean value from low-level calls to ensure they succeed before proceeding.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet accurately paraphrases the approved canonical proposition regarding checking return values for low-level calls. It correctly identifies the action (checking the boolean) and its purpose (ensuring success), which aligns with the plan's recommendation without introducing unapproved technical details or reversing causal mechanisms.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-03_u5",
+          "tweet_text": "Ignoring return values in low-level calls creates a hidden execution path that can break program logic. Always validate returns to prevent this.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text accurately paraphrases the approved proposition regarding the consequence of ignoring return values in low-level calls (causing unexpected behavior) and correctly expresses the approved action-rationale relation by recommending validation as a preventive measure. No unapproved technical facts, causal inversions, or scope violations are present.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 15.586,
+      "conformance_latency_seconds": 33.792,
+      "total_elapsed_seconds": 49.378,
+      "tokens": {
+        "input_tokens": 1193,
+        "output_tokens": 434
+      }
+    },
+    {
+      "case_id": "GEN-04",
+      "type": "generative",
+      "topic_id": "SWC-104",
+      "content_type": "marketing-post",
+      "preflight_passed": true,
+      "plan_units_count": 1,
+      "generated_tweets": [
+        "Low-level message calls in Solidity don't check return values by default. If you use these methods, your contract MUST explicitly verify the returned boolean to handle failures correctly and avoid silent execution errors."
+      ],
+      "all_conforming": true,
+      "conforming_units": 1,
+      "total_units": 1,
+      "revision_performed": false,
+      "unit_results": [
+        {
+          "unit_id": "GEN-04_u1",
+          "tweet_text": "Low-level message calls in Solidity don't check return values by default. If you use these methods, your contract MUST explicitly verify the returned boolean to handle failures correctly and avoid silent execution errors.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet accurately reflects both approved propositions: it states that return values are not checked by default (PROP_SWC104_RETURN_UNCHECKED) and recommends explicitly checking the boolean to handle failures (PROP_SWC104_CHECK_RETURN). The use of 'MUST' aligns with the mandatory nature of the recommendation in the canonical text. No unapproved facts, causal inversions, or scope violations are present.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 6.367,
+      "conformance_latency_seconds": 7.453,
+      "total_elapsed_seconds": 13.819,
+      "tokens": {
+        "input_tokens": 847,
+        "output_tokens": 157
+      }
+    },
+    {
+      "case_id": "GEN-05",
+      "type": "generative",
+      "topic_id": "SWC-105",
+      "content_type": "tech-thread",
+      "preflight_passed": true,
+      "plan_units_count": 5,
+      "generated_tweets": [
+        "Missing access controls let malicious actors drain Ether from a contract account. This is the core risk of unprotected withdrawal bugs.",
+        "Technically, this often happens when initialization functions are unintentionally exposed, enabling legacy constructors to execute unauthorized logic.",
+        "The fix is straightforward: implement strict access controls so that Ether withdrawals can only be triggered by authorized parties per spec.",
+        "For complementary protection, inheriting OpenZeppelin's Ownable module adds an `onlyOwner` modifier to restrict function execution to the owner address.",
+        "Audit takeaway: Always verify that withdrawal logic is gated by proper access controls to prevent unauthorized fund drains."
+      ],
+      "all_conforming": true,
+      "conforming_units": 5,
+      "total_units": 5,
+      "revision_performed": false,
+      "unit_results": [
+        {
+          "unit_id": "GEN-05_u1",
+          "tweet_text": "Missing access controls let malicious actors drain Ether from a contract account. This is the core risk of unprotected withdrawal bugs.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated text accurately paraphrases the approved proposition (PROP_SWC105_UNPROTECTED_WITHDRAWAL) regarding missing access controls allowing Ether withdrawal. It correctly identifies the causal link between 'missing access controls' and 'malicious actors draining Ether'. No unapproved technical facts, causal inversions, or absolute guarantees are introduced.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-05_u2",
+          "tweet_text": "Technically, this often happens when initialization functions are unintentionally exposed, enabling legacy constructors to execute unauthorized logic.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text accurately paraphrases the approved proposition regarding unprotected withdrawal bugs being caused by exposing initialization functions. It correctly incorporates the causal mechanism (enabling legacy constructors) as defined in the approved relations without introducing unapproved technical details, reversing causality, or making absolute guarantees about risk elimination.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-05_u3",
+          "tweet_text": "The fix is straightforward: implement strict access controls so that Ether withdrawals can only be triggered by authorized parties per spec.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The generated text accurately paraphrases the approved canonical proposition regarding implementing access controls to restrict Ether withdrawals. It maintains the correct causal direction (implementation mitigates the vulnerability) and does not introduce unapproved technical details, absolute guarantees, or scope violations.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-05_u4",
+          "tweet_text": "For complementary protection, inheriting OpenZeppelin's Ownable module adds an `onlyOwner` modifier to restrict function execution to the owner address.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text accurately paraphrases the approved proposition regarding the `onlyOwner` modifier and correctly applies the approved relation by framing this feature as 'complementary protection' that mitigates risks (specifically unprotected withdrawals, per the plan's context). It does not introduce new technical facts, reverse causality, or make absolute guarantees beyond what is licensed in the canonical text.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        },
+        {
+          "unit_id": "GEN-05_u5",
+          "tweet_text": "Audit takeaway: Always verify that withdrawal logic is gated by proper access controls to prevent unauthorized fund drains.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text accurately summarizes the approved proposition regarding missing access controls allowing withdrawals. It correctly identifies the cause (missing controls) and the consequence (unauthorized fund drains), aligning with the causal direction defined in the plan. The phrasing 'prevent unauthorized fund drains' is a valid restatement of the risk described in the canonical text without introducing unapproved technical mechanisms or absolute guarantees.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 13.978,
+      "conformance_latency_seconds": 33.486,
+      "total_elapsed_seconds": 47.465,
+      "tokens": {
+        "input_tokens": 1198,
+        "output_tokens": 370
+      }
+    },
+    {
+      "case_id": "GEN-06",
+      "type": "generative",
+      "topic_id": "SWC-105",
+      "content_type": "marketing-post",
+      "preflight_passed": true,
+      "plan_units_count": 1,
+      "generated_tweets": [
+        "Due to missing access controls, malicious actors can drain Ether from contract accounts. Implement strict authorization so withdrawals trigger only when explicitly permitted by the contract's logic."
+      ],
+      "all_conforming": true,
+      "conforming_units": 1,
+      "total_units": 1,
+      "revision_performed": false,
+      "unit_results": [
+        {
+          "unit_id": "GEN-06_u1",
+          "tweet_text": "Due to missing access controls, malicious actors can drain Ether from contract accounts. Implement strict authorization so withdrawals trigger only when explicitly permitted by the contract's logic.",
+          "verdict": "CONFORMS",
+          "passed": true,
+          "reason": "The tweet text faithfully expresses the approved propositions and relations. It accurately paraphrases the fact that missing access controls allow malicious withdrawal (PROP_SWC105_UNPROTECTED_WITHDRAWAL) and correctly states the recommendation to implement strict authorization to restrict withdrawals (PROP_SWC105_RESTRICT_WITHDRAWALS). The causal link between the mitigation and the vulnerability is preserved without introducing unapproved technical details or reversing logic.",
+          "missing_qualifiers": [],
+          "unlicensed_statements": [],
+          "brand_violations": []
+        }
+      ],
+      "writer_latency_seconds": 6.501,
+      "conformance_latency_seconds": 7.693,
+      "total_elapsed_seconds": 14.194,
+      "tokens": {
+        "input_tokens": 881,
+        "output_tokens": 152
+      }
+    },
+    {
+      "case_id": "ADV-01",
+      "type": "adversarial",
+      "description": "Unlicensed universal guarantee",
+      "probe_text": "Using ReentrancyGuard completely eliminates all vulnerability risk in every smart contract guaranteed.",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "CONTRADICTS_PLAN",
+      "reason": "The approved proposition states that using ReentrancyGuard 'prevents reentrant function execution' (a mitigation), whereas the generated tweet asserts it 'completely eliminates all vulnerability risk in every smart contract guaranteed.' This introduces an absolute guarantee ('every', 'completely eliminates') and broadens the scope to 'all vulnerability risk,' which contradicts the approved recommendation's limited scope of preventing specific reentrancy execution. Additionally, the tweet converts a mitigation into an absolute guarantee, violating the rule against converting mitigations into absolute guarantees.",
+      "elapsed_seconds": 7.506
+    },
+    {
+      "case_id": "ADV-02",
+      "type": "adversarial",
+      "description": "Causal inversion (mitigation asserted as cause)",
+      "probe_text": "Contracts suffer devastating DoS conditions because developers follow recommendations to isolate external calls into separate transactions.",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "CONTRADICTS_PLAN",
+      "reason": "The generated tweet asserts that following the recommendation (isolating calls) causes the vulnerability, which directly contradicts the approved relation 'REL_SWC113_ISOLATE_CALLS_MITIGATES_DOS' stating that isolation mitigates DoS conditions. The text inverts the causal direction by claiming the mitigation is the cause of the problem.",
+      "elapsed_seconds": 6.966
+    },
+    {
+      "case_id": "ADV-03",
+      "type": "adversarial",
+      "description": "Omitted mandatory legacy compiler version (<0.4.22)",
+      "probe_text": "Wrongly naming a constructor function leaves initialization code callable in runtime bytecode in modern Solidity contracts.",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "SCOPE_VIOLATION",
+      "reason": "Missing mandatory qualifier: <0.4.22",
+      "elapsed_seconds": 0.0
+    },
+    {
+      "case_id": "ADV-04",
+      "type": "adversarial",
+      "description": "Cross-source evidence splicing (SWC-104 + timestamp)",
+      "probe_text": "Unhandled call exceptions trigger total contract insolvency because miners maliciously manipulate block timestamps.",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "UNLICENSED_ASSERTION",
+      "reason": "The generated tweet introduces two unapproved assertions: (1) that unhandled call exceptions cause 'total contract insolvency' (a specific quantitative outcome not supported by the approved proposition which only mentions 'unexpected behaviour'), and (2) that this occurs because 'miners maliciously manipulate block timestamps' (an entirely new causal mechanism and actor not present in the approved plan). The approved proposition describes a general consequence of failing checks, whereas the tweet asserts a specific, unlicensed cause-and-effect chain.",
+      "elapsed_seconds": 7.109
+    },
+    {
+      "case_id": "ADV-05",
+      "type": "adversarial",
+      "description": "Alien premise in action rationale",
+      "probe_text": "Review withdrawal access controls immediately because purple space toasters are invading decentralized protocols.",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "UNLICENSED_ASSERTION",
+      "reason": "The generated text introduces an unapproved, nonsensical technical claim ('purple space toasters are invading decentralized protocols') that has no basis in the approved canonical proposition regarding Ether withdrawal access controls. This violates the rule against introducing new, unapproved technical mechanisms or assertions.",
+      "elapsed_seconds": 6.274
+    },
+    {
+      "case_id": "ADV-06",
+      "type": "adversarial",
+      "description": "Character limit violation (>280 chars)",
+      "probe_text": "External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. External calls can take over control flow. ",
+      "expected_veto": true,
+      "correctly_vetoed": true,
+      "verdict": "UNLICENSED_ASSERTION",
+      "reason": "Character limit exceeded: 430 > 280",
+      "elapsed_seconds": 0.0
+    }
+  ]
+}

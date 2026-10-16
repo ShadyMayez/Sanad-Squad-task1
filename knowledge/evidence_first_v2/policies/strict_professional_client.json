@@ -1,0 +1,56 @@
+{
+  "business_id": "strict_enterprise_auditing",
+  "policy_version": "1.0.0",
+  "brand_profile": "Conservative, institutional enterprise security client.",
+  "target_audience": "C-suite executives, compliance officers, enterprise risk committees.",
+  "content_objectives": [
+    "Highlight regulatory compliance and systematic risk reduction"
+  ],
+  "approved_source_ids": [
+    "SWC-107",
+    "SWC-105",
+    "SRC_SWC_107",
+    "SRC_SWC_105",
+    "SRC_OZ_OWNABLE"
+  ],
+  "allowed_topics": [
+    "SWC-107",
+    "SWC-105",
+    "reentrancy",
+    "access control"
+  ],
+  "prohibited_claim_categories": [
+    "guaranteed",
+    "immediate hack",
+    "massive exploit",
+    "financial loss"
+  ],
+  "platform_constraints": {
+    "max_tweet_chars": 280,
+    "min_tech_thread_tweets": 5,
+    "max_tech_thread_tweets": 10,
+    "marketing_post_tweets": 1,
+    "forbid_hashtags": true,
+    "allowed_domains": []
+  },
+  "mandatory_disclaimers": [
+    "Educational overview only."
+  ],
+  "allowed_content_types": [
+    "tech-thread",
+    "marketing-post"
+  ],
+  "quality_thresholds": {
+    "min_factual_support": 5,
+    "min_technical_correctness": 5,
+    "min_brand_voice": 3,
+    "min_clarity": 3,
+    "min_platform_format": 5,
+    "min_usefulness": 3
+  },
+  "human_review_requirements": {
+    "require_human_approval_for_ship": true,
+    "flag_ambiguous_verdicts": true,
+    "flag_financial_or_legal_topics": true
+  }
+}

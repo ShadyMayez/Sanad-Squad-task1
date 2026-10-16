@@ -66,9 +66,23 @@
           "source_type": "SWC Registry",
           "source_title": "Unprotected Ether Withdrawal",
           "scope": "Legacy SWC guidance; check compiler and EVM applicability",
-          "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract. Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system.",
           "quote_start": 976,
-          "quote_end": 1366
+          "quote_end": 1512
+        },
+        {
+          "id": "OZ-OWNABLE",
+          "url": "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/access/Ownable.sol",
+          "excerpt": "OpenZeppelin Ownable provides an onlyOwner modifier to restrict access to authorized accounts.",
+          "snapshot_path": "source_snapshots/OZ-OWNABLE.txt",
+          "snapshot_sha256": "e18c0a1f3c6582083a548f192fdd2c851505e1edc44b9eeaf825fbc960e718b4",
+          "retrieved_at": "2026-10-16",
+          "source_type": "official OpenZeppelin Contracts v5.0.0, MIT license",
+          "source_title": "OpenZeppelin Ownable Access Control",
+          "scope": "Modern Solidity access control pattern",
+          "source_quote": "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions. The initial owner is set to the address provided by the deployer. This can later be changed with transferOwnership. This module is used through inheritance. It will make available the modifier onlyOwner, which can be applied to your functions to restrict their use to the owner.",
+          "quote_start": 172,
+          "quote_end": 612
         }
       ]
     },
@@ -138,9 +152,9 @@
           "source_type": "SWC Registry",
           "source_title": "DoS with Failed Call",
           "scope": "Legacy SWC guidance; check compiler and EVM applicability",
-          "source_quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "source_quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit). Remediation It is recommended to follow call best practices: Avoid combining multiple calls in a single transaction, especially when calls are executed as part of a loop Always assume that external calls can fail Implement the contract logic to handle failed calls",
           "quote_start": 914,
-          "quote_end": 1393
+          "quote_end": 1658
         }
       ]
     },
@@ -210,9 +224,9 @@
           "source_type": "SWC Registry",
           "source_title": "Block Timestamp Dependence",
           "scope": "Legacy SWC guidance; check compiler and EVM applicability",
-          "source_quote": "Description Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp , and block.number can give you a sense of the current time or a time delta, however, they are not safe to use for most purposes. In the case of block.timestamp , developers often attempt to use it to trigger time-dependent events. As Ethereum is decentralized, nodes can synchronize time only to some degree. Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so. However, miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected), nor can they set the timestamp too far ahead in the future. Taking all of the above into consideration, developers can't rely on the preciseness of the provided timestamp. As for block.number , considering the block time on Ethereum is generally about 14 seconds, it's possible to predict the time delta between blocks. However, block times are not constant and are subject to change for a variety of reasons, e.g. fork reorganisations and the difficulty bomb.",
+          "source_quote": "Description Contracts often need access to time values to perform certain types of functionality. Values such as block.timestamp , and block.number can give you a sense of the current time or a time delta, however, they are not safe to use for most purposes. In the case of block.timestamp , developers often attempt to use it to trigger time-dependent events. As Ethereum is decentralized, nodes can synchronize time only to some degree. Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so. However, miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected), nor can they set the timestamp too far ahead in the future. Taking all of the above into consideration, developers can't rely on the preciseness of the provided timestamp. As for block.number , considering the block time on Ethereum is generally about 14 seconds, it's possible to predict the time delta between blocks. However, block times are not constant and are subject to change for a variety of reasons, e.g. fork reorganisations and the difficulty bomb. Due to variable block times, block.number should also not be relied on for precise calculations of time. Remediation Developers should write smart contracts with the notion that block values are not precise, and the use of them can lead to unexpected effects. Alternatively, they may make use of oracles.",
           "quote_start": 988,
-          "quote_end": 2115
+          "quote_end": 2420
         }
       ]
     },
@@ -258,9 +272,9 @@
           "source_type": "SWC Registry",
           "source_title": "Integer Overflow and Underflow",
           "scope": "Legacy SWC guidance; check compiler and EVM applicability",
-          "source_quote": "Description An overflow/underflow happens when an arithmetic operation reaches the maximum or minimum size of a type. For instance if a number is stored in the uint8 type, it means that the number is stored in a 8 bits unsigned number ranging from 0 to 2^8-1. In computer programming, an integer overflow occurs when an arithmetic operation attempts to create a numeric value that is outside of the range that can be represented with a given number of bits – either larger than the maximum or lower than the minimum representable value.",
+          "source_quote": "Description An overflow/underflow happens when an arithmetic operation reaches the maximum or minimum size of a type. For instance if a number is stored in the uint8 type, it means that the number is stored in a 8 bits unsigned number ranging from 0 to 2^8-1. In computer programming, an integer overflow occurs when an arithmetic operation attempts to create a numeric value that is outside of the range that can be represented with a given number of bits \u2013 either larger than the maximum or lower than the minimum representable value. Remediation It is recommended to use vetted safe math libraries for arithmetic operations consistently throughout the smart contract system.",
           "quote_start": 1005,
-          "quote_end": 1541
+          "quote_end": 1682
         }
       ]
     },
@@ -306,9 +320,9 @@
           "source_type": "SWC Registry",
           "source_title": "Signature Malleability",
           "scope": "Legacy SWC guidance; check compiler and EVM applicability",
-          "source_quote": "Description The implementation of a cryptographic signature system in Ethereum contracts often assumes that the signature is unique, but signatures can be altered without the possession of the private key and still be valid. The EVM specification defines several so-called ‘precompiled’ contracts one of them being ecrecover which executes the elliptic curve public key recovery. A malicious user can slightly modify the three values v , r and s to create other valid signatures. A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash. Valid signatures could be created by a malicious user to replay previously signed messages.",
+          "source_quote": "Description The implementation of a cryptographic signature system in Ethereum contracts often assumes that the signature is unique, but signatures can be altered without the possession of the private key and still be valid. The EVM specification defines several so-called \u2018precompiled\u2019 contracts one of them being ecrecover which executes the elliptic curve public key recovery. A malicious user can slightly modify the three values v , r and s to create other valid signatures. A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash. Valid signatures could be created by a malicious user to replay previously signed messages. Remediation A signature should never be included into a signed message hash to check if previously messages have been processed by the contract.",
           "quote_start": 912,
-          "quote_end": 1632
+          "quote_end": 1777
         }
       ]
     },
@@ -378,7 +392,7 @@
           "source_type": "OWASP Smart Contract Security",
           "source_title": "Price Oracle Manipulation",
           "scope": "Use the documented oracle conditions and threat model",
-          "source_quote": "Description ¶ Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic. Remediation ¶ Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+          "source_quote": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic. Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
           "quote_start": 400,
           "quote_end": 830
         },

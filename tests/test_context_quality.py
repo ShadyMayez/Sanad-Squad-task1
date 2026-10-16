@@ -13,6 +13,7 @@ from content_pipeline.provenance import context_errors
 from content_pipeline.schemas import AtomicClaim, Evidence, EvidenceContext, ModelSemanticDecision
 from content_pipeline.semantic_verification import SemanticVerifier
 from content_pipeline.text_spans import bounded_context, located_source_options
+from tests.relation_helpers import relation_fields
 
 
 def oracle():
@@ -34,8 +35,9 @@ class ScriptedVerifier:
         self.inputs.append(task)
         if len(self.inputs) % 2:
             return ModelSemanticDecision(verdict=self.initial, support_option_ids=self.options if self.initial == "SUPPORTED" else [],
-                reason="Scripted initial entailment judgment"), {"input_tokens": 3, "output_tokens": 2}
-        return ModelSemanticDecision(verdict=self.skeptical, reason="Scripted independent skeptical judgment"), {"input_tokens": 4, "output_tokens": 3}
+                reason="Scripted initial entailment judgment", **relation_fields(self.initial)), {"input_tokens": 3, "output_tokens": 2}
+        return ModelSemanticDecision(verdict=self.skeptical, reason="Scripted independent skeptical judgment",
+            **relation_fields(self.skeptical)), {"input_tokens": 4, "output_tokens": 3}
 
 
 def test_thread3_saved_evidence_context_and_both_passes():
@@ -160,7 +162,7 @@ def test_initial_insufficient_evidence_remains_closed_without_automatic_retry():
 def test_cross_source_proximity_cannot_force_support():
     evidence = [e for v in load_kb().vulnerabilities for e in v.evidence if e.id in {"SCWE-028", "OWASP-SC03"}]
     model = ScriptedVerifier("SUPPORTED", "INSUFFICIENT_EVIDENCE", ["SCWE-028#0", "OWASP-SC03#2"])
-    claim = claim_for("Every oracle manipulation is caused by lacking TWAPs.")
+    claim = claim_for("Every oracle manipulation uses TWAPs.")
     claim.candidate_evidence_ids = [e.id for e in evidence]
     verdict = asyncio.run(SemanticVerifier(model).run([claim], evidence))[0].verdicts[0]
     assert verdict.verdict == "INSUFFICIENT_EVIDENCE"
@@ -199,7 +201,7 @@ def test_additive_schema_loads_historical_release_artifact():
     from pydantic import TypeAdapter
     from content_pipeline.schemas import SemanticRecord
 
-    path = ROOT / "output/semantic-release-week/semantic_verification.json"
+    path = ROOT / "tests/fixtures/semantic_verification_historical.json"
     records = TypeAdapter(list[SemanticRecord]).validate_json(path.read_text())
     assert len(records) == 6
     assert all(v.context_windows == [] and v.initial_pass is None and v.skeptical_pass is None

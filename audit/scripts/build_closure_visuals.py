@@ -19,13 +19,17 @@ STAGES = [
     ("fanout", "LangGraph fan-out", "one Send per slot", "#81a6ff"),
     ("research", "Research", "shared EvidenceLookup", "#56c9e8"),
     ("writer", "Registered Writer", "paraphrase pinned evidence", "#56c9e8"),
-    ("extract", "Atomic extraction", "text spans · qualifiers", "#f6bd69"),
+    ("extract", "Claim extraction", "atomic facts · qualifiers", "#f6bd69"),
     ("provenance", "Pinned provenance", "hash · quote · offsets", "#f6bd69"),
-    ("semantic", "Semantic verifier", "source context + skeptic", "#56c9e8"),
-    ("evaluate", "Rules + Reviewer", "hard gates · six scores", "#56c9e8"),
+    ("context", "Source context", "bounded pinned windows", "#f6bd69"),
+    ("roles", "Evidence-role classification", "normative · causal · descriptive", "#f6bd69"),
+    ("relation", "Claim-relation verification", "entailment · syntax veto", "#56c9e8"),
+    ("skeptic", "Skeptical evaluation", "independent second pass", "#56c9e8"),
+    ("evaluate", "Rules + Reviewer approval", "hard gates · six scores", "#56c9e8"),
     ("decision", "Approval decision", "one revision maximum", "#f6bd69"),
     ("visual", "Visual specification", "accepted content only", "#44d6ad"),
     ("aggregate", "Plan-order results", "isolated slot failures", "#81a6ff"),
+    ("acceptance", "Final acceptance gate", "relation recheck · review", "#44d6ad"),
     ("export", "Audit + accepted CSV", "spec: path · no publishing", "#44d6ad"),
 ]
 
@@ -36,11 +40,15 @@ DETAILS = {
     "writer": "The registered Writer receives a trusted SystemMessage and untrusted pinned evidence. It may paraphrase while preserving factual meaning, scope, conditions, and certainty.",
     "extract": "Python segments every public sentence into atomic propositions and checks exact Writer mappings. Unsupported coverage blocks approval.",
     "provenance": "Python verifies source snapshot path, SHA-256, exact quote, and offsets before semantic evaluation.",
-    "semantic": "The first model pass checks atomic claims and selects exact source spans. Python retrieves bounded, hash-checked source context for those spans. The independent skeptical pass interprets spans in context and can veto. Both decisions and any disagreement are preserved; Python verifies IDs, hashes, and offsets.",
+    "context": "Python retrieves bounded, hash-checked surrounding source context for exact spans. A selected quotation alone may not establish its asserted meaning.",
+    "roles": "The model records source relationship types while Python stores auditable syntax hints for normative, causal, and descriptive spans. Labels are not proof.",
+    "relation": "The semantic verifier compares each atomic claim's asserted relationship with its selected source spans. Python vetoes contradictory structured positives and normative-only root-cause inferences.",
+    "skeptic": "An independent prompt checks the claim and same selected spans against pinned context. It may veto support; Python rechecks its relation fields.",
     "evaluate": "Python checks format and brand rules. The independent Reviewer receives its own trusted rubric SystemMessage and untrusted JSON task data, then returns scores, reasons, and corrections.",
     "decision": "Approval requires no hard errors, all final atomic verdicts SUPPORTED, rubric thresholds, and an approved Review. One rejected draft may be revised once; the next rejection drops it.",
     "visual": "The deterministic Visual Agent reads the accepted text and verified claims to write a content-aware specification. Rejected or failed work cannot reach it.",
     "aggregate": "Branch results are collected and restored to plan order. A failed worker does not terminate unrelated slots.",
+    "acceptance": "The exporter rechecks supported relation records, selected exact spans, provenance, Reviewer approval, and every mandatory claim before accepting a CSV row.",
     "export": "The exporter repeats the acceptance gate, writes JSON audit artifacts and accepted-only Post Text,Image CSV. Image values are written-spec references, not media.",
 }
 
@@ -50,8 +58,8 @@ def esc(value: object) -> str:
 
 
 def svg() -> str:
-    parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1530 760" role="img" aria-label="SanadSquad final LangGraph workflow">',
-        '<rect width="1530" height="760" fill="#071321"/>',
+    parts = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1530 960" role="img" aria-label="SanadSquad final LangGraph workflow">',
+        '<rect width="1530" height="960" fill="#071321"/>',
         '<text x="34" y="46" fill="#e8f3ff" font-family="system-ui" font-size="28" font-weight="700">Six independent slots · one shared Ollama limit</text>',
         '<text x="34" y="75" fill="#afc6dc" font-family="system-ui" font-size="15">Trusted instructions remain separate from dynamic evidence. Dashed paths are conditional.</text>']
     for index, (key, title, subtitle, color) in enumerate(STAGES):
@@ -64,13 +72,13 @@ def svg() -> str:
             f'<text x="{x+18}" y="{y+77}" fill="#b8cfe2" font-family="system-ui" font-size="14">{esc(subtitle)}</text></g>']
         if col < 3:
             parts.append(f'<path d="M{x+344} {y+56} H{x+370}" stroke="#7b9bb7" stroke-width="3" marker-end="url(#arrow)"/>')
-        elif row < 2:
+        elif row < 3:
             parts.append(f'<path d="M{x+170} {y+116} V{y+167} H204" fill="none" stroke="#7b9bb7" stroke-width="3" marker-end="url(#arrow)"/>')
     parts += ['<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L8 4.5 L0 9" fill="none" stroke="#7b9bb7" stroke-width="2"/></marker></defs>',
-        '<path d="M204 574 V625 H1512 V170 H1504" fill="none" stroke="#f6bd69" stroke-width="3" stroke-dasharray="9 7"/>',
-        '<text x="662" y="618" fill="#f6bd69" font-family="system-ui" font-size="15">first rejection → one revision</text>',
-        '<text x="36" y="685" fill="#ff899b" font-family="system-ui" font-size="15">Second rejection → dropped; agent error → failed. Both aggregate without a visual spec or CSV row.</text>',
-        '<text x="36" y="719" fill="#b9c9dc" font-family="system-ui" font-size="15">SystemMessage: versioned Writer / Verifier / Reviewer instructions · HumanMessage: slot, brand, untrusted source quotations, feedback</text>',
+        '<path d="M1329 574 H1515 V170 H1504" fill="none" stroke="#f6bd69" stroke-width="3" stroke-dasharray="9 7"/>',
+        '<text x="1170" y="854" fill="#f6bd69" font-family="system-ui" font-size="15">first rejection → one revision</text>',
+        '<text x="36" y="912" fill="#ff899b" font-family="system-ui" font-size="15">Second rejection → dropped; agent error → failed. Both aggregate without a visual spec or CSV row.</text>',
+        '<text x="36" y="940" fill="#b9c9dc" font-family="system-ui" font-size="15">SystemMessage: versioned instructions · HumanMessage: untrusted source quotations and task data</text>',
         '</svg>']
     return ''.join(parts)
 
@@ -82,9 +90,9 @@ subprocess.run(["magick", "-background", "none", str(OUT / "workflow.svg"), str(
   I[Validated inputs] --> F[LangGraph Send per slot]
   F --> R[Research / EvidenceLookup] --> W[Registered Writer]
   W --> X[Atomic claim extraction] --> P[Pinned source provenance]
-  P --> S
+  P --> C
   subgraph SemanticNode[One LangGraph semantic node]
-    S[Verifier selects exact spans] --> C[Bounded pinned context retrieval] --> K[Independent skeptical audit]
+    C[Bounded pinned context] --> ROL[Evidence-role classification] --> REL[Claim-relation verification and veto] --> K[Independent skeptical audit]
   end
   K --> Q[Hard rules + Reviewer]
   Q --> D{Approved, valid, supported?}
@@ -93,21 +101,21 @@ subprocess.run(["magick", "-background", "none", str(OUT / "workflow.svg"), str(
   D -->|second rejection| Drop[Dropped] --> A
   R -->|error| Fail[Failed slot] --> A
   P -->|source error| Fail
-  S -->|verifier error| Fail
+  REL -->|verifier error| Fail
   K -->|verifier error| Fail
   Q -->|review error| Fail
   V -->|visual error| Fail
-  A --> E[JSON audit + accepted-only CSV]
+  A --> G[Final acceptance relation recheck] --> E[JSON audit + accepted-only CSV]
   T[[Trusted SystemMessage instructions]] -.-> W
-  T -.-> S
+  T -.-> REL
   T -.-> K
   T -.-> Q
   U[[Dynamic HumanMessage task and untrusted sources]] -.-> W
-  U -.-> S
+  U -.-> REL
   U -.-> K
   U -.-> Q
   L[[Shared bounded Ollama]] -.-> W
-  L -.-> S
+  L -.-> REL
   L -.-> K
   L -.-> Q
 ''')
@@ -139,9 +147,9 @@ viewer = viewer.replace("Prompt trust boundary, atomic grounding, one-revision r
 viewer = viewer.replace("c.append(h,p,t,st,m);if(x.reason)", '''c.append(h,p,t,st,m);
 const detail=document.createElement('div');detail.className='small';
 const selected=x.final_verdicts.flatMap(v=>v.supporting_span_ids?.length?v.supporting_span_ids:(v.initial_pass?.support_option_ids||[]));
-detail.textContent='Selected evidence: '+(selected.join(', ')||'none')+' · context windows: '+x.context_decisions+' · skeptical disagreements: '+x.verification_disagreements+' · revisions: '+x.revisions;
+detail.textContent='Selected evidence: '+(selected.join(', ')||'none')+' · relation gates passed: '+x.relation_pass_count+' · relation gates failed: '+x.relation_failure_count+' · context windows: '+x.context_decisions+' · skeptical disagreements: '+x.verification_disagreements+' · revisions: '+x.revisions;
 c.append(detail);
-for(const v of x.final_verdicts){const q=document.createElement('p');q.className='small';const spans=(v.supporting_spans?.length?v.supporting_spans:(v.proposed_supporting_spans||[]));q.textContent=v.claim_id+': '+v.verdict+' · initial '+(v.initial_pass?.verdict||'unavailable')+' · skeptic '+(v.skeptical_pass?.verdict||'not run')+' · selected '+spans.map(z=>z.evidence_id+': “'+z.quote+'”').join(' | ')+' · context '+(v.context_windows||[]).map(w=>w.evidence_id+'@'+w.start+'-'+w.end+(w.window_partial?' [partial]':'')+(w.truncated?' [budget limited]':'')).join(', ');c.append(q)}
+for(const v of x.final_verdicts){const q=document.createElement('p');q.className='small';const spans=(v.supporting_spans?.length?v.supporting_spans:(v.proposed_supporting_spans||[]));q.textContent=v.claim_id+': '+v.verdict+' · claim roles '+(v.claim_relations||[]).join(', ')+' · evidence relation '+(v.evidence_relation||'unavailable')+' · relation gate '+(v.relation_integrity_passed?'passed':(v.relation_error||'not passed'))+' · initial '+(v.initial_pass?.verdict||'unavailable')+' · skeptic '+(v.skeptical_pass?.verdict||'not run')+' · selected '+spans.map(z=>z.evidence_id+': “'+z.quote+'”').join(' | ')+' · context '+(v.context_windows||[]).map(w=>w.evidence_id+'@'+w.start+'-'+w.end+(w.window_partial?' [partial]':'')+(w.truncated?' [budget limited]':'')).join(', ');c.append(q)}
 if(x.final_tweets.length){const copy=document.createElement('p');copy.className='small';copy.textContent='Final draft: '+x.final_tweets.join(' / ');c.append(copy)}
 if(x.reason)''')
 (OUT / "workflow_viewer.html").write_text(viewer)

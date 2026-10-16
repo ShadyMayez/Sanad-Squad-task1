@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "Rejection due to mandatory atomic gate failure: 'INSUFFICIENT_EVIDENCE'. The claim asserts a root cause ('wrongly naming a function...') but the source only describes the consequence of missing access controls. The specific mechanism linking the naming error to the withdrawal capability is not directly entailed by the provided text.; Low usefulness score (2) because the post states a failure mode without offering a concrete review habit or actionable mitigation, which is required for educational security content.; No verified supporting excerpt for claim: Due to missing or insufficient access controls, malicious parties can withdraw Ether by re-initializing the contract if initialization functions are wrongly exposed as runtime code.; Marketing post requires a practical security action; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Root-cause claim lacks direct causal evidence relation; Atomic claim t1s1c1: INSUFFICIENT_EVIDENCE: Source-to-claim relation gate: Root-cause claim lacks direct causal evidence relation; Scores below rubric threshold: ['factual_support', 'technical_correctness', 'usefulness']"
+    }
+  ],
+  "elapsed_seconds": 77.591,
+  "prompt_tokens_recorded": 9834,
+  "completion_tokens_recorded": 1284,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

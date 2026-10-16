@@ -11,6 +11,7 @@ from content_pipeline.config import ROOT, load_kb, load_registry
 from content_pipeline.schemas import AtomicClaim, Claim, Draft, Review, SemanticReport, SemanticVerdict, Slot, SupportingSpan, ModelSemanticDecision
 from content_pipeline.semantic_verification import SemanticVerifier
 from content_pipeline.skills import EvidenceLookup
+from tests.relation_helpers import relation_fields
 
 
 class Capture:
@@ -31,7 +32,7 @@ class Capture:
                 claim_support=[]), {}
         if schema is ModelSemanticDecision:
             return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=[task["exact_span_options"][0]["span_id"]],
-                reason="Fixture supported statement"), {}
+                reason="Fixture supported statement", **relation_fields()), {}
         raise AssertionError(schema)
 
 

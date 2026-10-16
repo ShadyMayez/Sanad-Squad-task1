@@ -1,0 +1,45 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      [
+        "Plan conformance failed: [post_3_u1] UNLICENSED_ASSERTION: Character limit exceeded: 296 > 280",
+        "Hard Policy Violation: Tweet 1 exceeds 280 chars (296 chars)",
+        "Tweet 1 exceeds 280 characters",
+        "Quality threshold failed: factual_support 3 < 4",
+        "Quality threshold failed: platform_format 0 < 3"
+      ],
+      []
+    ]
+  }
+]

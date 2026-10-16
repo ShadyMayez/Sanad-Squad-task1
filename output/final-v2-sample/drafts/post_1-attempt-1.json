@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Unchecked low-level call failures can cause unexpected behavior if execution continues without checks. Review your contract's low-level call sites and verify their return values to handle failures correctly."
+  ],
+  "claims": [
+    {
+      "text": "Unchecked low-level call failures can cause unexpected behavior if execution continues without checks. Review your contract's low-level call sites and verify their return values to handle failures correctly.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

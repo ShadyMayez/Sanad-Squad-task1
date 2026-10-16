@@ -1,0 +1,17 @@
+# Relation evaluation protocol
+
+## Deterministic controls
+
+`tests/test_relation_integrity.py` uses the exact historical `thread_1` claim, selected SWC-107 span, and original contradictory verifier reason, copied into `fixtures/historical_thread1.json` before correction. It checks the structured inconsistency veto, normative-only root-cause veto, direct causal eligibility, source-attributed recommendation eligibility, guarantee rejection, skeptical veto, persisted source-role hints, and the export-time recheck. The existing full suite covers one revision, routing, failure isolation, provenance, CSV, and writer registry. Model doubles establish gate behavior; they are not semantic accuracy evidence.
+
+## Frozen model set
+
+`fixtures/heldout.json` contains 20 new, fixed cases: 10 labeled SUPPORTED and 10 adverse. It includes reentrancy, access control, failed calls, unchecked returns, tx.origin, integer overflow, self-destruct, and oracle manipulation. Positives include direct causal support, conditional recommendations, natural recommendation paraphrases, description, and consequence. Adverse cases include normative-to-causal inversion, unrelated causes, guarantee upgrades, dropped conditions, and direct contradictions. Claims and expected labels were written from the pinned source snapshots before local-model inference and are not generated from the model's predicted labels.
+
+The implementing engineer assigned the labels by reading exact source text. There was **no independent external specialist review**; the set should not be described as independently expert-adjudicated. The old SWC-107 false acceptance is a mandatory regression fixture and one of the benchmark cases, not the only adverse example. The fixture is not changed in response to model outcomes. The runner writes each case's verdict, reasons, relation classifications, latency, and available token usage, then computes precision, recall, adverse false acceptance, causal false acceptance and false rejection, recommendation recall, five-label accuracy, source-relation accuracy, and a five-label confusion matrix. The five-label denominator includes no intentionally malformed service case; `VERIFICATION_ERROR` can still arise from inconsistent positive decisions.
+
+All source snapshots are local and SHA-256 checked. Model identity is `qwen3.5:4b` through the configured local Ollama endpoint. The benchmark is a finite sample and cannot establish universal factual reliability. Because the model is stochastic in execution despite temperature zero, reruns may differ. The run artifacts record the observed result rather than a promised threshold.
+
+The historical A–T benchmark is replayed with its original fixture and runner. The output path is redirected to `historical-replay.json` so earlier benchmark evidence is preserved unchanged. Run-level content inspection separately validates the standalone pieces and six-slot week; a passing benchmark does not automatically clear generated public copy.
+
+During the first frozen-set run, deterministic source-role and export checks were still being finalized. The running Python process retained its startup code; it did not load subsequent edits. Its first results are retained as `heldout-results.json`. A separately named `heldout-final-code-results.json` replays the same immutable fixture on the completed code to establish the deployed-version metrics. The latter is a reproducibility regression, not a second independent held-out set. No case labels or claims were changed in response to either run.

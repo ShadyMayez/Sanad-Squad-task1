@@ -1,0 +1,182 @@
+[
+  {
+    "id": "REL-01",
+    "category": "supported_action_rationale",
+    "evidence_id": "SWC-105",
+    "sentence": "Review how your contract restricts Ether withdrawals, since missing access controls allow malicious parties to withdraw funds from the contract account.",
+    "connector": "since",
+    "expected_relation": "ACTION_RATIONALE",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-02",
+    "category": "supported_action_rationale",
+    "evidence_id": "SWC-104",
+    "sentence": "Review how your contract handles low-level call results, as unchecked failures may cause unexpected behavior in subsequent program logic.",
+    "connector": "as",
+    "expected_relation": "ACTION_RATIONALE",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-03",
+    "category": "supported_action_rationale",
+    "evidence_id": "SWC-113",
+    "sentence": "Review contract logic since failed calls can cause DoS conditions.",
+    "connector": "since",
+    "expected_relation": "ACTION_RATIONALE",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-04",
+    "category": "supported_action_rationale",
+    "evidence_id": "SWC-107",
+    "sentence": "Update state before external calls because callee contracts can invoke reentrant callbacks before initial completion.",
+    "connector": "because",
+    "expected_relation": "ACTION_RATIONALE",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-05",
+    "category": "unsupported_action_rationale_bare_recommendation",
+    "evidence_id": "SWC-113",
+    "sentence": "Review your contract code because it is recommended to isolate each external call into its own transaction.",
+    "connector": "because",
+    "expected_relation": "ACTION_RATIONALE",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-06",
+    "category": "supported_causal",
+    "evidence_id": "SWC-113",
+    "sentence": "Contracts can suffer DoS conditions because external calls can fail accidentally or deliberately.",
+    "connector": "because",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-07",
+    "category": "supported_causal",
+    "evidence_id": "SWC-105",
+    "sentence": "Malicious parties can withdraw contract Ether due to missing or insufficient access controls.",
+    "connector": "due to",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-08",
+    "category": "supported_causal",
+    "evidence_id": "SWC-104",
+    "sentence": "Unexpected program behaviour may occur because a low-level call failed.",
+    "connector": "because",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-09",
+    "category": "unsupported_causal_splicing",
+    "evidence_id": "SWC-105",
+    "sentence": "The contract can lose funds because external calls can fail.",
+    "connector": "because",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-10",
+    "category": "unsupported_causal_inversion",
+    "evidence_id": "SWC-113",
+    "sentence": "External calls can fail accidentally or deliberately because it is better to isolate each external call into its own transaction.",
+    "connector": "because",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-11",
+    "category": "unsupported_causal_inversion",
+    "evidence_id": "SWC-107",
+    "sentence": "The root cause of reentrancy is failing to use OpenZeppelin ReentrancyGuard.",
+    "connector": "is",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-12",
+    "category": "supported_instrumental",
+    "evidence_id": "SWC-104",
+    "sentence": "Handle the possibility that a low-level call fails by checking its return value.",
+    "connector": "by",
+    "expected_relation": "INSTRUMENTAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-13",
+    "category": "unsupported_instrumental",
+    "evidence_id": "SCWE-028",
+    "sentence": "Reject anomalous price deviations by isolating each external call into its own transaction.",
+    "connector": "by",
+    "expected_relation": "INSTRUMENTAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-14",
+    "category": "supported_conditional",
+    "evidence_id": "SWC-104",
+    "sentence": "If you choose to use low-level call methods, make sure to handle the possibility that the call will fail.",
+    "connector": "if",
+    "expected_relation": "CONDITIONAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-15",
+    "category": "supported_conditional",
+    "evidence_id": "SWC-105",
+    "sentence": "If constructor code ends up in runtime bytecode (Solidity < 0.4.22), any caller can execute it to re-initialize the contract.",
+    "connector": "if",
+    "expected_relation": "CONDITIONAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-16",
+    "category": "unsupported_unqualified_legacy_scope",
+    "evidence_id": "SWC-105",
+    "sentence": "Wrongly naming a function exposes constructor code for re-initialization by anyone in all smart contracts.",
+    "connector": "for",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-17",
+    "category": "unsupported_mitigation_guarantee",
+    "evidence_id": "SWC-107",
+    "sentence": "Using ReentrancyGuard completely eliminates all vulnerability risk in every contract.",
+    "connector": "eliminates",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "id": "REL-18",
+    "category": "supported_teleological",
+    "evidence_id": "SWC-105",
+    "sentence": "Implement access controls so that withdrawals can only be triggered by authorized parties.",
+    "connector": "so that",
+    "expected_relation": "TELEOLOGICAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-19",
+    "category": "supported_teleological",
+    "evidence_id": "SWC-107",
+    "sentence": "Make sure state changes happen first in order to prevent reentrant callbacks from interacting with stale balances.",
+    "connector": "in order to",
+    "expected_relation": "TELEOLOGICAL",
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "id": "REL-20",
+    "category": "supported_causal",
+    "evidence_id": "SWC-113",
+    "sentence": "External calls can fail, resulting in a DoS condition.",
+    "connector": "resulting in",
+    "expected_relation": "CAUSAL",
+    "expected_verdict": "SUPPORTED"
+  }
+]

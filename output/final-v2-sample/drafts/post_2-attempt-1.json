@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Missing access controls allow malicious parties to withdraw Ether from contract accounts. Implement access controls so withdrawals trigger only when authorized to prevent this risk."
+  ],
+  "claims": [
+    {
+      "text": "Missing access controls allow malicious parties to withdraw Ether from contract accounts. Implement access controls so withdrawals trigger only when authorized to prevent this risk.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

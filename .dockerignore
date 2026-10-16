@@ -1,0 +1,14 @@
+.git
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+*.tar
+*.tar.gz
+*.zip
+*.bundle
+output/*
+!output/final-v2-sample
+!output/sample-week
+.env
+SANADSQUAD_*

@@ -10,7 +10,9 @@ flowchart LR
   P --> S
   subgraph SemanticNode[One LangGraph semantic node]
     S[Initial verifier] --> C[Bounded pinned context retrieval]
-    C --> K[Independent skeptical verification]
+    C --> ROL[Evidence-role classification]
+    ROL --> REL[Claim-relation verification and Python veto]
+    REL --> K[Independent skeptical verification and relation recheck]
   end
   K --> V[Python format and brand checks]
   V --> Q[Rubric Reviewer / EvidenceLookup]
@@ -28,7 +30,8 @@ flowchart LR
   I --> A[Plan-order aggregation]
   Drop --> A
   Fail --> A
-  A --> E[Audit JSON and accepted-only CSV]
+  A --> G[Final deterministic relation recheck]
+  G --> E[Audit JSON and accepted-only CSV]
   T[Trusted instruction files / SystemMessage] -.-> W
   T -.-> S
   T -.-> K
@@ -55,7 +58,7 @@ The Reviewer receives concise source quotations, the actual `tweets` array and m
 
 ## Evidence and output flow
 
-Each KB evidence record names an HTTPS source, a local snapshot, its SHA-256 digest, title, type, retrieval date, exact quoted substring and offsets, and claim scope. KB loading checks schema shape; the selected slot checks source file integrity, so a broken source fails that slot while other slots continue. The legacy `excerpt` is a summary, not verbatim proof. The source quote is the admissible technical text. Every public sentence is segmented into atomic propositions with offsets and mapped to candidate evidence IDs. The verifier returns one verdict per proposition, selecting exact numbered source span options when it claims support. Python resolves those options back to the snapshot and rejects unknown or missing spans. A second skeptical pass sees the selected spans and bounded, offset-bearing source windows so it can interpret list headings, antecedents, and conditions. It can still veto; context alone is never proof. Both decisions and the exact context offsets are persisted. Export rechecks window hashes, source identity, and text for accepted output. A `SUPPORTED` label is still a model judgment; benchmarks and manual inspection measure its fallibility.
+Each KB evidence record names an HTTPS source, a local snapshot, its SHA-256 digest, title, type, retrieval date, exact quoted substring and offsets, and claim scope. KB loading checks schema shape; the selected slot checks source file integrity, so a broken source fails that slot while other slots continue. The legacy `excerpt` is a summary, not verbatim proof. The source quote is the admissible technical text. Every public sentence is segmented into atomic propositions with offsets and mapped to candidate evidence IDs. The verifier returns one verdict per proposition, selecting exact numbered source span options when it claims support. Python resolves those options back to the snapshot and rejects unknown or missing spans. A second skeptical pass sees the selected spans and bounded, offset-bearing source windows so it can interpret list headings, antecedents, and conditions. It can still veto; context alone is never proof. Both decisions and exact context offsets are persisted. The two passes now classify each claim's asserted relationship and each selected source relationship. Python records source-role syntax hints and vetoes internally contradictory positives, normative-only root-cause inferences, recommendation-only guarantees, and certainty upgrades. An adverse relationship verdict can trigger the existing single Writer revision; no third draft or forced approval is possible. Export rechecks window hashes, source identity, text, and the final deterministic relation gate for accepted output. A `SUPPORTED` label remains a model judgment; benchmarks and manual inspection measure its fallibility.
 
 The SWC-107 active snapshot is a normalized excerpt of the official Markdown source, with its raw Markdown preserved. This retains the separate remediation bullets that the previous flattened HTML snapshot merged. Sentence extraction masks abbreviations such as `ie.` without changing offsets and treats Markdown bullets as separate exact source spans. The older flattened snapshot remains so diagnostic output from before the correction can still be audited.
 
@@ -65,7 +68,7 @@ The source window records `window_partial` when its offsets cover less than the 
 
 ## Code and model decisions
 
-Python owns input schemas, provenance hashes and exact offsets, claim coverage, objective brand and format rules, output routing, revision limits, usage aggregation, and export. The local model owns writing, semantic entailment judgment, and qualitative rubric scores. Deterministic Research avoids unnecessary inference; the Visual Agent uses a deterministic design policy because it can produce a tailored written specification from the accepted content without another model call. None of these code checks turns a source quotation into guaranteed semantic support.
+Python owns input schemas, provenance hashes and exact offsets, claim coverage, objective brand and format rules, conservative relation vetoes, output routing, revision limits, usage aggregation, and export. The local model owns writing, semantic entailment and source-relation judgment, and qualitative rubric scores. Deterministic Research avoids unnecessary inference; the Visual Agent uses a deterministic design policy because it can produce a tailored written specification from the accepted content without another model call. Syntax checks cannot establish general semantic truth or eliminate all causal errors. The claim relation and source relation labels remain auditable model outputs, never automatic proof.
 
 Marketing validation requires a concrete security action, including source-backed imperatives such as checking a return value or isolating a call. It does not require one exact English verb. The same semantic and rubric gates still reject unsupported promises, generic promotion, and invented authority.
 
@@ -74,3 +77,130 @@ Marketing validation requires a concrete security action, including source-backe
 The writer registry maps type IDs to instruction files and format settings without central routing changes. An additional post type using the common `Draft` contract needs a registry entry and instructions. A distinct content contract needs a registered adapter and deterministic validator. Fifteen slots use the same `Send` fan-out and plan-order reducer; raise the weekly plan count in input validation and benchmark the queue at the selected Ollama limit. A second social platform needs platform-specific writer guidance and format validation, followed by a separate exporter; this assignment's CSV contract remains fixed.
 
 See [semantic audit](audit/semantic/03_SEMANTIC_VERIFIER_ARCHITECTURE.md), [prompt design](audit/prompt_architecture/02_PROMPT_ARCHITECTURE_DESIGN.md), and the [workflow viewer](audit/visuals/workflow_viewer.html).
+
+---
+
+# Evidence-First V2 Architecture (2026-10-16)
+
+```mermaid
+flowchart TD
+    E[Trusted Source Evidence & Snapshots] --> P[Versioned Proposition Catalog]
+    P --> R[Approved Typed Relations]
+    R --> PRE[Sufficiency Preflight Gate]
+    PRE --> PLN[Evidence-First Content Planner]
+    PLN --> DPV[Deterministic Plan Validation]
+    DPV --> W[Constrained Writer Agent]
+    W --> CF[Plan-to-Text Conformance Verifier]
+    CF --> BP[Business Policy & Brand Validation]
+    BP --> REV[Independent Rubric Reviewer]
+    REV --> ROUTE{Conforming, Valid & Approved?}
+    ROUTE -->|Yes| VIS[Visual Agent Specification]
+    ROUTE -->|Attempt 1 Failure| RETRY[Targeted Unit Revision Feedback]
+    RETRY --> W
+    ROUTE -->|Attempt 2 Failure| DROP[Dropped Slot]
+    VIS --> EXP[Accepted-Only Export & Audit Trail]
+```
+
+## 1. Paradigm Shift
+In V1, unconstrained natural language generation was followed by expensive, fragile post-hoc claim extraction and multi-pass semantic proof. In Evidence-First V2 (`--mode evidence_first_v2`):
+- Factual propositions and typed relations are selected and validated **before** text generation.
+- The Writer is constrained to realizing pre-approved factual units.
+- Conformance verification checks whether realization stays within the approved plan boundaries, replacing combinatorial relation extraction.
+
+## 2. Core V2 Components
+1. **Proposition Catalog (`content_pipeline/proposition_catalog.py`):**
+   - Stores versioned, evidence-witnessed propositions (`VerifiedProposition`) and typed relations (`TypedRelation`).
+   - Closed-world authority: no relation can exist without explicit evidence spans.
+2. **Content Planning & Sufficiency Preflight (`content_pipeline/content_planning.py`):**
+   - Assesses whether a topic possesses sufficient distinct mechanisms, consequences, and mitigations before model inference.
+   - Generates typed `EvidenceFirstPlan`s mapping tweets to specific planned units.
+3. **Plan-to-Text Conformance (`content_pipeline/conformance.py`):**
+   - Enforces a 10-point verification contract verifying proposition fidelity, scope preservation, absence of unlicensed claims, and causal direction.
+   - Employs honest uncertainty verdicts (`CONFORMS`, `UNLICENSED_ASSERTION`, `SCOPE_VIOLATION`, `CONTRADICTS_PLAN`, `INSUFFICIENT_EVIDENCE`, `ABSTAIN`, `VERIFICATION_ERROR`).
+4. **Business Policy V1 (`content_pipeline/business_policy.py`):**
+   - Enforces deterministic hard policies (source whitelists, allowed topics, platform constraints, prohibited categories, mandatory disclaimers).
+   - Injects soft brand preferences (tone, audience, style) into agent guidance.
+   - Supports synthetic profiles (`security_audit_firm`, `strict_professional_client`, `creative_tech_brand`).
+5. **Targeted Revision Loop:**
+   - On attempt 1 failure, passes targeted feedback only to failing units while keeping conforming units stable.
+   - Strict 1-revision ceiling prevents runaway inference.
+
+## 3. Trust-Boundary & Authority Enforcement Architecture (Findings F1–F8 Remediation)
+Following independent audit of the Evidence-First V2 architecture, trust boundaries were reinforced across catalog, planning, conformance, and export:
+1. **Witness Span Integrity (F1, F7):** `validate_catalog_integrity()` recomputes `source_span_options(witness.source_quote)` and strictly asserts byte-exact equality with `witness.spans`, preventing altered or fabricated text. All `TypedRelation.evidence_span_ids` must belong to witnesses supporting the relation's source or target proposition. Source snapshots resolve portably via dynamic project root detection.
+2. **Deterministic Modality & Scope Gate (F2, F3, F8):** Conformance verification employs a hard deterministic preflight before model inference:
+   - *Modality Preservation:* Rejects escalation from possibility ("sometimes") to frequency ("often", "frequently", "typically", "usually", "always") with `CONTRADICTS_PLAN`.
+   - *Universal Scope Veto:* Rejects unqualified universal claims ("all Solidity code", "applies to all", "in every smart contract", "eliminates all risk").
+   - *Compiler Version Qualifications:* Enforces historical scope constraints (<0.4.22 for legacy constructors).
+3. **Fail-Closed Export Gate (F4):** When `pipeline_mode == "evidence_first_v2"`, missing or incomplete conformance reports immediately raise `ValueError` (zero fallback to legacy claim checks). Exporter asserts that each unit has `verdict == "CONFORMS"`, `passed is True`, and exact tweet text matching.
+4. **Plan Authority & Version Binding (F5):** `EvidenceFirstPlan.validate_plan_references()` strictly validates that plan versions match active `catalog_version` and `policy_version`, all proposition IDs belong to the slot topic, and all relation endpoints appear in the plan units. Plan SHA-256 hashes bind plan identity to execution.
+5. **Human Approval Enforcement & Quality Thresholds (F6):** When `BusinessPolicy.human_review_requirements.require_human_approval_for_ship = true`, unapproved pieces are routed to `ready_for_human_review.json` and strictly excluded from `posts.csv`. The evaluate node mechanically enforces minimum review scores against configured `QualityThresholds`.
+
+## 4. Final Remediation Architecture (Material Blockers A, B, C)
+
+1. **Topic-Isolated Planner Guidance (Blocker A):**
+   - Eliminated hardcoded legacy constructor and initialization prompts from generic technical thread mechanism planning.
+   - Writer instructions and unit guidance are dynamically synthesized strictly from assigned proposition IDs, relations, and qualifiers.
+   - Conformance checking implements domain-exclusive `topic_signatures` (reentrancy, access control, oracle manipulation) that deterministically veto cross-topic concept imports (e.g., initialization logic in reentrancy) with `UNLICENSED_ASSERTION`.
+
+2. **Bound Authority & Clearance Modes (Blocker B):**
+   - Plans dynamically bind active policy ID, policy version, and computed policy hash.
+   - `validate_plan_references()` enforces `authorization_mode`: in `publication_eligible` mode, catalog entries must have `APPROVED` status, failing closed on any `REVIEWED_FOR_PILOT` status.
+   - In `export.py`, accepted slots re-verify plan authority against active catalog and policy before releasing to `posts.csv`.
+
+3. **Authenticated Human Approval Records (Blocker C):**
+   - Replaced unauthenticated boolean flags with `HumanApprovalRecord` data model binding `approver_id`, `approver_role`, `approved_at`, `approved_draft_hash` (SHA-256 of draft tweets), `policy_id`, `policy_version`, and a cryptographic composite `approval_witness` signature.
+   - `export.py` independently verifies draft text hash, policy ID, and policy version against the approval record before shipping.
+   - The CLI (`cli.py`, `run_week.py`, `run_piece.py`) provides first-class `--policy` and `--authorization-mode` flags for multi-profile enterprise operation.
+
+## 5. Content-Type Specific Structured Contracts & Targeted Revision Mechanics (Closure 01)
+
+To achieve reliable 6/6 content yield while strictly preserving factual and brand gates:
+1. **Pydantic Model Schema Constraints:**
+   - Defined `MarketingDraft` enforcing `min_length=1, max_length=1` for marketing posts.
+   - Defined `TechThreadDraft` enforcing `min_length=5, max_length=10` for technical threads.
+   - Passed directly to Ollama's `with_structured_output(..., method="json_schema")`, constraining the decoder grammar to emit exactly the required array item bounds.
+2. **Clear Count Instructions:**
+   - Writer prompt explicitly distinguishes single tweets from multi-sentence contents. For marketing posts, multiple sentences combining the hazard and actionable review recommendation inside the single 280-character tweet are explicitly permitted.
+3. **Targeted Formatting Revision Feedback:**
+   - When a count mismatch occurs on attempt 1, the graph provides unambiguous feedback: *"Marketing posts must contain exactly one tweet. Your draft contained {count}. Rewrite the content as one coherent, source-grounded tweet within the platform character limit. Preserve only approved propositions and relations."*
+   - Avoids duplicating synthetic conformance mismatch errors, ensuring the model focuses exclusively on consolidating content into a single tweet.
+
+## 6. Semantic Invariant Enforcement & Bounded Grounding Repair (Closure 02)
+
+Following independent audit findings F1 (unsupported financial outcome for DoS topic), F2 (hyperbolic severity and comparative ranking in oracle defenses), and F3 (modality overreach from recommendation to mandate):
+
+1. **Semantic Invariant:**
+   - If realized text introduces a novel consequence, severity level, causal link, comparative ranking, or scope beyond the approved unit, it cannot receive `CONFORMS` without an explicit evidence-witnessed proposition or relation.
+2. **Deterministic Preflight Guarding:**
+   - *Comparative Rankings:* Vetoes claims such as `primary defense`, `sole protection`, or `most critical safeguard` unless explicitly licensed by a proposition.
+   - *Hyperbolic Severity:* Vetoes totalizing claims such as `complete subversion`, `significant fund losses`, or `devastating impact` unless quantified in source evidence.
+   - *Unlicensed Consequence Domains:* Vetoes financial outcome claims (`draining funds`, `stealing funds`) when unit propositions are restricted to operational failure or denial-of-service (`PROP_SWC113_DOS_CONDITION`).
+3. **Structured Conformance Model Contract:**
+   - `ModelConformanceDecision` includes an explicit `unsupported_outcomes_or_severity_detected: bool` flag. When true, the verifier is forced to emit `UNLICENSED_ASSERTION`, preventing small LLM judges from rationalizing unlicensed additions as "stylistic" or "logical" extensions.
+4. **1-to-1 Unit-to-Proposition Planning:**
+   - Technical threads decouple multi-proposition topics (such as SWC-105) into distinct single-proposition units (`EXPOSING_INIT` to U2, `LEGACY_CONSTRUCTOR` to U3, `RESTRICT_WITHDRAWALS` to U4, `OZ_OWNABLE` to U5), eliminating tweet array collision and verifier misalignment.
+
+## 7. Assignment Compliance & Copy-Quality Closure Architecture (Closure 03)
+
+Following independent audit findings F1 (role-specific instructions bypassed in V2), F2 (bypassed marketing action validator in V2), F3 (unapproved link enforcement gap), and F4 (copy defects):
+
+1. **Dual Role-Specific Writer Dispatch (F1):**
+   - Maintained unified `EvidenceFirstWriterAgent` implementation while instantiating role-specific configurations in the V2 graph:
+     - `tech-thread` config: dynamically loads `instructions/tech-thread.md` (role: smart contract security educator) combined with `instructions/evidence-first-writer.md`.
+     - `marketing-post` config: dynamically loads `instructions/marketing-post.md` (role: B2B cybersecurity marketing writer) combined with `instructions/evidence-first-writer.md`.
+   - Dynamic prompt generation ensures that any edits to role-specific files on disk immediately alter that role's system prompt without mutating other roles or requiring code changes.
+2. **Deterministic Marketing Action Verification (F2):**
+   - Centralized `check_marketing_action(text: str) -> bool` to distinguish genuine reader-oriented action invitations (`Review...`, `Inspect...`, `To isolate..., wrap...`, `to prevent this, explicitly verify...`) from passive vulnerability descriptions (`don't check return values`, `fails to verify`).
+   - Integrated into V2 `evaluate()` and final export gate in `export.py`. Marketing posts lacking an actionable recommendation fail validation and route to targeted revision.
+3. **Deterministic Brand URL Allowlist Enforcement (F3):**
+   - Centralized `validate_brand_and_platform(tweets, brand, spec)` to enforce `brand.allowed_links: []`.
+   - Rejects unauthorized URLs across single posts and multi-tweet threads during evaluation and fails closed at export.
+4. **Copy-Quality and Canonical Proposition Repair (F4):**
+   - Updated canonical text for `PROP_SWC105_RESTRICT_WITHDRAWALS` in `catalog.json` to grammatically sound formulation: *"Implement access controls so Ether withdrawals can be initiated only by authorized parties or as specified by the contract."*
+   - Neutralized hook guidance in planner and instructions to eliminate causal superlatives ("the core mechanism") in reentrancy content.
+   - Enhanced marketing prompt to consistently generate actionable, evidence-backed review recommendations.
+
+
+
+

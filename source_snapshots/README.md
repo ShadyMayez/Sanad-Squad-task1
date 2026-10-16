@@ -21,3 +21,5 @@ The SWC Registry source material is from the [SWC Registry](https://github.com/S
 - `SWC-110` — Assert Violation, https://swcregistry.io/docs/SWC-110/ (snapshot `source_snapshots/SWC-110.txt`, retrieved 2026-10-15).
 - `SCWE-028` — Price Oracle Manipulation, https://scs.owasp.org/SCWE/SCSVS-ORACLE/SCWE-028/ (snapshot `source_snapshots/SCWE-028.txt`, retrieved 2026-10-15).
 - `OWASP-SC03` — Price Oracle Manipulation, https://scs.owasp.org/sctop10/SC03-PriceOracleManipulation/ (snapshot `source_snapshots/OWASP-SC03.txt`, retrieved 2026-10-15).
+- `OZ-OWNABLE` — OpenZeppelin Ownable Access Control, https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/access/Ownable.sol (snapshot `source_snapshots/OZ-OWNABLE.txt`, retrieved 2026-10-16).
+

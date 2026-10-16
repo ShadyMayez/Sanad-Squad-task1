@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "Price oracle manipulation involves exploiting vulnerabilities in price oracles to alter how contract execution logic functions.",
+    "When oracles are manipulated, contracts can face unauthorized actions, loss of funds, and exploitation of their core logic.",
+    "To mitigate this risk, contracts should aggregate multiple oracle and DEX price sources while rejecting anomalous outlier deviations.",
+    "Complementary protection includes using Time-Weighted Average Prices (TWAPs) over sufficient windows and rejecting stale prices beyond maximum thresholds.",
+    "Implement fail-safe behaviors that halt sensitive operations like borrowing or liquidations when oracle data is suspicious or unavailable."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation involves exploiting vulnerabilities in price oracles to alter how contract execution logic functions.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "When oracles are manipulated, contracts can face unauthorized actions, loss of funds, and exploitation of their core logic.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "To mitigate this risk, contracts should aggregate multiple oracle and DEX price sources while rejecting anomalous outlier deviations.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Complementary protection includes using Time-Weighted Average Prices (TWAPs) over sufficient windows and rejecting stale prices beyond maximum thresholds.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Implement fail-safe behaviors that halt sensitive operations like borrowing or liquidations when oracle data is suspicious or unavailable.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

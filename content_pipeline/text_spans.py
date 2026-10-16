@@ -4,17 +4,20 @@ from __future__ import annotations
 import re
 
 ABBREVIATION = re.compile(r"(?<!\w)(?:a\.k\.a\.|i\.e\.|e\.g\.|ie\.)(?=\s|\))", re.IGNORECASE)
+DECIMAL_OR_VERSION = re.compile(r"(?<=\d)\.(?=\d)")
 SENTENCE = re.compile(r"[^.!?]+(?:[.!?](?!\S)|$)")
 SOURCE_BOUNDARY = re.compile(r"(?<=[.!?])\s+|\n(?=\s*[-*]\s)|\n(?=##\s)")
 
 
 def masked_abbreviations(text: str) -> str:
-    """Hide abbreviation periods without changing string offsets."""
+    """Hide abbreviation and decimal/version periods without changing string offsets."""
     chars = list(text)
     for match in ABBREVIATION.finditer(text):
         for index in range(match.start(), match.end()):
             if chars[index] == ".":
                 chars[index] = "∶"
+    for match in DECIMAL_OR_VERSION.finditer(text):
+        chars[match.start()] = "∶"
     return "".join(chars)
 
 

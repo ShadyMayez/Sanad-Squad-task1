@@ -197,6 +197,23 @@
           "title": "Qualifiers",
           "type": "array"
         },
+        "relation_hints": {
+          "items": {
+            "enum": [
+              "DESCRIPTIVE_FACT",
+              "ROOT_CAUSE",
+              "EXECUTION_MECHANISM",
+              "CONSEQUENCE",
+              "MITIGATION_RECOMMENDATION",
+              "MITIGATION_EFFECTIVENESS",
+              "CONDITIONAL_CLAIM",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "title": "Relation Hints",
+          "type": "array"
+        },
         "sentence": {
           "minLength": 1,
           "title": "Sentence",
@@ -619,6 +636,23 @@
           "title": "Claim Id",
           "type": "string"
         },
+        "claim_relations": {
+          "items": {
+            "enum": [
+              "DESCRIPTIVE_FACT",
+              "ROOT_CAUSE",
+              "EXECUTION_MECHANISM",
+              "CONSEQUENCE",
+              "MITIGATION_RECOMMENDATION",
+              "MITIGATION_EFFECTIVENESS",
+              "CONDITIONAL_CLAIM",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "title": "Claim Relations",
+          "type": "array"
+        },
         "confidence": {
           "anyOf": [
             {
@@ -646,6 +680,28 @@
           },
           "title": "Evidence Ids",
           "type": "array"
+        },
+        "evidence_relation": {
+          "anyOf": [
+            {
+              "enum": [
+                "DIRECT_DESCRIPTIVE_SUPPORT",
+                "DIRECT_CAUSAL_SUPPORT",
+                "DIRECT_RECOMMENDATION",
+                "DIRECT_EFFECTIVENESS_SUPPORT",
+                "CONTEXTUAL_SUPPORT",
+                "INSUFFICIENT_RELATION",
+                "CONTRADICTORY_RELATION",
+                "AMBIGUOUS_RELATION"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Relation"
         },
         "initial_pass": {
           "anyOf": [
@@ -675,10 +731,48 @@
           "title": "Reason",
           "type": "string"
         },
+        "relation_error": {
+          "default": "",
+          "title": "Relation Error",
+          "type": "string"
+        },
+        "relation_integrity_passed": {
+          "default": false,
+          "title": "Relation Integrity Passed",
+          "type": "boolean"
+        },
+        "relationship_verdict": {
+          "anyOf": [
+            {
+              "enum": [
+                "ENTAILED",
+                "NOT_ENTAILED",
+                "CONTRADICTED",
+                "AMBIGUOUS"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relationship Verdict"
+        },
         "scope_mismatch": {
           "default": "",
           "title": "Scope Mismatch",
           "type": "string"
+        },
+        "selected_source_roles": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Selected Source Roles",
+          "type": "object"
         },
         "skeptical_pass": {
           "anyOf": [
@@ -789,9 +883,93 @@
     },
     "VerificationPass": {
       "properties": {
+        "claim_relations": {
+          "items": {
+            "enum": [
+              "DESCRIPTIVE_FACT",
+              "ROOT_CAUSE",
+              "EXECUTION_MECHANISM",
+              "CONSEQUENCE",
+              "MITIGATION_RECOMMENDATION",
+              "MITIGATION_EFFECTIVENESS",
+              "CONDITIONAL_CLAIM",
+              "OTHER"
+            ],
+            "type": "string"
+          },
+          "title": "Claim Relations",
+          "type": "array"
+        },
+        "contradiction_detected": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Contradiction Detected"
+        },
+        "evidence_relation": {
+          "anyOf": [
+            {
+              "enum": [
+                "DIRECT_DESCRIPTIVE_SUPPORT",
+                "DIRECT_CAUSAL_SUPPORT",
+                "DIRECT_RECOMMENDATION",
+                "DIRECT_EFFECTIVENESS_SUPPORT",
+                "CONTEXTUAL_SUPPORT",
+                "INSUFFICIENT_RELATION",
+                "CONTRADICTORY_RELATION",
+                "AMBIGUOUS_RELATION"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Evidence Relation"
+        },
         "reason": {
           "title": "Reason",
           "type": "string"
+        },
+        "relation_error": {
+          "default": "",
+          "title": "Relation Error",
+          "type": "string"
+        },
+        "relationship_verdict": {
+          "anyOf": [
+            {
+              "enum": [
+                "ENTAILED",
+                "NOT_ENTAILED",
+                "CONTRADICTED",
+                "AMBIGUOUS"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Relationship Verdict"
+        },
+        "selected_source_roles": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Selected Source Roles",
+          "type": "object"
         },
         "support_option_ids": {
           "items": {
@@ -799,6 +977,18 @@
           },
           "title": "Support Option Ids",
           "type": "array"
+        },
+        "uncertainty_detected": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uncertainty Detected"
         },
         "verdict": {
           "enum": [

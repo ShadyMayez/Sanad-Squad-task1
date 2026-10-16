@@ -4,9 +4,14 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import sys
 from collections import Counter
 from pathlib import Path
 from pydantic import TypeAdapter
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from content_pipeline.provenance import context_errors, evidence_errors
 from content_pipeline.text_spans import source_span_options
@@ -70,7 +75,8 @@ def inspect(folder: Path) -> dict:
             quotes = {e.id: e.source_quote or "" for e in evidence}
             allowed = {f"{e.id}#{index}": (e.id, span)
                 for e in evidence for index, span in enumerate(source_span_options(e.source_quote or ""))}
-            assert all(v["verdict"] == "SUPPORTED" and v["supporting_spans"] and v["supporting_span_ids"]
+            assert all(v["verdict"] == "SUPPORTED" and v.get("relation_integrity_passed") is True
+                and v.get("relationship_verdict") == "ENTAILED" and v["supporting_spans"] and v["supporting_span_ids"]
                 and len(v["supporting_spans"]) == len(v["supporting_span_ids"])
                 and all(span["evidence_id"] in claim_by[v["claim_id"]]["candidate_evidence_ids"]
                     and span["quote"] in quotes.get(span["evidence_id"], "")
@@ -92,6 +98,8 @@ def inspect(folder: Path) -> dict:
             "final_tweets": accepted_by[id]["drafts"][-1]["tweets"] if is_accepted else
                 json.loads((folder / "drafts" / f"{id}-attempt-{len(claims_by[id]['attempts'])}.json").read_text())["tweets"] if claims_by[id]["attempts"] else [],
             "revisions": max(0, len(claims_by[id]["attempts"]) - 1),
+            "relation_pass_count": sum(v.get("relation_integrity_passed") is True for attempt in attempts for v in attempt["verdicts"]),
+            "relation_failure_count": sum(bool(v.get("relation_error")) for attempt in attempts for v in attempt["verdicts"]),
             "verification_disagreements": sum(1 for attempt in attempts for verdict in attempt["verdicts"]
                 if verdict.get("initial_pass") and verdict.get("skeptical_pass") and
                 verdict["initial_pass"]["verdict"] != verdict["skeptical_pass"]["verdict"]),

@@ -14,6 +14,7 @@ from content_pipeline.skills import EvidenceLookup
 from content_pipeline.validation import validate_draft
 from content_pipeline.cli import week_main, piece_main
 from content_pipeline.llm import LocalModel
+from tests.relation_helpers import relation_fields
 
 
 class FakeModel:
@@ -63,7 +64,7 @@ class FakeModel:
                         grounding_assessment="Evidence matches the text", claim_support=supports), {"input_tokens": 8, "output_tokens": 9}
                 if schema is ModelSemanticDecision:
                     return ModelSemanticDecision(verdict="SUPPORTED", support_option_ids=[task["exact_span_options"][0]["span_id"]],
-                        reason="Mocked positive semantic decision"), {"input_tokens": 6, "output_tokens": 7}
+                        reason="Mocked positive semantic decision", **relation_fields()), {"input_tokens": 6, "output_tokens": 7}
                 raise AssertionError(schema)
             finally:
                 self.active -= 1
@@ -329,9 +330,10 @@ def test_thread_csv_order_and_dropped_exclusion(tmp_path):
 def test_cli_errors_and_override(monkeypatch, tmp_path):
     captured = {}
 
-    async def fake_execute(plan, output, model=None):
+    async def fake_execute(plan, output, model=None, **kwargs):
         captured["plan"] = plan
         captured["output"] = output
+        captured["kwargs"] = kwargs
         return {"failed": 0, "shipped": 1}
 
     monkeypatch.setattr("content_pipeline.cli.execute", fake_execute)

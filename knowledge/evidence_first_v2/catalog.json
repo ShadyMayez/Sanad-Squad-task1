@@ -1,0 +1,776 @@
+{
+  "catalog_version": "2.0.0",
+  "propositions": [
+    {
+      "id": "PROP_SWC107_CONTROL_FLOW",
+      "topic_id": "SWC-107",
+      "kind": "MECHANISM",
+      "canonical_text": "Calling external contracts allows them to take over the execution control flow.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-107#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC107_REENTRANT_CALL",
+      "topic_id": "SWC-107",
+      "kind": "MECHANISM",
+      "canonical_text": "In a reentrancy attack, an external contract calls back into the caller before the initial invocation completes.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-107#1"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC107_UNDESIRABLE_INTERACTION",
+      "topic_id": "SWC-107",
+      "kind": "CONSEQUENCE",
+      "canonical_text": "Recursive callbacks can cause separate function invocations to interact in undesirable ways.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-107#2"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC107_CEI_PATTERN",
+      "topic_id": "SWC-107",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "The Checks-Effects-Interactions pattern recommends performing all internal state changes before external calls are executed.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-107#3",
+        "SWC-107#4"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC107_REENTRANCY_GUARD",
+      "topic_id": "SWC-107",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Using a reentrancy lock, such as OpenZeppelin ReentrancyGuard, mitigates recursive call attacks by preventing reentrant execution of protected functions.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-107#5"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC104_RETURN_UNCHECKED",
+      "topic_id": "SWC-104",
+      "kind": "FACT",
+      "canonical_text": "The return value of low-level message calls is not checked by default.",
+      "modality": "factual",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-104#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC104_EXECUTION_RESUMES",
+      "topic_id": "SWC-104",
+      "kind": "MECHANISM",
+      "canonical_text": "Execution will resume even if the called contract throws an exception or fails.",
+      "modality": "factual",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-104#1"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC104_UNEXPECTED_BEHAVIOUR",
+      "topic_id": "SWC-104",
+      "kind": "CONSEQUENCE",
+      "canonical_text": "If a low-level call fails accidentally or deliberately, execution continuing without checks may cause unexpected behaviour in subsequent program logic.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-104#2"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC104_CHECK_RETURN",
+      "topic_id": "SWC-104",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "If using low-level call methods, contracts must handle call failure by checking the returned boolean value.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-104#3"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC113_CALLS_CAN_FAIL",
+      "topic_id": "SWC-113",
+      "kind": "FACT",
+      "canonical_text": "External calls can fail accidentally or deliberately.",
+      "modality": "factual",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-113#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC113_DOS_CONDITION",
+      "topic_id": "SWC-113",
+      "kind": "CONSEQUENCE",
+      "canonical_text": "External call failures can cause a denial-of-service condition in the calling contract.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-113#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC113_ISOLATE_CALLS",
+      "topic_id": "SWC-113",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Isolate each external call into its own transaction initiated by the recipient to minimize damage from failures.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-113#1"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC113_PULL_PAYMENTS",
+      "topic_id": "SWC-113",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "For payments, let users withdraw funds via pull payments rather than pushing funds automatically to reduce gas limit and DoS risks.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-113#2"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC113_AVOID_LOOP_CALLS",
+      "topic_id": "SWC-113",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Avoid combining multiple external calls in a single transaction loop and always handle potential failures.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-113#3"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC105_UNPROTECTED_WITHDRAWAL",
+      "topic_id": "SWC-105",
+      "kind": "FACT",
+      "canonical_text": "Due to missing or insufficient access controls, malicious parties can withdraw Ether from the contract account.",
+      "modality": "factual",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-105#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC105_EXPOSING_INIT",
+      "topic_id": "SWC-105",
+      "kind": "MECHANISM",
+      "canonical_text": "Unprotected withdrawal bugs are sometimes caused by unintentionally exposing contract initialization functions.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-105#1"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC105_LEGACY_CONSTRUCTOR",
+      "topic_id": "SWC-105",
+      "kind": "MECHANISM",
+      "canonical_text": "In legacy Solidity versions prior to 0.4.22, wrongly naming a function intended to be a constructor places the code in runtime bytecode where anyone can call it to re-initialize the contract.",
+      "modality": "possibility",
+      "applicability": {
+        "solidity_version": "<0.4.22"
+      },
+      "evidence_span_ids": [
+        "SWC-105#2"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SWC105_RESTRICT_WITHDRAWALS",
+      "topic_id": "SWC-105",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Implement access controls so Ether withdrawals can be initiated only by authorized parties or as specified by the contract.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SWC-105#3"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_OZ_OWNABLE_MODULE",
+      "topic_id": "SWC-105",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Inheriting OpenZeppelin Ownable module provides an onlyOwner modifier to restrict function execution to the authorized owner address.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "OZ-OWNABLE#0",
+        "OZ-OWNABLE#4"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SCWE028_EXPLOITATION",
+      "topic_id": "SCWE-028",
+      "kind": "DEFINITION",
+      "canonical_text": "Price oracle manipulation refers to exploiting vulnerabilities in price oracles to manipulate contract execution logic.",
+      "modality": "factual",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SCWE-028#0"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_SCWE028_ADVERSE_CONSEQUENCES",
+      "topic_id": "SCWE-028",
+      "kind": "CONSEQUENCE",
+      "canonical_text": "Oracle manipulation can lead to unauthorized actions, loss of funds, and exploitation of contract logic.",
+      "modality": "possibility",
+      "applicability": {},
+      "evidence_span_ids": [
+        "SCWE-028#1",
+        "SCWE-028#2",
+        "SCWE-028#3"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_OWASP_AGGREGATE_FEEDS",
+      "topic_id": "SCWE-028",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Contracts should aggregate multiple oracle and DEX price sources and reject anomalous outlier deviations.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "OWASP-SC03#0",
+        "OWASP-SC03#1"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_OWASP_TWAP_DEFENSE",
+      "topic_id": "SCWE-028",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding maximum staleness thresholds.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "OWASP-SC03#2",
+        "OWASP-SC03#3"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    },
+    {
+      "id": "PROP_OWASP_FAILSAFE_BEHAVIOR",
+      "topic_id": "SCWE-028",
+      "kind": "RECOMMENDATION",
+      "canonical_text": "Implement fail-safe behaviors that halt sensitive operations like borrowing or liquidations when oracle data is suspicious or unavailable.",
+      "modality": "recommendation",
+      "applicability": {},
+      "evidence_span_ids": [
+        "OWASP-SC03#6"
+      ],
+      "status": "APPROVED",
+      "catalog_version": "2.0.0"
+    }
+  ],
+  "relations": [
+    {
+      "id": "REL_SWC107_CONTROL_FLOW_ENABLES_REENTRANCY",
+      "relation_type": "ENABLES",
+      "source_id": "PROP_SWC107_CONTROL_FLOW",
+      "target_id": "PROP_SWC107_REENTRANT_CALL",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-107#0",
+        "SWC-107#1"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC107_REENTRANCY_LEADS_TO_UNDESIRABLE_INTERACTION",
+      "relation_type": "CAN_LEAD_TO",
+      "source_id": "PROP_SWC107_REENTRANT_CALL",
+      "target_id": "PROP_SWC107_UNDESIRABLE_INTERACTION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-107#1",
+        "SWC-107#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC107_CEI_MITIGATES_REENTRANCY",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC107_CEI_PATTERN",
+      "target_id": "PROP_SWC107_UNDESIRABLE_INTERACTION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-107#3",
+        "SWC-107#4"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC107_GUARD_MITIGATES_REENTRANCY",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC107_REENTRANCY_GUARD",
+      "target_id": "PROP_SWC107_UNDESIRABLE_INTERACTION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-107#5"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC107_ACTION_RATIONALE_CEI",
+      "relation_type": "ACTION_RATIONALE",
+      "source_id": "PROP_SWC107_UNDESIRABLE_INTERACTION",
+      "target_id": "PROP_SWC107_CEI_PATTERN",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-107#2",
+        "SWC-107#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC104_UNCHECKED_ENABLES_RESUMPTION",
+      "relation_type": "ENABLES",
+      "source_id": "PROP_SWC104_RETURN_UNCHECKED",
+      "target_id": "PROP_SWC104_EXECUTION_RESUMES",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-104#0",
+        "SWC-104#1"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC104_RESUMPTION_LEADS_TO_UNEXPECTED_BEHAVIOUR",
+      "relation_type": "CAN_LEAD_TO",
+      "source_id": "PROP_SWC104_EXECUTION_RESUMES",
+      "target_id": "PROP_SWC104_UNEXPECTED_BEHAVIOUR",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-104#1",
+        "SWC-104#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC104_CHECKING_MITIGATES_UNEXPECTED_BEHAVIOUR",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC104_CHECK_RETURN",
+      "target_id": "PROP_SWC104_UNEXPECTED_BEHAVIOUR",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-104#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC104_ACTION_RATIONALE_CHECK_RETURN",
+      "relation_type": "ACTION_RATIONALE",
+      "source_id": "PROP_SWC104_UNEXPECTED_BEHAVIOUR",
+      "target_id": "PROP_SWC104_CHECK_RETURN",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-104#2",
+        "SWC-104#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC113_CALL_FAILURES_CAUSE_DOS",
+      "relation_type": "CAN_LEAD_TO",
+      "source_id": "PROP_SWC113_CALLS_CAN_FAIL",
+      "target_id": "PROP_SWC113_DOS_CONDITION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-113#0"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC113_ISOLATE_CALLS_MITIGATES_DOS",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC113_ISOLATE_CALLS",
+      "target_id": "PROP_SWC113_DOS_CONDITION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-113#0",
+        "SWC-113#1"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC113_PULL_PAYMENTS_MITIGATES_DOS",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC113_PULL_PAYMENTS",
+      "target_id": "PROP_SWC113_DOS_CONDITION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-113#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC113_ACTION_RATIONALE_ISOLATE_CALLS",
+      "relation_type": "ACTION_RATIONALE",
+      "source_id": "PROP_SWC113_DOS_CONDITION",
+      "target_id": "PROP_SWC113_ISOLATE_CALLS",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-113#0",
+        "SWC-113#1"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC105_LEGACY_CONSTRUCTOR_ENABLES_BYTECODE_EXPOSURE",
+      "relation_type": "ENABLES",
+      "source_id": "PROP_SWC105_EXPOSING_INIT",
+      "target_id": "PROP_SWC105_LEGACY_CONSTRUCTOR",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-105#1",
+        "SWC-105#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC105_INIT_EXPOSURE_LEADS_TO_UNPROTECTED_WITHDRAWAL",
+      "relation_type": "CAN_LEAD_TO",
+      "source_id": "PROP_SWC105_LEGACY_CONSTRUCTOR",
+      "target_id": "PROP_SWC105_UNPROTECTED_WITHDRAWAL",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-105#0",
+        "SWC-105#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC105_RESTRICT_WITHDRAWALS_MITIGATES",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_SWC105_RESTRICT_WITHDRAWALS",
+      "target_id": "PROP_SWC105_UNPROTECTED_WITHDRAWAL",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-105#0",
+        "SWC-105#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC105_OWNABLE_MITIGATES_UNPROTECTED_WITHDRAWAL",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_OZ_OWNABLE_MODULE",
+      "target_id": "PROP_SWC105_UNPROTECTED_WITHDRAWAL",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-105#0",
+        "OZ-OWNABLE#0",
+        "OZ-OWNABLE#4"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SWC105_ACTION_RATIONALE_RESTRICT",
+      "relation_type": "ACTION_RATIONALE",
+      "source_id": "PROP_SWC105_UNPROTECTED_WITHDRAWAL",
+      "target_id": "PROP_SWC105_RESTRICT_WITHDRAWALS",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SWC-105#0",
+        "SWC-105#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_SCWE028_EXPLOITATION_LEADS_TO_ADVERSE_CONSEQUENCES",
+      "relation_type": "CAN_LEAD_TO",
+      "source_id": "PROP_SCWE028_EXPLOITATION",
+      "target_id": "PROP_SCWE028_ADVERSE_CONSEQUENCES",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SCWE-028#0",
+        "SCWE-028#1",
+        "SCWE-028#2"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_OWASP_AGGREGATION_MITIGATES_EXPLOITATION",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_OWASP_AGGREGATE_FEEDS",
+      "target_id": "PROP_SCWE028_EXPLOITATION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SCWE-028#0",
+        "OWASP-SC03#0",
+        "OWASP-SC03#1"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_OWASP_TWAP_MITIGATES_EXPLOITATION",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_OWASP_TWAP_DEFENSE",
+      "target_id": "PROP_SCWE028_EXPLOITATION",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SCWE-028#0",
+        "OWASP-SC03#2",
+        "OWASP-SC03#3"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_OWASP_FAILSAFE_MITIGATES_CONSEQUENCES",
+      "relation_type": "MITIGATES",
+      "source_id": "PROP_OWASP_FAILSAFE_BEHAVIOR",
+      "target_id": "PROP_SCWE028_ADVERSE_CONSEQUENCES",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SCWE-028#1",
+        "OWASP-SC03#6"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    },
+    {
+      "id": "REL_OWASP_ACTION_RATIONALE_FAILSAFE",
+      "relation_type": "ACTION_RATIONALE",
+      "source_id": "PROP_SCWE028_ADVERSE_CONSEQUENCES",
+      "target_id": "PROP_OWASP_FAILSAFE_BEHAVIOR",
+      "direction": "source_to_target",
+      "modality": "factual",
+      "scope": "vulnerability_domain",
+      "evidence_span_ids": [
+        "SCWE-028#1",
+        "OWASP-SC03#6"
+      ],
+      "catalog_version": "2.0.0",
+      "status": "APPROVED"
+    }
+  ],
+  "evidence_witnesses": {
+    "SWC-107": {
+      "evidence_id": "SWC-107",
+      "snapshot_path": "source_snapshots/SWC-107-canonical.txt",
+      "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+      "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+      "spans": [
+        "One of the major dangers of calling external contracts is that they can take over the control flow.",
+        "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished.",
+        "This may cause the different invocations of the function to interact in undesirable ways.",
+        "Make sure all internal state changes are performed before the call is executed.",
+        "This is known as the Checks-Effects-Interactions pattern",
+        "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+      ],
+      "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+    },
+    "SWC-104": {
+      "evidence_id": "SWC-104",
+      "snapshot_path": "source_snapshots/SWC-104.txt",
+      "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+      "source_quote": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic. Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+      "spans": [
+        "Description The return value of a message call is not checked.",
+        "Execution will resume even if the called contract throws an exception.",
+        "If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.",
+        "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+      ],
+      "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+    },
+    "SWC-113": {
+      "evidence_id": "SWC-113",
+      "snapshot_path": "source_snapshots/SWC-113.txt",
+      "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+      "source_quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit). Remediation It is recommended to follow call best practices: Avoid combining multiple calls in a single transaction, especially when calls are executed as part of a loop Always assume that external calls can fail Implement the contract logic to handle failed calls",
+      "spans": [
+        "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.",
+        "To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call.",
+        "This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+        "Remediation It is recommended to follow call best practices: Avoid combining multiple calls in a single transaction, especially when calls are executed as part of a loop Always assume that external calls can fail Implement the contract logic to handle failed calls"
+      ],
+      "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+    },
+    "SWC-105": {
+      "evidence_id": "SWC-105",
+      "snapshot_path": "source_snapshots/SWC-105.txt",
+      "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+      "source_quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract. Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system.",
+      "spans": [
+        "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.",
+        "This bug is sometimes caused by unintentionally exposing initialization functions.",
+        "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+        "Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system."
+      ],
+      "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+    },
+    "OZ-OWNABLE": {
+      "evidence_id": "OZ-OWNABLE",
+      "snapshot_path": "source_snapshots/OZ-OWNABLE.txt",
+      "snapshot_sha256": "e18c0a1f3c6582083a548f192fdd2c851505e1edc44b9eeaf825fbc960e718b4",
+      "source_quote": "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions. The initial owner is set to the address provided by the deployer. This can later be changed with transferOwnership. This module is used through inheritance. It will make available the modifier onlyOwner, which can be applied to your functions to restrict their use to the owner.",
+      "spans": [
+        "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions.",
+        "The initial owner is set to the address provided by the deployer.",
+        "This can later be changed with transferOwnership.",
+        "This module is used through inheritance.",
+        "It will make available the modifier onlyOwner, which can be applied to your functions to restrict their use to the owner."
+      ],
+      "scope": "Modern Solidity access control pattern"
+    },
+    "SCWE-028": {
+      "evidence_id": "SCWE-028",
+      "snapshot_path": "source_snapshots/SCWE-028.txt",
+      "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+      "source_quote": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic. Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+      "spans": [
+        "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic.",
+        "This can lead to: - Unauthorized actions by malicious actors.",
+        "Loss of funds or data.",
+        "Exploitation of the contract's logic.",
+        "Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data.",
+        "Validate inputs: Ensure all oracle data is properly validated before use."
+      ],
+      "scope": "Use the documented oracle conditions and threat model"
+    },
+    "OWASP-SC03": {
+      "evidence_id": "OWASP-SC03",
+      "snapshot_path": "source_snapshots/OWASP-SC03.txt",
+      "snapshot_sha256": "ef8c53cd5aa51a9bf61b7347dc36992f74104f63bd27e8a7afee1bc6d400287d",
+      "source_quote": "Aggregate multiple sources : Use median/mean of several DEXs / oracles. Reject outliers and anomalous deviations. Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations. Reject prices older than a maximum staleness threshold. Liquidity-aware design : Avoid basing core prices on illiquid pools . Cap impact of a single pool/feed on global pricing. Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations). Use circuit breakers and rate limiting on parameter changes. Monitoring & alerting : Track price deviations between your oracle and reference markets. Set automated alerts for out-of-band movements or stuck oracles.",
+      "spans": [
+        "Aggregate multiple sources : Use median/mean of several DEXs / oracles.",
+        "Reject outliers and anomalous deviations.",
+        "Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations.",
+        "Reject prices older than a maximum staleness threshold.",
+        "Liquidity-aware design : Avoid basing core prices on illiquid pools .",
+        "Cap impact of a single pool/feed on global pricing.",
+        "Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations).",
+        "Use circuit breakers and rate limiting on parameter changes.",
+        "Monitoring & alerting : Track price deviations between your oracle and reference markets.",
+        "Set automated alerts for out-of-band movements or stuck oracles."
+      ],
+      "scope": "Use the documented oracle conditions and threat model"
+    }
+  }
+}

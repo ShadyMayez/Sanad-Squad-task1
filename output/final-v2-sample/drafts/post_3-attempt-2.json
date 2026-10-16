@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "External calls can fail, causing denial-of-service. To minimize damage and prevent blocking other operations, isolate each call into a separate recipient-initiated transaction."
+  ],
+  "claims": [
+    {
+      "text": "External calls can fail, causing denial-of-service. To minimize damage and prevent blocking other operations, isolate each call into a separate recipient-initiated transaction.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

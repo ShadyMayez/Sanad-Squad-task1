@@ -1,0 +1,75 @@
+RG01 SUPPORTED -> SUPPORTED (17.6s)
+RG02 SUPPORTED -> INSUFFICIENT_EVIDENCE (14.5s)
+RG03 SUPPORTED -> SUPPORTED (22.2s)
+RG04 SUPPORTED -> SUPPORTED (16.2s)
+RG05 SUPPORTED -> INSUFFICIENT_EVIDENCE (20.9s)
+RG06 SUPPORTED -> INSUFFICIENT_EVIDENCE (20.1s)
+RG07 SUPPORTED -> INSUFFICIENT_EVIDENCE (25.4s)
+RG08 SUPPORTED -> SUPPORTED (17.3s)
+RG09 SUPPORTED -> INSUFFICIENT_EVIDENCE (20.8s)
+RG10 SUPPORTED -> INSUFFICIENT_EVIDENCE (21.4s)
+RG11 INSUFFICIENT_EVIDENCE -> INSUFFICIENT_EVIDENCE (9.5s)
+RG12 INSUFFICIENT_EVIDENCE -> CONTRADICTED (9.5s)
+RG13 INSUFFICIENT_EVIDENCE -> CONTRADICTED (10.3s)
+RG14 INSUFFICIENT_EVIDENCE -> CONTRADICTED (8.1s)
+RG15 INSUFFICIENT_EVIDENCE -> CONTRADICTED (8.3s)
+RG16 INSUFFICIENT_EVIDENCE -> CONTRADICTED (7.2s)
+RG17 INSUFFICIENT_EVIDENCE -> CONTRADICTED (8.2s)
+RG18 INSUFFICIENT_EVIDENCE -> CONTRADICTED (9.1s)
+RG19 CONTRADICTED -> CONTRADICTED (7.4s)
+RG20 CONTRADICTED -> CONTRADICTED (7.6s)
+{
+  "count": 20,
+  "supported_precision": 1.0,
+  "supported_recall": 0.4,
+  "false_acceptance_rate": 0.0,
+  "unsupported_causal_false_accepts": [],
+  "supported_causal_false_rejects": [
+    "RG02"
+  ],
+  "recommendation_paraphrase_recall": 0.25,
+  "five_label_accuracy": 0.35,
+  "source_relation_classification_accuracy": 0.45,
+  "confusion_matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 4,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 6,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 2,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "INSUFFICIENT_EVIDENCE": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 7,
+      "INSUFFICIENT_EVIDENCE": 1,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "AMBIGUOUS": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "VERIFICATION_ERROR": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    }
+  },
+  "mean_latency_seconds": 14.077,
+  "prompt_tokens_recorded": 45003,
+  "completion_tokens_recorded": 5622,
+  "usage_complete": true,
+  "external_model_api_charges_usd": 0.0
+}

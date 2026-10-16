@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "External calls can fail accidentally or deliberately, potentially causing a denial-of-service condition in the calling contract. To minimize damage from these failures and prevent them from blocking other operations, isolate each external call into its own transaction initiated by the recipient."
+  ],
+  "claims": [
+    {
+      "text": "External calls can fail accidentally or deliberately, potentially causing a denial-of-service condition in the calling contract. To minimize damage from these failures and prevent them from blocking other operations, isolate each external call into its own transaction initiated by the recipient.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

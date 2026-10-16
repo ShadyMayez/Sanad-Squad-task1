@@ -18,6 +18,7 @@ from content_pipeline.llm import LocalModel
 from content_pipeline.schemas import Claim, ClaimSupport, Draft, Evidence, KnowledgeBase, Plan, Review, Slot, SlotResult, SemanticReport, SemanticVerdict, SupportingSpan, ModelSemanticDecision
 from content_pipeline.skills import EvidenceLookup
 from content_pipeline.validation import validate_draft
+from tests.relation_helpers import relation_fields
 
 
 def run(slots, model):
@@ -57,7 +58,8 @@ class ControlledModel:
             bad = any(phrase in self.draft_text for phrase in ("prevent any external", "audited 500", "oracle prices to stop"))
             return ModelSemanticDecision(verdict="INSUFFICIENT_EVIDENCE" if bad else "SUPPORTED",
                 support_option_ids=[] if bad else [task["exact_span_options"][0]["span_id"]],
-                reason="Mocked lack of entailment" if bad else "Mocked supported statement"), {"input_tokens": 3, "output_tokens": 4}
+                reason="Mocked lack of entailment" if bad else "Mocked supported statement",
+                **relation_fields("INSUFFICIENT_EVIDENCE" if bad else "SUPPORTED")), {"input_tokens": 3, "output_tokens": 4}
         if self.fail_review:
             raise ValueError("malformed reviewer JSON")
         draft = task["draft"]

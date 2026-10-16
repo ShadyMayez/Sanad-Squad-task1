@@ -1,0 +1,34 @@
+{
+  "run": "/home/shady/sandsquad/output/relation-grounding-tech",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 1,
+    "shipped": 0,
+    "dropped": 1,
+    "failed": 0,
+    "reasons": [
+      {
+        "slot_id": "piece_1",
+        "status": "dropped",
+        "reason": "Claim t4 ('Another option is to use a reentrancy lock to prevent recursive entry within the calling contract') lacks sufficient evidence. The source (SWC-107) recommends using a reentrancy lock but does not explicitly describe its mechanism as 'preventing recursive entry.' This specific causal link is an inference, not a verbatim entailment from the provided text.; Claim t5 ('Following these practices helps avoid the major dangers of control flow takeover') fails to establish a direct recommendation relation. The source lists remediation items but does not explicitly frame them as a collective set that 'avoids the major dangers' in the manner asserted by the tweet.; No verified supporting excerpt for claim: In a reentrancy attack, a malicious contract can call back into your function before the first invocation finishes.; No verified supporting excerpt for claim: This may cause different invocations of the same function to interact undesirably in an attack context.; No verified supporting excerpt for claim: To avoid this, perform internal state changes before executing external calls.; No verified supporting excerpt for claim: Another option is to use a reentrancy lock to prevent recursive entry within the calling contract.; No verified supporting excerpt for claim: Following these practices helps avoid the major dangers of control flow takeover.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text recommends using a reentrancy lock as part of the Checks-Effects-Interactions pattern to ensure state changes occur before execution. However, it does not explicitly state that this mechanism prevents 'recursive entry within the calling contract.' While OpenZeppelin's ReentrancyGuard is designed for this purpose, the provided span and context do not contain the specific causal link or functional description of preventing recursive entry in the calling contract. The claim attributes a specific protective function ('prevent recursive entry') to the recommendation that is not explicitly described in the source text.; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Source recommendation claim lacks a direct recommendation relation; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Source-to-claim relation gate: Source recommendation claim lacks a direct recommendation relation; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+      }
+    ],
+    "elapsed_seconds": 342.793,
+    "prompt_tokens_recorded": 50345,
+    "completion_tokens_recorded": 6135,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "mechanical_inspection_passed": true,
+  "accepted_claims_for_manual_review": [],
+  "non_accepted_slots": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "Claim t4 ('Another option is to use a reentrancy lock to prevent recursive entry within the calling contract') lacks sufficient evidence. The source (SWC-107) recommends using a reentrancy lock but does not explicitly describe its mechanism as 'preventing recursive entry.' This specific causal link is an inference, not a verbatim entailment from the provided text.; Claim t5 ('Following these practices helps avoid the major dangers of control flow takeover') fails to establish a direct recommendation relation. The source lists remediation items but does not explicitly frame them as a collective set that 'avoids the major dangers' in the manner asserted by the tweet.; No verified supporting excerpt for claim: In a reentrancy attack, a malicious contract can call back into your function before the first invocation finishes.; No verified supporting excerpt for claim: This may cause different invocations of the same function to interact undesirably in an attack context.; No verified supporting excerpt for claim: To avoid this, perform internal state changes before executing external calls.; No verified supporting excerpt for claim: Another option is to use a reentrancy lock to prevent recursive entry within the calling contract.; No verified supporting excerpt for claim: Following these practices helps avoid the major dangers of control flow takeover.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text recommends using a reentrancy lock as part of the Checks-Effects-Interactions pattern to ensure state changes occur before execution. However, it does not explicitly state that this mechanism prevents 'recursive entry within the calling contract.' While OpenZeppelin's ReentrancyGuard is designed for this purpose, the provided span and context do not contain the specific causal link or functional description of preventing recursive entry in the calling contract. The claim attributes a specific protective function ('prevent recursive entry') to the recommendation that is not explicitly described in the source text.; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Source recommendation claim lacks a direct recommendation relation; Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: Source-to-claim relation gate: Source recommendation claim lacks a direct recommendation relation; Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+    }
+  ],
+  "manual_semantic_clearance": "NO_ACCEPTED_CONTENT"
+}

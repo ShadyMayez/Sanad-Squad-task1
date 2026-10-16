@@ -1,0 +1,31 @@
+Post Text,Image
+"1/5 Calling external contracts allows them to take over the execution control flow.
+
+2/5 In a reentrancy attack, an external contract calls back into the caller before the initial invocation completes.
+
+3/5 Recursive callbacks can cause separate function invocations to interact in undesirable ways.
+
+4/5 The Checks-Effects-Interactions pattern recommends performing all internal state changes before external calls are executed.
+
+5/5 Using a reentrancy lock, such as OpenZeppelin ReentrancyGuard, mitigates recursive call attacks by preventing reentrant execution of protected functions.",spec:visual_specs/thread_1.md
+Unchecked low-level call failures can cause unexpected behavior if execution continues without checks. Review your contract's low-level call sites and verify their return values to handle failures correctly.,spec:visual_specs/post_1.md
+"1/5 Due to missing access controls, malicious actors can withdraw Ether from a contract account.
+
+2/5 Unprotected withdrawal bugs are sometimes caused by unintentionally exposing initialization functions.
+
+3/5 In legacy Solidity versions prior to 0.4.22, wrongly naming a constructor function places it in runtime bytecode where anyone can call it.
+
+4/5 Implement access controls so Ether withdrawals can be initiated only by authorized parties or as specified.
+
+5/5 Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict execution to the authorized owner address.",spec:visual_specs/thread_2.md
+Missing access controls allow malicious parties to withdraw Ether from contract accounts. Implement access controls so withdrawals trigger only when authorized to prevent this risk.,spec:visual_specs/post_2.md
+"1/5 Price oracle manipulation involves exploiting vulnerabilities in price oracles to alter how contract execution logic functions.
+
+2/5 When oracles are manipulated, contracts can face unauthorized actions, loss of funds, and exploitation of their core logic.
+
+3/5 To mitigate this risk, contracts should aggregate multiple oracle and DEX price sources while rejecting anomalous outlier deviations.
+
+4/5 Complementary protection includes using Time-Weighted Average Prices (TWAPs) over sufficient windows and rejecting stale prices beyond maximum thresholds.
+
+5/5 Implement fail-safe behaviors that halt sensitive operations like borrowing or liquidations when oracle data is suspicious or unavailable.",spec:visual_specs/thread_3.md
+"External calls can fail, causing denial-of-service. To minimize damage and prevent blocking other operations, isolate each call into a separate recipient-initiated transaction.",spec:visual_specs/post_3.md

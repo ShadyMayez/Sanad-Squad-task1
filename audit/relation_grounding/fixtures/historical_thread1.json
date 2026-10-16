@@ -1,0 +1,43 @@
+{
+  "source_run": "output/semantic-context-quality-final-week",
+  "claim": {
+    "id": "t3s1c1",
+    "tweet_index": 2,
+    "start": 0,
+    "end": 70,
+    "span": "The core risk is that state changes happen after the call, not before.",
+    "proposition": "The core risk is that state changes happen after the call, not before.",
+    "sentence": "The core risk is that state changes happen after the call, not before.",
+    "qualifiers": [
+      "after",
+      "not",
+      "before"
+    ],
+    "claim_type": "factual",
+    "candidate_evidence_ids": [
+      "SWC-107"
+    ]
+  },
+  "historical_initial": {
+    "verdict": "SUPPORTED",
+    "support_option_ids": [
+      "SWC-107#3"
+    ],
+    "reason": "The source explicitly states that a major danger is when state changes occur after the call, identifying this as the reentrancy attack where control flow is taken over before the first invocation finishes. The remediation section reinforces this by instructing to perform all internal state changes *before* the call is executed, directly contradicting the claim's assertion that the risk is state changes happening *after* the call (which the source defines as the vulnerability)."
+  },
+  "historical_skeptic": {
+    "verdict": "SUPPORTED",
+    "support_option_ids": [],
+    "reason": "The source text explicitly defines the reentrancy attack as occurring when a malicious contract calls back 'before the first invocation of the function is finished.' It further states that the remediation is to ensure state changes happen 'before the call is executed.' The atomic claim correctly identifies this core risk: state changes occurring after the initial call (and before completion) constitute the vulnerability. The selected span provides the direct instruction and the context window defines the attack scenario, jointly entailing the claim."
+  },
+  "historical_final_verdict": "SUPPORTED",
+  "historical_supporting_span_ids": [
+    "SWC-107#3"
+  ],
+  "historical_supporting_spans": [
+    {
+      "evidence_id": "SWC-107",
+      "quote": "Make sure all internal state changes are performed before the call is executed."
+    }
+  ]
+}

@@ -3,6 +3,16 @@ __pycache__/
 .pytest_cache/
 .env
 *.pyc
+*.tar
+*.tar.gz
+SANADSQUAD_*.zip
+SANADSQUAD_HISTORY.bundle
+SANADSQUAD_FINAL_RELATION_VERIFICATION_HANDOFF/
+SANADSQUAD_RECALL_RECOVERY_HANDOFF/
 output/*
+!output/final-v2-sample/
+!output/final-v2-sample/**
 !output/sample-week/
+!output/sample-week/**
+
 
