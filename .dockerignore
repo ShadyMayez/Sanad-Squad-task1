@@ -12,3 +12,4 @@ output/*
 !output/sample-week
 .env
 SANADSQUAD_*
+scratch

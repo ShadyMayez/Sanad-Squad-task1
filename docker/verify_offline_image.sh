@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+# ==============================================================================
 # SANADSQUAD V2 — OFFLINE DOCKER IMAGE VERIFICATION SCRIPT
 # Tests image execution strictly with --network none and inspects output deliverables.
+# ==============================================================================
 
 set -euo pipefail
 
@@ -17,20 +19,23 @@ echo "==========================================================================
 mkdir -p "$HOST_OUTPUT_DIR"
 chmod 777 "$HOST_OUTPUT_DIR" 2>/dev/null || true
 
-# Check docker binary / environment
-DOCKER_CMD="docker"
-if [ -z "${DOCKER_HOST:-}" ] && [ -S "/run/user/$(id -u)/podman/podman.sock" ]; then
-    export DOCKER_HOST="unix:///run/user/$(id -u)/podman/podman.sock"
+# Determine container engine
+if command -v podman >/dev/null 2>&1; then
+    CONTAINER_ENGINE="podman"
+    MOUNT_FLAGS=(--userns=keep-id -v "$HOST_OUTPUT_DIR":/app/output:Z)
+else
+    CONTAINER_ENGINE="docker"
+    MOUNT_FLAGS=(-v "$HOST_OUTPUT_DIR":/app/output)
 fi
 
-echo "[1/4] Inspecting image manifest and labels..."
-$DOCKER_CMD image inspect "$IMAGE_TAG" > /dev/null
+echo "[1/4] Inspecting image manifest and labels via $CONTAINER_ENGINE..."
+$CONTAINER_ENGINE image inspect "$IMAGE_TAG" > /dev/null
 
 echo "[2/4] Executing container with --network none..."
 CONTAINER_OUTPUT_DIR="/app/output/offline-run"
-$DOCKER_CMD run --rm \
+$CONTAINER_ENGINE run --rm \
     --network none \
-    --mount type=bind,src="$HOST_OUTPUT_DIR",dst=/app/output \
+    "${MOUNT_FLAGS[@]}" \
     "$IMAGE_TAG" \
     --plan /app/plan.json \
     --mode evidence_first_v2 \

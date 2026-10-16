@@ -15,10 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     procps \
+    zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Install pinned Ollama binary
-RUN curl -fsSL https://ollama.com/install.sh | sh
+# Copy pinned Ollama binary and shared runner libraries
+COPY docker/bin/ollama /usr/local/bin/ollama
+COPY docker/lib/ollama /usr/local/lib/ollama
+RUN chmod +x /usr/local/bin/ollama && ldconfig
 
 # Create unprivileged application user
 RUN groupadd -g 1000 appuser && \
@@ -29,22 +32,17 @@ WORKDIR /app
 RUN mkdir -p /app/models /app/output /home/appuser/.ollama && \
     chown -R appuser:appuser /app /home/appuser
 
-# Pre-bake qwen3.5:4b model into image layer during build (network allowed)
-ENV OLLAMA_MODELS=/app/models
-RUN ollama serve & \
-    SERVER_PID=$! && \
-    echo "Waiting for build-time Ollama daemon..." && \
-    while ! curl -s http://127.0.0.1:11434/api/tags > /dev/null; do sleep 1; done && \
-    echo "Pulling qwen3.5:4b into container image layers..." && \
-    ollama pull qwen3.5:4b && \
-    echo "Model pull complete. Verifying presence..." && \
-    curl -s http://127.0.0.1:11434/api/tags | grep -q "qwen3.5:4b" && \
-    kill $SERVER_PID && \
-    wait $SERVER_PID || true
+# Pre-bake qwen3.5:4b model weights and manifests into image layers
+COPY docker/models /app/models
+RUN chown -R appuser:appuser /app/models
 
-# Install locked Python dependencies
+# Install locked Python site-packages directly (100% deterministic, zero network dependency)
+COPY docker/site-packages /usr/local/lib/python3.12/site-packages
 COPY requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Create helper wrappers in /usr/local/bin
+RUN printf '#!/bin/sh\nexec python -m pytest "$@"\n' > /usr/local/bin/pytest && \
+    chmod +x /usr/local/bin/pytest
 
 # Copy pipeline source code and configurations
 COPY content_pipeline /app/content_pipeline
@@ -54,7 +52,7 @@ COPY instructions /app/instructions
 COPY skills /app/skills
 COPY schemas /app/schemas
 COPY tests /app/tests
-COPY audit/tests /app/audit/tests
+COPY audit /app/audit
 COPY brand-voice.md kb.json plan.json content-types.json pyproject.toml pytest.ini run_week.py run_piece.py /app/
 COPY docker/entrypoint.sh /entrypoint.sh
 

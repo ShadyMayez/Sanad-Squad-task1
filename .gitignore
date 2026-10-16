@@ -14,5 +14,8 @@ output/*
 !output/final-v2-sample/**
 !output/sample-week/
 !output/sample-week/**
-
-
+docker/bin/
+docker/lib/
+docker/models/
+docker/site-packages/
+scratch/
