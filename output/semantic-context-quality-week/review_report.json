@@ -1,0 +1,324 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      {
+        "factual_support": 3,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Claim t6s1c1 ('Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard to mitigate the risk.') is marked INSUFFICIENT_EVIDENCE by the atomic report. The source text lists 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' as a remediation item but does not explicitly state that this measure mitigates the specific risk of reentrancy attacks in the context of the broader guidance; it merely presents it as a best practice alongside state changes.",
+          "To achieve approval, the draft must either provide additional evidence explicitly linking OpenZeppelin's ReentrancyGuard to the mitigation of control-flow takeover, or rephrase the claim to avoid asserting an unproven causal relationship (e.g., 'Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard').",
+          "No verified supporting excerpt for claim: Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+          "No verified supporting excerpt for claim: This creates a reentrancy attack where the malicious contract calls back into you before the original call completes.",
+          "No verified supporting excerpt for claim: Different invocations of your function may then interact in ways that were not intended by your logic.",
+          "No verified supporting excerpt for claim: To prevent this, perform all internal state changes before making any external calls.",
+          "No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.",
+          "No verified supporting excerpt for claim: Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard to mitigate the risk.",
+          "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text provides a general recommendation to 'Use a reentrancy lock' as part of the Checks-Effects-Interactions pattern, citing OpenZeppelin's ReentrancyGuard as an example ('ie.'). However, it does not explicitly state that this measure mitigates the specific risk of reentrancy attacks in the context of the broader SWC-107 guidance (which focuses on state changes before calls). The claim asserts a causal relationship ('to mitigate the risk') which is implied but not explicitly entailed by the selected span alone. Furthermore, the source scope metadata indicates 'Legacy SWC guidance; check compiler and EVM applicability,' suggesting the advice may have version-specific limitations that are omitted due to truncation. Without explicit confirmation that OpenZeppelin's ReentrancyGuard mitigates reentrancy risk within this specific legacy context, the entailment is not fully supported.",
+          "Scores below rubric threshold: ['factual_support']"
+        ],
+        "corrections": [],
+        "grounding_assessment": "The draft accurately describes the reentrancy mechanism (control transfer before function completion), the resulting interaction of multiple invocations, and the standard mitigations (Checks-Effects-Interactions pattern and OpenZeppelin's ReentrancyGuard). The language is precise, calm, and free of banned phrases or hype. All claims are grounded in the provided SWC-107 excerpt.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 3,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Claim t2s1c1 ('This allows a malicious contract to execute code in your function before the original call completes.') lacks explicit source support for the specific capability 'execute code'. The source states the malicious contract 'calls back', which implies entering the function, but does not explicitly confirm the execution of arbitrary code within that context. This is an interpretive leap rather than a verbatim entailment.",
+          "The source scope is marked as 'Legacy SWC guidance; check compiler and EVM applicability' and the provided text is truncated. Without explicit confirmation of modern execution mechanics, the claim attributes a specific capability not strictly entailed by the provided text.",
+          "No verified supporting excerpt for claim: Calling external contracts can transfer control to another contract before your function finishes.",
+          "No verified supporting excerpt for claim: This allows a malicious contract to execute code in your function before the original call completes.",
+          "No verified supporting excerpt for claim: Different invocations of your function may then interact in ways you did not intend.",
+          "No verified supporting excerpt for claim: To prevent this, perform all internal state changes before making any external calls.",
+          "No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.",
+          "No verified supporting excerpt for claim: Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard.",
+          "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source defines the attack as a scenario where a malicious contract 'calls back', but it does not explicitly state that this action allows the malicious contract to 'execute code in your function'. While calling back implies entering the function, the specific phrasing 'execute code in your function' is an interpretive leap not strictly entailed by the text 'calls back into the calling contract'. Furthermore, the source scope is marked as 'Legacy SWC guidance; check compiler and EVM applicability', and the context is truncated (`truncated=true`), meaning necessary conditions regarding modern execution environments or specific code execution mechanics may be omitted. The claim attributes a specific capability ('execute code') that is not explicitly confirmed in the provided text, which only confirms the act of 'calling back'.",
+          "Scores below rubric threshold: ['factual_support']"
+        ],
+        "corrections": [
+          "Replace Claim t2s1c1 with: 'This allows a malicious contract to call back into your function before the original call completes.'",
+          "Cite evidence ID SWC-107 with verbatim span: 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.'"
+        ],
+        "grounding_assessment": "The draft accurately reflects the SWC-107 guidance on reentrancy mechanics (control flow takeover, malicious callback, unintended interactions) and correctly cites the Checks-Effects-Interactions pattern and ReentrancyGuard. The phrasing is precise, sober, and free of banned elements or hype.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 3,
+        "platform_format": 2,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Platform format score penalized due to deterministic error: 'Tweet 1 has an unmapped sentence'. The character count (196) exceeds typical safe limits for X posts without threading context, and the system flagged the content as unmapped, indicating a structural or length violation in the current draft.",
+          "Clarity and usefulness scores reduced because the tweet is a single dense sentence lacking the visual separation of a thread. While factually correct, it fails to leverage the platform's threading capability for better readability, which is a specific requirement for educational technical content.",
+          "Tweet 1 has an unmapped sentence: 'Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.'",
+          "Scores below rubric threshold: ['platform_format']"
+        ],
+        "corrections": [
+          "Split the long sentence into two distinct tweets to resolve the 'unmapped sentence' error and improve clarity.",
+          "Tweet 1: Review how your contract handles low-level call results.",
+          "Tweet 2: Execution will resume even if the called contract throws an exception, which may cause unexpected behavior in subsequent logic."
+        ],
+        "grounding_assessment": "The tweet accurately reflects the SWC-104 description regarding execution resuming after a throw and potential logic errors. The claims are fully supported by the provided source text.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-104 guidance regarding unchecked call returns. It correctly identifies that execution resumes despite exceptions and highlights the risk of unexpected behavior in subsequent logic. The recommendation to check return values for low-level calls is directly supported by the source text.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Claim t2 ('This risk often stems from...') overstates frequency: Source says 'sometimes caused by', claim asserts 'often stems from'. This semantic shift alters perceived severity without evidence.",
+          "Claim t5 ('Reviewers should verify all state-changing functions...') lacks support: SWC-105 describes a specific constructor vulnerability, not a universal rule for verifying 'all' state-changing functions.",
+          "Claim t6 ('Ensure no unintended entry points exist...') overgeneralizes: Source illustrates one cause (misnamed constructors) but does not establish a blanket requirement to avoid all potential entry points.",
+          "No verified supporting excerpt for claim: Missing access controls let malicious parties withdraw Ether from a contract account.",
+          "No verified supporting excerpt for claim: This risk often stems from unintentionally exposing initialization functions.",
+          "No verified supporting excerpt for claim: Wrongly naming a function as a constructor places its code in runtime bytecode.",
+          "No verified supporting excerpt for claim: Anyone can then call that exposed constructor to re-initialize the contract.",
+          "No verified supporting excerpt for claim: Reviewers should verify all state-changing functions have proper access modifiers.",
+          "No verified supporting excerpt for claim: Ensure no unintended entry points exist in your contract's initialization logic.",
+          "Atomic claim t2s1c1: AMBIGUOUS: Skeptical span audit: The source text states the bug is 'sometimes caused by' exposing initialization functions, while the claim asserts it 'often stems from' the same cause. In risk assessment contexts, 'sometimes' implies a low-to-moderate frequency (occasional occurrence), whereas 'often' implies a high frequency. The semantic shift from 'sometimes' to 'often' alters the severity and expected recurrence of the risk without additional evidence in the source text to justify this increase in frequency. Therefore, the claim overstates the causal relationship's prevalence compared to the source.",
+          "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: The source text describes a specific vulnerability (unprotected Ether withdrawal) caused by missing access controls on initialization functions, but it does not provide general guidance for reviewers to verify 'all' state-changing functions. The claim makes a broad prescriptive requirement ('should verify all') that is not entailed by the descriptive example in SWC-105 regarding constructor re-initialization.",
+          "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text describes a specific mechanism where 'wrongly naming a function intended to be a constructor' creates an unintended entry point. It does not explicitly state that *all* unintended entry points must be avoided or that the claim is universally true for any entry point; it only illustrates one cause (misnamed constructors). The claim's phrasing ('Ensure no...') implies a universal requirement, while the evidence provides a specific example of a vulnerability rather than a comprehensive rule covering all potential entry points. Additionally, the source mentions 'sometimes caused by', indicating this is not the sole or guaranteed cause for such issues, further weakening support for a blanket 'ensure' statement without additional context on other entry point types.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Replace 'often stems from' with 'can stem from' or 'is sometimes caused by' to match the source's frequency qualifier.",
+          "Remove universal quantifiers ('all', 'no unintended entry points') in prescriptive claims. Instead, frame as specific advice: 'Check for exposed initialization functions' or 'Verify constructor logic is protected.'",
+          "Do not assert that misnamed constructors are the only cause; acknowledge they are one mechanism among others."
+        ],
+        "grounding_assessment": "The draft accurately reflects the core mechanism of SWC-105: missing access controls allow Ether withdrawal, and misnaming a constructor places code in runtime bytecode accessible to anyone. The first four tweets are well-grounded in the source text.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Claim t5 ('Check for exposed initialization functions during your review process') is UNSUPPORTED. The source describes a vulnerability but does not prescribe 'review process' steps or recommend checking for exposed functions as a procedural habit.",
+          "Claim t6 ('Verify that constructor logic remains protected from external invocation') is UNSUPPORTED due to over-generalization. The source specifically links the risk to 'wrongly naming' a function, not all constructors. The claim implies a blanket requirement for every constructor, which exceeds the evidence scope.",
+          "These unsupported claims constitute mandatory gate failures per the decision procedure.",
+          "No verified supporting excerpt for claim: Missing or insufficient access controls allow malicious parties to withdraw some or all Ether from a contract account.",
+          "No verified supporting excerpt for claim: This risk can stem from unintentionally exposing initialization functions that lack proper protection.",
+          "No verified supporting excerpt for claim: By wrongly naming a function intended to be a constructor, the constructor code ends up in runtime bytecode.",
+          "No verified supporting excerpt for claim: Anyone can then call that exposed constructor to re-initialize the contract and drain funds.",
+          "No verified supporting excerpt for claim: Check for exposed initialization functions during your review process.",
+          "No verified supporting excerpt for claim: Verify that constructor logic remains protected from external invocation.",
+          "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: The source text describes a vulnerability where missing access controls allow Ether withdrawal and notes that this bug is sometimes caused by exposing initialization functions. However, it does not state or imply that checking for exposed initialization functions is part of the 'review process' or constitutes a recommended action for developers. The claim prescribes a procedural step ('Check for... during your review process') which is not supported by the descriptive nature of the source material.",
+          "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text describes a specific vulnerability scenario where 'wrongly naming' a function causes constructor code to be callable by anyone, leading to Ether withdrawal. It does not make a universal claim that *all* constructor logic is unprotected or that the only way to protect it is via naming conventions. The atomic claim ('Verify that constructor logic remains protected from external invocation') implies a general requirement for all constructors, whereas the evidence only supports verifying protection in the specific context of functions wrongly named as constructors. The source does not explicitly state that every constructor must be verified against external invocation as a blanket rule, making the entailment too broad.",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Replace t5 with: 'Developers should ensure initialization functions are properly guarded.'",
+          "Replace t6 with: 'Verify that constructor code is not callable by anyone, particularly when function naming is ambiguous.'"
+        ],
+        "grounding_assessment": "The draft accurately describes the SWC-105 vulnerability mechanism (unprotected withdrawals via exposed constructor code) and correctly identifies the root cause (missing access controls or improper function naming). The first four tweets are well-grounded in the source material.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "The tweet makes a broad causal claim ('missing access controls allow...') that lacks direct support from the provided evidence. The source (SWC-105) specifies that this occurs 'By wrongly naming a function intended to be a constructor,' which is absent from the draft text.",
+          "This omission creates an ambiguity regarding whether any missing control is sufficient or if the specific constructor-naming error is required, violating the requirement for precise technical grounding.",
+          "To achieve approval, the tweet must explicitly include the condition regarding wrongly named constructor functions to match the source's scope.",
+          "No verified supporting excerpt for claim: missing or insufficient access controls",
+          "No verified supporting excerpt for claim: malicious parties can withdraw some or all Ether from the contract account",
+          "No verified supporting excerpt for claim: By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract",
+          "Claim text is absent from tweets: 'missing or insufficient access controls'",
+          "Claim text is absent from tweets: 'malicious parties can withdraw some or all Ether from the contract account'",
+          "Claim text is absent from tweets: 'By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract'",
+          "Tweet 1 has an unmapped sentence: 'Review how your contract handles initialization functions, since missing access controls allow malicious parties to withdraw Ether by re-initializing the contract.'",
+          "Tweet 1 sentence 1 has no Writer evidence mapping",
+          "Tweet 1 contains uncovered substantive text: 'ReviewhowyourcontracthandlesinitializationfunctionssincemissingaccesscontrolsallowmaliciouspartiestowithdrawEtherbyreinitializingthecontract'",
+          "No atomic claims extracted",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "Add the specific mechanism from the source: 'Review how your contract handles initialization functions; missing access controls allow Ether withdrawal specifically when a function intended as a constructor is wrongly named, causing runtime re-initialization.'",
+          "This revision preserves the original warning while accurately reflecting the SWC-105 condition."
+        ],
+        "grounding_assessment": "The draft correctly identifies the risk of re-initialization via improperly named constructor functions and the consequence (Ether withdrawal). The tone is sober and avoids hype. However, the claim that 'missing access controls allow malicious parties to withdraw Ether' is a generalization that omits the specific mechanism described in the source: the bug arises specifically when a function intended as a constructor is wrongly named, causing constructor code to execute at runtime.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Tweet 1 has an unmapped sentence: 'Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether.'"
+        ],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-105 description regarding runtime re-initialization via misnamed constructor functions and the resulting risk of Ether withdrawal. The claim is fully supported by the provided source quote without inventing facts or omitting critical conditions.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Claim t2 ('This risk stems from relying on a single data source') is marked INSUFFICIENT_EVIDENCE because the source defines manipulation generally and suggests using multiple oracles, but does not explicitly state that the risk *stems* specifically from single-source reliance. The connection requires external inference.",
+          "Claim t4 ('...to prevent skewed pricing decisions') is marked INSUFFICIENT_EVIDENCE because the source text 'Reject outliers and anomalous deviations' lacks an explicit causal link to the outcome of preventing skewed pricing. The purpose is implied but not verbatim in the provided span.",
+          "No verified supporting excerpt for claim: Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "No verified supporting excerpt for claim: This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+          "No verified supporting excerpt for claim: A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+          "No verified supporting excerpt for claim: When using aggregated data, reject outliers and anomalous deviations to prevent skewed pricing decisions.",
+          "No verified supporting excerpt for claim: Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+          "No verified supporting excerpt for claim: Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "No verified supporting excerpt for claim: Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+          "No verified supporting excerpt for claim: Use circuit breakers and rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+          "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text defines 'Price Oracle manipulation' as a general phenomenon leading to unauthorized actions and loss of funds, but it does not explicitly state that this risk stems from relying on a *single* data source. While the remediation suggests using 'multiple' oracles, implying single-source reliance is a vulnerability, the source does not make the specific causal claim that 'This risk stems from relying on a single data source.' The connection between the general definition of manipulation and the specific condition of 'single source' relies on external inference rather than explicit textual entailment. Additionally, the context is truncated, preventing verification of whether other conditions for this specific risk description exist.",
+          "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text provides a remediation instruction ('Leverage multiple decentralized oracles') but lacks the specific causal context required to support the claim that this is a 'primary defense' against 'manipulation'. The truncated nature of the source and the absence of explicit qualifiers linking the action to the threat of manipulation prevent unambiguous entailment. A mitigation for price data does not inherently prove it stops manipulation without additional context defining the threat model.",
+          "Atomic claim t4s1c2: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text states 'Reject outliers and anomalous deviations' as a general instruction within the context of aggregating data sources. It does not explicitly state the *purpose* or *result* of this action (i.e., 'to prevent skewed pricing decisions'). While the claim's proposition is plausible, the selected span lacks the causal link or explicit intent required to support the full atomic claim. The truncated nature of the context further prevents verification of whether this specific phrasing is tied to that specific outcome in the original document.",
+          "Scores below rubric threshold: ['factual_support']"
+        ],
+        "corrections": [
+          "For Claim 2: Remove the specific assertion about 'single data source' or rephrase to 'Relying on a single oracle can be exploited,' acknowledging the implication without asserting an unverified causal definition.",
+          "For Claim 4: Rephrase to 'When using aggregated data, reject outliers and anomalous deviations.' Remove the explicit purpose clause ('to prevent skewed pricing decisions') until the source explicitly links the action to that outcome."
+        ],
+        "grounding_assessment": "The draft is technically sound and clearly articulated. The claims regarding TWAPs, liquidity-aware design, fail-safes, and circuit breakers are well-grounded in the provided OWASP-SC03 evidence. However, two critical claims lack explicit textual support from the source material: Claim 2 (risk stems from a *single* data source) relies on inference rather than an explicit definition of manipulation as single-source-specific; Claim 4 (rejecting outliers prevents skewed pricing) adds a causal outcome not explicitly stated in the truncated source text. These gaps prevent full factual entailment.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 3,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "Claim t2s1c1 ('Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source') lacks sufficient evidence because the source (SCWE-028) explicitly qualifies this requirement to 'price data' only. The draft presents it as a universal remediation rule, omitting the critical scope qualifier.",
+          "To pass approval, the claim must be revised to reflect the source's specific scope: 'For price data, remediation requires leveraging multiple decentralized oracles rather than relying on a single source.'",
+          "No verified supporting excerpt for claim: Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "No verified supporting excerpt for claim: Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+          "No verified supporting excerpt for claim: When aggregating data from several sources, reject outliers and anomalous deviations.",
+          "No verified supporting excerpt for claim: Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+          "No verified supporting excerpt for claim: Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "No verified supporting excerpt for claim: Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable.",
+          "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text explicitly recommends leveraging multiple decentralized oracles 'for price data,' which limits the scope to price data specifically. The atomic claim makes a universal assertion about remediation in general ('Remediation requires...'), omitting the critical qualifier that this requirement applies only to price data. Without evidence confirming whether other types of data require the same multi-oracle approach, the source does not support the unqualified universal claim.",
+          "Scores below rubric threshold: ['factual_support']"
+        ],
+        "corrections": [],
+        "grounding_assessment": "The draft accurately reflects the specific remediation steps for price oracle manipulation found in SCWE-028 and OWASP-SC03. Claims regarding TWAPs, outlier rejection, liquidity-aware design, and fail-safe behaviors are fully supported by verbatim source text. The tone is precise, practical, and free of banned phrases or hype.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      {
+        "factual_support": 2,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Factual support is insufficient: The claim 'External calls can fail accidentally or deliberately' is not verbatim in the provided source quote (SWC-113). The source states external calls 'can fail accidentally or deliberately', but the draft's claim text is absent from the tweets array, and the semantic report contains no atomic claims extracted. Without a pinned quote establishing the exact phrasing, the factual support score cannot reach 4.",
+          "Technical correctness is borderline: While the advice to isolate calls is sound, the source specifically mentions isolating calls 'that can be initiated by the recipient of the call' and notes relevance for payments (user withdrawal vs. push). The draft omits this nuance about who initiates the transaction, which limits technical precision.",
+          "Mandatory gate failure: The semantic report indicates 'No atomic claims extracted' and lists 'Claim text is absent from tweets'. Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval. Since the evidence mapping is broken and the claim cannot be verified against the source via the required verbatim span mechanism, the draft fails the mandatory gate.",
+          "No verified supporting excerpt for claim: External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.",
+          "Claim text is absent from tweets: 'External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.'",
+          "Tweet 1 has an unmapped sentence: 'Review how your contract handles external call failures, since accidental or deliberate failures can cause DoS conditions in the contract.'",
+          "Tweet 1 sentence 1 has no Writer evidence mapping",
+          "Tweet 1 contains uncovered substantive text: 'ReviewhowyourcontracthandlesexternalcallfailuressinceaccidentalordeliberatefailurescancauseDoSconditionsinthecontract'",
+          "No atomic claims extracted",
+          "Scores below rubric threshold: ['factual_support', 'technical_correctness']"
+        ],
+        "corrections": [
+          "To achieve factual support of 4+, rewrite the claim to match the source's phrasing: 'External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.'",
+          "Ensure the tweet array contains this exact sentence as a mapped claim so the semantic verifier can extract and verify it against SWC-113.",
+          "Consider adding the nuance from the source regarding transaction initiation: 'External calls initiated by the recipient should be isolated into their own transactions to prevent DoS conditions caused by accidental or deliberate failures.'"
+        ],
+        "grounding_assessment": "The draft correctly identifies the core risk (DoS via external call failure) and aligns with the SWC-113 guidance regarding isolation of calls. The tone is precise and avoids hype, fitting the educational brand voice.",
+        "claim_support": []
+      },
+      {
+        "factual_support": 4,
+        "technical_correctness": 3,
+        "brand_voice": 4,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 3,
+        "approved": false,
+        "reasons": [
+          "Technical correctness score reduced to 3 because the tweet omits the critical mitigation strategy explicitly detailed in the source text (isolating external calls into separate transactions). While the warning is accurate, the post fails to convey the actionable solution provided by SWC-113 ('it is better to isolate each external call into its own transaction'), which is essential for a useful security audit tip.",
+          "Usefulness score reduced to 3 because the tweet functions as a generic alert rather than a concrete inspection habit. It identifies the risk but does not instruct the engineer on *how* to review their contract (e.g., checking for `revert` propagation or transaction isolation patterns).",
+          "Scores below rubric threshold: ['technical_correctness']"
+        ],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the core warning in SWC-113 regarding external call failures causing DoS. The claim is fully supported by the source quote: 'External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.'",
+        "claim_support": []
+      }
+    ]
+  }
+]

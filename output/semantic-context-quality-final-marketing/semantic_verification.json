@@ -1,0 +1,89 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "t1s1c1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-104"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Execution will resume even if the called contract throws an exception."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-104#1",
+              "SWC-104#3"
+            ],
+            "reason": "The source explicitly states that execution resumes even if a call fails (SWC-104#1) and provides remediation to check return values for low-level calls (SWC-104#3). The claim accurately reflects the consequence of unchecked failures described in the source.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [
+              {
+                "evidence_id": "SWC-104",
+                "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+                "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                "start": 950,
+                "end": 1223,
+                "text": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.",
+                "truncated": false,
+                "window_partial": true,
+                "token_budget_upper_bound": 1400,
+                "token_upper_bound": 273
+              },
+              {
+                "evidence_id": "SWC-104",
+                "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+                "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                "start": 1224,
+                "end": 1370,
+                "text": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+                "truncated": false,
+                "window_partial": true,
+                "token_budget_upper_bound": 1400,
+                "token_upper_bound": 146
+              }
+            ],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Execution will resume even if the called contract throws an exception."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+              }
+            ],
+            "initial_pass": {
+              "verdict": "SUPPORTED",
+              "support_option_ids": [
+                "SWC-104#1",
+                "SWC-104#3"
+              ],
+              "reason": "The source explicitly states that execution resumes even if a call fails (SWC-104#1) and provides remediation to check return values for low-level calls (SWC-104#3). The claim accurately reflects the consequence of unchecked failures described in the source."
+            },
+            "skeptical_pass": {
+              "verdict": "SUPPORTED",
+              "support_option_ids": [],
+              "reason": "The selected spans jointly and unambiguously entail the claim. Span SWC-104#1 explicitly states that 'Execution will resume even if the called contract throws an exception,' which directly supports the claim's assertion that 'unchecked failures may leave execution continuing.' The claim qualifies this with 'may' and 'without the intended effect,' both of which are supported by the source text ('this may cause unexpected behaviour in the subsequent program logic'). Span SWC-104#3 provides the remediation context (checking return values) without contradicting the factual description of the failure mode. The claim accurately reflects the consequence described in the legacy guidance."
+            }
+          }
+        ]
+      }
+    ],
+    "latencies_seconds": [
+      17.649401943999692
+    ]
+  }
+]

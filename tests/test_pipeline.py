@@ -81,6 +81,20 @@ def run_plan(plan, model):
     return result["results"], lookup
 
 
+def test_skipped_semantic_stage_does_not_mark_usage_unavailable():
+    class UnmappedModel(FakeModel):
+        async def structured(self, prompt, schema):
+            if schema is Draft:
+                return Draft(tweets=["Check the pinned source before publication."], claims=[]), {"input_tokens": 10, "output_tokens": 20}
+            return await super().structured(prompt, schema)
+
+    results, _ = run_plan(Plan(slots=[Slot(id="post_unmapped", type="marketing-post", focus="reentrancy")]), UnmappedModel())
+    assert results[0].status == "dropped"
+    assert len(results[0].semantic_reports) == 2
+    assert results[0].usage_measurements_complete is True
+    assert results[0].prompt_tokens is not None and results[0].completion_tokens is not None
+
+
 def test_input_contracts_and_topic_selection():
     kb, registry, _, _ = components()
     plan = load_plan(ROOT / "plan.json", registry)

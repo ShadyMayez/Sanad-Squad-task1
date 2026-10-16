@@ -1,0 +1,713 @@
+{
+  "model": "qwen3.5:4b",
+  "thresholds_predeclared": {
+    "supported_recall_minimum": 0.7,
+    "supported_precision_minimum": 0.9,
+    "false_acceptance_maximum": 0.1
+  },
+  "metrics": {
+    "cases": 20,
+    "supported_precision": 1.0,
+    "supported_recall": 0.8,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.2,
+    "five_label_accuracy": 0.65,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 8,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 2,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 3,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 5,
+        "INSUFFICIENT_EVIDENCE": 2,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "conditional_cause": {
+        "cases": 1,
+        "correct": 1
+      },
+      "conditional_recommendation": {
+        "cases": 1,
+        "correct": 0
+      },
+      "contextual_list": {
+        "cases": 1,
+        "correct": 1
+      },
+      "contextual_paraphrase": {
+        "cases": 1,
+        "correct": 1
+      },
+      "incorrect_negation": {
+        "cases": 3,
+        "correct": 3
+      },
+      "mechanism": {
+        "cases": 1,
+        "correct": 1
+      },
+      "overstated_frequency": {
+        "cases": 1,
+        "correct": 0
+      },
+      "qualified_cause": {
+        "cases": 1,
+        "correct": 1
+      },
+      "qualified_recommendation": {
+        "cases": 1,
+        "correct": 1
+      },
+      "recommendation": {
+        "cases": 3,
+        "correct": 2
+      },
+      "scope_omission": {
+        "cases": 1,
+        "correct": 0
+      },
+      "unsupported_action": {
+        "cases": 1,
+        "correct": 1
+      },
+      "unsupported_guarantee": {
+        "cases": 2,
+        "correct": 0
+      },
+      "unsupported_mechanism": {
+        "cases": 1,
+        "correct": 1
+      },
+      "unsupported_root_cause": {
+        "cases": 1,
+        "correct": 0
+      }
+    },
+    "mean_latency_seconds": 9.879,
+    "prompt_tokens_recorded": 39019,
+    "completion_tokens_recorded": 2994,
+    "usage_complete": true
+  },
+  "rows": [
+    {
+      "id": "V01",
+      "evidence_id": "SWC-107",
+      "expected": "SUPPORTED",
+      "category": "contextual_paraphrase",
+      "claim": "A malicious contract can call back into the calling contract before its first function invocation finishes.",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim that such a contract can call back before its first function invocation finishes.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#1"
+        ],
+        "reason": "The source text explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim that such a contract can call back before its first function invocation finishes."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' The atomic claim uses the modal verb 'can,' which aligns with the source's description of this behavior as an established danger/attack vector. The context confirms the subject ('malicious contract') and the temporal condition ('before the first invocation... is finished'). No ambiguity exists regarding the referent or the action."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 97,
+          "end": 613,
+          "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 516
+        }
+      ],
+      "latency_seconds": 15.894,
+      "input_tokens": 2682,
+      "output_tokens": 205
+    },
+    {
+      "id": "V02",
+      "evidence_id": "SWC-107",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source recommends changing internal state before making the external call.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly recommends performing internal state changes before the call is executed, identifying this as the Checks-Effects-Interactions pattern to avoid reentrancy.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#3"
+        ],
+        "reason": "The source explicitly recommends performing internal state changes before the call is executed, identifying this as the Checks-Effects-Interactions pattern to avoid reentrancy."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Make sure all internal state changes are performed before the call is executed' directly entails the claim that the source recommends changing internal state before making the external call. The context window explicitly lists this as a remediation best practice to avoid reentrancy, establishing the recommendation without ambiguity."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 197,
+          "end": 732,
+          "text": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 535
+        }
+      ],
+      "latency_seconds": 11.245,
+      "input_tokens": 2624,
+      "output_tokens": 147
+    },
+    {
+      "id": "V03",
+      "evidence_id": "SWC-107",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source lists a reentrancy lock such as ReentrancyGuard as a way to avoid reentrancy weaknesses.",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "Skeptical span audit: The source text provides a specific recommendation ('Use a reentrancy lock...') under the 'Checks-Effects-Interactions' pattern, but it does not explicitly state that this measure is a way to 'avoid reentrancy weaknesses.' The claim attributes a causal relationship (lock -> avoid weakness) that is implied by context but not directly asserted in the selected span. Furthermore, the source scope metadata ('Legacy SWC guidance; check compiler and EVM applicability') indicates the advice may have limitations or conditions not present in the provided text, making the universal assertion of 'avoiding weaknesses' unsupported without verifying those legacy constraints.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#5"
+        ],
+        "reason": "The source explicitly lists 'Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)' under the remediation section for avoiding reentrancy weaknesses, which directly supports the claim."
+      },
+      "skeptical": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text provides a specific recommendation ('Use a reentrancy lock...') under the 'Checks-Effects-Interactions' pattern, but it does not explicitly state that this measure is a way to 'avoid reentrancy weaknesses.' The claim attributes a causal relationship (lock -> avoid weakness) that is implied by context but not directly asserted in the selected span. Furthermore, the source scope metadata ('Legacy SWC guidance; check compiler and EVM applicability') indicates the advice may have limitations or conditions not present in the provided text, making the universal assertion of 'avoiding weaknesses' unsupported without verifying those legacy constraints."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 534,
+          "end": 732,
+          "text": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 198
+        }
+      ],
+      "latency_seconds": 13.27,
+      "input_tokens": 2640,
+      "output_tokens": 228
+    },
+    {
+      "id": "V04",
+      "evidence_id": "SWC-105",
+      "expected": "SUPPORTED",
+      "category": "qualified_cause",
+      "claim": "Exposed initialization functions sometimes cause the access-control bug described by the source.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that the bug (missing access controls allowing Ether withdrawal) is 'sometimes caused by unintentionally exposing initialization functions.' The claim mirrors this with 'Exposed initialization functions sometimes cause the access-control bug,' preserving the temporal qualifier 'sometimes' and the causal link. Span SWC-105#1 provides direct textual support for this proposition.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-105#1"
+        ],
+        "reason": "The source explicitly states that the bug (missing access controls allowing Ether withdrawal) is 'sometimes caused by unintentionally exposing initialization functions.' The claim mirrors this with 'Exposed initialization functions sometimes cause the access-control bug,' preserving the temporal qualifier 'sometimes' and the causal link. Span SWC-105#1 provides direct textual support for this proposition."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'This bug is sometimes caused by unintentionally exposing initialization functions' directly entails the claim 'Exposed initialization functions sometimes cause the access-control bug described by the source.' The pronoun 'this' unambiguously refers to the 'access-control bug' defined in the preceding sentence of the same paragraph. The temporal qualifier 'sometimes' and the causal direction are preserved exactly between the source text and the atomic claim."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-105",
+          "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 976,
+          "end": 1366,
+          "text": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "truncated": false,
+          "window_partial": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 390
+        }
+      ],
+      "latency_seconds": 13.333,
+      "input_tokens": 2386,
+      "output_tokens": 213
+    },
+    {
+      "id": "V05",
+      "evidence_id": "SWC-105",
+      "expected": "SUPPORTED",
+      "category": "mechanism",
+      "claim": "A wrongly named constructor can leave constructor code callable by anyone in runtime bytecode.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode where it can be called by anyone, which directly entails the claim.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-105#2"
+        ],
+        "reason": "The source explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode where it can be called by anyone, which directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode and 'can be called by anyone'. This directly entails the claim that it 'can leave constructor code callable by anyone in runtime bytecode'. The source scope note regarding compiler/EVM applicability is metadata about the guidance's origin, not a restriction on the factual mechanism described within the text itself. The claim accurately reflects the causal relationship and capability described in the evidence."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-105",
+          "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 976,
+          "end": 1366,
+          "text": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "truncated": false,
+          "window_partial": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 390
+        }
+      ],
+      "latency_seconds": 11.985,
+      "input_tokens": 2375,
+      "output_tokens": 180
+    },
+    {
+      "id": "V06",
+      "evidence_id": "SCWE-028",
+      "expected": "SUPPORTED",
+      "category": "contextual_list",
+      "claim": "The source says manipulating a price oracle can lead to loss of funds or data.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly lists 'Loss of funds or data' as a consequence of price oracle manipulation.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#2"
+        ],
+        "reason": "The source explicitly lists 'Loss of funds or data' as a consequence of price oracle manipulation."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#2"
+        ],
+        "reason": "The source text explicitly lists 'Loss of funds or data' as a direct consequence of price oracle manipulation under the defined threat model. The selected span accurately reflects this unambiguous enumeration."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SCWE-028",
+          "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+          "source_scope": "Use the documented oracle conditions and threat model",
+          "start": 400,
+          "end": 659,
+          "text": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic.",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 260
+        }
+      ],
+      "latency_seconds": 10.486,
+      "input_tokens": 2435,
+      "output_tokens": 129
+    },
+    {
+      "id": "V07",
+      "evidence_id": "SCWE-028",
+      "expected": "SUPPORTED",
+      "category": "qualified_recommendation",
+      "claim": "For price data, the source recommends leveraging multiple decentralized oracles.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states under the 'Remediation' section to 'Leverage multiple decentralized oracles for price data,' which directly entails the claim that the source recommends leveraging multiple decentralized oracles for price data.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#4"
+        ],
+        "reason": "The source explicitly states under the 'Remediation' section to 'Leverage multiple decentralized oracles for price data,' which directly entails the claim that the source recommends leveraging multiple decentralized oracles for price data."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Leverage multiple decentralized oracles for price data' under the explicit heading 'Remediation \u00b6 Use decentralized oracles' unambiguously entails the claim that the source recommends leveraging multiple decentralized oracles for price data. The context window confirms this is a specific remediation instruction, not a general statement, and there are no missing qualifiers or ambiguous referents in the provided text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SCWE-028",
+          "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+          "source_scope": "Use the documented oracle conditions and threat model",
+          "start": 660,
+          "end": 830,
+          "text": "Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 171
+        }
+      ],
+      "latency_seconds": 11.715,
+      "input_tokens": 2437,
+      "output_tokens": 181
+    },
+    {
+      "id": "V08",
+      "evidence_id": "SWC-113",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source prefers recipients initiating their own payment withdrawals over automatically pushing payments.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that for payments, it is 'better to let users withdraw funds rather than push funds to them automatically.' This directly entails the claim that the source prefers recipients initiating withdrawals over automatic pushing.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-113#2"
+        ],
+        "reason": "The source explicitly states that for payments, it is 'better to let users withdraw funds rather than push funds to them automatically.' This directly entails the claim that the source prefers recipients initiating withdrawals over automatic pushing."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically.' The phrase 'better to' establishes a clear preference between the two options presented. The claim accurately reflects this preference without adding unsupported conditions or altering the actors involved (users/recipients initiating vs. automatic pushing). The context window confirms the scope applies to external call failures and payments, which aligns with the claim's domain."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-113",
+          "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 914,
+          "end": 1393,
+          "text": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "truncated": false,
+          "window_partial": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 479
+        }
+      ],
+      "latency_seconds": 13.902,
+      "input_tokens": 2444,
+      "output_tokens": 193
+    },
+    {
+      "id": "V09",
+      "evidence_id": "SWC-113",
+      "expected": "SUPPORTED",
+      "category": "conditional_cause",
+      "claim": "A failed external call can cause a denial-of-service condition in a contract.",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that external calls failing 'can cause a DoS condition in the contract,' which directly entails the claim that a failed external call can cause a denial-of-service condition.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-113#0"
+        ],
+        "reason": "The source explicitly states that external calls failing 'can cause a DoS condition in the contract,' which directly entails the claim that a failed external call can cause a denial-of-service condition."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'External calls can fail... which can cause a DoS condition in the contract.' This directly entails the claim that 'A failed external call can cause a denial-of-service condition in a contract.' The scope metadata regarding compiler/EVM applicability is a general guideline for implementation, not a restriction on the fundamental fact that such failures are possible. No ambiguity exists regarding the actor (external call) or the consequence (DoS)."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-113",
+          "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 914,
+          "end": 1393,
+          "text": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "truncated": false,
+          "window_partial": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 479
+        }
+      ],
+      "latency_seconds": 12.108,
+      "input_tokens": 2427,
+      "output_tokens": 185
+    },
+    {
+      "id": "V10",
+      "evidence_id": "SWC-110",
+      "expected": "SUPPORTED",
+      "category": "conditional_recommendation",
+      "claim": "If an asserted condition is not an invariant, the source recommends replacing assert with require.",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "Skeptical span audit: The source text provides a conditional remediation instruction ('If not [it is not an invariant], replace...') but fails to explicitly define the antecedent condition that triggers this check. The claim asserts 'If an asserted condition is not an invariant,' implying a specific definition of 'invariant' or a prior context establishing what constitutes one. However, the provided span only states the remediation step without defining the predicate being tested. Without an explicit definition of 'invariant' in the source text or unambiguous context linking the term to a specific property, the claim's conditional premise cannot be verified as stated by the source.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-110#3",
+          "SWC-110#4"
+        ],
+        "reason": "The source explicitly states that if the condition in assert() is not an invariant, the remediation is to replace it with require(). This directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text provides a conditional remediation instruction ('If not [it is not an invariant], replace...') but fails to explicitly define the antecedent condition that triggers this check. The claim asserts 'If an asserted condition is not an invariant,' implying a specific definition of 'invariant' or a prior context establishing what constitutes one. However, the provided span only states the remediation step without defining the predicate being tested. Without an explicit definition of 'invariant' in the source text or unambiguous context linking the term to a specific property, the claim's conditional premise cannot be verified as stated by the source."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-110",
+          "snapshot_sha256": "89e28976fae08d66b0e4bf5ee1a4e98bcd1642559bf7042495d8cb25753bdf90",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1237,
+          "end": 1396,
+          "text": "Remediation Consider whether the condition checked in the assert() is actually an invariant. If not, replace the assert() statement with a require() statement.",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 159
+        }
+      ],
+      "latency_seconds": 13.225,
+      "input_tokens": 2508,
+      "output_tokens": 227
+    },
+    {
+      "id": "V11",
+      "evidence_id": "SWC-107",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_mechanism",
+      "claim": "A malicious callee executes arbitrary code inside the caller's unfinished function.",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "Skeptical span audit: The source text describes a 'reentrancy attack' where a malicious contract calls back before the first invocation is finished, but it does not explicitly state that the callee executes 'arbitrary code'. The claim adds the specific qualifier 'arbitrary code', which implies unrestricted execution capabilities. While reentrancy allows control flow takeover, the provided text only confirms the timing of the callback ('before the first invocation... is finished') and the interaction between invocations. It does not confirm the nature of the code executed (e.g., arbitrary vs. restricted) or that the callee has full control to execute arbitrary instructions within the caller's context. The leap from 'calls back' to 'executes arbitrary code' is not supported by the exact text provided.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#1"
+        ],
+        "reason": "Source span SWC-107#1 explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails that the malicious callee executes code (the callback) inside the caller's unfinished function."
+      },
+      "skeptical": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text describes a 'reentrancy attack' where a malicious contract calls back before the first invocation is finished, but it does not explicitly state that the callee executes 'arbitrary code'. The claim adds the specific qualifier 'arbitrary code', which implies unrestricted execution capabilities. While reentrancy allows control flow takeover, the provided text only confirms the timing of the callback ('before the first invocation... is finished') and the interaction between invocations. It does not confirm the nature of the code executed (e.g., arbitrary vs. restricted) or that the callee has full control to execute arbitrary instructions within the caller's context. The leap from 'calls back' to 'executes arbitrary code' is not supported by the exact text provided."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 97,
+          "end": 613,
+          "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+          "truncated": false,
+          "window_partial": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 516
+        }
+      ],
+      "latency_seconds": 14.776,
+      "input_tokens": 2664,
+      "output_tokens": 279
+    },
+    {
+      "id": "V12",
+      "evidence_id": "SWC-107",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "The Checks-Effects-Interactions pattern guarantees that all reentrancy attacks become impossible.",
+      "actual": "CONTRADICTED",
+      "reason": "The source text presents the Checks-Effects-Interactions pattern as a 'best practice' to avoid reentrancy weaknesses, but it does not claim that the pattern makes attacks 'impossible.' In fact, by listing OpenZeppelin's ReentrancyGuard alongside it under remediation, the source implies multiple strategies exist and do not guarantee absolute impossibility. The claim uses the absolute term 'guarantees' and 'all... impossible,' which contradicts the nuanced, non-absolute language of the source.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source text presents the Checks-Effects-Interactions pattern as a 'best practice' to avoid reentrancy weaknesses, but it does not claim that the pattern makes attacks 'impossible.' In fact, by listing OpenZeppelin's ReentrancyGuard alongside it under remediation, the source implies multiple strategies exist and do not guarantee absolute impossibility. The claim uses the absolute term 'guarantees' and 'all... impossible,' which contradicts the nuanced, non-absolute language of the source."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 7.004,
+      "input_tokens": 1415,
+      "output_tokens": 135
+    },
+    {
+      "id": "V13",
+      "evidence_id": "SWC-105",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "overstated_frequency",
+      "claim": "Exposed initialization functions always cause missing access control.",
+      "actual": "CONTRADICTED",
+      "reason": "The source states the bug is 'sometimes caused by' exposing initialization functions, whereas the claim asserts it 'always causes' missing access control. The qualifier 'sometimes' explicitly negates the universal quantifier in the claim.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states the bug is 'sometimes caused by' exposing initialization functions, whereas the claim asserts it 'always causes' missing access control. The qualifier 'sometimes' explicitly negates the universal quantifier in the claim."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.494,
+      "input_tokens": 1152,
+      "output_tokens": 75
+    },
+    {
+      "id": "V14",
+      "evidence_id": "SWC-105",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_action",
+      "claim": "Auditors must review every constructor in every contract before deployment.",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "The source text describes a vulnerability where malicious parties can re-initialize a contract due to improperly named constructor functions. It does not mention auditors, nor does it prescribe any specific review process or mandate that auditors must review every constructor in every contract before deployment.",
+      "initial": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text describes a vulnerability where malicious parties can re-initialize a contract due to improperly named constructor functions. It does not mention auditors, nor does it prescribe any specific review process or mandate that auditors must review every constructor in every contract before deployment."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.526,
+      "input_tokens": 1161,
+      "output_tokens": 84
+    },
+    {
+      "id": "V15",
+      "evidence_id": "SCWE-028",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "scope_omission",
+      "claim": "Every form of oracle data must come from multiple decentralized oracles.",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that decentralized oracles should be used to mitigate price oracle manipulation, but it does not mandate that 'every form' of oracle data must come from multiple sources. The claim generalizes the specific remediation advice ('Use decentralized oracles') into a universal requirement for all forms of oracle data, which is not supported by the provided text.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that decentralized oracles should be used to mitigate price oracle manipulation, but it does not mandate that 'every form' of oracle data must come from multiple sources. The claim generalizes the specific remediation advice ('Use decentralized oracles') into a universal requirement for all forms of oracle data, which is not supported by the provided text."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 7.074,
+      "input_tokens": 1287,
+      "output_tokens": 101
+    },
+    {
+      "id": "V16",
+      "evidence_id": "SCWE-028",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_root_cause",
+      "claim": "Relying on a single oracle is the only root cause of price oracle manipulation.",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that price oracle manipulation refers to the exploitation of vulnerabilities in price oracles, which can lead to unauthorized actions, loss of funds/data, and logic exploitation. It recommends using multiple decentralized oracles and validating inputs as remediation. This implies that relying on a single oracle is a vulnerability or risk factor, not the 'only root cause.' The claim's use of 'only' is not supported by the source text, which lists general vulnerabilities and specific mitigations without restricting manipulation to a single cause.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that price oracle manipulation refers to the exploitation of vulnerabilities in price oracles, which can lead to unauthorized actions, loss of funds/data, and logic exploitation. It recommends using multiple decentralized oracles and validating inputs as remediation. This implies that relying on a single oracle is a vulnerability or risk factor, not the 'only root cause.' The claim's use of 'only' is not supported by the source text, which lists general vulnerabilities and specific mitigations without restricting manipulation to a single cause."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.859,
+      "input_tokens": 1299,
+      "output_tokens": 133
+    },
+    {
+      "id": "V17",
+      "evidence_id": "SWC-113",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "Recipient-initiated withdrawals guarantee that no external call can ever fail.",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that external calls can fail accidentally or deliberately, causing DoS conditions, and recommends isolating them to minimize damage. It explicitly suggests letting users withdraw funds (recipient-initiated) rather than pushing funds automatically to reduce failure risks. This directly contradicts the claim that recipient-initiated withdrawals guarantee no external call can ever fail.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that external calls can fail accidentally or deliberately, causing DoS conditions, and recommends isolating them to minimize damage. It explicitly suggests letting users withdraw funds (recipient-initiated) rather than pushing funds automatically to reduce failure risks. This directly contradicts the claim that recipient-initiated withdrawals guarantee no external call can ever fail."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.078,
+      "input_tokens": 1205,
+      "output_tokens": 98
+    },
+    {
+      "id": "V18",
+      "evidence_id": "SWC-113",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says failed external calls cannot cause denial of service.",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that failed external calls 'can cause a DoS condition in the contract,' which directly contradicts the claim that they 'cannot' cause denial of service.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that failed external calls 'can cause a DoS condition in the contract,' which directly contradicts the claim that they 'cannot' cause denial of service."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.08,
+      "input_tokens": 1202,
+      "output_tokens": 66
+    },
+    {
+      "id": "V19",
+      "evidence_id": "SWC-110",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source recommends retaining assert for conditions that are not invariants.",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly recommends replacing assert() with require() when the condition is not an invariant, which directly contradicts the claim that the source recommends retaining assert for such conditions.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly recommends replacing assert() with require() when the condition is not an invariant, which directly contradicts the claim that the source recommends retaining assert for such conditions."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 7.173,
+      "input_tokens": 1282,
+      "output_tokens": 65
+    },
+    {
+      "id": "V20",
+      "evidence_id": "SWC-107",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says external contracts cannot take over control flow.",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that a major danger of calling external contracts is that they 'can take over the control flow,' which directly contradicts the claim asserting that external contracts 'cannot' do so.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that a major danger of calling external contracts is that they 'can take over the control flow,' which directly contradicts the claim asserting that external contracts 'cannot' do so."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.353,
+      "input_tokens": 1394,
+      "output_tokens": 70
+    }
+  ]
+}

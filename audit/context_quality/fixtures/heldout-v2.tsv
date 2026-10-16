@@ -1,0 +1,21 @@
+id|evidence_id|expected|category|claim
+H01|OWASP-SC03|SUPPORTED|recommendation|The source recommends TWAPs over sufficient windows to resist short-lived price manipulation.
+H02|OWASP-SC03|SUPPORTED|recommendation|The source recommends rejecting prices older than a maximum staleness threshold.
+H03|OWASP-SC03|SUPPORTED|conditional_recommendation|On suspicious or unavailable oracle data, the source recommends halting sensitive borrowing or liquidation operations.
+H04|OWASP-SC03|SUPPORTED|recommendation|Limit how much one price feed can affect global pricing.
+H05|OWASP-SC03|SUPPORTED|recommendation|The source recommends monitoring deviations between an oracle and reference markets.
+H06|SWC-114|SUPPORTED|direct|A race condition vulnerability can arise when code depends on transaction submission order.
+H07|SWC-114|SUPPORTED|direct|A person running an Ethereum node can see pending transactions before they are finalized.
+H08|SWC-114|SUPPORTED|source_attribution|The source describes miners selecting transactions for a block partly by gas price.
+H09|SWC-107|SUPPORTED|paraphrase|Performing internal state changes before an external call follows the source's Checks-Effects-Interactions advice.
+H10|SWC-113|SUPPORTED|recommendation|For payments, the source prefers letting users withdraw rather than automatically pushing funds to them.
+H11|OWASP-SC03|INSUFFICIENT_EVIDENCE|unsupported_guarantee|A TWAP guarantees that oracle price manipulation is impossible.
+H12|OWASP-SC03|CONTRADICTED|incorrect_negation|The source recommends accepting prices even after they exceed the staleness threshold.
+H13|OWASP-SC03|CONTRADICTED|incorrect_negation|The source recommends letting one pool dominate global pricing.
+H14|OWASP-SC03|INSUFFICIENT_EVIDENCE|unsupported_consequence|Monitoring price deviations eliminates every bad liquidation.
+H15|OWASP-SC03|CONTRADICTED|incorrect_negation|The source recommends basing core prices on illiquid pools.
+H16|SWC-114|CONTRADICTED|incorrect_negation|Transaction order never affects a contract reward.
+H17|SWC-114|CONTRADICTED|incorrect_negation|Pending transactions are invisible to people running Ethereum nodes.
+H18|SWC-114|INSUFFICIENT_EVIDENCE|unsupported_mechanism|An Ethereum node operator can rewrite every finalized block at will.
+H19|SWC-107|CONTRADICTED|incorrect_negation|External contract calls cannot transfer control flow.
+H20|SWC-113|INSUFFICIENT_EVIDENCE|unsupported_guarantee|Recipient-initiated withdrawals guarantee that external calls never fail.

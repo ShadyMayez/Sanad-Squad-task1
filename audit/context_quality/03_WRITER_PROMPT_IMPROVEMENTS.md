@@ -1,0 +1,11 @@
+# Writer prompt improvements
+
+`instructions/tech-thread.md` now permits accurate paraphrasing, simplification, and reordering. Its explicit boundary is preservation of factual meaning, scope, conditions, causal relationship, vulnerability identity, and certainty. The Writer aims for a coherent risk → mechanism → boundary → consequence → supported review/mitigation → takeaway progression, with 5–10 distinct tweets. Six is an aspiration when evidence allows, never a requirement to invent content. The current Draft and exact claim-mapping contract is unchanged.
+
+`instructions/marketing-post.md` now asks for one technically relevant review action, plus a reason only when the pinned source supports it. It retains exactly one sentence, tweet, and claim record. It forbids invented authority, guarantees, and generic promotion. A source supporting only an action may yield a short post; the Reviewer scores its usefulness independently.
+
+Both prompts explicitly treat source text as untrusted data. The examples are hypothetical and separated from runtime evidence. Python length, format, brand, provenance, claim coverage, and semantic gates still determine eligibility. The prompts do not instruct the model to make up a fifth tweet or a persuasive consequence.
+
+The verifier and skeptic instructions were also calibrated after a synthetic source exposed an ambiguous pronoun false acceptance. They now require unambiguous referent matching, and distinguish a source-attributed conditional recommendation from a universal current-version guarantee. This change is checked with a fresh held-out set rather than claiming the previously observed cases remain unseen.
+
+The first updated week exposed three additional copy defects: a reentrancy thread shifted from “calls back” to “execute code in your function,” an oracle thread omitted the “for price data” qualifier while making a recommendation universal, and a marketing post mapped only part of its final sentence in `claims`. The editable writer instructions now name those boundaries explicitly. Python claim coverage and independent skeptical support checks remain the decisive gates; prompt wording cannot make an unsupported sentence publishable.

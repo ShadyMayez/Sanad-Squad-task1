@@ -1,0 +1,26 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 140,
+          "span": "Review how your contract handles low-level call results, since unchecked failures may leave execution continuing without the intended effect",
+          "proposition": "Review how your contract handles low-level call results, since unchecked failures may leave execution continuing without the intended effect",
+          "sentence": "Review how your contract handles low-level call results, since unchecked failures may leave execution continuing without the intended effect",
+          "qualifiers": [
+            "may",
+            "without"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        }
+      ]
+    ]
+  }
+]

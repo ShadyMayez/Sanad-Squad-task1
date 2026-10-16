@@ -1,0 +1,787 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 122,
+          "span": "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+          "proposition": "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+          "sentence": "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+          "qualifiers": [
+            "can",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 117,
+          "span": "This creates a reentrancy attack where the malicious contract calls back into you before the original call completes.",
+          "proposition": "This creates a reentrancy attack where the malicious contract calls back into you before the original call completes.",
+          "sentence": "This creates a reentrancy attack where the malicious contract calls back into you before the original call completes.",
+          "qualifiers": [
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 102,
+          "span": "Different invocations of your function may then interact in ways that were not intended by your logic.",
+          "proposition": "Different invocations of your function may then interact in ways that were not intended by your logic.",
+          "sentence": "Different invocations of your function may then interact in ways that were not intended by your logic.",
+          "qualifiers": [
+            "may",
+            "not"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 85,
+          "span": "To prevent this, perform all internal state changes before making any external calls.",
+          "proposition": "To prevent this, perform all internal state changes before making any external calls.",
+          "sentence": "To prevent this, perform all internal state changes before making any external calls.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 66,
+          "span": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "proposition": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "sentence": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 102,
+          "span": "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard to mitigate the risk.",
+          "proposition": "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard to mitigate the risk.",
+          "sentence": "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard to mitigate the risk.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 98,
+          "span": "Calling external contracts can transfer control to another contract before your function finishes.",
+          "proposition": "Calling external contracts can transfer control to another contract before your function finishes.",
+          "sentence": "Calling external contracts can transfer control to another contract before your function finishes.",
+          "qualifiers": [
+            "can",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 101,
+          "span": "This allows a malicious contract to execute code in your function before the original call completes.",
+          "proposition": "This allows a malicious contract to execute code in your function before the original call completes.",
+          "sentence": "This allows a malicious contract to execute code in your function before the original call completes.",
+          "qualifiers": [
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 84,
+          "span": "Different invocations of your function may then interact in ways you did not intend.",
+          "proposition": "Different invocations of your function may then interact in ways you did not intend.",
+          "sentence": "Different invocations of your function may then interact in ways you did not intend.",
+          "qualifiers": [
+            "may",
+            "not"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 85,
+          "span": "To prevent this, perform all internal state changes before making any external calls.",
+          "proposition": "To prevent this, perform all internal state changes before making any external calls.",
+          "sentence": "To prevent this, perform all internal state changes before making any external calls.",
+          "qualifiers": [
+            "all",
+            "before"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 66,
+          "span": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "proposition": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "sentence": "This approach is known as the Checks-Effects-Interactions pattern.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 96,
+          "span": "Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard.",
+          "proposition": "Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard.",
+          "sentence": "Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 132,
+          "span": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "proposition": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.",
+          "qualifiers": [
+            "if"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        },
+        {
+          "id": "t1s1c2",
+          "tweet_index": 0,
+          "start": 137,
+          "end": 196,
+          "span": "may cause unexpected behaviour in subsequent program logic.",
+          "proposition": "may cause unexpected behaviour in subsequent program logic.",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 132,
+          "span": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "proposition": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic.",
+          "qualifiers": [
+            "if"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        },
+        {
+          "id": "t1s1c2",
+          "tweet_index": 0,
+          "start": 137,
+          "end": 187,
+          "span": "may cause unexpected behavior in subsequent logic.",
+          "proposition": "may cause unexpected behavior in subsequent logic.",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 85,
+          "span": "Missing access controls let malicious parties withdraw Ether from a contract account.",
+          "proposition": "Missing access controls let malicious parties withdraw Ether from a contract account.",
+          "sentence": "Missing access controls let malicious parties withdraw Ether from a contract account.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 77,
+          "span": "This risk often stems from unintentionally exposing initialization functions.",
+          "proposition": "This risk often stems from unintentionally exposing initialization functions.",
+          "sentence": "This risk often stems from unintentionally exposing initialization functions.",
+          "qualifiers": [
+            "often"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 79,
+          "span": "Wrongly naming a function as a constructor places its code in runtime bytecode.",
+          "proposition": "Wrongly naming a function as a constructor places its code in runtime bytecode.",
+          "sentence": "Wrongly naming a function as a constructor places its code in runtime bytecode.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 76,
+          "span": "Anyone can then call that exposed constructor to re-initialize the contract.",
+          "proposition": "Anyone can then call that exposed constructor to re-initialize the contract.",
+          "sentence": "Anyone can then call that exposed constructor to re-initialize the contract.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 82,
+          "span": "Reviewers should verify all state-changing functions have proper access modifiers.",
+          "proposition": "Reviewers should verify all state-changing functions have proper access modifiers.",
+          "sentence": "Reviewers should verify all state-changing functions have proper access modifiers.",
+          "qualifiers": [
+            "all"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 80,
+          "span": "Ensure no unintended entry points exist in your contract's initialization logic.",
+          "proposition": "Ensure no unintended entry points exist in your contract's initialization logic.",
+          "sentence": "Ensure no unintended entry points exist in your contract's initialization logic.",
+          "qualifiers": [
+            "no"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 118,
+          "span": "Missing or insufficient access controls allow malicious parties to withdraw some or all Ether from a contract account.",
+          "proposition": "Missing or insufficient access controls allow malicious parties to withdraw some or all Ether from a contract account.",
+          "sentence": "Missing or insufficient access controls allow malicious parties to withdraw some or all Ether from a contract account.",
+          "qualifiers": [
+            "some",
+            "all"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 102,
+          "span": "This risk can stem from unintentionally exposing initialization functions that lack proper protection.",
+          "proposition": "This risk can stem from unintentionally exposing initialization functions that lack proper protection.",
+          "sentence": "This risk can stem from unintentionally exposing initialization functions that lack proper protection.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 108,
+          "span": "By wrongly naming a function intended to be a constructor, the constructor code ends up in runtime bytecode.",
+          "proposition": "By wrongly naming a function intended to be a constructor, the constructor code ends up in runtime bytecode.",
+          "sentence": "By wrongly naming a function intended to be a constructor, the constructor code ends up in runtime bytecode.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 75,
+          "span": "Anyone can then call that exposed constructor to re-initialize the contract",
+          "proposition": "Anyone can then call that exposed constructor to re-initialize the contract",
+          "sentence": "Anyone can then call that exposed constructor to re-initialize the contract and drain funds.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t4s1c2",
+          "tweet_index": 3,
+          "start": 80,
+          "end": 92,
+          "span": "drain funds.",
+          "proposition": "drain funds.",
+          "sentence": "Anyone can then call that exposed constructor to re-initialize the contract and drain funds.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 70,
+          "span": "Check for exposed initialization functions during your review process.",
+          "proposition": "Check for exposed initialization functions during your review process.",
+          "sentence": "Check for exposed initialization functions during your review process.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 73,
+          "span": "Verify that constructor logic remains protected from external invocation.",
+          "proposition": "Verify that constructor logic remains protected from external invocation.",
+          "sentence": "Verify that constructor logic remains protected from external invocation.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      [],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 187,
+          "span": "Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether.",
+          "proposition": "Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether.",
+          "sentence": "Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 145,
+          "span": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "proposition": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "sentence": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 97,
+          "span": "This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+          "proposition": "This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+          "sentence": "This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 101,
+          "span": "A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+          "proposition": "A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+          "sentence": "A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028",
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 43,
+          "span": "When using aggregated data, reject outliers",
+          "proposition": "When using aggregated data, reject outliers",
+          "sentence": "When using aggregated data, reject outliers and anomalous deviations to prevent skewed pricing decisions.",
+          "qualifiers": [
+            "When"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t4s1c2",
+          "tweet_index": 3,
+          "start": 48,
+          "end": 105,
+          "span": "anomalous deviations to prevent skewed pricing decisions.",
+          "proposition": "anomalous deviations to prevent skewed pricing decisions.",
+          "sentence": "When using aggregated data, reject outliers and anomalous deviations to prevent skewed pricing decisions.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 112,
+          "span": "Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+          "proposition": "Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+          "sentence": "Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 112,
+          "span": "Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "proposition": "Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "sentence": "Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t7s1c1",
+          "tweet_index": 6,
+          "start": 0,
+          "end": 129,
+          "span": "Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+          "proposition": "Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+          "sentence": "Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+          "qualifiers": [
+            "when"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t8s1c1",
+          "tweet_index": 7,
+          "start": 0,
+          "end": 20,
+          "span": "Use circuit breakers",
+          "proposition": "Use circuit breakers",
+          "sentence": "Use circuit breakers and rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t8s1c2",
+          "tweet_index": 7,
+          "start": 25,
+          "end": 106,
+          "span": "rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+          "proposition": "rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+          "sentence": "Use circuit breakers and rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 145,
+          "span": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "proposition": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "sentence": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028"
+          ]
+        },
+        {
+          "id": "t2s1c1",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 107,
+          "span": "Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+          "proposition": "Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+          "sentence": "Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028",
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t3s1c1",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 59,
+          "span": "When aggregating data from several sources, reject outliers",
+          "proposition": "When aggregating data from several sources, reject outliers",
+          "sentence": "When aggregating data from several sources, reject outliers and anomalous deviations.",
+          "qualifiers": [
+            "When"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t3s1c2",
+          "tweet_index": 2,
+          "start": 64,
+          "end": 85,
+          "span": "anomalous deviations.",
+          "proposition": "anomalous deviations.",
+          "sentence": "When aggregating data from several sources, reject outliers and anomalous deviations.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t4s1c1",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 132,
+          "span": "Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+          "proposition": "Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+          "sentence": "Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t5s1c1",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 108,
+          "span": "Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "proposition": "Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "sentence": "Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        },
+        {
+          "id": "t6s1c1",
+          "tweet_index": 5,
+          "start": 0,
+          "end": 98,
+          "span": "Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable.",
+          "proposition": "Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable.",
+          "sentence": "Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable.",
+          "qualifiers": [
+            "when"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      [],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 138,
+          "span": "Review how your contract handles external call failures, since accidental or deliberate failures can cause DoS conditions in the contract.",
+          "proposition": "Review how your contract handles external call failures, since accidental or deliberate failures can cause DoS conditions in the contract.",
+          "sentence": "Review how your contract handles external call failures, since accidental or deliberate failures can cause DoS conditions in the contract.",
+          "qualifiers": [
+            "can"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-113"
+          ]
+        }
+      ]
+    ]
+  }
+]

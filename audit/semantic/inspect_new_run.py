@@ -8,9 +8,9 @@ from collections import Counter
 from pathlib import Path
 from pydantic import TypeAdapter
 
-from content_pipeline.provenance import evidence_errors
+from content_pipeline.provenance import context_errors, evidence_errors
 from content_pipeline.text_spans import source_span_options
-from content_pipeline.schemas import (AcceptedRecord, ClaimsRecord, Evidence,
+from content_pipeline.schemas import (AcceptedRecord, ClaimsRecord, Evidence, EvidenceContext,
     EvidenceProvenanceRecord, FailureRecord, GroundingSummary, Plan,
     ResearchRecord, ReviewRecord, SemanticRecord, Summary, ValidationRecord)
 
@@ -55,6 +55,12 @@ def inspect(folder: Path) -> dict:
         final_claims = claims_by[id]["attempts"][-1] if claims_by[id]["attempts"] else []
         final_verdicts = attempts[-1]["verdicts"] if attempts else []
         assert len(final_claims) == len(final_verdicts) if attempts else True
+        evidence_by_id = {e.id: e for e in evidence}
+        for attempt in attempts:
+            for verdict in attempt["verdicts"]:
+                for window in verdict.get("context_windows", []):
+                    assert window["evidence_id"] in evidence_by_id
+                    assert not context_errors(EvidenceContext.model_validate(window), evidence_by_id[window["evidence_id"]])
         statuses = Counter(v["verdict"] for attempt in attempts for v in attempt["verdicts"])
         is_accepted = id in accepted_by
         if is_accepted:
@@ -82,7 +88,14 @@ def inspect(folder: Path) -> dict:
             "source_ids": row["source_ids"], "provenance_errors": provenance,
             "draft_count": len(claims_by[id]["attempts"]), "review_count": len(review_by[id]["attempts"]),
             "final_atomic_claims": len(final_claims), "verdict_counts": dict(statuses),
-            "final_verdicts": final_verdicts, "final_tweets": accepted_by[id]["drafts"][-1]["tweets"] if is_accepted else [],
+            "final_verdicts": final_verdicts,
+            "final_tweets": accepted_by[id]["drafts"][-1]["tweets"] if is_accepted else
+                json.loads((folder / "drafts" / f"{id}-attempt-{len(claims_by[id]['attempts'])}.json").read_text())["tweets"] if claims_by[id]["attempts"] else [],
+            "revisions": max(0, len(claims_by[id]["attempts"]) - 1),
+            "verification_disagreements": sum(1 for attempt in attempts for verdict in attempt["verdicts"]
+                if verdict.get("initial_pass") and verdict.get("skeptical_pass") and
+                verdict["initial_pass"]["verdict"] != verdict["skeptical_pass"]["verdict"]),
+            "context_decisions": sum(1 for attempt in attempts for verdict in attempt["verdicts"] if verdict.get("context_windows")),
             "visual_spec": accepted_by[id]["image_spec_reference"] if is_accepted else None,
             "reason": next((f["reason"] for f in failures if f["slot_id"] == id), None)})
     assert len(csv_rows) - 1 == len(accepted) == summary["shipped"]

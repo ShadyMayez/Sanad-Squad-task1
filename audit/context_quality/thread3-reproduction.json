@@ -1,0 +1,83 @@
+{
+  "model": "qwen3.5:4b",
+  "claim": {
+    "id": "thread_3_attempt_2_t3s1c1",
+    "tweet_index": 2,
+    "start": 0,
+    "end": 35,
+    "span": "It may cause loss of funds or data.",
+    "proposition": "It may cause loss of funds or data.",
+    "sentence": "It may cause loss of funds or data.",
+    "qualifiers": [],
+    "claim_type": "factual",
+    "candidate_evidence_ids": [
+      "SCWE-028"
+    ]
+  },
+  "source_id": "SCWE-028",
+  "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+  "report": {
+    "verdicts": [
+      {
+        "claim_id": "thread_3_attempt_2_t3s1c1",
+        "verdict": "SUPPORTED",
+        "evidence_ids": [
+          "SCWE-028"
+        ],
+        "supporting_spans": [
+          {
+            "evidence_id": "SCWE-028",
+            "quote": "Loss of funds or data."
+          }
+        ],
+        "supporting_span_ids": [
+          "SCWE-028#2"
+        ],
+        "reason": "The source explicitly states that price oracle manipulation 'can lead to' 'Loss of funds or data.' The claim uses the modal 'may cause,' which is semantically equivalent to the source's 'can lead to' within the stated scope. Span SCWE-028#2 provides verbatim support for the specific consequence mentioned.",
+        "missing_information": "",
+        "scope_mismatch": "",
+        "confidence": null,
+        "verification_error": null,
+        "context_windows": [
+          {
+            "evidence_id": "SCWE-028",
+            "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+            "source_scope": "Use the documented oracle conditions and threat model",
+            "start": 400,
+            "end": 659,
+            "text": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic.",
+            "truncated": true,
+            "token_budget_upper_bound": 1400,
+            "token_upper_bound": 260
+          }
+        ],
+        "proposed_supporting_spans": [
+          {
+            "evidence_id": "SCWE-028",
+            "quote": "Loss of funds or data."
+          }
+        ],
+        "initial_pass": {
+          "verdict": "SUPPORTED",
+          "support_option_ids": [
+            "SCWE-028#2"
+          ],
+          "reason": "The source explicitly states that price oracle manipulation 'can lead to' 'Loss of funds or data.' The claim uses the modal 'may cause,' which is semantically equivalent to the source's 'can lead to' within the stated scope. Span SCWE-028#2 provides verbatim support for the specific consequence mentioned."
+        },
+        "skeptical_pass": {
+          "verdict": "SUPPORTED",
+          "support_option_ids": [
+            "SCWE-028#2"
+          ],
+          "reason": "The source text explicitly lists 'Loss of funds or data' as a consequence that price oracle manipulation 'can lead to'. The atomic claim states 'It may cause loss of funds or data', where 'may' is semantically equivalent to the source's 'can' in this context. The selected span SCWE-028#2 contains the exact phrase 'Loss of funds or data' within the list of consequences, and the preceding sentence establishes the causal link ('This can lead to'). The truncated flag does not negate the explicit statement present in the provided text."
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 2432,
+    "output_tokens": 255,
+    "usage_complete": true
+  },
+  "latency_seconds": 15.195
+}

@@ -1,5 +1,82 @@
 {
   "$defs": {
+    "EvidenceContext": {
+      "properties": {
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "evidence_id": {
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "snapshot_sha256": {
+          "title": "Snapshot Sha256",
+          "type": "string"
+        },
+        "source_scope": {
+          "default": "",
+          "title": "Source Scope",
+          "type": "string"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        },
+        "text": {
+          "minLength": 8,
+          "title": "Text",
+          "type": "string"
+        },
+        "token_budget_upper_bound": {
+          "default": 1400,
+          "exclusiveMinimum": 0,
+          "title": "Token Budget Upper Bound",
+          "type": "integer"
+        },
+        "token_upper_bound": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Token Upper Bound"
+        },
+        "truncated": {
+          "default": false,
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "window_partial": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window Partial"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "snapshot_sha256",
+        "start",
+        "end",
+        "text"
+      ],
+      "title": "EvidenceContext",
+      "type": "object"
+    },
     "SemanticRecord": {
       "properties": {
         "attempts": {
@@ -65,6 +142,13 @@
           "default": null,
           "title": "Confidence"
         },
+        "context_windows": {
+          "items": {
+            "$ref": "#/$defs/EvidenceContext"
+          },
+          "title": "Context Windows",
+          "type": "array"
+        },
         "evidence_ids": {
           "items": {
             "type": "string"
@@ -72,10 +156,28 @@
           "title": "Evidence Ids",
           "type": "array"
         },
+        "initial_pass": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationPass"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
         "missing_information": {
           "default": "",
           "title": "Missing Information",
           "type": "string"
+        },
+        "proposed_supporting_spans": {
+          "items": {
+            "$ref": "#/$defs/SupportingSpan"
+          },
+          "title": "Proposed Supporting Spans",
+          "type": "array"
         },
         "reason": {
           "minLength": 8,
@@ -86,6 +188,17 @@
           "default": "",
           "title": "Scope Mismatch",
           "type": "string"
+        },
+        "skeptical_pass": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VerificationPass"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         },
         "supporting_span_ids": {
           "items": {
@@ -150,6 +263,38 @@
         "quote"
       ],
       "title": "SupportingSpan",
+      "type": "object"
+    },
+    "VerificationPass": {
+      "properties": {
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "support_option_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Support Option Ids",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "SUPPORTED",
+            "CONTRADICTED",
+            "INSUFFICIENT_EVIDENCE",
+            "AMBIGUOUS",
+            "VERIFICATION_ERROR"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "reason"
+      ],
+      "title": "VerificationPass",
       "type": "object"
     }
   },

@@ -2,7 +2,11 @@ flowchart LR
   I[Validated inputs] --> F[LangGraph Send per slot]
   F --> R[Research / EvidenceLookup] --> W[Registered Writer]
   W --> X[Atomic claim extraction] --> P[Pinned source provenance]
-  P --> S[Verifier + skeptical span audit] --> Q[Hard rules + Reviewer]
+  P --> S
+  subgraph SemanticNode[One LangGraph semantic node]
+    S[Verifier selects exact spans] --> C[Bounded pinned context retrieval] --> K[Independent skeptical audit]
+  end
+  K --> Q[Hard rules + Reviewer]
   Q --> D{Approved, valid, supported?}
   D -->|yes| V[Content-aware visual spec] --> A[Plan-order aggregation]
   D -->|first rejection| W
@@ -10,15 +14,19 @@ flowchart LR
   R -->|error| Fail[Failed slot] --> A
   P -->|source error| Fail
   S -->|verifier error| Fail
+  K -->|verifier error| Fail
   Q -->|review error| Fail
   V -->|visual error| Fail
   A --> E[JSON audit + accepted-only CSV]
   T[[Trusted SystemMessage instructions]] -.-> W
   T -.-> S
+  T -.-> K
   T -.-> Q
   U[[Dynamic HumanMessage task and untrusted sources]] -.-> W
   U -.-> S
+  U -.-> K
   U -.-> Q
   L[[Shared bounded Ollama]] -.-> W
   L -.-> S
+  L -.-> K
   L -.-> Q

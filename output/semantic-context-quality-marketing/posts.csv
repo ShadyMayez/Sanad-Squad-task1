@@ -1,0 +1,2 @@
+Post Text,Image
+"Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic.",spec:visual_specs/piece_1.md

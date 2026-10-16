@@ -7,8 +7,12 @@ flowchart LR
   R --> W[Registered Writer]
   W --> X[Atomic claim extraction]
   X --> P[Snapshot hash and quote provenance]
-  P --> S[Semantic Verifier]
-  S --> V[Python format and brand checks]
+  P --> S
+  subgraph SemanticNode[One LangGraph semantic node]
+    S[Initial verifier] --> C[Bounded pinned context retrieval]
+    C --> K[Independent skeptical verification]
+  end
+  K --> V[Python format and brand checks]
   V --> Q[Rubric Reviewer / EvidenceLookup]
   Q --> D{Approved, valid, all claims supported?}
   D -->|yes| I[Content-aware visual specification]
@@ -18,6 +22,7 @@ flowchart LR
   W -->|error| Fail
   P -->|source error| Fail
   S -->|verifier error| Fail
+  K -->|verifier error| Fail
   Q -->|error| Fail
   I -->|error| Fail
   I --> A[Plan-order aggregation]
@@ -26,12 +31,15 @@ flowchart LR
   A --> E[Audit JSON and accepted-only CSV]
   T[Trusted instruction files / SystemMessage] -.-> W
   T -.-> S
+  T -.-> K
   T -.-> Q
   U[Dynamic task and untrusted evidence / HumanMessage] -.-> W
   U -.-> S
+  U -.-> K
   U -.-> Q
   L[Shared bounded ChatOllama / qwen3.5:4b] -.-> W
   L -.-> S
+  L -.-> K
   L -.-> Q
 ```
 
@@ -47,9 +55,11 @@ The Reviewer receives concise source quotations, the actual `tweets` array and m
 
 ## Evidence and output flow
 
-Each KB evidence record names an HTTPS source, a local snapshot, its SHA-256 digest, title, type, retrieval date, exact quoted substring and offsets, and claim scope. KB loading checks schema shape; the selected slot checks source file integrity, so a broken source fails that slot while other slots continue. The legacy `excerpt` is a summary, not verbatim proof. The source quote is the admissible technical text. Every public sentence is segmented into atomic propositions with offsets and mapped to candidate evidence IDs. The verifier returns one verdict per proposition, selecting exact numbered source span options when it claims support. Python resolves those options back to the snapshot and rejects unknown or missing spans. A second skeptical pass sees only the selected spans and can veto tentative support. A `SUPPORTED` label is still a model judgment; the benchmark and manual inspection measure its fallibility.
+Each KB evidence record names an HTTPS source, a local snapshot, its SHA-256 digest, title, type, retrieval date, exact quoted substring and offsets, and claim scope. KB loading checks schema shape; the selected slot checks source file integrity, so a broken source fails that slot while other slots continue. The legacy `excerpt` is a summary, not verbatim proof. The source quote is the admissible technical text. Every public sentence is segmented into atomic propositions with offsets and mapped to candidate evidence IDs. The verifier returns one verdict per proposition, selecting exact numbered source span options when it claims support. Python resolves those options back to the snapshot and rejects unknown or missing spans. A second skeptical pass sees the selected spans and bounded, offset-bearing source windows so it can interpret list headings, antecedents, and conditions. It can still veto; context alone is never proof. Both decisions and the exact context offsets are persisted. Export rechecks window hashes, source identity, and text for accepted output. A `SUPPORTED` label is still a model judgment; benchmarks and manual inspection measure its fallibility.
 
 The SWC-107 active snapshot is a normalized excerpt of the official Markdown source, with its raw Markdown preserved. This retains the separate remediation bullets that the previous flattened HTML snapshot merged. Sentence extraction masks abbreviations such as `ie.` without changing offsets and treats Markdown bullets as separate exact source spans. The older flattened snapshot remains so diagnostic output from before the correction can still be audited.
+
+The source window records `window_partial` when its offsets cover less than the pinned quotation. A separate `truncated` flag means a requested neighbor did not fit the character or conservative UTF-8-byte budget. The skeptic receives both so it does not infer that ordinary nearby context was lost to a budget limit. New windows carry both flags; older persisted windows without `window_partial` remain readable. A skipped semantic node has no model usage event, so it does not by itself make an otherwise measured run's token metadata incomplete.
 
 `extract`, `provenance`, `semantic`, and `evaluate` each leave attempt records. An accepted result must have complete final claims, all `SUPPORTED` verdicts, no hard errors, approved review scores, and a visual specification. The exporter checks those conditions again before creating a run directory. `claims.json`, `evidence_provenance.json`, `semantic_verification.json`, and `grounding_summary.json` augment the original JSON trail. `posts.csv` has exactly `Post Text,Image` and only accepted content. Its `spec:` image references name written specifications, which must be rendered before any media scheduler can use them.
 

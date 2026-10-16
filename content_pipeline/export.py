@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from .schemas import AcceptedRecord, ClaimsRecord, EvidenceProvenanceRecord, FailureRecord, GroundingSummary, Plan, ResearchRecord, ReviewRecord, SemanticRecord, SlotResult, Summary, ValidationRecord
 from .text_spans import source_span_options
+from .provenance import context_errors
 
 
 def dump_json(path: Path, value):
@@ -22,6 +23,7 @@ def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: flo
         final_claims = r.atomic_claims[-1] if r.atomic_claims else []
         final_verdicts = r.semantic_reports[-1].verdicts if r.semantic_reports else []
         source_quotes = {e.id: e.source_quote or "" for e in r.evidence}
+        evidence_by_id = {e.id: e for e in r.evidence}
         allowed_spans = {f"{e.id}#{index}": (e.id, span)
             for e in r.evidence for index, span in enumerate(source_span_options(e.source_quote or ""))}
         claim_by_id = {c.id: c for c in final_claims}
@@ -34,6 +36,13 @@ def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: flo
                     for span in v.supporting_spans)
                 and all(allowed_spans.get(option_id) == (span.evidence_id, span.quote)
                     for option_id, span in zip(v.supporting_span_ids, v.supporting_spans))
+                and (not v.context_windows or all(w.evidence_id in evidence_by_id
+                    and not context_errors(w, evidence_by_id[w.evidence_id]) for w in v.context_windows))
+                and (not v.context_windows or all(any(w.evidence_id == span.evidence_id and span.quote in w.text
+                    for w in v.context_windows) for span in v.supporting_spans))
+                and (not v.context_windows or (v.initial_pass is not None and v.initial_pass.verdict == "SUPPORTED"
+                    and v.skeptical_pass is not None and v.skeptical_pass.verdict == "SUPPORTED"
+                    and v.proposed_supporting_spans == v.supporting_spans))
                 for v in final_verdicts))
         if (not r.drafts or not r.reviews or not r.reviews[-1].approved or not r.validations or r.validations[-1]
                 or not final_claims or len(final_claims) != len(final_verdicts)

@@ -1,0 +1,62 @@
+{
+  "report": {
+    "verdicts": [
+      {
+        "claim_id": "heldout-54-recheck",
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "evidence_ids": [
+          "SWC-110"
+        ],
+        "supporting_spans": [],
+        "supporting_span_ids": [],
+        "reason": "Skeptical span audit: The source text provides a conditional remediation instruction ('If not [it is an invariant], replace...') but fails to explicitly state the antecedent condition that triggers this check. The claim asserts 'If an assert condition is not an invariant', implying a specific logical test for invariance, yet the provided span only states 'Consider whether the condition... is actually an invariant' without defining how that determination is made or confirming that the source's recommendation applies universally to all cases where a condition fails an invariant check. The truncated context and lack of explicit definition for the 'invariant' predicate prevent entailing the full conditional structure of the claim.",
+        "missing_information": "",
+        "scope_mismatch": "",
+        "confidence": null,
+        "verification_error": null,
+        "context_windows": [
+          {
+            "evidence_id": "SWC-110",
+            "snapshot_sha256": "89e28976fae08d66b0e4bf5ee1a4e98bcd1642559bf7042495d8cb25753bdf90",
+            "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+            "start": 1237,
+            "end": 1396,
+            "text": "Remediation Consider whether the condition checked in the assert() is actually an invariant. If not, replace the assert() statement with a require() statement.",
+            "truncated": true,
+            "token_budget_upper_bound": 1400,
+            "token_upper_bound": 159
+          }
+        ],
+        "proposed_supporting_spans": [
+          {
+            "evidence_id": "SWC-110",
+            "quote": "Remediation Consider whether the condition checked in the assert() is actually an invariant."
+          },
+          {
+            "evidence_id": "SWC-110",
+            "quote": "If not, replace the assert() statement with a require() statement."
+          }
+        ],
+        "initial_pass": {
+          "verdict": "SUPPORTED",
+          "support_option_ids": [
+            "SWC-110#3",
+            "SWC-110#4"
+          ],
+          "reason": "The source explicitly states that if the condition in an assert() is not an invariant, the remediation is to replace it with a require(). This directly entails the claim's proposition."
+        },
+        "skeptical_pass": {
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "support_option_ids": [],
+          "reason": "The source text provides a conditional remediation instruction ('If not [it is an invariant], replace...') but fails to explicitly state the antecedent condition that triggers this check. The claim asserts 'If an assert condition is not an invariant', implying a specific logical test for invariance, yet the provided span only states 'Consider whether the condition... is actually an invariant' without defining how that determination is made or confirming that the source's recommendation applies universally to all cases where a condition fails an invariant check. The truncated context and lack of explicit definition for the 'invariant' predicate prevent entailing the full conditional structure of the claim."
+        }
+      }
+    ]
+  },
+  "usage": {
+    "input_tokens": 2493,
+    "output_tokens": 243,
+    "usage_complete": true
+  },
+  "latency_seconds": 19.642800336005166
+}

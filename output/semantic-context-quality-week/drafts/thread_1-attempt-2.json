@@ -1,0 +1,48 @@
+{
+  "tweets": [
+    "Calling external contracts can transfer control to another contract before your function finishes.",
+    "This allows a malicious contract to execute code in your function before the original call completes.",
+    "Different invocations of your function may then interact in ways you did not intend.",
+    "To prevent this, perform all internal state changes before making any external calls.",
+    "This approach is known as the Checks-Effects-Interactions pattern.",
+    "Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard."
+  ],
+  "claims": [
+    {
+      "text": "Calling external contracts can transfer control to another contract before your function finishes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "This allows a malicious contract to execute code in your function before the original call completes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Different invocations of your function may then interact in ways you did not intend.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "To prevent this, perform all internal state changes before making any external calls.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "This approach is known as the Checks-Effects-Interactions pattern.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Another common recommendation is using a reentrancy lock such as OpenZeppelin's ReentrancyGuard.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    }
+  ]
+}

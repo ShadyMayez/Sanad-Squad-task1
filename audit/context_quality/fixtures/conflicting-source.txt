@@ -1,0 +1,1 @@
+A guard prevents callbacks into a protected function. A later sentence says the same guard does not prevent callbacks into that protected function.

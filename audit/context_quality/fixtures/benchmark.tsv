@@ -1,0 +1,61 @@
+id|evidence_id|expected|category|claim
+01|SWC-107|SUPPORTED|direct|External contracts can take over a caller's control flow.
+02|SWC-107|SUPPORTED|paraphrase|A malicious callee may call back before the initial invocation finishes.
+03|SWC-107|INSUFFICIENT_EVIDENCE|unsupported_consequence|Every external call drains the calling contract's balance.
+04|SWC-107|CONTRADICTED|incorrect_negation|A reentrancy attack cannot call back before the first invocation finishes.
+05|SWC-104|SUPPORTED|direct|Execution resumes even if the called contract throws an exception.
+06|SWC-104|SUPPORTED|recommendation|Check the return value when using low-level call methods.
+07|SWC-104|INSUFFICIENT_EVIDENCE|unsupported_consequence|Every failed low-level call permanently freezes contract funds.
+08|SWC-104|CONTRADICTED|incorrect_negation|Execution always stops when the called contract throws an exception.
+09|SWC-105|SUPPORTED|direct|Insufficient access control can let malicious parties withdraw Ether from the contract.
+10|SWC-105|SUPPORTED|causal|A wrongly named constructor can end up in runtime bytecode and become callable by anyone.
+11|SWC-105|INSUFFICIENT_EVIDENCE|unsupported_recommendation|Checking whether a constructor is payable prevents all reinitialization attacks.
+12|SWC-105|CONTRADICTED|incorrect_negation|A wrongly named constructor can never be called after deployment.
+13|SWC-106|SUPPORTED|direct|Missing access control can let malicious parties self-destruct a contract.
+14|SWC-106|SUPPORTED|conditional_recommendation|If self-destruct has a valid use case, the source recommends multiple approvals through a multisig scheme.
+15|SWC-106|INSUFFICIENT_EVIDENCE|unsupported_guarantee|A multisig scheme guarantees that self-destruct can never happen.
+16|SWC-106|CONTRADICTED|incorrect_negation|The source recommends retaining self-destruct even when it is unnecessary.
+17|SWC-112|SUPPORTED|direct|Delegatecall executes target code in the context of the calling contract.
+18|SWC-112|SUPPORTED|multi_sentence|Untrusted delegatecall targets may change the caller's storage while execution remains in the caller's context.
+19|SWC-112|CONTRADICTED|wrong_mechanism|Delegatecall always changes msg.sender to the target contract's address.
+20|SWC-112|CONTRADICTED|incorrect_negation|Delegatecall target code cannot change any caller storage values.
+21|SWC-113|SUPPORTED|direct|External calls can fail accidentally or deliberately and cause a denial-of-service condition.
+22|SWC-113|SUPPORTED|recommendation|The source recommends isolating external calls into recipient-initiated transactions to reduce damage from call failures.
+23|SWC-113|INSUFFICIENT_EVIDENCE|unsupported_guarantee|Separating external calls guarantees that no payment can ever fail.
+24|SWC-113|CONTRADICTED|incorrect_negation|External calls cannot fail deliberately.
+25|SWC-115|SUPPORTED|direct|tx.origin returns the address of the account that sent the transaction.
+26|SWC-115|SUPPORTED|causal|A call may pass a tx.origin authorization check when the original sender is an authorized account calling a malicious contract.
+27|SWC-115|INSUFFICIENT_EVIDENCE|wrong_mechanism|msg.sender always returns the original sender across every nested contract call.
+28|SWC-115|CONTRADICTED|incorrect_negation|The source recommends using tx.origin for authorization.
+29|SWC-116|SUPPORTED|direct|Miners cannot set a block timestamp smaller than the previous timestamp.
+30|SWC-116|SUPPORTED|conditional|Malicious miners can alter block timestamps within limits.
+31|SWC-116|CONTRADICTED|overgeneralization|A miner can set any timestamp decades into the future and have the block accepted.
+32|SWC-116|CONTRADICTED|incorrect_negation|The source says block timestamps are always precise enough for every time-dependent event.
+33|SWC-120|SUPPORTED|direct|Using block.timestamp as a randomness source is insecure because a miner can choose a timestamp within a few seconds.
+34|SWC-120|SUPPORTED|recommendation|The source recommends external randomness through oracles with on-chain cryptographic outcome checks.
+35|SWC-120|INSUFFICIENT_EVIDENCE|unsupported_guarantee|An external oracle guarantees fair randomness for every gambling contract.
+36|SWC-120|CONTRADICTED|incorrect_negation|The source says blockhash is a secure randomness source because miners cannot control it.
+37|SWC-101|SUPPORTED|direct|An integer overflow occurs when an arithmetic operation produces a value outside the type's representable range.
+38|SWC-101|SUPPORTED|paraphrase|A uint8 value has an unsigned eight-bit range from zero through 255.
+39|SWC-101|INSUFFICIENT_EVIDENCE|version_mismatch|Solidity 0.8 always silently wraps uint8 arithmetic without checking overflow.
+40|SWC-101|CONTRADICTED|incorrect_negation|Integer overflow occurs only when a value remains inside its representable range.
+41|SWC-109|SUPPORTED|direct|Uninitialized local storage variables may point to unexpected contract storage locations.
+42|SWC-109|SUPPORTED|conditional_recommendation|If a local variable is sufficient, the source recommends explicitly using the memory attribute.
+43|SWC-109|INSUFFICIENT_EVIDENCE|unsupported_guarantee|Marking one local variable as memory prevents every storage vulnerability.
+44|SWC-109|CONTRADICTED|incorrect_negation|The source recommends leaving storage variables uninitialized when they are needed.
+45|SWC-117|SUPPORTED|direct|A cryptographic signature can be altered without possessing the private key and still remain valid.
+46|SWC-117|SUPPORTED|conditional|Systems may be susceptible to replay when the signature is part of the signed message hash.
+47|SWC-117|INSUFFICIENT_EVIDENCE|unsupported_consequence|Every modified signature transfers all contract funds to the attacker.
+48|SWC-117|CONTRADICTED|incorrect_negation|The source says changing v, r, and s can never produce another valid signature.
+49|SWC-100|SUPPORTED|direct|Functions without an explicit visibility type are public by default in the source's described setting.
+50|SWC-100|SUPPORTED|recommendation|The source recommends consciously choosing an appropriate function visibility type.
+51|SWC-100|INSUFFICIENT_EVIDENCE|version_mismatch|In every current Solidity version, omitting visibility always compiles successfully as public.
+52|SWC-100|CONTRADICTED|incorrect_negation|Functions without an explicit visibility type are private by default.
+53|SWC-110|SUPPORTED|direct|The Solidity assert function is meant to check invariants.
+54|SWC-110|SUPPORTED|conditional_recommendation|If an assert condition is not an invariant, the source recommends replacing assert with require.
+55|SWC-110|INSUFFICIENT_EVIDENCE|unsupported_guarantee|Replacing assert with require fixes every invalid contract state.
+56|SWC-110|CONTRADICTED|incorrect_negation|Properly functioning code should routinely reach failing assert statements.
+57|SCWE-028|SUPPORTED|context_list|Price oracle manipulation may lead to loss of funds or data.
+58|SCWE-028|SUPPORTED|recommendation|The source recommends validating oracle data before use.
+59|SCWE-028|INSUFFICIENT_EVIDENCE|unsupported_causality|Every manipulated oracle price necessarily destroys all contract data.
+60|SCWE-028|CONTRADICTED|incorrect_negation|The source says price oracle manipulation cannot lead to unauthorized actions.

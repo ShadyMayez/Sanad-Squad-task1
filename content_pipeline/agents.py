@@ -56,6 +56,9 @@ class ReviewerAgent:
         rubric = instruction("instructions/reviewer-rubric.md")
         semantic_brief = ({"verdicts": [{"claim_id": item.claim_id, "verdict": item.verdict,
             "supporting_spans": [span.model_dump() for span in item.supporting_spans],
+            "context_windows": [window.model_dump() for window in item.context_windows],
+            "initial_verdict": item.initial_pass.verdict if item.initial_pass else None,
+            "skeptical_verdict": item.skeptical_pass.verdict if item.skeptical_pass else None,
             **({"reason": item.reason} if item.verdict != "SUPPORTED" else {})}
             for item in semantic.verdicts]} if semantic else None)
         task = {"brand_voice_guidance": self.brand_text.split("```json", 1)[0].strip(),
@@ -63,6 +66,9 @@ class ReviewerAgent:
             "draft": draft.model_dump(), "deterministic_errors": errors + ([f"Unknown evidence IDs: {missing}"] if missing else []),
             "tweet_count": len(draft.tweets), "tweet_character_counts": [len(tweet) for tweet in draft.tweets],
             "tweet_array_semantics": "Each draft.tweets element is one independent rendered tweet; numbering is added only during CSV export.",
+            "rendering_contract": {"one_array_item_is_one_tweet": True,
+                "exporter_adds_thread_numbering": True, "numbering_inside_tweet_text_required": False,
+                "line_breaks_inside_tweet_text_required": False},
             "semantic_report": semantic_brief,
             "task": "Score only the current draft. Return a concise Review. A rejection needs a current-draft defect and matching low score or mandatory gate; never override a hard or atomic gate."}
         usage_total: dict = {}
@@ -78,7 +84,7 @@ class ReviewerAgent:
             if not review.approved and not low_raw and not errors and not missing and all_atomic_supported:
                 if review_attempt:
                     raise ValueError("Reviewer returned approval=false with passing scores and no failed mandatory gate after one consistency retry")
-                task["review_consistency_feedback"] = ("Previous Review had approved=false with every score at or above threshold and no failed mandatory gate. Reassess only this draft: approve if no specific defect exists, or lower the affected score and state a concise current-draft defect. Do not repeat speculative self-dialogue.")
+                task["review_consistency_feedback"] = ("Previous Review had approved=false with every score at or above threshold and no failed mandatory gate. Each draft.tweets array element is already a separate X post; the exporter adds 1/N numbering. Missing line breaks or numbering inside an element cannot be a format defect. Reassess only this draft: approve if no specific defect exists, or lower the affected score and cite the exact current-draft text that causes it. Do not repeat speculative self-dialogue.")
                 continue
             break
         by_id = {e.id: e.source_quote or "" for e in evidence}

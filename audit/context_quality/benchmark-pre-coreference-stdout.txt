@@ -1,0 +1,381 @@
+01 SUPPORTED -> SUPPORTED (14.9s)
+02 SUPPORTED -> SUPPORTED (12.0s)
+03 INSUFFICIENT_EVIDENCE -> INSUFFICIENT_EVIDENCE (5.6s)
+04 CONTRADICTED -> CONTRADICTED (5.3s)
+05 SUPPORTED -> SUPPORTED (7.6s)
+06 SUPPORTED -> SUPPORTED (12.4s)
+07 INSUFFICIENT_EVIDENCE -> CONTRADICTED (5.5s)
+08 CONTRADICTED -> CONTRADICTED (5.0s)
+09 SUPPORTED -> SUPPORTED (12.5s)
+10 SUPPORTED -> SUPPORTED (10.9s)
+11 INSUFFICIENT_EVIDENCE -> CONTRADICTED (5.4s)
+12 CONTRADICTED -> CONTRADICTED (5.1s)
+13 SUPPORTED -> SUPPORTED (11.2s)
+14 SUPPORTED -> SUPPORTED (11.7s)
+15 INSUFFICIENT_EVIDENCE -> CONTRADICTED (5.9s)
+16 CONTRADICTED -> CONTRADICTED (5.4s)
+17 SUPPORTED -> SUPPORTED (10.5s)
+18 SUPPORTED -> SUPPORTED (16.2s)
+19 CONTRADICTED -> CONTRADICTED (5.1s)
+20 CONTRADICTED -> CONTRADICTED (5.0s)
+21 SUPPORTED -> SUPPORTED (11.4s)
+22 SUPPORTED -> SUPPORTED (11.2s)
+23 INSUFFICIENT_EVIDENCE -> CONTRADICTED (6.0s)
+24 CONTRADICTED -> CONTRADICTED (4.8s)
+25 SUPPORTED -> SUPPORTED (11.3s)
+26 SUPPORTED -> SUPPORTED (12.3s)
+27 INSUFFICIENT_EVIDENCE -> CONTRADICTED (7.5s)
+28 CONTRADICTED -> CONTRADICTED (5.1s)
+29 SUPPORTED -> SUPPORTED (14.5s)
+30 SUPPORTED -> SUPPORTED (16.1s)
+31 CONTRADICTED -> CONTRADICTED (5.7s)
+32 CONTRADICTED -> CONTRADICTED (5.5s)
+33 SUPPORTED -> SUPPORTED (15.5s)
+34 SUPPORTED -> SUPPORTED (13.5s)
+35 INSUFFICIENT_EVIDENCE -> CONTRADICTED (7.7s)
+36 CONTRADICTED -> CONTRADICTED (5.1s)
+37 SUPPORTED -> SUPPORTED (15.6s)
+38 SUPPORTED -> SUPPORTED (13.4s)
+39 INSUFFICIENT_EVIDENCE -> CONTRADICTED (6.0s)
+40 CONTRADICTED -> CONTRADICTED (5.4s)
+41 SUPPORTED -> SUPPORTED (15.3s)
+42 SUPPORTED -> SUPPORTED (12.1s)
+43 INSUFFICIENT_EVIDENCE -> CONTRADICTED (6.3s)
+44 CONTRADICTED -> CONTRADICTED (5.0s)
+45 SUPPORTED -> SUPPORTED (13.5s)
+46 SUPPORTED -> SUPPORTED (15.2s)
+47 INSUFFICIENT_EVIDENCE -> INSUFFICIENT_EVIDENCE (5.6s)
+48 CONTRADICTED -> CONTRADICTED (5.2s)
+49 SUPPORTED -> SUPPORTED (14.9s)
+50 SUPPORTED -> SUPPORTED (11.5s)
+51 INSUFFICIENT_EVIDENCE -> INSUFFICIENT_EVIDENCE (13.8s)
+52 CONTRADICTED -> CONTRADICTED (5.1s)
+53 SUPPORTED -> SUPPORTED (15.4s)
+54 SUPPORTED -> INSUFFICIENT_EVIDENCE (13.4s)
+55 INSUFFICIENT_EVIDENCE -> CONTRADICTED (6.3s)
+56 CONTRADICTED -> CONTRADICTED (5.0s)
+57 SUPPORTED -> SUPPORTED (13.7s)
+58 SUPPORTED -> SUPPORTED (11.3s)
+59 INSUFFICIENT_EVIDENCE -> CONTRADICTED (6.3s)
+60 CONTRADICTED -> CONTRADICTED (4.9s)
+{
+  "model": "qwen3.5:4b",
+  "thresholds_predeclared": {
+    "held_out_supported_recall_minimum": 0.7,
+    "held_out_supported_precision_minimum": 0.9,
+    "held_out_false_acceptance_maximum": 0.1
+  },
+  "development": {
+    "cases": 40,
+    "supported_precision": 1.0,
+    "supported_recall": 1.0,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.0,
+    "five_label_accuracy": 0.825,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 20,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 12,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 7,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "causal": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional": {
+        "cases": 1,
+        "correct": 1
+      },
+      "conditional_recommendation": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 10,
+        "correct": 10
+      },
+      "incorrect_negation": {
+        "cases": 10,
+        "correct": 10
+      },
+      "multi_sentence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "overgeneralization": {
+        "cases": 1,
+        "correct": 1
+      },
+      "paraphrase": {
+        "cases": 2,
+        "correct": 2
+      },
+      "recommendation": {
+        "cases": 3,
+        "correct": 3
+      },
+      "unsupported_consequence": {
+        "cases": 2,
+        "correct": 1
+      },
+      "unsupported_guarantee": {
+        "cases": 3,
+        "correct": 0
+      },
+      "unsupported_recommendation": {
+        "cases": 1,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 1,
+        "correct": 0
+      },
+      "wrong_mechanism": {
+        "cases": 2,
+        "correct": 1
+      }
+    },
+    "mean_latency_seconds": 9.16665,
+    "prompt_tokens_recorded": 67676,
+    "completion_tokens_recorded": 5337,
+    "usage_complete": true
+  },
+  "held_out": {
+    "cases": 20,
+    "supported_precision": 1.0,
+    "supported_recall": 0.9,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.1,
+    "five_label_accuracy": 0.8,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 9,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 5,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 3,
+        "INSUFFICIENT_EVIDENCE": 2,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "conditional": {
+        "cases": 1,
+        "correct": 1
+      },
+      "conditional_recommendation": {
+        "cases": 2,
+        "correct": 1
+      },
+      "context_list": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 4,
+        "correct": 4
+      },
+      "incorrect_negation": {
+        "cases": 5,
+        "correct": 5
+      },
+      "recommendation": {
+        "cases": 2,
+        "correct": 2
+      },
+      "unsupported_causality": {
+        "cases": 1,
+        "correct": 0
+      },
+      "unsupported_consequence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "unsupported_guarantee": {
+        "cases": 2,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 1,
+        "correct": 1
+      }
+    },
+    "mean_latency_seconds": 9.9958,
+    "prompt_tokens_recorded": 33051,
+    "completion_tokens_recorded": 2943,
+    "usage_complete": true
+  },
+  "all": {
+    "cases": 60,
+    "supported_precision": 1.0,
+    "supported_recall": 0.9666666666666667,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.03333333333333333,
+    "five_label_accuracy": 0.8166666666666667,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 29,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 17,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 10,
+        "INSUFFICIENT_EVIDENCE": 3,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "causal": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional_recommendation": {
+        "cases": 3,
+        "correct": 2
+      },
+      "context_list": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 14,
+        "correct": 14
+      },
+      "incorrect_negation": {
+        "cases": 15,
+        "correct": 15
+      },
+      "multi_sentence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "overgeneralization": {
+        "cases": 1,
+        "correct": 1
+      },
+      "paraphrase": {
+        "cases": 2,
+        "correct": 2
+      },
+      "recommendation": {
+        "cases": 5,
+        "correct": 5
+      },
+      "unsupported_causality": {
+        "cases": 1,
+        "correct": 0
+      },
+      "unsupported_consequence": {
+        "cases": 3,
+        "correct": 2
+      },
+      "unsupported_guarantee": {
+        "cases": 5,
+        "correct": 0
+      },
+      "unsupported_recommendation": {
+        "cases": 1,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 2,
+        "correct": 1
+      },
+      "wrong_mechanism": {
+        "cases": 2,
+        "correct": 1
+      }
+    },
+    "mean_latency_seconds": 9.443033333333334,
+    "prompt_tokens_recorded": 100727,
+    "completion_tokens_recorded": 8280,
+    "usage_complete": true
+  }
+}

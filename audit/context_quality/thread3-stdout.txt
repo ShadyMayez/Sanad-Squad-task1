@@ -1,0 +1,9 @@
+{
+  "verdict": "SUPPORTED",
+  "latency_seconds": 15.195,
+  "usage": {
+    "input_tokens": 2432,
+    "output_tokens": 255,
+    "usage_complete": true
+  }
+}

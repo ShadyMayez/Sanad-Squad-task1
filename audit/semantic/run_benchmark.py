@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
+import os
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -71,7 +72,7 @@ async def main():
         "completion_tokens_recorded": sum(r["output_tokens"] for r in rows if r["output_tokens"] is not None),
         "usage_complete": all(r["input_tokens"] is not None and r["output_tokens"] is not None for r in model_rows),
         "external_model_api_charges_usd": 0.0, "rows": rows}
-    out = Path(__file__).parent / "benchmark-results.json"
+    out = Path(os.environ.get("SANADSQUAD_LEGACY_BENCHMARK_OUTPUT", str(Path(__file__).parent / "benchmark-results.json")))
     out.write_text(json.dumps(summary, indent=2) + "\n")
     print(json.dumps({k: v for k, v in summary.items() if k not in {"rows", "confusion_matrix"}}, indent=2))
 

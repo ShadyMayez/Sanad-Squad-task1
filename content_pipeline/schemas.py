@@ -61,6 +61,25 @@ class SupportingSpan(BaseModel):
     quote: str = Field(min_length=8)
 
 
+class EvidenceContext(BaseModel):
+    evidence_id: str
+    snapshot_sha256: str
+    source_scope: str = ""
+    start: int = Field(ge=0)
+    end: int = Field(gt=0)
+    text: str = Field(min_length=8)
+    truncated: bool = False
+    window_partial: bool | None = None
+    token_budget_upper_bound: int = Field(default=1400, gt=0)
+    token_upper_bound: int | None = Field(default=None, ge=0)
+
+
+class VerificationPass(BaseModel):
+    verdict: Literal["SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "AMBIGUOUS", "VERIFICATION_ERROR"]
+    support_option_ids: list[str] = Field(default_factory=list)
+    reason: str
+
+
 class SemanticVerdict(BaseModel):
     claim_id: str
     verdict: Literal["SUPPORTED", "CONTRADICTED", "INSUFFICIENT_EVIDENCE", "AMBIGUOUS", "VERIFICATION_ERROR"]
@@ -72,6 +91,10 @@ class SemanticVerdict(BaseModel):
     scope_mismatch: str = ""
     confidence: float | None = Field(default=None, ge=0, le=1)
     verification_error: str | None = None
+    context_windows: list[EvidenceContext] = Field(default_factory=list)
+    proposed_supporting_spans: list[SupportingSpan] = Field(default_factory=list)
+    initial_pass: VerificationPass | None = None
+    skeptical_pass: VerificationPass | None = None
 
 
 class SemanticReport(BaseModel):

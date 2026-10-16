@@ -1,0 +1,446 @@
+{
+  "run": "/home/shady/sandsquad/output/semantic-context-quality-final-tech",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 1,
+    "shipped": 0,
+    "dropped": 1,
+    "failed": 0,
+    "reasons": [
+      {
+        "slot_id": "piece_1",
+        "status": "dropped",
+        "reason": "Claim t4 ('To prevent this, perform all critical state changes before making external calls.') fails factual support because the source (SWC-107) specifies 'all internal state changes', whereas the claim narrows this to 'critical' state changes. The semantic report confirms that 'internal' defines location within the contract, while 'critical' implies a subset; the source does not entail that only critical states must be changed before an external call.; This discrepancy constitutes a mandatory gate failure (INSUFFICIENT_EVIDENCE) for claim t4s1c1. Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval.; No verified supporting excerpt for claim: Calling external contracts can transfer control flow before your function finishes, allowing another contract to execute first.; No verified supporting excerpt for claim: In a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active.; No verified supporting excerpt for claim: This allows multiple invocations of the same function to interact in ways that may not be intended by the developer.; No verified supporting excerpt for claim: To prevent this, perform all critical state changes before making external calls.; No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.; No verified supporting excerpt for claim: Alternatively, you can use a reentrancy lock mechanism like OpenZeppelin's ReentrancyGuard.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text specifies 'all internal state changes', whereas the claim asserts 'all critical state changes'. The term 'internal' defines the location of the state (within the contract), while 'critical' implies a subset of states essential to the transaction's logic. A malicious actor could theoretically perform non-critical internal state changes before an external call without triggering reentrancy, meaning the source's instruction does not strictly entail the claim's requirement to prevent *all* critical changes if interpreted as a universal rule for every possible state change. Furthermore, the source uses 'internal' while the claim uses 'external calls'; while the context discusses reentrancy (calling back), the specific mapping of 'internal state changes' to 'critical state changes' is an interpretive leap not explicitly supported by the text.; Scores below rubric threshold: ['factual_support']"
+      }
+    ],
+    "elapsed_seconds": 322.535,
+    "prompt_tokens_recorded": 51633,
+    "completion_tokens_recorded": 4663,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "slots": [
+    {
+      "id": "piece_1",
+      "type": "tech-thread",
+      "topic": "Reentrancy",
+      "status": "dropped",
+      "source_ids": [
+        "SWC-107"
+      ],
+      "provenance_errors": [],
+      "draft_count": 2,
+      "review_count": 2,
+      "final_atomic_claims": 7,
+      "verdict_counts": {
+        "SUPPORTED": 12,
+        "INSUFFICIENT_EVIDENCE": 2
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+            },
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#0",
+            "SWC-107#1"
+          ],
+          "reason": "The source explicitly states that external contracts can 'take over the control flow' during a reentrancy attack, which occurs when a malicious contract calls back before the first invocation is finished. This directly entails the claim that control flow can be transferred before the function finishes, allowing another contract to execute.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 97,
+              "end": 458,
+              "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 361
+            },
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 97,
+              "end": 613,
+              "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 516
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+            },
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#0",
+              "SWC-107#1"
+            ],
+            "reason": "The source explicitly states that external contracts can 'take over the control flow' during a reentrancy attack, which occurs when a malicious contract calls back before the first invocation is finished. This directly entails the claim that control flow can be transferred before the function finishes, allowing another contract to execute."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The selected spans jointly and unambiguously entail the claim. Span SWC-107#0 establishes that external contracts 'can take over the control flow.' Span SWC-107#1 explicitly defines the mechanism: a reentrancy attack occurs when a contract calls back 'before the first invocation of the function is finished,' causing another contract (the malicious one) to execute. The combination of these two sentences confirms that control flow transfer before function completion allows another contract to execute, matching the atomic claim exactly."
+          }
+        },
+        {
+          "claim_id": "t2s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#1"
+          ],
+          "reason": "The claim states that in a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active. Source span SWC-107#1 explicitly defines the reentrancy attack as occurring when 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' The phrase 'before...finished' semantically entails 'while...still active', and 'calling contract' refers to the original caller.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 97,
+              "end": 613,
+              "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 516
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#1"
+            ],
+            "reason": "The claim states that in a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active. Source span SWC-107#1 explicitly defines the reentrancy attack as occurring when 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' The phrase 'before...finished' semantically entails 'while...still active', and 'calling contract' refers to the original caller."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The source span explicitly defines the reentrancy attack as occurring when 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim that the call happens 'while the first invocation is still active' and identifies the target as the 'original contract' (the caller). The semantic equivalence holds without ambiguity."
+          }
+        },
+        {
+          "claim_id": "t2s1c2",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#1"
+          ],
+          "reason": "The source explicitly defines a reentrancy attack as occurring when a malicious contract calls back 'before the first invocation of the function is finished,' which semantically entails that the first invocation remains active during the callback.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 97,
+              "end": 613,
+              "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 516
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#1"
+            ],
+            "reason": "The source explicitly defines a reentrancy attack as occurring when a malicious contract calls back 'before the first invocation of the function is finished,' which semantically entails that the first invocation remains active during the callback."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The source text explicitly defines a reentrancy attack as occurring when a malicious contract calls back 'before the first invocation of the function is finished.' This definition directly entails that during the callback, the original (first) invocation remains active and has not yet completed. The selected span provides an unambiguous causal link between the timing of the callback and the state of the first invocation."
+          }
+        },
+        {
+          "claim_id": "t3s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#2"
+          ],
+          "reason": "The source text explicitly states that in a reentrancy attack, 'different invocations of the function to interact in undesirable ways.' The claim's proposition\u2014that multiple invocations may interact in unintended ways\u2014is semantically equivalent to the source's assertion about 'undesirable ways' of interaction. The qualifiers 'may' and 'not' in the claim align with the conditional nature ('This may cause...') and the negative connotation ('undesirable') of the source.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 97,
+              "end": 670,
+              "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 573
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The source text explicitly states that in a reentrancy attack, 'different invocations of the function to interact in undesirable ways.' The claim's proposition\u2014that multiple invocations may interact in unintended ways\u2014is semantically equivalent to the source's assertion about 'undesirable ways' of interaction. The qualifiers 'may' and 'not' in the claim align with the conditional nature ('This may cause...') and the negative connotation ('undesirable') of the source."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The selected span 'This may cause the different invocations of the function to interact in undesirable ways' directly entails the claim 'This allows multiple invocations of the same function to interact in ways that may not be intended by the developer.' The phrase 'undesirable ways' semantically equates to 'ways that may not be intended by the developer,' and the modal 'may' in the source aligns with the claim's qualifiers. The context confirms this occurs specifically during reentrancy attacks where control flow is taken over before completion, which constitutes multiple invocations interacting unexpectedly."
+          }
+        },
+        {
+          "claim_id": "t4s1c1",
+          "verdict": "INSUFFICIENT_EVIDENCE",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [],
+          "supporting_span_ids": [],
+          "reason": "Skeptical span audit: The source text specifies 'all internal state changes', whereas the claim asserts 'all critical state changes'. The term 'internal' defines the location of the state (within the contract), while 'critical' implies a subset of states essential to the transaction's logic. A malicious actor could theoretically perform non-critical internal state changes before an external call without triggering reentrancy, meaning the source's instruction does not strictly entail the claim's requirement to prevent *all* critical changes if interpreted as a universal rule for every possible state change. Furthermore, the source uses 'internal' while the claim uses 'external calls'; while the context discusses reentrancy (calling back), the specific mapping of 'internal state changes' to 'critical state changes' is an interpretive leap not explicitly supported by the text.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 197,
+              "end": 732,
+              "text": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 535
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "Make sure all internal state changes are performed before the call is executed."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#3"
+            ],
+            "reason": "The source explicitly states that to avoid reentrancy, 'all internal state changes are performed before the call is executed' (SWC-107#3), which directly entails the claim's instruction to perform 'all critical state changes before making external calls'. The term 'critical' in the claim corresponds to 'internal state changes' in the source context of preventing control flow takeover."
+          },
+          "skeptical_pass": {
+            "verdict": "INSUFFICIENT_EVIDENCE",
+            "support_option_ids": [],
+            "reason": "The source text specifies 'all internal state changes', whereas the claim asserts 'all critical state changes'. The term 'internal' defines the location of the state (within the contract), while 'critical' implies a subset of states essential to the transaction's logic. A malicious actor could theoretically perform non-critical internal state changes before an external call without triggering reentrancy, meaning the source's instruction does not strictly entail the claim's requirement to prevent *all* critical changes if interpreted as a universal rule for every possible state change. Furthermore, the source uses 'internal' while the claim uses 'external calls'; while the context discusses reentrancy (calling back), the specific mapping of 'internal state changes' to 'critical state changes' is an interpretive leap not explicitly supported by the text."
+          }
+        },
+        {
+          "claim_id": "t5s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "This is known as the Checks-Effects-Interactions pattern"
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#4"
+          ],
+          "reason": "The source explicitly states that performing internal state changes before the call is executed 'is known as the Checks-Effects-Interactions pattern', which directly entails the claim.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 369,
+              "end": 732,
+              "text": "This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 363
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "This is known as the Checks-Effects-Interactions pattern"
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#4"
+            ],
+            "reason": "The source explicitly states that performing internal state changes before the call is executed 'is known as the Checks-Effects-Interactions pattern', which directly entails the claim."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The source text explicitly states: 'This is known as the Checks-Effects-Interactions pattern' immediately following the instruction to perform internal state changes before execution. The antecedent ('This') refers unambiguously to the preceding remediation step (making state changes before calls). The selected span directly entails the atomic claim without ambiguity, despite the legacy scope metadata."
+          }
+        },
+        {
+          "claim_id": "t6s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-107"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-107#5"
+          ],
+          "reason": "The source explicitly recommends using a reentrancy lock, specifically naming OpenZeppelin's ReentrancyGuard as an example ('ie. OpenZeppelin's ReentrancyGuard'). The claim states one can use such a mechanism 'like' OpenZeppelin's ReentrancyGuard, which is fully entailed by the source's recommendation.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-107",
+              "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 534,
+              "end": 732,
+              "text": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+              "truncated": false,
+              "window_partial": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 198
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-107",
+              "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-107#5"
+            ],
+            "reason": "The source explicitly recommends using a reentrancy lock, specifically naming OpenZeppelin's ReentrancyGuard as an example ('ie. OpenZeppelin's ReentrancyGuard'). The claim states one can use such a mechanism 'like' OpenZeppelin's ReentrancyGuard, which is fully entailed by the source's recommendation."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The source text explicitly recommends using a reentrancy lock and provides OpenZeppelin's ReentrancyGuard as the specific example ('ie. OpenZeppelin's ReentrancyGuard'). The claim states that one 'can use' a mechanism 'like' this example, which is fully entailed by the source's direct recommendation to use it. The qualifier 'can' in the claim aligns with the imperative nature of the advice (which implies capability and permission). No ambiguity exists regarding the actor or the target mechanism."
+          }
+        }
+      ],
+      "final_tweets": [
+        "Calling external contracts can transfer control flow before your function finishes, allowing another contract to execute first.",
+        "In a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active.",
+        "This allows multiple invocations of the same function to interact in ways that may not be intended by the developer.",
+        "To prevent this, perform all critical state changes before making external calls.",
+        "This approach is known as the Checks-Effects-Interactions pattern.",
+        "Alternatively, you can use a reentrancy lock mechanism like OpenZeppelin's ReentrancyGuard."
+      ],
+      "revisions": 1,
+      "verification_disagreements": 2,
+      "context_decisions": 14,
+      "visual_spec": null,
+      "reason": "Claim t4 ('To prevent this, perform all critical state changes before making external calls.') fails factual support because the source (SWC-107) specifies 'all internal state changes', whereas the claim narrows this to 'critical' state changes. The semantic report confirms that 'internal' defines location within the contract, while 'critical' implies a subset; the source does not entail that only critical states must be changed before an external call.; This discrepancy constitutes a mandatory gate failure (INSUFFICIENT_EVIDENCE) for claim t4s1c1. Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval.; No verified supporting excerpt for claim: Calling external contracts can transfer control flow before your function finishes, allowing another contract to execute first.; No verified supporting excerpt for claim: In a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active.; No verified supporting excerpt for claim: This allows multiple invocations of the same function to interact in ways that may not be intended by the developer.; No verified supporting excerpt for claim: To prevent this, perform all critical state changes before making external calls.; No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.; No verified supporting excerpt for claim: Alternatively, you can use a reentrancy lock mechanism like OpenZeppelin's ReentrancyGuard.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text specifies 'all internal state changes', whereas the claim asserts 'all critical state changes'. The term 'internal' defines the location of the state (within the contract), while 'critical' implies a subset of states essential to the transaction's logic. A malicious actor could theoretically perform non-critical internal state changes before an external call without triggering reentrancy, meaning the source's instruction does not strictly entail the claim's requirement to prevent *all* critical changes if interpreted as a universal rule for every possible state change. Furthermore, the source uses 'internal' while the claim uses 'external calls'; while the context discusses reentrancy (calling back), the specific mapping of 'internal state changes' to 'critical state changes' is an interpretive leap not explicitly supported by the text.; Scores below rubric threshold: ['factual_support']"
+    }
+  ],
+  "csv_rows": 0,
+  "all_accepted_claims_pinned": true
+}

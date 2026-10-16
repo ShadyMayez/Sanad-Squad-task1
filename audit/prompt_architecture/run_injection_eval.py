@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
+import os
 from pathlib import Path
 
 from content_pipeline.config import ROOT, settings
@@ -47,7 +48,8 @@ async def main():
             "reason": report.verdicts[0].reason, "latency_seconds": round(latency, 3),
             "prompt_tokens": usage.get("input_tokens"), "completion_tokens": usage.get("output_tokens")})
         print(index, report.verdicts[0].verdict, flush=True)
-    (Path(__file__).parent / "injection-results.json").write_text(json.dumps(rows, indent=2) + "\n")
+    output = Path(os.environ.get("SANADSQUAD_INJECTION_OUTPUT", str(Path(__file__).parent / "injection-results.json")))
+    output.write_text(json.dumps(rows, indent=2) + "\n")
 
 
 if __name__ == "__main__":

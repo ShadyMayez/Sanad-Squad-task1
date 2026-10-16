@@ -1,0 +1,63 @@
+{
+  "tweets": [
+    "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+    "This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+    "A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+    "When using aggregated data, reject outliers and anomalous deviations to prevent skewed pricing decisions.",
+    "Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+    "Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+    "Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+    "Use circuit breakers and rate limiting on parameter changes to prevent rapid exploitation of oracle feeds."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "This risk stems from relying on a single data source that can be manipulated by malicious actors.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "A primary defense is aggregating multiple decentralized oracle sources rather than trusting one feed.",
+      "evidence_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "When using aggregated data, reject outliers and anomalous deviations to prevent skewed pricing decisions.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Implement Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Design your system to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Include fail-safe behavior that halts sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Use circuit breakers and rate limiting on parameter changes to prevent rapid exploitation of oracle feeds.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

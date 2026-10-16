@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "source": "ambiguous-a",
+    "claim": "The vault can fail.",
+    "expected": "AMBIGUOUS",
+    "actual": "AMBIGUOUS",
+    "reason": "The source quote states 'It can fail' immediately following the sentence 'The adapter calls the vault after the oracle check.' The pronoun 'It' refers to an antecedent that is not explicitly named in the provided text. While the preceding clause mentions 'the adapter', the phrase 'after the oracle check' introduces a temporal sequence without clarifying whether 'it' refers to the adapter, the vault, or the entire operation. Without explicit attribution or context resolving the referent of 'It', it is impossible to determine if the claim specifically concerns the vault's failure capability.",
+    "latency_seconds": 10.363,
+    "input_tokens": 992,
+    "output_tokens": 145
+  },
+  {
+    "id": 2,
+    "source": "ambiguous-b",
+    "claim": "The bridge can be stale.",
+    "expected": "AMBIGUOUS",
+    "actual": "AMBIGUOUS",
+    "reason": "The source quote states 'It can be stale' immediately following the sentence 'The oracle and bridge update the price.' The pronoun 'It' refers to an antecedent that could logically be either 'the oracle' or 'the bridge' (or potentially the combined action), but the text does not explicitly resolve which entity is subject to staleness. Without explicit clarification in the source, it is impossible to determine if the claim specifically about 'the bridge' is entailed by the text.",
+    "latency_seconds": 6.553,
+    "input_tokens": 989,
+    "output_tokens": 128
+  },
+  {
+    "id": 3,
+    "source": "ambiguous-a",
+    "claim": "The vault can fail.",
+    "expected": "VERIFICATION_ERROR",
+    "actual": "VERIFICATION_ERROR",
+    "reason": "SYNTH-ambiguous-a: source snapshot hash mismatch",
+    "latency_seconds": 0.0,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  {
+    "id": 4,
+    "source": "ambiguous-b",
+    "claim": "The bridge can be stale.",
+    "expected": "VERIFICATION_ERROR",
+    "actual": "VERIFICATION_ERROR",
+    "reason": "SYNTH-ambiguous-b: source snapshot hash mismatch",
+    "latency_seconds": 0.0,
+    "input_tokens": null,
+    "output_tokens": null
+  }
+]

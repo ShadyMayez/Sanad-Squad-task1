@@ -1,0 +1,49 @@
+{
+  "tweets": [
+    "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+    "Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+    "When aggregating data from several sources, reject outliers and anomalous deviations.",
+    "Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+    "Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+    "Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Remediation requires leveraging multiple decentralized oracles rather than relying on a single data source.",
+      "evidence_ids": [
+        "SCWE-028",
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "When aggregating data from several sources, reject outliers and anomalous deviations.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Implement time-based defenses using Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived manipulations.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Design systems to avoid basing core prices on illiquid pools, as these are more susceptible to manipulation.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Include fail-safe behavior that halts sensitive operations when data is suspicious or unavailable.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

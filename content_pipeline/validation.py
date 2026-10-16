@@ -9,6 +9,9 @@ def validate_draft(draft: Draft, spec: WriterConfig, brand: BrandRules, evidence
     errors: list[str] = []
     if not spec.min_tweets <= len(draft.tweets) <= spec.max_tweets:
         errors.append(f"Expected {spec.min_tweets}-{spec.max_tweets} tweets, got {len(draft.tweets)}")
+    normalized_tweets = [" ".join(tweet.casefold().split()) for tweet in draft.tweets]
+    if len(normalized_tweets) != len(set(normalized_tweets)):
+        errors.append("Thread contains duplicate tweets")
     if spec.require_review_invitation and not re.search(r"\b(review|check|audit|examine|inspect|verify|validate|assess|test|monitor|isolate|handle)\b|\bmake sure\b", " ".join(draft.tweets), re.IGNORECASE):
         errors.append("Marketing post requires a practical security action")
     mapped = {c.text.strip(): c for c in draft.claims}

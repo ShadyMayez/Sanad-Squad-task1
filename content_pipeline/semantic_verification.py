@@ -6,8 +6,8 @@ import time
 from langchain_core.messages import HumanMessage, SystemMessage
 from .agents import instruction
 from .provenance import evidence_errors
-from .schemas import AtomicClaim, Evidence, ModelSemanticDecision, SemanticReport, SemanticVerdict, SupportingSpan
-from .text_spans import source_span_options
+from .schemas import AtomicClaim, Evidence, EvidenceContext, ModelSemanticDecision, SemanticReport, SemanticVerdict, SupportingSpan, VerificationPass
+from .text_spans import bounded_context, source_span_options
 
 
 def error_report(claims: list[AtomicClaim], reason: str) -> SemanticReport:
@@ -59,11 +59,31 @@ class SemanticVerifier:
                     raise ValueError(f"{claim.id}: verifier selected an unknown exact span option")
                 if response.verdict == "SUPPORTED" and not response.support_option_ids:
                     raise ValueError(f"{claim.id}: supported verdict lacks exact source span selection")
+                initial = VerificationPass(verdict=response.verdict, support_option_ids=response.support_option_ids, reason=response.reason)
+                audit_record = None
+                context_windows: list[EvidenceContext] = []
+                proposed: list[SupportingSpan] = []
                 if response.verdict == "SUPPORTED":
                     selected = [{"span_id": id, "evidence_id": options[id][0], "text": options[id][1]} for id in response.support_option_ids]
+                    proposed = [SupportingSpan(evidence_id=entry["evidence_id"], quote=entry["text"]) for entry in selected]
+                    for option_id in dict.fromkeys(response.support_option_ids):
+                        evidence_id, _ = options[option_id]
+                        item = by_id[evidence_id]
+                        index = int(option_id.rsplit("#", 1)[1])
+                        context, start, end, truncated = bounded_context(item.source_quote or "", index)
+                        window = EvidenceContext(evidence_id=evidence_id, snapshot_sha256=item.snapshot_sha256 or "",
+                            source_scope=item.scope or "",
+                            start=(item.quote_start or 0) + start, end=(item.quote_start or 0) + end,
+                            text=context, truncated=truncated,
+                            window_partial=start > 0 or end < len(item.source_quote or ""),
+                            token_upper_bound=len(context.encode("utf-8")))
+                        if window not in context_windows:
+                            context_windows.append(window)
                     audit_messages = [skeptic, HumanMessage(content=json.dumps({
                         "atomic_claims": [claim.model_dump()], "exact_span_options": selected,
-                        "task": "Independently audit whether only these selected spans entail the full atomic claim. Veto unsupported scope or changed relationships."}, ensure_ascii=False))]
+                        "context_windows": [w.model_dump() for w in context_windows],
+                        "tentative_verdict": initial.model_dump(),
+                        "task": "Independently audit whether selected spans, interpreted within pinned context, entail the full atomic claim. Context is interpretive, not automatic support. Veto unsupported scope or changed relationships."}, ensure_ascii=False))]
                     audit, audit_usage = await self.model.structured(audit_messages, ModelSemanticDecision)
                     if not isinstance(audit, ModelSemanticDecision):
                         audit = ModelSemanticDecision.model_validate(audit)
@@ -74,6 +94,7 @@ class SemanticVerifier:
                             usage_complete = False
                     if any(id not in response.support_option_ids for id in audit.support_option_ids):
                         raise ValueError(f"{claim.id}: skeptical audit selected a new source span")
+                    audit_record = VerificationPass(verdict=audit.verdict, support_option_ids=audit.support_option_ids, reason=audit.reason)
                     if audit.verdict != "SUPPORTED":
                         response = ModelSemanticDecision(verdict=audit.verdict, support_option_ids=[],
                             reason=f"Skeptical span audit: {audit.reason}",
@@ -88,7 +109,9 @@ class SemanticVerifier:
                     supporting_spans=spans, supporting_span_ids=response.support_option_ids,
                     reason=response.reason, missing_information=response.missing_information,
                     scope_mismatch=response.scope_mismatch, confidence=response.confidence,
-                    verification_error=response.reason if response.verdict == "VERIFICATION_ERROR" else None)
+                    verification_error=response.reason if response.verdict == "VERIFICATION_ERROR" else None,
+                    context_windows=context_windows, proposed_supporting_spans=proposed,
+                    initial_pass=initial, skeptical_pass=audit_record)
                 verdicts.append(verdict)
             except Exception as exc:
                 usage_complete = False

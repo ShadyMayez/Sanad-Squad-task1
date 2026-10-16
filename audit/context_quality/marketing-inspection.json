@@ -1,0 +1,175 @@
+{
+  "run": "/home/shady/sandsquad/output/semantic-context-quality-marketing",
+  "summary": {
+    "model": "qwen3.5:4b",
+    "planned": 1,
+    "shipped": 1,
+    "dropped": 0,
+    "failed": 0,
+    "reasons": [],
+    "elapsed_seconds": 129.994,
+    "prompt_tokens_recorded": 18032,
+    "completion_tokens_recorded": 1847,
+    "usage_complete": true,
+    "peak_simultaneous_ollama_calls": 1,
+    "external_model_api_charges_usd": 0.0,
+    "local_inference_cost": "Electricity and hardware excluded; not measured"
+  },
+  "slots": [
+    {
+      "id": "piece_1",
+      "type": "marketing-post",
+      "topic": "Unchecked Call Return Value",
+      "status": "accepted",
+      "source_ids": [
+        "SWC-104"
+      ],
+      "provenance_errors": [],
+      "draft_count": 2,
+      "review_count": 2,
+      "final_atomic_claims": 2,
+      "verdict_counts": {
+        "SUPPORTED": 4
+      },
+      "final_verdicts": [
+        {
+          "claim_id": "t1s1c1",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-104"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-104",
+              "quote": "Execution will resume even if the called contract throws an exception."
+            },
+            {
+              "evidence_id": "SWC-104",
+              "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-104#1",
+            "SWC-104#3"
+          ],
+          "reason": "The claim advises reviewing low-level call results because execution resumes on exceptions. Source SWC-104#3 explicitly states that for low-level calls, one must handle failure by checking return values, and SWC-104#1 confirms execution resumes even if the called contract throws an exception. These two spans jointly support the claim's reasoning.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-104",
+              "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 950,
+              "end": 1223,
+              "text": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.",
+              "truncated": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 273
+            },
+            {
+              "evidence_id": "SWC-104",
+              "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 1224,
+              "end": 1370,
+              "text": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+              "truncated": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 146
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-104",
+              "quote": "Execution will resume even if the called contract throws an exception."
+            },
+            {
+              "evidence_id": "SWC-104",
+              "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-104#1",
+              "SWC-104#3"
+            ],
+            "reason": "The claim advises reviewing low-level call results because execution resumes on exceptions. Source SWC-104#3 explicitly states that for low-level calls, one must handle failure by checking return values, and SWC-104#1 confirms execution resumes even if the called contract throws an exception. These two spans jointly support the claim's reasoning."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [],
+            "reason": "The selected spans jointly and unambiguously support the claim. Span SWC-104#1 explicitly states 'Execution will resume even if the called contract throws an exception,' which directly validates the causal reasoning in the claim ('since execution will resume...'). Span SWC-104#3 provides the necessary context regarding low-level call methods, confirming that failure handling (checking return values) is required because of this behavior. The claim's advice to 'Review how your contract handles...' is a logical imperative derived from the factual premise in #1 and the remediation instruction in #3. No ambiguity exists regarding the actor or the relationship between execution resumption and exception throwing."
+          }
+        },
+        {
+          "claim_id": "t1s1c2",
+          "verdict": "SUPPORTED",
+          "evidence_ids": [
+            "SWC-104"
+          ],
+          "supporting_spans": [
+            {
+              "evidence_id": "SWC-104",
+              "quote": "If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic."
+            }
+          ],
+          "supporting_span_ids": [
+            "SWC-104#2"
+          ],
+          "reason": "The source text explicitly states that if a call fails (accidentally or by an attacker), it 'may cause unexpected behaviour in the subsequent program logic.' This directly entails the claim's proposition regarding 'unexpected behavior in subsequent logic,' preserving the modal qualifier 'may' and the causal relationship.",
+          "missing_information": "",
+          "scope_mismatch": "",
+          "confidence": null,
+          "verification_error": null,
+          "context_windows": [
+            {
+              "evidence_id": "SWC-104",
+              "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+              "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+              "start": 950,
+              "end": 1223,
+              "text": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.",
+              "truncated": true,
+              "token_budget_upper_bound": 1400,
+              "token_upper_bound": 273
+            }
+          ],
+          "proposed_supporting_spans": [
+            {
+              "evidence_id": "SWC-104",
+              "quote": "If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic."
+            }
+          ],
+          "initial_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-104#2"
+            ],
+            "reason": "The source text explicitly states that if a call fails (accidentally or by an attacker), it 'may cause unexpected behaviour in the subsequent program logic.' This directly entails the claim's proposition regarding 'unexpected behavior in subsequent logic,' preserving the modal qualifier 'may' and the causal relationship."
+          },
+          "skeptical_pass": {
+            "verdict": "SUPPORTED",
+            "support_option_ids": [
+              "SWC-104#2"
+            ],
+            "reason": "The selected span 'SWC-104#2' explicitly states: 'If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.' The atomic claim 'may cause unexpected behavior in subsequent logic' is a direct paraphrase of this sentence. The modal qualifier 'may' is preserved, and the causal link between call failure and subsequent logic issues is unambiguous within the provided text. The legacy scope metadata does not negate the explicit statement made within that document."
+          }
+        }
+      ],
+      "final_tweets": [
+        "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic."
+      ],
+      "revisions": 1,
+      "verification_disagreements": 0,
+      "context_decisions": 4,
+      "visual_spec": "spec:visual_specs/piece_1.md",
+      "reason": null
+    }
+  ],
+  "csv_rows": 1,
+  "all_accepted_claims_pinned": true
+}

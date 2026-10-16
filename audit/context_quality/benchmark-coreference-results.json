@@ -1,0 +1,2132 @@
+{
+  "model": "qwen3.5:4b",
+  "thresholds_predeclared": {
+    "held_out_supported_recall_minimum": 0.7,
+    "held_out_supported_precision_minimum": 0.9,
+    "held_out_false_acceptance_maximum": 0.1
+  },
+  "development": {
+    "cases": 40,
+    "supported_precision": 1.0,
+    "supported_recall": 1.0,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.0,
+    "five_label_accuracy": 0.825,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 20,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 12,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 7,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "causal": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional": {
+        "cases": 1,
+        "correct": 1
+      },
+      "conditional_recommendation": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 10,
+        "correct": 10
+      },
+      "incorrect_negation": {
+        "cases": 10,
+        "correct": 10
+      },
+      "multi_sentence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "overgeneralization": {
+        "cases": 1,
+        "correct": 1
+      },
+      "paraphrase": {
+        "cases": 2,
+        "correct": 2
+      },
+      "recommendation": {
+        "cases": 3,
+        "correct": 3
+      },
+      "unsupported_consequence": {
+        "cases": 2,
+        "correct": 1
+      },
+      "unsupported_guarantee": {
+        "cases": 3,
+        "correct": 0
+      },
+      "unsupported_recommendation": {
+        "cases": 1,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 1,
+        "correct": 0
+      },
+      "wrong_mechanism": {
+        "cases": 2,
+        "correct": 1
+      }
+    },
+    "mean_latency_seconds": 9.94065,
+    "prompt_tokens_recorded": 78264,
+    "completion_tokens_recorded": 5914,
+    "usage_complete": true
+  },
+  "held_out": {
+    "cases": 20,
+    "supported_precision": 1.0,
+    "supported_recall": 0.9,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.1,
+    "five_label_accuracy": 0.75,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 9,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 5,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 4,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "conditional": {
+        "cases": 1,
+        "correct": 1
+      },
+      "conditional_recommendation": {
+        "cases": 2,
+        "correct": 1
+      },
+      "context_list": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 4,
+        "correct": 4
+      },
+      "incorrect_negation": {
+        "cases": 5,
+        "correct": 5
+      },
+      "recommendation": {
+        "cases": 2,
+        "correct": 2
+      },
+      "unsupported_causality": {
+        "cases": 1,
+        "correct": 0
+      },
+      "unsupported_consequence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "unsupported_guarantee": {
+        "cases": 2,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 1,
+        "correct": 0
+      }
+    },
+    "mean_latency_seconds": 9.6684,
+    "prompt_tokens_recorded": 37299,
+    "completion_tokens_recorded": 2991,
+    "usage_complete": true
+  },
+  "all": {
+    "cases": 60,
+    "supported_precision": 1.0,
+    "supported_recall": 0.9666666666666667,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.03333333333333333,
+    "five_label_accuracy": 0.8,
+    "confusion_matrix": {
+      "SUPPORTED": {
+        "SUPPORTED": 29,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 1,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "CONTRADICTED": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 17,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "INSUFFICIENT_EVIDENCE": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 11,
+        "INSUFFICIENT_EVIDENCE": 2,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "AMBIGUOUS": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      },
+      "VERIFICATION_ERROR": {
+        "SUPPORTED": 0,
+        "CONTRADICTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "AMBIGUOUS": 0,
+        "VERIFICATION_ERROR": 0
+      }
+    },
+    "by_category": {
+      "causal": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional": {
+        "cases": 2,
+        "correct": 2
+      },
+      "conditional_recommendation": {
+        "cases": 3,
+        "correct": 2
+      },
+      "context_list": {
+        "cases": 1,
+        "correct": 1
+      },
+      "direct": {
+        "cases": 14,
+        "correct": 14
+      },
+      "incorrect_negation": {
+        "cases": 15,
+        "correct": 15
+      },
+      "multi_sentence": {
+        "cases": 1,
+        "correct": 1
+      },
+      "overgeneralization": {
+        "cases": 1,
+        "correct": 1
+      },
+      "paraphrase": {
+        "cases": 2,
+        "correct": 2
+      },
+      "recommendation": {
+        "cases": 5,
+        "correct": 5
+      },
+      "unsupported_causality": {
+        "cases": 1,
+        "correct": 0
+      },
+      "unsupported_consequence": {
+        "cases": 3,
+        "correct": 2
+      },
+      "unsupported_guarantee": {
+        "cases": 5,
+        "correct": 0
+      },
+      "unsupported_recommendation": {
+        "cases": 1,
+        "correct": 0
+      },
+      "version_mismatch": {
+        "cases": 2,
+        "correct": 0
+      },
+      "wrong_mechanism": {
+        "cases": 2,
+        "correct": 1
+      }
+    },
+    "mean_latency_seconds": 9.8499,
+    "prompt_tokens_recorded": 115563,
+    "completion_tokens_recorded": 8905,
+    "usage_complete": true
+  },
+  "rows": [
+    {
+      "id": "01",
+      "evidence_id": "SWC-107",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "External contracts can take over a caller's control flow.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly entails the claim that external contracts can take over a caller's control flow.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#0"
+        ],
+        "reason": "The source text explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow,' which directly entails the claim that external contracts can take over a caller's control flow."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#0"
+        ],
+        "reason": "The source text explicitly states that 'One of the major dangers of calling external contracts is that they can take over the control flow.' This directly entails the claim that external contracts can take over a caller's control flow. The context window confirms the subject ('they' referring to external contracts) and the action ('take over the control flow') without ambiguity or missing qualifiers that would negate the possibility."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 97,
+          "end": 458,
+          "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 361
+        }
+      ],
+      "latency_seconds": 19.274,
+      "input_tokens": 2556,
+      "output_tokens": 195
+    },
+    {
+      "id": "02",
+      "evidence_id": "SWC-107",
+      "expected": "SUPPORTED",
+      "category": "paraphrase",
+      "claim": "A malicious callee may call back before the initial invocation finishes.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished,' which directly entails the claim that a malicious callee may call back before the initial invocation finishes.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-107#1"
+        ],
+        "reason": "The source explicitly defines the reentrancy attack as a scenario where 'a malicious contract calls back into the calling contract before the first invocation of the function is finished,' which directly entails the claim that a malicious callee may call back before the initial invocation finishes."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished.' This directly entails the claim that 'A malicious callee may call back before the initial invocation finishes,' as the source defines this behavior as the mechanism of the attack. The context confirms the actor (malicious contract/callee) and the temporal condition (before the first invocation/initial invocation finishes). No ambiguity exists regarding the referent or the action."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-107",
+          "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 97,
+          "end": 613,
+          "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 516
+        }
+      ],
+      "latency_seconds": 12.862,
+      "input_tokens": 2620,
+      "output_tokens": 210
+    },
+    {
+      "id": "03",
+      "evidence_id": "SWC-107",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_consequence",
+      "claim": "Every external call drains the calling contract's balance.",
+      "split": "development",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "The source text defines reentrancy as a control flow issue where a contract calls back before the first invocation finishes, potentially causing undesirable interactions. It does not mention balance draining, nor does it state that external calls universally drain balances. The claim conflates a specific attack vector (reentrancy) with a general property of all external calls.",
+      "initial": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text defines reentrancy as a control flow issue where a contract calls back before the first invocation finishes, potentially causing undesirable interactions. It does not mention balance draining, nor does it state that external calls universally drain balances. The claim conflates a specific attack vector (reentrancy) with a general property of all external calls."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.165,
+      "input_tokens": 1390,
+      "output_tokens": 100
+    },
+    {
+      "id": "04",
+      "evidence_id": "SWC-107",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "A reentrancy attack cannot call back before the first invocation finishes.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished,' which directly contradicts the claim that it 'cannot' do so.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that in a reentrancy attack, 'a malicious contract calls back into the calling contract before the first invocation of the function is finished,' which directly contradicts the claim that it 'cannot' do so."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.393,
+      "input_tokens": 1402,
+      "output_tokens": 77
+    },
+    {
+      "id": "05",
+      "evidence_id": "SWC-104",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Execution resumes even if the called contract throws an exception.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states 'Execution will resume even if the called contract throws an exception,' which directly entails the claim that execution resumes under those conditions. The scope note regarding legacy guidance and applicability checks does not negate the explicit statement made within the quoted description.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-104#1"
+        ],
+        "reason": "The source text explicitly states 'Execution will resume even if the called contract throws an exception,' which directly entails the claim that execution resumes under those conditions. The scope note regarding legacy guidance and applicability checks does not negate the explicit statement made within the quoted description."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Execution will resume even if the called contract throws an exception' explicitly entails the claim 'Execution resumes even if the called contract throws an exception.' The modal verb 'will' in the source text establishes a definitive prediction of behavior, which satisfies the factual nature of the claim. While the source scope notes legacy guidance and potential applicability constraints, these are metadata regarding the document's status rather than qualifiers modifying the specific statement within the quoted description. The sentence structure is unambiguous: the subject (Execution) performs the action (resume) under the condition (called contract throws an exception). No additional context is required to resolve the antecedent or negate the assertion."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-104",
+          "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 950,
+          "end": 1223,
+          "text": "Description The return value of a message call is not checked. Execution will resume even if the called contract throws an exception. If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 273
+        }
+      ],
+      "latency_seconds": 14.899,
+      "input_tokens": 2363,
+      "output_tokens": 243
+    },
+    {
+      "id": "06",
+      "evidence_id": "SWC-104",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "Check the return value when using low-level call methods.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states in the Remediation section that when using low-level call methods, one must handle the possibility of failure by checking the return value. This directly entails the claim.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-104#3"
+        ],
+        "reason": "The source explicitly states in the Remediation section that when using low-level call methods, one must handle the possibility of failure by checking the return value. This directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-104#3"
+        ],
+        "reason": "The source text explicitly states: 'If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.' This directly entails the atomic claim 'Check the return value when using low-level call methods.' The condition ('when using') matches the source's conditional ('If you choose to use'), and the action ('check the return value') is identical. The truncated flag does not negate the explicit instruction present in the provided span."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-104",
+          "snapshot_sha256": "3c50a9f3f81c48f98a66977861b87dcfc3b91534a24366ef2a93409c7c25f4b9",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1224,
+          "end": 1370,
+          "text": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 146
+        }
+      ],
+      "latency_seconds": 12.288,
+      "input_tokens": 2347,
+      "output_tokens": 207
+    },
+    {
+      "id": "07",
+      "evidence_id": "SWC-104",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_consequence",
+      "claim": "Every failed low-level call permanently freezes contract funds.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that execution resumes even if a call fails, which contradicts the claim that funds are permanently frozen. Furthermore, the source only recommends checking return values for low-level calls as a remediation strategy; it does not assert that failure results in permanent fund freezing.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that execution resumes even if a call fails, which contradicts the claim that funds are permanently frozen. Furthermore, the source only recommends checking return values for low-level calls as a remediation strategy; it does not assert that failure results in permanent fund freezing."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.661,
+      "input_tokens": 1211,
+      "output_tokens": 85
+    },
+    {
+      "id": "08",
+      "evidence_id": "SWC-104",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "Execution always stops when the called contract throws an exception.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that 'Execution will resume even if the called contract throws an exception,' which directly contradicts the claim that execution 'always stops' in such cases.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that 'Execution will resume even if the called contract throws an exception,' which directly contradicts the claim that execution 'always stops' in such cases."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.068,
+      "input_tokens": 1214,
+      "output_tokens": 65
+    },
+    {
+      "id": "09",
+      "evidence_id": "SWC-105",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Insufficient access control can let malicious parties withdraw Ether from the contract.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source quotation explicitly states that 'Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.' This directly entails the claim that 'Insufficient access control can let malicious parties withdraw Ether from the contract,' matching the scope of the SWC-105 guidance.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-105#0"
+        ],
+        "reason": "The source quotation explicitly states that 'Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.' This directly entails the claim that 'Insufficient access control can let malicious parties withdraw Ether from the contract,' matching the scope of the SWC-105 guidance."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that 'Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account.' This directly entails the atomic claim 'Insufficient access control can let malicious parties withdraw Ether from the contract.' The source uses the modal verb 'can' which aligns with the claim's assertion of possibility. While the source adds qualifiers ('some or all') and specifies the target ('contract account'), these are consistent with, not contradictory to, the broader claim. No unambiguous referent issues exist as the subject is clearly identified in the sentence."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-105",
+          "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 976,
+          "end": 1366,
+          "text": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 390
+        }
+      ],
+      "latency_seconds": 14.368,
+      "input_tokens": 2358,
+      "output_tokens": 236
+    },
+    {
+      "id": "10",
+      "evidence_id": "SWC-105",
+      "expected": "SUPPORTED",
+      "category": "causal",
+      "claim": "A wrongly named constructor can end up in runtime bytecode and become callable by anyone.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode and allows anyone to call it to re-initialize the contract, which directly entails the claim.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-105#2"
+        ],
+        "reason": "The source explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode and allows anyone to call it to re-initialize the contract, which directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that wrongly naming a constructor causes its code to end up in runtime bytecode and allows it to be called by anyone, which directly entails the atomic claim. The context confirms this is about initialization functions and does not introduce conflicting conditions or scope limitations that would invalidate the entailment."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-105",
+          "snapshot_sha256": "22a86284d7b5c01fbecb1184dc90d7d4cdaa8169c1d2489d49acaea2df552129",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 976,
+          "end": 1366,
+          "text": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account. This bug is sometimes caused by unintentionally exposing initialization functions. By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract.",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 390
+        }
+      ],
+      "latency_seconds": 11.259,
+      "input_tokens": 2357,
+      "output_tokens": 153
+    },
+    {
+      "id": "11",
+      "evidence_id": "SWC-105",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_recommendation",
+      "claim": "Checking whether a constructor is payable prevents all reinitialization attacks.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that reinitialization can occur by 'wrongly naming a function intended to be a constructor,' which implies the absence of proper access controls (including payable checks) allows attacks. The claim asserts that checking if a constructor is payable prevents *all* such attacks, which contradicts the source's description of how these bugs arise and are exploitable.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that reinitialization can occur by 'wrongly naming a function intended to be a constructor,' which implies the absence of proper access controls (including payable checks) allows attacks. The claim asserts that checking if a constructor is payable prevents *all* such attacks, which contradicts the source's description of how these bugs arise and are exploitable."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.199,
+      "input_tokens": 1163,
+      "output_tokens": 104
+    },
+    {
+      "id": "12",
+      "evidence_id": "SWC-105",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "A wrongly named constructor can never be called after deployment.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that a wrongly named constructor 'can be called by anyone to re-initialize the contract,' which directly contradicts the claim that it can 'never be called after deployment.'",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that a wrongly named constructor 'can be called by anyone to re-initialize the contract,' which directly contradicts the claim that it can 'never be called after deployment.'"
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.157,
+      "input_tokens": 1157,
+      "output_tokens": 70
+    },
+    {
+      "id": "13",
+      "evidence_id": "SWC-106",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Missing access control can let malicious parties self-destruct a contract.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that 'Due to missing or insufficient access controls, malicious parties can self-destruct the contract,' which directly entails the claim that missing access control can let malicious parties self-destruct a contract.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-106#0"
+        ],
+        "reason": "The source explicitly states that 'Due to missing or insufficient access controls, malicious parties can self-destruct the contract,' which directly entails the claim that missing access control can let malicious parties self-destruct a contract."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Due to missing or insufficient access controls, malicious parties can self-destruct the contract' explicitly entails the claim 'Missing access control can let malicious parties self-destruct a contract.' The source uses the phrase 'missing or insufficient', which covers the specific case of 'missing'. The modal verb 'can' in the source matches the possibility implied by 'can let' in the claim. Although the context window is marked as truncated and labeled as legacy guidance, the provided text contains the complete logical proposition required to support the atomic claim without needing omitted qualifiers that would negate or restrict the statement."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-106",
+          "snapshot_sha256": "5ee929e9b8189263b41613e21d7c225031bbe22a08d1c3520f942444e32328e0",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 984,
+          "end": 1093,
+          "text": "Description Due to missing or insufficient access controls, malicious parties can self-destruct the contract.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 109
+        }
+      ],
+      "latency_seconds": 13.34,
+      "input_tokens": 2261,
+      "output_tokens": 215
+    },
+    {
+      "id": "14",
+      "evidence_id": "SWC-106",
+      "expected": "SUPPORTED",
+      "category": "conditional_recommendation",
+      "claim": "If self-destruct has a valid use case, the source recommends multiple approvals through a multisig scheme.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states: 'If there is a valid use-case, it is recommended to implement a multisig scheme so that multiple parties must approve the self-destruct action.' This directly entails the claim that if a valid use case exists, the source recommends multiple approvals via multisig.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-106#2"
+        ],
+        "reason": "The source explicitly states: 'If there is a valid use-case, it is recommended to implement a multisig scheme so that multiple parties must approve the self-destruct action.' This directly entails the claim that if a valid use case exists, the source recommends multiple approvals via multisig."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'If there is a valid use-case, it is recommended to implement a multisig scheme so that multiple parties must approve the self-destruct action.' This directly entails the atomic claim. The condition ('valid use-case') matches the claim's premise, and the recommendation ('implement a multisig scheme... multiple parties must approve') matches the claim's conclusion. The legacy scope metadata does not negate the specific conditional recommendation contained within the text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-106",
+          "snapshot_sha256": "5ee929e9b8189263b41613e21d7c225031bbe22a08d1c3520f942444e32328e0",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1094,
+          "end": 1332,
+          "text": "Remediation Consider removing the self-destruct functionality unless it is absolutely required. If there is a valid use-case, it is recommended to implement a multisig scheme so that multiple parties must approve the self-destruct action.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 238
+        }
+      ],
+      "latency_seconds": 12.794,
+      "input_tokens": 2365,
+      "output_tokens": 205
+    },
+    {
+      "id": "15",
+      "evidence_id": "SWC-106",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "A multisig scheme guarantees that self-destruct can never happen.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly recommends implementing a multisig scheme 'so that multiple parties must approve the self-destruct action,' which implies the possibility of self-destruction occurring if approvals are not met. This directly contradicts the claim that self-destruct can 'never happen' under a multisig scheme.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly recommends implementing a multisig scheme 'so that multiple parties must approve the self-destruct action,' which implies the possibility of self-destruction occurring if approvals are not met. This directly contradicts the claim that self-destruct can 'never happen' under a multisig scheme."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.747,
+      "input_tokens": 1148,
+      "output_tokens": 87
+    },
+    {
+      "id": "16",
+      "evidence_id": "SWC-106",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source recommends retaining self-destruct even when it is unnecessary.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly recommends removing self-destruct functionality unless absolutely required, and suggests implementing multisig for any valid use-case. This directly contradicts the claim that the source recommends retaining self-destruct even when unnecessary.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly recommends removing self-destruct functionality unless absolutely required, and suggests implementing multisig for any valid use-case. This directly contradicts the claim that the source recommends retaining self-destruct even when unnecessary."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.191,
+      "input_tokens": 1148,
+      "output_tokens": 71
+    },
+    {
+      "id": "17",
+      "evidence_id": "SWC-112",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Delegatecall executes target code in the context of the calling contract.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that delegatecall executes code 'in the context of the calling contract', which directly entails the claim.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-112#0"
+        ],
+        "reason": "The source text explicitly states that delegatecall executes code 'in the context of the calling contract', which directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-112#0"
+        ],
+        "reason": "The selected span explicitly states that delegatecall executes code 'in the context of the calling contract'. This directly entails the atomic claim without ambiguity, as the subject ('delegatecall') and the predicate ('executes target code in the context of the calling contract') are unambiguously linked in the source text. The truncation flag does not affect this specific sentence, which is fully contained within the provided context window."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-112",
+          "snapshot_sha256": "f631ec7a137316bc664aff0691a9b836cd513dd77f71aed26621203b3dd492da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 930,
+          "end": 1376,
+          "text": "Description There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not change their values. This allows a smart contract to dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 446
+        }
+      ],
+      "latency_seconds": 13.277,
+      "input_tokens": 2555,
+      "output_tokens": 182
+    },
+    {
+      "id": "18",
+      "evidence_id": "SWC-112",
+      "expected": "SUPPORTED",
+      "category": "multi_sentence",
+      "claim": "Untrusted delegatecall targets may change the caller's storage while execution remains in the caller's context.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that in a delegatecall, 'the code at the target address is executed in the context of the calling contract' (span SWC-112#0) and that 'Storage... still refer to the calling contract'. It further warns that untrusted targets can 'change any storage values of the caller', directly supporting the claim that execution remains in the caller's context while storage may be altered.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-112#0",
+          "SWC-112#2",
+          "SWC-112#3"
+        ],
+        "reason": "The source explicitly states that in a delegatecall, 'the code at the target address is executed in the context of the calling contract' (span SWC-112#0) and that 'Storage... still refer to the calling contract'. It further warns that untrusted targets can 'change any storage values of the caller', directly supporting the claim that execution remains in the caller's context while storage may be altered."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-112#0",
+          "SWC-112#2",
+          "SWC-112#3"
+        ],
+        "reason": "The selected spans jointly and unambiguously entail the claim. Span SWC-112#0 establishes that delegatecall executes code 'in the context of the calling contract'. Span SWC-112#2 explicitly confirms that 'Storage... still refer to the calling contract', which is the definition of execution remaining in the caller's context regarding state. Span SWC-112#3 directly asserts that untrusted targets 'can change any storage values of the caller' while operating within that same context. The combination of these three spans provides complete evidence for both conditions in the claim: the preservation of the caller's context (storage/address/balance) and the possibility of storage modification by an untrusted target."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-112",
+          "snapshot_sha256": "f631ec7a137316bc664aff0691a9b836cd513dd77f71aed26621203b3dd492da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 930,
+          "end": 1376,
+          "text": "Description There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not change their values. This allows a smart contract to dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 446
+        },
+        {
+          "evidence_id": "SWC-112",
+          "snapshot_sha256": "f631ec7a137316bc664aff0691a9b836cd513dd77f71aed26621203b3dd492da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 930,
+          "end": 1554,
+          "text": "Description There exists a special variant of a message call, named delegatecall which is identical to a message call apart from the fact that the code at the target address is executed in the context of the calling contract and msg.sender and msg.value do not change their values. This allows a smart contract to dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract. Calling into untrusted contracts is very dangerous, as the code at the target address can change any storage values of the caller and has full control over the caller's balance.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 624
+        },
+        {
+          "evidence_id": "SWC-112",
+          "snapshot_sha256": "f631ec7a137316bc664aff0691a9b836cd513dd77f71aed26621203b3dd492da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1212,
+          "end": 1554,
+          "text": "This allows a smart contract to dynamically load code from a different address at runtime. Storage, current address and balance still refer to the calling contract. Calling into untrusted contracts is very dangerous, as the code at the target address can change any storage values of the caller and has full control over the caller's balance.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 342
+        }
+      ],
+      "latency_seconds": 20.992,
+      "input_tokens": 3256,
+      "output_tokens": 346
+    },
+    {
+      "id": "19",
+      "evidence_id": "SWC-112",
+      "expected": "CONTRADICTED",
+      "category": "wrong_mechanism",
+      "claim": "Delegatecall always changes msg.sender to the target contract's address.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that in a delegatecall, 'msg.sender and msg.value do not change their values,' which directly contradicts the claim that msg.sender changes to the target contract's address.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that in a delegatecall, 'msg.sender and msg.value do not change their values,' which directly contradicts the claim that msg.sender changes to the target contract's address."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.412,
+      "input_tokens": 1360,
+      "output_tokens": 70
+    },
+    {
+      "id": "20",
+      "evidence_id": "SWC-112",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "Delegatecall target code cannot change any caller storage values.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that the code at the target address 'can change any storage values of the caller,' which directly contradicts the claim that it 'cannot' do so.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that the code at the target address 'can change any storage values of the caller,' which directly contradicts the claim that it 'cannot' do so."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.098,
+      "input_tokens": 1354,
+      "output_tokens": 66
+    },
+    {
+      "id": "21",
+      "evidence_id": "SWC-113",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "External calls can fail accidentally or deliberately and cause a denial-of-service condition.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source quotation explicitly states that external calls can fail accidentally or deliberately, causing a DoS condition in the contract. This directly entails the claim's proposition regarding accidental/deliberate failure and DoS causation.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-113#0"
+        ],
+        "reason": "The source quotation explicitly states that external calls can fail accidentally or deliberately, causing a DoS condition in the contract. This directly entails the claim's proposition regarding accidental/deliberate failure and DoS causation."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.' This directly entails the atomic claim's proposition that external calls can fail accidentally or deliberately and cause a denial-of-service condition. The source scope metadata regarding compiler/EVM applicability is context for the guidance but does not negate the general factual assertion made within the text itself."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-113",
+          "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 914,
+          "end": 1393,
+          "text": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 479
+        }
+      ],
+      "latency_seconds": 12.331,
+      "input_tokens": 2404,
+      "output_tokens": 179
+    },
+    {
+      "id": "22",
+      "evidence_id": "SWC-113",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source recommends isolating external calls into recipient-initiated transactions to reduce damage from call failures.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that isolating external calls into recipient-initiated transactions is 'better' to minimize damage from failures, which constitutes a recommendation matching the claim's proposition.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-113#1"
+        ],
+        "reason": "The source explicitly states that isolating external calls into recipient-initiated transactions is 'better' to minimize damage from failures, which constitutes a recommendation matching the claim's proposition."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-113#1"
+        ],
+        "reason": "The selected span explicitly states that isolating external calls into recipient-initiated transactions is 'better' to minimize damage from failures. The qualifier 'better' in the source text functions as a recommendation, which aligns with the claim's assertion that the source recommends this approach. No ambiguity exists regarding the actor (the source), action (isolate calls), target (recipient-initiated transactions), or purpose (reduce damage)."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-113",
+          "snapshot_sha256": "52163ac2b99beb2f436e56c3817577332637371d4efaf41edf652bf09ef2a6da",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 914,
+          "end": 1393,
+          "text": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract. To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call. This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically (this also reduces the chance of problems with the gas limit).",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 479
+        }
+      ],
+      "latency_seconds": 12.408,
+      "input_tokens": 2433,
+      "output_tokens": 192
+    },
+    {
+      "id": "23",
+      "evidence_id": "SWC-113",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "Separating external calls guarantees that no payment can ever fail.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that isolating external calls minimizes damage caused by failures and reduces the chance of gas limit problems, but it explicitly acknowledges that external calls 'can fail accidentally or deliberately.' The claim asserts that separating calls 'guarantees that no payment can ever fail,' which directly contradicts the source's admission that failures are possible.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that isolating external calls minimizes damage caused by failures and reduces the chance of gas limit problems, but it explicitly acknowledges that external calls 'can fail accidentally or deliberately.' The claim asserts that separating calls 'guarantees that no payment can ever fail,' which directly contradicts the source's admission that failures are possible."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.064,
+      "input_tokens": 1201,
+      "output_tokens": 99
+    },
+    {
+      "id": "24",
+      "evidence_id": "SWC-113",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "External calls cannot fail deliberately.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that external calls 'can fail accidentally or deliberately,' which directly contradicts the claim that they 'cannot fail deliberately.'",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that external calls 'can fail accidentally or deliberately,' which directly contradicts the claim that they 'cannot fail deliberately.'"
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 4.873,
+      "input_tokens": 1183,
+      "output_tokens": 59
+    },
+    {
+      "id": "25",
+      "evidence_id": "SWC-115",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "tx.origin returns the address of the account that sent the transaction.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source quotation explicitly states that 'tx.origin is a global variable in Solidity which returns the address of the account that sent the transaction,' directly entailing the claim. Span SWC-115#0 provides verbatim support.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-115#0"
+        ],
+        "reason": "The source quotation explicitly states that 'tx.origin is a global variable in Solidity which returns the address of the account that sent the transaction,' directly entailing the claim. Span SWC-115#0 provides verbatim support."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that 'tx.origin ... returns the address of the account that sent the transaction.' This is a direct, verbatim match to the atomic claim. The context window confirms this definition within Solidity and does not introduce conditions that negate the factual nature of the variable's return value in the standard context described."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-115",
+          "snapshot_sha256": "608594c5dd768d7dc998f69d2299e3567ebbbc19a993dd9ceb06bac1d29787ef",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 971,
+          "end": 1414,
+          "text": "Description tx.origin is a global variable in Solidity which returns the address of the account that sent the transaction. Using the variable for authorization could make a contract vulnerable if an authorized account calls into a malicious contract. A call could be made to the vulnerable contract that passes the authorization check since tx.origin returns the original sender of the transaction which in this case is the authorized account.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 443
+        }
+      ],
+      "latency_seconds": 11.929,
+      "input_tokens": 2407,
+      "output_tokens": 170
+    },
+    {
+      "id": "26",
+      "evidence_id": "SWC-115",
+      "expected": "SUPPORTED",
+      "category": "causal",
+      "claim": "A call may pass a tx.origin authorization check when the original sender is an authorized account calling a malicious contract.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that a call can pass the authorization check because tx.origin returns the original sender (the authorized account) in this scenario. This directly entails the claim that a call may pass such a check under these conditions.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-115#2"
+        ],
+        "reason": "The source explicitly states that a call can pass the authorization check because tx.origin returns the original sender (the authorized account) in this scenario. This directly entails the claim that a call may pass such a check under these conditions."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that 'A call could be made to the vulnerable contract that passes the authorization check since tx.origin returns the original sender of the transaction which in this case is the authorized account.' This directly entails the atomic claim that a call may pass the check when the original sender is an authorized account calling a malicious contract. The source's use of 'could' aligns with the claim's 'may', and the condition regarding the sender's identity matches perfectly."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-115",
+          "snapshot_sha256": "608594c5dd768d7dc998f69d2299e3567ebbbc19a993dd9ceb06bac1d29787ef",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 971,
+          "end": 1414,
+          "text": "Description tx.origin is a global variable in Solidity which returns the address of the account that sent the transaction. Using the variable for authorization could make a contract vulnerable if an authorized account calls into a malicious contract. A call could be made to the vulnerable contract that passes the authorization check since tx.origin returns the original sender of the transaction which in this case is the authorized account.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 443
+        }
+      ],
+      "latency_seconds": 12.679,
+      "input_tokens": 2471,
+      "output_tokens": 196
+    },
+    {
+      "id": "27",
+      "evidence_id": "SWC-115",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "wrong_mechanism",
+      "claim": "msg.sender always returns the original sender across every nested contract call.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that tx.origin returns the original sender, but it does not support the claim about msg.sender. Furthermore, SWC-115 describes a specific vulnerability where tx.origin fails to return the original sender in nested calls (because it returns the immediate caller), whereas the claim asserts that msg.sender *always* returns the original sender across every nested call. The source implies msg.sender behaves correctly while tx.origin does not in this context, directly contradicting the universal assertion in the claim.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that tx.origin returns the original sender, but it does not support the claim about msg.sender. Furthermore, SWC-115 describes a specific vulnerability where tx.origin fails to return the original sender in nested calls (because it returns the immediate caller), whereas the claim asserts that msg.sender *always* returns the original sender across every nested call. The source implies msg.sender behaves correctly while tx.origin does not in this context, directly contradicting the universal assertion in the claim."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.848,
+      "input_tokens": 1228,
+      "output_tokens": 131
+    },
+    {
+      "id": "28",
+      "evidence_id": "SWC-115",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source recommends using tx.origin for authorization.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that using tx.origin for authorization could make a contract vulnerable and recommends against its use, which directly contradicts the claim that the source recommends using it.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that using tx.origin for authorization could make a contract vulnerable and recommends against its use, which directly contradicts the claim that the source recommends using it."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.066,
+      "input_tokens": 1216,
+      "output_tokens": 65
+    },
+    {
+      "id": "29",
+      "evidence_id": "SWC-116",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Miners cannot set a block timestamp smaller than the previous timestamp.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that miners cannot set a timestamp smaller than the previous one, as doing so would result in block rejection. This directly entails the claim.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-116#5"
+        ],
+        "reason": "The source explicitly states that miners cannot set a timestamp smaller than the previous one, as doing so would result in block rejection. This directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected)'. This directly entails the atomic claim that miners cannot set a block timestamp smaller than the previous timestamp. The context confirms this is a rule enforced by node synchronization and block validation logic, making the entailment unambiguous."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-116",
+          "snapshot_sha256": "461243845cfd7d4fcf9b303172b1fa798d0a5f413ce6904680e7826274138857",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1349,
+          "end": 1974,
+          "text": "As Ethereum is decentralized, nodes can synchronize time only to some degree. Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so. However, miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected), nor can they set the timestamp too far ahead in the future. Taking all of the above into consideration, developers can't rely on the preciseness of the provided timestamp. As for block.number , considering the block time on Ethereum is generally about 14 seconds, it's possible to predict the time delta between blocks.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 625
+        }
+      ],
+      "latency_seconds": 15.178,
+      "input_tokens": 2890,
+      "output_tokens": 158
+    },
+    {
+      "id": "30",
+      "evidence_id": "SWC-116",
+      "expected": "SUPPORTED",
+      "category": "conditional",
+      "claim": "Malicious miners can alter block timestamps within limits.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that 'malicious miners can alter the timestamp of their blocks' (span SWC-116#4) and further clarifies this capability is bounded by constraints: they cannot set a timestamp smaller than the previous one or too far ahead in the future. This directly entails the claim that miners can alter timestamps 'within limits'.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-116#4"
+        ],
+        "reason": "The source explicitly states that 'malicious miners can alter the timestamp of their blocks' (span SWC-116#4) and further clarifies this capability is bounded by constraints: they cannot set a timestamp smaller than the previous one or too far ahead in the future. This directly entails the claim that miners can alter timestamps 'within limits'."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The source text explicitly states: 'Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so.' The subsequent sentence clarifies the boundaries of this capability: 'However, miners can't set a timestamp smaller than the previous one... nor can they set the timestamp too far ahead in the future.' The combination of these sentences confirms that while alteration is possible, it is constrained by specific rules (cannot go back or too far forward). This directly entails the claim that malicious miners can alter timestamps 'within limits'. The selected span SWC-116#4 captures the core capability, and the preceding context within the same window provides the necessary qualification regarding the 'limits'."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-116",
+          "snapshot_sha256": "461243845cfd7d4fcf9b303172b1fa798d0a5f413ce6904680e7826274138857",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1247,
+          "end": 1826,
+          "text": "In the case of block.timestamp , developers often attempt to use it to trigger time-dependent events. As Ethereum is decentralized, nodes can synchronize time only to some degree. Moreover, malicious miners can alter the timestamp of their blocks, especially if they can gain advantages by doing so. However, miners can't set a timestamp smaller than the previous one (otherwise the block will be rejected), nor can they set the timestamp too far ahead in the future. Taking all of the above into consideration, developers can't rely on the preciseness of the provided timestamp.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 579
+        }
+      ],
+      "latency_seconds": 14.513,
+      "input_tokens": 2890,
+      "output_tokens": 273
+    },
+    {
+      "id": "31",
+      "evidence_id": "SWC-116",
+      "expected": "CONTRADICTED",
+      "category": "overgeneralization",
+      "claim": "A miner can set any timestamp decades into the future and have the block accepted.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that miners cannot set a timestamp too far ahead in the future, as such blocks will be rejected. This directly contradicts the claim that a miner can set any timestamp decades into the future and have the block accepted.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that miners cannot set a timestamp too far ahead in the future, as such blocks will be rejected. This directly contradicts the claim that a miner can set any timestamp decades into the future and have the block accepted."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.7,
+      "input_tokens": 1671,
+      "output_tokens": 78
+    },
+    {
+      "id": "32",
+      "evidence_id": "SWC-116",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says block timestamps are always precise enough for every time-dependent event.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that block.timestamp is 'not safe to use for most purposes' because malicious miners can alter timestamps, nodes cannot synchronize time precisely, and developers 'can't rely on the preciseness of the provided timestamp.' This directly contradicts the claim that timestamps are 'always precise enough for every time-dependent event.'",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that block.timestamp is 'not safe to use for most purposes' because malicious miners can alter timestamps, nodes cannot synchronize time precisely, and developers 'can't rely on the preciseness of the provided timestamp.' This directly contradicts the claim that timestamps are 'always precise enough for every time-dependent event.'"
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.838,
+      "input_tokens": 1668,
+      "output_tokens": 96
+    },
+    {
+      "id": "33",
+      "evidence_id": "SWC-120",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Using block.timestamp as a randomness source is insecure because a miner can choose a timestamp within a few seconds.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that using block.timestamp is insecure because a miner can choose to provide any timestamp within a few seconds, which directly entails the claim's proposition.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-120#3"
+        ],
+        "reason": "The source explicitly states that using block.timestamp is insecure because a miner can choose to provide any timestamp within a few seconds, which directly entails the claim's proposition."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'use of block.timestamp is insecure, as a miner can choose to provide any timestamp within a few seconds'. This directly entails the atomic claim's proposition regarding insecurity and the specific mechanism (miner choosing timestamps). The context confirms this applies to Ethereum miners in the described scenario. No ambiguity exists regarding the actor or the action."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-120",
+          "snapshot_sha256": "e6d7661b94ccc51fcaf28cd6f2ccd253ab97c2084fbef46deb0e7f479734450c",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1100,
+          "end": 1735,
+          "text": "One obvious example is gambling DApps, where pseudo-random number generator is used to pick the winner. However, creating a strong enough source of randomness in Ethereum is very challenging. For example, use of block.timestamp is insecure, as a miner can choose to provide any timestamp within a few seconds and still get his block accepted by others. Use of blockhash , block.difficulty and other fields is also insecure, as they're controlled by the miner. If the stakes are high, the miner can mine lots of blocks in a short time by renting hardware, pick the block that has required block hash for him to win, and drop all others.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 635
+        }
+      ],
+      "latency_seconds": 15.632,
+      "input_tokens": 2955,
+      "output_tokens": 159
+    },
+    {
+      "id": "34",
+      "evidence_id": "SWC-120",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source recommends external randomness through oracles with on-chain cryptographic outcome checks.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly recommends using external sources of randomness via oracles and cryptographically checking the outcome on-chain, with Chainlink VRF provided as an example.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-120#6",
+          "SWC-120#8"
+        ],
+        "reason": "The source explicitly recommends using external sources of randomness via oracles and cryptographically checking the outcome on-chain, with Chainlink VRF provided as an example."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span (SWC-120#6) explicitly states: 'Remediation Using external sources of randomness via oracles, and cryptographically checking the outcome of the oracle on-chain.' This directly entails the claim that the source recommends this approach. The context window confirms the document is providing remediation guidance for SWC-120 (randomness issues), where using oracles with on-chain verification is presented as a solution. The mention of Chainlink VRF serves as an example, not a restriction, and the truncation does not remove the core recommendation present in the selected span."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-120",
+          "snapshot_sha256": "e6d7661b94ccc51fcaf28cd6f2ccd253ab97c2084fbef46deb0e7f479734450c",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1736,
+          "end": 2029,
+          "text": "Remediation Using external sources of randomness via oracles, and cryptographically checking the outcome of the oracle on-chain. e.g. Chainlink VRF . This approach does not rely on trusting the oracle, as a falsly generated random number will be rejected by the on-chain portion of the system.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 293
+        },
+        {
+          "evidence_id": "SWC-120",
+          "snapshot_sha256": "e6d7661b94ccc51fcaf28cd6f2ccd253ab97c2084fbef46deb0e7f479734450c",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1736,
+          "end": 2069,
+          "text": "Remediation Using external sources of randomness via oracles, and cryptographically checking the outcome of the oracle on-chain. e.g. Chainlink VRF . This approach does not rely on trusting the oracle, as a falsly generated random number will be rejected by the on-chain portion of the system. Using commitment scheme , e.g. RANDAO .",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 333
+        }
+      ],
+      "latency_seconds": 14.673,
+      "input_tokens": 3127,
+      "output_tokens": 220
+    },
+    {
+      "id": "35",
+      "evidence_id": "SWC-120",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "An external oracle guarantees fair randomness for every gambling contract.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that using external oracles (like Chainlink VRF) is a remediation because it does not rely on trusting the oracle, and falsly generated numbers are rejected. However, it explicitly notes that creating strong randomness in Ethereum is challenging due to miner control over block data. The claim asserts an absolute guarantee ('guarantees... for every gambling contract'), which contradicts the source's nuanced warning about inherent challenges and the conditional nature of oracle security (e.g., reliance on the oracle provider itself, not just the mechanism). The source presents oracles as a solution that mitigates specific risks but does not support an absolute guarantee applicable to 'every' contract without further context.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that using external oracles (like Chainlink VRF) is a remediation because it does not rely on trusting the oracle, and falsly generated numbers are rejected. However, it explicitly notes that creating strong randomness in Ethereum is challenging due to miner control over block data. The claim asserts an absolute guarantee ('guarantees... for every gambling contract'), which contradicts the source's nuanced warning about inherent challenges and the conditional nature of oracle security (e.g., reliance on the oracle provider itself, not just the mechanism). The source presents oracles as a solution that mitigates specific risks but does not support an absolute guarantee applicable to 'every' contract without further context."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 7.906,
+      "input_tokens": 1672,
+      "output_tokens": 170
+    },
+    {
+      "id": "36",
+      "evidence_id": "SWC-120",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says blockhash is a secure randomness source because miners cannot control it.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that 'Use of blockhash ... is also insecure, as they're controlled by the miner,' which directly contradicts the claim that it is a secure source because miners cannot control it.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that 'Use of blockhash ... is also insecure, as they're controlled by the miner,' which directly contradicts the claim that it is a secure source because miners cannot control it."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.31,
+      "input_tokens": 1687,
+      "output_tokens": 72
+    },
+    {
+      "id": "37",
+      "evidence_id": "SWC-101",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "An integer overflow occurs when an arithmetic operation produces a value outside the type's representable range.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly defines integer overflow as occurring when an arithmetic operation attempts to create a value outside the range representable by the given number of bits. This matches the claim's definition of producing a value outside the type's representable range.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-101#2"
+        ],
+        "reason": "The source text explicitly defines integer overflow as occurring when an arithmetic operation attempts to create a value outside the range representable by the given number of bits. This matches the claim's definition of producing a value outside the type's representable range."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly defines integer overflow as occurring when an arithmetic operation attempts to create a numeric value outside the range representable by the given number of bits. This directly entails the claim's definition of producing a value outside the type's representable range. The context window confirms this is the standard definition provided in the source, with no missing qualifiers that would alter the meaning."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-101",
+          "snapshot_sha256": "4285112273f0fce0215f121dd0d1f70f4a49f16e04730fbfdf9df4bbad510621",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1005,
+          "end": 1541,
+          "text": "Description An overflow/underflow happens when an arithmetic operation reaches the maximum or minimum size of a type. For instance if a number is stored in the uint8 type, it means that the number is stored in a 8 bits unsigned number ranging from 0 to 2^8-1. In computer programming, an integer overflow occurs when an arithmetic operation attempts to create a numeric value that is outside of the range that can be represented with a given number of bits \u2013 either larger than the maximum or lower than the minimum representable value.",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 538
+        }
+      ],
+      "latency_seconds": 14.261,
+      "input_tokens": 2525,
+      "output_tokens": 179
+    },
+    {
+      "id": "38",
+      "evidence_id": "SWC-101",
+      "expected": "SUPPORTED",
+      "category": "paraphrase",
+      "claim": "A uint8 value has an unsigned eight-bit range from zero through 255.",
+      "split": "development",
+      "actual": "SUPPORTED",
+      "reason": "Claim 'A uint8 value has an unsigned eight-bit range from zero through 255' is directly entailed by source span SWC-101#1, which states that a number stored in the uint8 type is stored in an 8 bits unsigned number ranging from 0 to 2^8-1. Since 2^8-1 equals 255, the claim accurately reflects the definition provided in the source.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-101#1"
+        ],
+        "reason": "Claim 'A uint8 value has an unsigned eight-bit range from zero through 255' is directly entailed by source span SWC-101#1, which states that a number stored in the uint8 type is stored in an 8 bits unsigned number ranging from 0 to 2^8-1. Since 2^8-1 equals 255, the claim accurately reflects the definition provided in the source."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-101#1"
+        ],
+        "reason": "The source span explicitly defines a number stored in the `uint8` type as an '8 bits unsigned number ranging from 0 to 2^8-1'. The mathematical value of $2^8 - 1$ is exactly 255. Therefore, the claim that the range is 'from zero through 255' is a direct and unambiguous entailment of the provided text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-101",
+          "snapshot_sha256": "4285112273f0fce0215f121dd0d1f70f4a49f16e04730fbfdf9df4bbad510621",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1005,
+          "end": 1541,
+          "text": "Description An overflow/underflow happens when an arithmetic operation reaches the maximum or minimum size of a type. For instance if a number is stored in the uint8 type, it means that the number is stored in a 8 bits unsigned number ranging from 0 to 2^8-1. In computer programming, an integer overflow occurs when an arithmetic operation attempts to create a numeric value that is outside of the range that can be represented with a given number of bits \u2013 either larger than the maximum or lower than the minimum representable value.",
+          "truncated": false,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 538
+        }
+      ],
+      "latency_seconds": 14.417,
+      "input_tokens": 2551,
+      "output_tokens": 249
+    },
+    {
+      "id": "39",
+      "evidence_id": "SWC-101",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "version_mismatch",
+      "claim": "Solidity 0.8 always silently wraps uint8 arithmetic without checking overflow.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source defines integer overflow as occurring when an operation attempts to create a value outside the representable range, but it does not state that Solidity 0.8 silently wraps such operations. In fact, Solidity 0.8 is specifically designed to revert on overflow for unsigned types like uint8, which directly contradicts the claim of silent wrapping.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source defines integer overflow as occurring when an operation attempts to create a value outside the representable range, but it does not state that Solidity 0.8 silently wraps such operations. In fact, Solidity 0.8 is specifically designed to revert on overflow for unsigned types like uint8, which directly contradicts the claim of silent wrapping."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.128,
+      "input_tokens": 1253,
+      "output_tokens": 102
+    },
+    {
+      "id": "40",
+      "evidence_id": "SWC-101",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "Integer overflow occurs only when a value remains inside its representable range.",
+      "split": "development",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly defines integer overflow as occurring when an arithmetic operation creates a value 'outside of the range that can be represented', whereas the claim states it occurs 'only when a value remains inside its representable range'. These propositions are logically opposite.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly defines integer overflow as occurring when an arithmetic operation creates a value 'outside of the range that can be represented', whereas the claim states it occurs 'only when a value remains inside its representable range'. These propositions are logically opposite."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.428,
+      "input_tokens": 1247,
+      "output_tokens": 80
+    },
+    {
+      "id": "41",
+      "evidence_id": "SWC-109",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Uninitialized local storage variables may point to unexpected contract storage locations.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that uninitialized local storage variables 'can point to unexpected storage locations in the contract,' which entails the claim's proposition that they 'may point to unexpected contract storage locations.' The modal 'may' aligns with the source's 'can,' and 'contract storage locations' matches 'unexpected storage locations in the contract.'",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-109#0"
+        ],
+        "reason": "The source text explicitly states that uninitialized local storage variables 'can point to unexpected storage locations in the contract,' which entails the claim's proposition that they 'may point to unexpected contract storage locations.' The modal 'may' aligns with the source's 'can,' and 'contract storage locations' matches 'unexpected storage locations in the contract.'"
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states that uninitialized local storage variables 'can point to unexpected storage locations in the contract.' This directly entails the claim's proposition that they 'may point to unexpected contract storage locations.' The modal 'may' corresponds to the source's 'can,' and 'contract storage locations' is semantically identical to 'unexpected storage locations in the context.' No ambiguity exists regarding the actor or action, and the truncated flag does not negate the explicit statement present in the available text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-109",
+          "snapshot_sha256": "372ddb12fa26bedbd4a8a2b350a84dea44de51e56b795378f6e1444ba1dab2ce",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 902,
+          "end": 1074,
+          "text": "Description Uninitialized local storage variables can point to unexpected storage locations in the contract, which can lead to intentional or unintentional vulnerabilities.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 172
+        }
+      ],
+      "latency_seconds": 14.31,
+      "input_tokens": 2381,
+      "output_tokens": 221
+    },
+    {
+      "id": "42",
+      "evidence_id": "SWC-109",
+      "expected": "SUPPORTED",
+      "category": "conditional_recommendation",
+      "claim": "If a local variable is sufficient, the source recommends explicitly using the memory attribute.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states: 'If a local variable is sufficient, mark the storage location of the variable explicitly with the memory attribute.' This directly entails the claim that if a local variable is sufficient, the source recommends using the memory attribute.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-109#2"
+        ],
+        "reason": "The source text explicitly states: 'If a local variable is sufficient, mark the storage location of the variable explicitly with the memory attribute.' This directly entails the claim that if a local variable is sufficient, the source recommends using the memory attribute."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'If a local variable is sufficient, mark the storage location of the variable explicitly with the memory attribute.' directly entails the claim 'the source recommends explicitly using the memory attribute' under the condition that 'a local variable is sufficient'. The verb 'mark' in this context constitutes a recommendation for implementation. The truncated flag does not negate the explicit conditional relationship present in the text, as the condition and action are fully contained within the provided span."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-109",
+          "snapshot_sha256": "372ddb12fa26bedbd4a8a2b350a84dea44de51e56b795378f6e1444ba1dab2ce",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1075,
+          "end": 1426,
+          "text": "Remediation Check if the contract requires a storage object as in many situations this is actually not the case. If a local variable is sufficient, mark the storage location of the variable explicitly with the memory attribute. If a storage variable is needed then initialise it upon declaration and additionally specify the storage location storage .",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 351
+        }
+      ],
+      "latency_seconds": 12.302,
+      "input_tokens": 2411,
+      "output_tokens": 196
+    },
+    {
+      "id": "43",
+      "evidence_id": "SWC-109",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "Marking one local variable as memory prevents every storage vulnerability.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that uninitialized local storage variables can lead to vulnerabilities and recommends using the `memory` attribute if a local variable is sufficient. It does not support the claim that marking one variable as memory prevents *every* storage vulnerability, which is an absolute universal claim unsupported by the conditional nature of the source text.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that uninitialized local storage variables can lead to vulnerabilities and recommends using the `memory` attribute if a local variable is sufficient. It does not support the claim that marking one variable as memory prevents *every* storage vulnerability, which is an absolute universal claim unsupported by the conditional nature of the source text."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.896,
+      "input_tokens": 1226,
+      "output_tokens": 93
+    },
+    {
+      "id": "44",
+      "evidence_id": "SWC-109",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source recommends leaving storage variables uninitialized when they are needed.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly recommends initializing storage variables upon declaration if they are needed, whereas the claim states the source recommends leaving them uninitialized. Span SWC-109#3 directly contradicts the proposition.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly recommends initializing storage variables upon declaration if they are needed, whereas the claim states the source recommends leaving them uninitialized. Span SWC-109#3 directly contradicts the proposition."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.19,
+      "input_tokens": 1226,
+      "output_tokens": 71
+    },
+    {
+      "id": "45",
+      "evidence_id": "SWC-117",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "A cryptographic signature can be altered without possessing the private key and still remain valid.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that 'signatures can be altered without the possession of the private key and still be valid,' which directly entails the claim that a cryptographic signature can be altered without possessing the private key and remain valid. The scope note regarding legacy guidance does not negate the factual assertion made within the quoted description.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-117#0"
+        ],
+        "reason": "The source text explicitly states that 'signatures can be altered without the possession of the private key and still be valid,' which directly entails the claim that a cryptographic signature can be altered without possessing the private key and remain valid. The scope note regarding legacy guidance does not negate the factual assertion made within the quoted description."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-117#0"
+        ],
+        "reason": "The selected span explicitly states: 'signatures can be altered without the possession of the private key and still be valid.' This directly entails the atomic claim that a cryptographic signature can be altered without possessing the private key and remain valid. The context window confirms this applies to signatures in Ethereum contracts (specifically via ecrecover), which is a subset of cryptographic signatures generally, making the general claim entailed by the specific evidence. The 'truncated' flag does not negate the explicit assertion present in the provided text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-117",
+          "snapshot_sha256": "6a5bfd2afc273912dfe2160836ac2259c36816d08d04fb6a13f7cbdf4f572fd9",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 912,
+          "end": 1391,
+          "text": "Description The implementation of a cryptographic signature system in Ethereum contracts often assumes that the signature is unique, but signatures can be altered without the possession of the private key and still be valid. The EVM specification defines several so-called \u2018precompiled\u2019 contracts one of them being ecrecover which executes the elliptic curve public key recovery. A malicious user can slightly modify the three values v , r and s to create other valid signatures.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 483
+        }
+      ],
+      "latency_seconds": 15.75,
+      "input_tokens": 2578,
+      "output_tokens": 240
+    },
+    {
+      "id": "46",
+      "evidence_id": "SWC-117",
+      "expected": "SUPPORTED",
+      "category": "conditional",
+      "claim": "Systems may be susceptible to replay when the signature is part of the signed message hash.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source text explicitly states that a system performing signature verification on the contract level might be susceptible to attacks if the signature is part of the signed message hash, and notes that valid signatures can be created to replay previously signed messages. This directly entails the claim that systems may be susceptible to replay under these conditions.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-117#3",
+          "SWC-117#4"
+        ],
+        "reason": "The source text explicitly states that a system performing signature verification on the contract level might be susceptible to attacks if the signature is part of the signed message hash, and notes that valid signatures can be created to replay previously signed messages. This directly entails the claim that systems may be susceptible to replay under these conditions."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span (SWC-117#3) explicitly states: 'A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash.' The subsequent sentence in the same context window clarifies the nature of these attacks: 'Valid signatures could be created by a malicious user to replay previously signed messages.' Together, these sentences unambiguously entail the claim that systems may be susceptible to replay when the signature is part of the signed message hash. The modal 'may' in the claim aligns with the source's use of 'might', and the causal link between the condition (signature in hash) and the risk (replay via valid signatures) is preserved."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-117",
+          "snapshot_sha256": "6a5bfd2afc273912dfe2160836ac2259c36816d08d04fb6a13f7cbdf4f572fd9",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1137,
+          "end": 1632,
+          "text": "The EVM specification defines several so-called \u2018precompiled\u2019 contracts one of them being ecrecover which executes the elliptic curve public key recovery. A malicious user can slightly modify the three values v , r and s to create other valid signatures. A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash. Valid signatures could be created by a malicious user to replay previously signed messages.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 499
+        },
+        {
+          "evidence_id": "SWC-117",
+          "snapshot_sha256": "6a5bfd2afc273912dfe2160836ac2259c36816d08d04fb6a13f7cbdf4f572fd9",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1292,
+          "end": 1632,
+          "text": "A malicious user can slightly modify the three values v , r and s to create other valid signatures. A system that performs signature verification on contract level might be susceptible to attacks if the signature is part of the signed message hash. Valid signatures could be created by a malicious user to replay previously signed messages.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 340
+        }
+      ],
+      "latency_seconds": 16.199,
+      "input_tokens": 2837,
+      "output_tokens": 275
+    },
+    {
+      "id": "47",
+      "evidence_id": "SWC-117",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_consequence",
+      "claim": "Every modified signature transfers all contract funds to the attacker.",
+      "split": "held_out",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "The source text states that modified signatures can be created to replay previously signed messages, but it does not specify the outcome regarding contract funds. The claim asserts a specific financial consequence ('transfers all contract funds'), which is not present in or entailed by the provided evidence.",
+      "initial": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text states that modified signatures can be created to replay previously signed messages, but it does not specify the outcome regarding contract funds. The claim asserts a specific financial consequence ('transfers all contract funds'), which is not present in or entailed by the provided evidence."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.775,
+      "input_tokens": 1334,
+      "output_tokens": 86
+    },
+    {
+      "id": "48",
+      "evidence_id": "SWC-117",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says changing v, r, and s can never produce another valid signature.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that signatures can be altered (specifically by modifying v, r, and s) without the private key to create other valid signatures, which directly contradicts the claim that such changes can 'never' produce another valid signature.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that signatures can be altered (specifically by modifying v, r, and s) without the private key to create other valid signatures, which directly contradicts the claim that such changes can 'never' produce another valid signature."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.434,
+      "input_tokens": 1352,
+      "output_tokens": 80
+    },
+    {
+      "id": "49",
+      "evidence_id": "SWC-100",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "Functions without an explicit visibility type are public by default in the source's described setting.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that functions without a specified visibility type are public by default, which directly entails the claim's proposition regarding the default setting described in the source.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-100#0"
+        ],
+        "reason": "The source explicitly states that functions without a specified visibility type are public by default, which directly entails the claim's proposition regarding the default setting described in the source."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Functions that do not have a function visibility type specified are public by default' directly entails the claim 'Functions without an explicit visibility type are public by default in the source's described setting.' The phrase 'in the source's described setting' correctly scopes the rule to the context provided (Legacy SWC guidance), avoiding overgeneralization. The truncated flag does not invalidate this specific factual statement within the available text."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-100",
+          "snapshot_sha256": "04805871505d541f1530480828cafe53c03ef3a0f487ee471713cb6a09530203",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 950,
+          "end": 1204,
+          "text": "Description Functions that do not have a function visibility type specified are public by default. This can lead to a vulnerability if a developer forgot to set the visibility and a malicious user is able to make unauthorized or unintended state changes.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 254
+        }
+      ],
+      "latency_seconds": 13.238,
+      "input_tokens": 2375,
+      "output_tokens": 174
+    },
+    {
+      "id": "50",
+      "evidence_id": "SWC-100",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source recommends consciously choosing an appropriate function visibility type.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states, 'It is recommended to make a conscious decision on which visibility type is appropriate for a function,' which directly entails the claim that the source recommends consciously choosing an appropriate function visibility type.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-100#3"
+        ],
+        "reason": "The source explicitly states, 'It is recommended to make a conscious decision on which visibility type is appropriate for a function,' which directly entails the claim that the source recommends consciously choosing an appropriate function visibility type."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-100#3"
+        ],
+        "reason": "The selected span 'It is recommended to make a conscious decision on which visibility type is appropriate for a function' directly entails the claim that the source recommends consciously choosing an appropriate function visibility type. The phrase 'conscious decision' maps to 'consciously choosing', and 'which visibility type is appropriate' maps to 'appropriate function visibility type'. The context window confirms this is a general recommendation within the legacy guidance, which does not contradict the claim's scope."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-100",
+          "snapshot_sha256": "04805871505d541f1530480828cafe53c03ef3a0f487ee471713cb6a09530203",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1205,
+          "end": 1397,
+          "text": "Remediation Functions can be specified as being external , public , internal or private . It is recommended to make a conscious decision on which visibility type is appropriate for a function.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 192
+        }
+      ],
+      "latency_seconds": 12.219,
+      "input_tokens": 2340,
+      "output_tokens": 205
+    },
+    {
+      "id": "51",
+      "evidence_id": "SWC-100",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "version_mismatch",
+      "claim": "In every current Solidity version, omitting visibility always compiles successfully as public.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that functions without a specified visibility type are public by default, which implies they compile successfully as public. However, the claim asserts this holds for 'every current Solidity version.' The source metadata explicitly notes 'Legacy SWC guidance; check compiler and EVM applicability,' indicating the rule may not apply to all current versions (e.g., Solidity 0.8+ often defaults to internal). Therefore, the universal quantifier in the claim is not supported by the source text.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that functions without a specified visibility type are public by default, which implies they compile successfully as public. However, the claim asserts this holds for 'every current Solidity version.' The source metadata explicitly notes 'Legacy SWC guidance; check compiler and EVM applicability,' indicating the rule may not apply to all current versions (e.g., Solidity 0.8+ often defaults to internal). Therefore, the universal quantifier in the claim is not supported by the source text."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.816,
+      "input_tokens": 1229,
+      "output_tokens": 131
+    },
+    {
+      "id": "52",
+      "evidence_id": "SWC-100",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "Functions without an explicit visibility type are private by default.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that functions without a specified visibility type are 'public by default', which directly contradicts the claim that they are 'private by default'.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that functions without a specified visibility type are 'public by default', which directly contradicts the claim that they are 'private by default'."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 4.977,
+      "input_tokens": 1211,
+      "output_tokens": 63
+    },
+    {
+      "id": "53",
+      "evidence_id": "SWC-110",
+      "expected": "SUPPORTED",
+      "category": "direct",
+      "claim": "The Solidity assert function is meant to check invariants.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that the Solidity assert() function is meant to assert invariants, which directly entails the claim that it is meant to check invariants.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-110#0"
+        ],
+        "reason": "The source explicitly states that the Solidity assert() function is meant to assert invariants, which directly entails the claim that it is meant to check invariants."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span explicitly states: 'The Solidity assert() function is meant to assert invariants.' The claim uses the synonymous phrase 'check invariants' instead of 'assert invariants'. In the context of Solidity and formal verification, asserting an invariant is semantically equivalent to checking it. The source text provides a direct definition of the function's purpose that fully entails the claim without ambiguity or missing conditions."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-110",
+          "snapshot_sha256": "89e28976fae08d66b0e4bf5ee1a4e98bcd1642559bf7042495d8cb25753bdf90",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 902,
+          "end": 1236,
+          "text": "Description The Solidity assert() function is meant to assert invariants. Properly functioning code should never reach a failing assert statement. A reachable assertion can mean one of two things: A bug exists in the contract that allows it to enter an invalid state; The assert statement is used incorrectly, e.g. to validate inputs.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 334
+        }
+      ],
+      "latency_seconds": 13.122,
+      "input_tokens": 2423,
+      "output_tokens": 171
+    },
+    {
+      "id": "54",
+      "evidence_id": "SWC-110",
+      "expected": "SUPPORTED",
+      "category": "conditional_recommendation",
+      "claim": "If an assert condition is not an invariant, the source recommends replacing assert with require.",
+      "split": "held_out",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "reason": "Skeptical span audit: The source text provides a conditional remediation step ('If not [it is an invariant], replace...') but fails to establish the necessary antecedent condition that triggers this specific recommendation. The claim asserts 'If an assert condition is not an invariant', implying a universal rule for all non-invariant conditions, whereas the source only offers this replacement as one possible consideration within a broader remediation context ('Consider whether...'). Without explicit text stating that replacing with `require()` is the definitive action for *any* condition that is merely 'not an invariant' (as opposed to other types of violations), the attribution of this specific recommendation to that specific condition is ambiguous.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SWC-110#3",
+          "SWC-110#4"
+        ],
+        "reason": "The source explicitly states that if the condition in an assert() is not an invariant, the remediation is to replace it with a require(). This directly entails the claim."
+      },
+      "skeptical": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "support_option_ids": [],
+        "reason": "The source text provides a conditional remediation step ('If not [it is an invariant], replace...') but fails to establish the necessary antecedent condition that triggers this specific recommendation. The claim asserts 'If an assert condition is not an invariant', implying a universal rule for all non-invariant conditions, whereas the source only offers this replacement as one possible consideration within a broader remediation context ('Consider whether...'). Without explicit text stating that replacing with `require()` is the definitive action for *any* condition that is merely 'not an invariant' (as opposed to other types of violations), the attribution of this specific recommendation to that specific condition is ambiguous."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SWC-110",
+          "snapshot_sha256": "89e28976fae08d66b0e4bf5ee1a4e98bcd1642559bf7042495d8cb25753bdf90",
+          "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+          "start": 1237,
+          "end": 1396,
+          "text": "Remediation Consider whether the condition checked in the assert() is actually an invariant. If not, replace the assert() statement with a require() statement.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 159
+        }
+      ],
+      "latency_seconds": 13.478,
+      "input_tokens": 2481,
+      "output_tokens": 244
+    },
+    {
+      "id": "55",
+      "evidence_id": "SWC-110",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_guarantee",
+      "claim": "Replacing assert with require fixes every invalid contract state.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that a reachable assertion can mean either a bug allowing an invalid state OR incorrect usage (e.g., input validation). It recommends replacing `assert` with `require` only if the condition is not an invariant. The claim asserts that replacing `assert` with `require` fixes *every* invalid contract state, which contradicts the source's distinction between bugs and misused assertions, and ignores the possibility that `require` may still fail for other reasons or that the original issue was a bug rather than a misuse.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that a reachable assertion can mean either a bug allowing an invalid state OR incorrect usage (e.g., input validation). It recommends replacing `assert` with `require` only if the condition is not an invariant. The claim asserts that replacing `assert` with `require` fixes *every* invalid contract state, which contradicts the source's distinction between bugs and misused assertions, and ignores the possibility that `require` may still fail for other reasons or that the original issue was a bug rather than a misuse."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 7.054,
+      "input_tokens": 1272,
+      "output_tokens": 137
+    },
+    {
+      "id": "56",
+      "evidence_id": "SWC-110",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "Properly functioning code should routinely reach failing assert statements.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that 'Properly functioning code should never reach a failing assert statement,' which directly contradicts the claim's assertion that such code 'should routinely' reach them.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that 'Properly functioning code should never reach a failing assert statement,' which directly contradicts the claim's assertion that such code 'should routinely' reach them."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.157,
+      "input_tokens": 1278,
+      "output_tokens": 68
+    },
+    {
+      "id": "57",
+      "evidence_id": "SCWE-028",
+      "expected": "SUPPORTED",
+      "category": "context_list",
+      "claim": "Price oracle manipulation may lead to loss of funds or data.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states that price oracle manipulation 'can lead to' loss of funds or data, which entails the claim's proposition that it 'may lead to' such outcomes. The scope conditions are met as the claim falls within the documented threat model.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#2"
+        ],
+        "reason": "The source explicitly states that price oracle manipulation 'can lead to' loss of funds or data, which entails the claim's proposition that it 'may lead to' such outcomes. The scope conditions are met as the claim falls within the documented threat model."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#2"
+        ],
+        "reason": "The source text explicitly lists 'Loss of funds or data' as a direct consequence that price oracle manipulation 'can lead to'. The claim uses the weaker modal 'may', which is logically entailed by 'can'. The selected span 'Loss of funds or data.' correctly identifies the specific outcome mentioned in the context, and the preceding sentence confirms this outcome results from price oracle manipulation. No ambiguity exists regarding the actor or the causal relationship."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SCWE-028",
+          "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+          "source_scope": "Use the documented oracle conditions and threat model",
+          "start": 400,
+          "end": 659,
+          "text": "Description \u00b6 Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic. This can lead to: - Unauthorized actions by malicious actors. - Loss of funds or data. - Exploitation of the contract's logic.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 260
+        }
+      ],
+      "latency_seconds": 14.511,
+      "input_tokens": 2413,
+      "output_tokens": 211
+    },
+    {
+      "id": "58",
+      "evidence_id": "SCWE-028",
+      "expected": "SUPPORTED",
+      "category": "recommendation",
+      "claim": "The source recommends validating oracle data before use.",
+      "split": "held_out",
+      "actual": "SUPPORTED",
+      "reason": "The source explicitly states under Remediation: 'Validate inputs: Ensure all oracle data is properly validated before use.' This directly entails the claim that the source recommends validating oracle data before use.",
+      "initial": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [
+          "SCWE-028#5"
+        ],
+        "reason": "The source explicitly states under Remediation: 'Validate inputs: Ensure all oracle data is properly validated before use.' This directly entails the claim that the source recommends validating oracle data before use."
+      },
+      "skeptical": {
+        "verdict": "SUPPORTED",
+        "support_option_ids": [],
+        "reason": "The selected span 'Validate inputs: Ensure all oracle data is properly validated before use.' under the 'Remediation' section explicitly recommends validating oracle data. The claim accurately reflects this recommendation without introducing unsupported scope or altering the relationship between the source and the action."
+      },
+      "context_windows": [
+        {
+          "evidence_id": "SCWE-028",
+          "snapshot_sha256": "e32ddfe0f4d4aef684ca1aca408949bebf268e37a01e8fadc9d17bdb7c87060c",
+          "source_scope": "Use the documented oracle conditions and threat model",
+          "start": 660,
+          "end": 830,
+          "text": "Remediation \u00b6 Use decentralized oracles: Leverage multiple decentralized oracles for price data. Validate inputs: Ensure all oracle data is properly validated before use.",
+          "truncated": true,
+          "token_budget_upper_bound": 1400,
+          "token_upper_bound": 171
+        }
+      ],
+      "latency_seconds": 10.419,
+      "input_tokens": 2372,
+      "output_tokens": 146
+    },
+    {
+      "id": "59",
+      "evidence_id": "SCWE-028",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "category": "unsupported_causality",
+      "claim": "Every manipulated oracle price necessarily destroys all contract data.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source states that price oracle manipulation can lead to 'Loss of funds or data' as a potential consequence, but it does not support the claim's universal quantifier ('Every') nor its absolute causality ('necessarily destroys all contract data'). The source lists multiple possible outcomes (unauthorized actions, loss of funds/data, logic exploitation) without establishing that every instance of manipulation results in total data destruction.",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source states that price oracle manipulation can lead to 'Loss of funds or data' as a potential consequence, but it does not support the claim's universal quantifier ('Every') nor its absolute causality ('necessarily destroys all contract data'). The source lists multiple possible outcomes (unauthorized actions, loss of funds/data, logic exploitation) without establishing that every instance of manipulation results in total data destruction."
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 6.413,
+      "input_tokens": 1277,
+      "output_tokens": 112
+    },
+    {
+      "id": "60",
+      "evidence_id": "SCWE-028",
+      "expected": "CONTRADICTED",
+      "category": "incorrect_negation",
+      "claim": "The source says price oracle manipulation cannot lead to unauthorized actions.",
+      "split": "held_out",
+      "actual": "CONTRADICTED",
+      "reason": "The source explicitly states that price oracle manipulation 'can lead to: - Unauthorized actions by malicious actors,' which directly contradicts the claim that it 'cannot lead to unauthorized actions.'",
+      "initial": {
+        "verdict": "CONTRADICTED",
+        "support_option_ids": [],
+        "reason": "The source explicitly states that price oracle manipulation 'can lead to: - Unauthorized actions by malicious actors,' which directly contradicts the claim that it 'cannot lead to unauthorized actions.'"
+      },
+      "skeptical": null,
+      "context_windows": [],
+      "latency_seconds": 5.108,
+      "input_tokens": 1283,
+      "output_tokens": 67
+    }
+  ]
+}

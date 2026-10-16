@@ -1,0 +1,76 @@
+{
+  "tweets": [
+    "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+    "To mitigate this risk, leverage multiple decentralized oracles rather than relying on a single data source.",
+    "Implement input validation to ensure all oracle data is properly checked before being used by your contract logic.",
+    "Aggregate prices from several DEXs or oracles using median or mean calculations to smooth out anomalies.",
+    "Reject outlier prices and anomalous deviations to prevent a single bad feed from skewing your pricing mechanism.",
+    "Use Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+    "Avoid basing core prices on illiquid pools, as they are more susceptible to manipulation during low volume.",
+    "Design fail-safe behaviors that halt sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+    "Deploy circuit breakers and rate limiting on parameter changes to restrict how quickly prices can be altered.",
+    "Monitor price deviations between your oracle and reference markets, setting alerts for out-of-band movements."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation exploits vulnerabilities in price feeds to alter contract logic, potentially causing unauthorized actions or fund loss.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "To mitigate this risk, leverage multiple decentralized oracles rather than relying on a single data source.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Implement input validation to ensure all oracle data is properly checked before being used by your contract logic.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Aggregate prices from several DEXs or oracles using median or mean calculations to smooth out anomalies.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Reject outlier prices and anomalous deviations to prevent a single bad feed from skewing your pricing mechanism.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Use Time-Weighted Average Prices (TWAP) over sufficient windows to resist short-lived price manipulations.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Avoid basing core prices on illiquid pools, as they are more susceptible to manipulation during low volume.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Design fail-safe behaviors that halt sensitive operations like borrowing or liquidations when data is suspicious or unavailable.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Deploy circuit breakers and rate limiting on parameter changes to restrict how quickly prices can be altered.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Monitor price deviations between your oracle and reference markets, setting alerts for out-of-band movements.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

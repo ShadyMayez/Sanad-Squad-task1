@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "source": "ambiguous-a",
+    "claim": "The vault can fail.",
+    "expected": "AMBIGUOUS",
+    "actual": "INSUFFICIENT_EVIDENCE",
+    "reason": "The source text states 'It can fail' immediately following the sentence about the adapter calling the vault, but lacks an explicit antecedent linking 'It' to 'the vault'. While contextually likely, the source does not definitively entail that the vault itself is the entity capable of failing; 'It' could refer to the adapter or the entire action. Without a clear pronoun resolution in the provided text, the claim cannot be strictly supported.",
+    "latency_seconds": 8.558,
+    "input_tokens": 807,
+    "output_tokens": 121
+  },
+  {
+    "id": 2,
+    "source": "ambiguous-b",
+    "claim": "The bridge can be stale.",
+    "expected": "AMBIGUOUS",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states 'It can be stale' in the context of the oracle and bridge updating price, which entails that the bridge can be stale.",
+    "latency_seconds": 10.669,
+    "input_tokens": 1703,
+    "output_tokens": 172
+  },
+  {
+    "id": 3,
+    "source": "ambiguous-a",
+    "claim": "The vault can fail.",
+    "expected": "VERIFICATION_ERROR",
+    "actual": "VERIFICATION_ERROR",
+    "reason": "SYNTH-ambiguous-a: source snapshot hash mismatch",
+    "latency_seconds": 0.0,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  {
+    "id": 4,
+    "source": "ambiguous-b",
+    "claim": "The bridge can be stale.",
+    "expected": "VERIFICATION_ERROR",
+    "actual": "VERIFICATION_ERROR",
+    "reason": "SYNTH-ambiguous-b: source snapshot hash mismatch",
+    "latency_seconds": 0.0,
+    "input_tokens": null,
+    "output_tokens": null
+  }
+]

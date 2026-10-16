@@ -1,0 +1,15 @@
+# Remaining limitations
+
+The semantic gate still relies on `qwen3.5:4b` to decide entailment. Exact hashes and offsets establish source provenance, not truth or logical support. A finite benchmark cannot prove zero false acceptance or zero false rejection. Conflicting sources, omitted conditions, distant relationships outside the bounded context, and novel technical claims remain difficult. A first-pass adverse verdict is not automatically retried with wider context; it fails closed and may be a false negative.
+
+The final 60-case replay falsely rejected two supported recommendations (`SWC-120`, case 34, and `SWC-110`, case 54). The skeptical pass treated source-attributed remediation as though it claimed universal current applicability, and case 54 had previously over-read the bounded-window truncation flag. The flag now distinguishes an ordinary partial window from a budget truncation, but this did not fix case 54 and case 34 regressed from its earlier result. The saved case-54 trace is `case54-recheck.json`; final outcomes are in `benchmark-results.json`. This is an observed false-negative limit, not grounds to force approval.
+
+The context window uses up to two neighboring source options, 1,400 characters, and a conservative 1,400-byte token upper bound. This may omit a distant but relevant section. A single selected source sentence longer than the cap is preserved with `truncated=true`, so the ordinary cap can be exceeded in that exceptional case. The byte bound is not a measured Qwen token count.
+
+The local KB is curated and offline. Some SWC guidance describes historical compiler behavior and the SWC registry is not actively maintained. The system does not verify current chain state, external incidents, company claims, or source updates during a run. Optional live web research is unimplemented. Human technical review remains appropriate before public posting.
+
+The 60 benchmark labels were authored before model evaluation but were not double reviewed by an external smart contract security specialist. The sample is curated, not representative of every production claim. Prompt-injection probes cover selected attack strings, not all possible attacks. `qwen3.5:4b` inference is local; external model API charges are zero, while electricity and hardware costs remain unmeasured.
+
+The five-to-ten-tweet thread contract can conflict with sparse evidence. The Writer is instructed to preserve factual support rather than invent enough material to meet length. Such a slot should drop with an explicit reason. A higher shipped count alone is not a quality metric.
+
+The Reviewer once misread the six-element `tweets` array as one post and then demanded numbering inside each tweet despite passing scores. The rendering contract was clarified and a saved-draft recheck plus full standalone rerun passed, but future local-model outputs can still contradict the rubric. The bounded consistency retry fails such a slot rather than auto-approving it; its failure evidence is retained.

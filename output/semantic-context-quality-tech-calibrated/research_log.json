@@ -1,0 +1,27 @@
+[
+  {
+    "slot_id": "piece_1",
+    "topic": "Reentrancy",
+    "source_ids": [
+      "SWC-107"
+    ],
+    "evidence": [
+      {
+        "id": "SWC-107",
+        "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/entries/docs/SWC-107.md",
+        "excerpt": "An external contract can take over control flow and call back before the first function invocation finishes. Remediation: perform internal state changes before the external call, using checks-effects-interactions, or use a reentrancy lock. A lock blocks the unwanted callback into the protected path; it does not prevent control passing to the external callee.",
+        "source_title": "SWC-107 Reentrancy, official SWC Registry",
+        "source_type": "official registry Markdown, normalized excerpt",
+        "snapshot_path": "source_snapshots/SWC-107-canonical.txt",
+        "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+        "retrieved_at": "2026-10-15",
+        "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+        "quote_start": 97,
+        "quote_end": 732,
+        "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+      }
+    ],
+    "status": "accepted",
+    "reason": null
+  }
+]

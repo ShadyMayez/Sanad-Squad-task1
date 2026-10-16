@@ -1,0 +1,20 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-104 guidance regarding unchecked call returns and execution resumption. The claim is fully supported by the provided evidence without requiring invented mechanisms or causal explanations.",
+        "claim_support": []
+      }
+    ]
+  }
+]

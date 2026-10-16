@@ -1,0 +1,13 @@
+{
+  "slots": 6,
+  "atomic_claims_evaluated": 48,
+  "verdict_counts": {
+    "SUPPORTED": 37,
+    "CONTRADICTED": 0,
+    "INSUFFICIENT_EVIDENCE": 10,
+    "AMBIGUOUS": 1,
+    "VERIFICATION_ERROR": 0
+  },
+  "verification_latency_seconds": 3378.874,
+  "accepted_claims": 2
+}

@@ -1,0 +1,21 @@
+id|evidence_id|expected|category|claim
+V01|SWC-107|SUPPORTED|contextual_paraphrase|A malicious contract can call back into the calling contract before its first function invocation finishes.
+V02|SWC-107|SUPPORTED|recommendation|The source recommends changing internal state before making the external call.
+V03|SWC-107|SUPPORTED|recommendation|The source lists a reentrancy lock such as ReentrancyGuard as a way to avoid reentrancy weaknesses.
+V04|SWC-105|SUPPORTED|qualified_cause|Exposed initialization functions sometimes cause the access-control bug described by the source.
+V05|SWC-105|SUPPORTED|mechanism|A wrongly named constructor can leave constructor code callable by anyone in runtime bytecode.
+V06|SCWE-028|SUPPORTED|contextual_list|The source says manipulating a price oracle can lead to loss of funds or data.
+V07|SCWE-028|SUPPORTED|qualified_recommendation|For price data, the source recommends leveraging multiple decentralized oracles.
+V08|SWC-113|SUPPORTED|recommendation|The source prefers recipients initiating their own payment withdrawals over automatically pushing payments.
+V09|SWC-113|SUPPORTED|conditional_cause|A failed external call can cause a denial-of-service condition in a contract.
+V10|SWC-110|SUPPORTED|conditional_recommendation|If an asserted condition is not an invariant, the source recommends replacing assert with require.
+V11|SWC-107|INSUFFICIENT_EVIDENCE|unsupported_mechanism|A malicious callee executes arbitrary code inside the caller's unfinished function.
+V12|SWC-107|INSUFFICIENT_EVIDENCE|unsupported_guarantee|The Checks-Effects-Interactions pattern guarantees that all reentrancy attacks become impossible.
+V13|SWC-105|INSUFFICIENT_EVIDENCE|overstated_frequency|Exposed initialization functions always cause missing access control.
+V14|SWC-105|INSUFFICIENT_EVIDENCE|unsupported_action|Auditors must review every constructor in every contract before deployment.
+V15|SCWE-028|INSUFFICIENT_EVIDENCE|scope_omission|Every form of oracle data must come from multiple decentralized oracles.
+V16|SCWE-028|INSUFFICIENT_EVIDENCE|unsupported_root_cause|Relying on a single oracle is the only root cause of price oracle manipulation.
+V17|SWC-113|INSUFFICIENT_EVIDENCE|unsupported_guarantee|Recipient-initiated withdrawals guarantee that no external call can ever fail.
+V18|SWC-113|CONTRADICTED|incorrect_negation|The source says failed external calls cannot cause denial of service.
+V19|SWC-110|CONTRADICTED|incorrect_negation|The source recommends retaining assert for conditions that are not invariants.
+V20|SWC-107|CONTRADICTED|incorrect_negation|The source says external contracts cannot take over control flow.

@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review how your contract isolates external calls into separate transactions, since accidental or deliberate failures can cause DoS conditions and leave execution continuing without the intended effect."
+  ],
+  "claims": [
+    {
+      "text": "Review how your contract isolates external calls into separate transactions, since accidental or deliberate failures can cause DoS conditions and leave execution continuing without the intended effect.",
+      "evidence_ids": [
+        "SWC-113"
+      ]
+    }
+  ]
+}

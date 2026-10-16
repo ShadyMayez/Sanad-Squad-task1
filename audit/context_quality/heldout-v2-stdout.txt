@@ -1,0 +1,107 @@
+H01 SUPPORTED -> SUPPORTED
+H02 SUPPORTED -> SUPPORTED
+H03 SUPPORTED -> SUPPORTED
+H04 SUPPORTED -> SUPPORTED
+H05 SUPPORTED -> SUPPORTED
+H06 SUPPORTED -> SUPPORTED
+H07 SUPPORTED -> SUPPORTED
+H08 SUPPORTED -> SUPPORTED
+H09 SUPPORTED -> SUPPORTED
+H10 SUPPORTED -> SUPPORTED
+H11 INSUFFICIENT_EVIDENCE -> CONTRADICTED
+H12 CONTRADICTED -> CONTRADICTED
+H13 CONTRADICTED -> CONTRADICTED
+H14 INSUFFICIENT_EVIDENCE -> CONTRADICTED
+H15 CONTRADICTED -> CONTRADICTED
+H16 CONTRADICTED -> CONTRADICTED
+H17 CONTRADICTED -> CONTRADICTED
+H18 INSUFFICIENT_EVIDENCE -> CONTRADICTED
+H19 CONTRADICTED -> CONTRADICTED
+H20 INSUFFICIENT_EVIDENCE -> CONTRADICTED
+{
+  "cases": 20,
+  "supported_precision": 1.0,
+  "supported_recall": 1.0,
+  "false_acceptance_rate": 0.0,
+  "false_rejection_rate": 0.0,
+  "five_label_accuracy": 0.8,
+  "confusion_matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 10,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 6,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "INSUFFICIENT_EVIDENCE": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 4,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "AMBIGUOUS": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    },
+    "VERIFICATION_ERROR": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "AMBIGUOUS": 0,
+      "VERIFICATION_ERROR": 0
+    }
+  },
+  "by_category": {
+    "conditional_recommendation": {
+      "cases": 1,
+      "correct": 1
+    },
+    "direct": {
+      "cases": 2,
+      "correct": 2
+    },
+    "incorrect_negation": {
+      "cases": 6,
+      "correct": 6
+    },
+    "paraphrase": {
+      "cases": 1,
+      "correct": 1
+    },
+    "recommendation": {
+      "cases": 5,
+      "correct": 5
+    },
+    "source_attribution": {
+      "cases": 1,
+      "correct": 1
+    },
+    "unsupported_consequence": {
+      "cases": 1,
+      "correct": 0
+    },
+    "unsupported_guarantee": {
+      "cases": 2,
+      "correct": 0
+    },
+    "unsupported_mechanism": {
+      "cases": 1,
+      "correct": 0
+    }
+  },
+  "mean_latency_seconds": 9.51635,
+  "prompt_tokens_recorded": 42239,
+  "completion_tokens_recorded": 2737,
+  "usage_complete": true
+}

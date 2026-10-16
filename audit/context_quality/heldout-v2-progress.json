@@ -1,0 +1,430 @@
+[
+  {
+    "id": "H01",
+    "evidence_id": "OWASP-SC03",
+    "expected": "SUPPORTED",
+    "category": "recommendation",
+    "claim": "The source recommends TWAPs over sufficient windows to resist short-lived price manipulation.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly recommends using Time-weighted Average Prices (TWAPs) over sufficient windows to resist short-lived manipulations, which directly entails the claim.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#2"
+      ],
+      "reason": "The source explicitly recommends using Time-weighted Average Prices (TWAPs) over sufficient windows to resist short-lived manipulations, which directly entails the claim."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span 'Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations' explicitly contains the recommendation phrasing ('Use...') and matches the claim's actor, action, target, and direction. The context window confirms this is a direct instruction within the source's threat model. No ambiguity exists regarding the subject or the conditional nature of the recommendation."
+    },
+    "latency_seconds": 15.042,
+    "input_tokens": 2700,
+    "output_tokens": 164
+  },
+  {
+    "id": "H02",
+    "evidence_id": "OWASP-SC03",
+    "expected": "SUPPORTED",
+    "category": "recommendation",
+    "claim": "The source recommends rejecting prices older than a maximum staleness threshold.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states 'Reject prices older than a maximum staleness threshold' under the section regarding time-based defenses, which directly entails the claim that the source recommends this action.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#3"
+      ],
+      "reason": "The source explicitly states 'Reject prices older than a maximum staleness threshold' under the section regarding time-based defenses, which directly entails the claim that the source recommends this action."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span 'Reject prices older than a maximum staleness threshold' appears under the explicit heading 'Time-based defenses'. The claim states the source recommends rejecting prices older than a maximum staleness threshold. The source text contains this exact recommendation as an imperative instruction within that specific defense category. There is no ambiguity regarding the actor (the source's guidelines), the action (rejecting prices), or the condition (older than a maximum staleness threshold). The truncation flag does not negate the presence of this specific sentence in the provided window, and no necessary qualifiers are missing from the claim itself."
+    },
+    "latency_seconds": 12.391,
+    "input_tokens": 2671,
+    "output_tokens": 210
+  },
+  {
+    "id": "H03",
+    "evidence_id": "OWASP-SC03",
+    "expected": "SUPPORTED",
+    "category": "conditional_recommendation",
+    "claim": "On suspicious or unavailable oracle data, the source recommends halting sensitive borrowing or liquidation operations.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states: 'On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations).' This directly entails the claim that the source recommends halting sensitive borrowing or liquidation operations on suspicious or unavailable oracle data.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#6"
+      ],
+      "reason": "The source explicitly states: 'On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations).' This directly entails the claim that the source recommends halting sensitive borrowing or liquidation operations on suspicious or unavailable oracle data."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span 'Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations).' explicitly contains the condition 'On suspicious or unavailable data' and the action 'halt sensitive operations (borrowing, liquidations)'. The claim accurately reflects this recommendation without adding unsupported qualifiers or altering the scope. The context window confirms the document discusses oracle conditions and fail-safe behaviors, supporting the attribution of this rule to the source's design philosophy."
+    },
+    "latency_seconds": 12.43,
+    "input_tokens": 2743,
+    "output_tokens": 195
+  },
+  {
+    "id": "H04",
+    "evidence_id": "OWASP-SC03",
+    "expected": "SUPPORTED",
+    "category": "recommendation",
+    "claim": "Limit how much one price feed can affect global pricing.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly recommends capping the impact of a single pool or feed on global pricing, which directly entails the claim that one should limit how much a single price feed can affect global pricing.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#5"
+      ],
+      "reason": "The source explicitly recommends capping the impact of a single pool or feed on global pricing, which directly entails the claim that one should limit how much a single price feed can affect global pricing."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#5"
+      ],
+      "reason": "The source text explicitly states 'Cap impact of a single pool/feed on global pricing.' The term 'feed' is semantically equivalent to 'price feed' in this context, and the action 'Cap impact' entails the claim's directive to 'Limit how much... can affect'. The selection spans directly support the proposition without ambiguity regarding actors or conditions."
+    },
+    "latency_seconds": 11.884,
+    "input_tokens": 2669,
+    "output_tokens": 182
+  },
+  {
+    "id": "H05",
+    "evidence_id": "OWASP-SC03",
+    "expected": "SUPPORTED",
+    "category": "recommendation",
+    "claim": "The source recommends monitoring deviations between an oracle and reference markets.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly recommends tracking price deviations between the oracle and reference markets as part of its monitoring strategy.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "OWASP-SC03#8"
+      ],
+      "reason": "The source explicitly recommends tracking price deviations between the oracle and reference markets as part of its monitoring strategy."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span 'Monitoring & alerting : Track price deviations between your oracle and reference markets.' explicitly contains the action 'Track' (equivalent to 'monitor') and the exact target 'price deviations between your oracle and reference markets'. The context window confirms this is part of a list of recommendations under the section 'Fail-safe behavior', validating that the source actively recommends this practice. No ambiguity exists regarding the actor or the specific entities involved."
+    },
+    "latency_seconds": 11.44,
+    "input_tokens": 2653,
+    "output_tokens": 165
+  },
+  {
+    "id": "H06",
+    "evidence_id": "SWC-114",
+    "expected": "SUPPORTED",
+    "category": "direct",
+    "claim": "A race condition vulnerability can arise when code depends on transaction submission order.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states that a race condition vulnerability occurs when code depends on the order of transactions submitted to it, which directly entails the claim.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-114#4"
+      ],
+      "reason": "The source explicitly states that a race condition vulnerability occurs when code depends on the order of transactions submitted to it, which directly entails the claim."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-114#4"
+      ],
+      "reason": "The selected span explicitly states: 'A race condition vulnerability occurs when code depends on the order of the transactions submitted to it.' This is a direct semantic match to the claim 'A race condition vulnerability can arise when code depends on transaction submission order.' The modal 'can arise' in the claim is logically entailed by the source's assertion that such vulnerabilities 'occur' under those conditions. The context metadata regarding legacy scope and truncation does not negate the explicit statement found within the provided text window."
+    },
+    "latency_seconds": 15.711,
+    "input_tokens": 2793,
+    "output_tokens": 202
+  },
+  {
+    "id": "H07",
+    "evidence_id": "SWC-114",
+    "expected": "SUPPORTED",
+    "category": "direct",
+    "claim": "A person running an Ethereum node can see pending transactions before they are finalized.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states that a person running an Ethereum node can see transactions before they are finalized, which entails the ability to see pending (unfinalized) transactions. Span SWC-114#3 directly supports this proposition.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-114#3"
+      ],
+      "reason": "The source explicitly states that a person running an Ethereum node can see transactions before they are finalized, which entails the ability to see pending (unfinalized) transactions. Span SWC-114#3 directly supports this proposition."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The source text explicitly states: 'Thus, a person who is running an Ethereum node can tell which transactions are going to occur before they are finalized.' The claim uses the phrase 'can see pending transactions', while the source uses 'can tell which transactions are going to occur'. In the context of blockchain nodes receiving forwarded transactions for processing (as established in the preceding sentence), 'telling' what is occurring refers to visibility or inspection capability. The temporal condition 'before they are finalized' matches exactly. The claim does not introduce unsupported actors, conditions, or causal relationships; it accurately reflects the source's assertion regarding node capabilities."
+    },
+    "latency_seconds": 13.398,
+    "input_tokens": 2836,
+    "output_tokens": 229
+  },
+  {
+    "id": "H08",
+    "evidence_id": "SWC-114",
+    "expected": "SUPPORTED",
+    "category": "source_attribution",
+    "claim": "The source describes miners selecting transactions for a block partly by gas price.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states that miners select transactions 'based on who has paid a high enough gas price to be included,' which directly supports the claim that selection is partly determined by gas price.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-114#1"
+      ],
+      "reason": "The source explicitly states that miners select transactions 'based on who has paid a high enough gas price to be included,' which directly supports the claim that selection is partly determined by gas price."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span explicitly states that miners select transactions 'based on who has paid a high enough gas price to be included.' This directly entails the claim that selection is 'partly by gas price,' as paying a high enough gas price is presented as a primary criterion for inclusion alongside other factors (implied by 'which ones'). The context window confirms this applies to miners reviewing received transactions, matching the claim's actor and action. No ambiguity exists regarding the referent or the causal relationship."
+    },
+    "latency_seconds": 12.289,
+    "input_tokens": 2812,
+    "output_tokens": 191
+  },
+  {
+    "id": "H09",
+    "evidence_id": "SWC-107",
+    "expected": "SUPPORTED",
+    "category": "paraphrase",
+    "claim": "Performing internal state changes before an external call follows the source's Checks-Effects-Interactions advice.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states that performing internal state changes before the call is executed is the Checks-Effects-Interactions pattern, which directly supports the claim.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-107#3",
+        "SWC-107#4"
+      ],
+      "reason": "The source explicitly states that performing internal state changes before the call is executed is the Checks-Effects-Interactions pattern, which directly supports the claim."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-107#3",
+        "SWC-107#4"
+      ],
+      "reason": "The selected spans jointly and unambiguously establish the claim. Span SWC-107#3 explicitly states that performing internal state changes before execution is a requirement of the pattern, and Span SWC-107#4 identifies this specific instruction as 'the Checks-Effects-Interactions pattern'. The conjunction of these two sentences provides direct textual evidence that the action described in the claim follows the source's advice for that pattern. The legacy scope metadata does not negate the explicit statement within the text itself."
+    },
+    "latency_seconds": 16.982,
+    "input_tokens": 2938,
+    "output_tokens": 219
+  },
+  {
+    "id": "H10",
+    "evidence_id": "SWC-113",
+    "expected": "SUPPORTED",
+    "category": "recommendation",
+    "claim": "For payments, the source prefers letting users withdraw rather than automatically pushing funds to them.",
+    "actual": "SUPPORTED",
+    "reason": "The source explicitly states that for payments, it is better to let users withdraw funds rather than push funds automatically, which directly entails the claim's proposition.",
+    "initial": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [
+        "SWC-113#2"
+      ],
+      "reason": "The source explicitly states that for payments, it is better to let users withdraw funds rather than push funds automatically, which directly entails the claim's proposition."
+    },
+    "skeptical": {
+      "verdict": "SUPPORTED",
+      "support_option_ids": [],
+      "reason": "The selected span explicitly states: 'This is especially relevant for payments, where it is better to let users withdraw funds rather than push funds to them automatically.' The claim asserts that the source prefers letting users withdraw over automatically pushing funds for payments. The source's use of 'better' in this comparative context establishes a clear preference, which entails the claim's proposition without ambiguity or missing qualifiers."
+    },
+    "latency_seconds": 13.219,
+    "input_tokens": 2424,
+    "output_tokens": 164
+  },
+  {
+    "id": "H11",
+    "evidence_id": "OWASP-SC03",
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "category": "unsupported_guarantee",
+    "claim": "A TWAP guarantees that oracle price manipulation is impossible.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly recommends using TWAPs to 'resist short-lived manipulations' and suggests rejecting prices older than a threshold, implying that no single mechanism (including TWAP) can guarantee immunity to manipulation. The claim's absolute assertion of impossibility contradicts the source's conditional mitigation strategy.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly recommends using TWAPs to 'resist short-lived manipulations' and suggests rejecting prices older than a threshold, implying that no single mechanism (including TWAP) can guarantee immunity to manipulation. The claim's absolute assertion of impossibility contradicts the source's conditional mitigation strategy."
+    },
+    "skeptical": null,
+    "latency_seconds": 5.886,
+    "input_tokens": 1525,
+    "output_tokens": 90
+  },
+  {
+    "id": "H12",
+    "evidence_id": "OWASP-SC03",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "The source recommends accepting prices even after they exceed the staleness threshold.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly recommends rejecting prices older than a maximum staleness threshold (OWASP-SC03#3), which directly contradicts the claim that the source recommends accepting prices even after exceeding that threshold.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly recommends rejecting prices older than a maximum staleness threshold (OWASP-SC03#3), which directly contradicts the claim that the source recommends accepting prices even after exceeding that threshold."
+    },
+    "skeptical": null,
+    "latency_seconds": 5.232,
+    "input_tokens": 1534,
+    "output_tokens": 72
+  },
+  {
+    "id": "H13",
+    "evidence_id": "OWASP-SC03",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "The source recommends letting one pool dominate global pricing.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly recommends avoiding basing core prices on illiquid pools and capping the impact of a single pool/feed, which directly contradicts the claim that the source recommends letting one pool dominate global pricing.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly recommends avoiding basing core prices on illiquid pools and capping the impact of a single pool/feed, which directly contradicts the claim that the source recommends letting one pool dominate global pricing."
+    },
+    "skeptical": null,
+    "latency_seconds": 5.243,
+    "input_tokens": 1522,
+    "output_tokens": 72
+  },
+  {
+    "id": "H14",
+    "evidence_id": "OWASP-SC03",
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "category": "unsupported_consequence",
+    "claim": "Monitoring price deviations eliminates every bad liquidation.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly recommends 'Monitoring & alerting' to 'Track price deviations' and 'Set automated alerts', but it does not claim that this action 'eliminates every bad liquidation.' The use of the universal quantifier 'every' in the claim is unsupported; the source only suggests monitoring as a defensive measure, not as a guarantee of eliminating all failures.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly recommends 'Monitoring & alerting' to 'Track price deviations' and 'Set automated alerts', but it does not claim that this action 'eliminates every bad liquidation.' The use of the universal quantifier 'every' in the claim is unsupported; the source only suggests monitoring as a defensive measure, not as a guarantee of eliminating all failures."
+    },
+    "skeptical": null,
+    "latency_seconds": 6.006,
+    "input_tokens": 1519,
+    "output_tokens": 104
+  },
+  {
+    "id": "H15",
+    "evidence_id": "OWASP-SC03",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "The source recommends basing core prices on illiquid pools.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly advises to 'Avoid basing core prices on illiquid pools', which directly contradicts the claim that the source recommends doing so.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly advises to 'Avoid basing core prices on illiquid pools', which directly contradicts the claim that the source recommends doing so."
+    },
+    "skeptical": null,
+    "latency_seconds": 4.941,
+    "input_tokens": 1528,
+    "output_tokens": 60
+  },
+  {
+    "id": "H16",
+    "evidence_id": "SWC-114",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "Transaction order never affects a contract reward.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly states that a race condition vulnerability occurs when code depends on the order of transactions, using an example where a contract rewards the first person to solve a problem. This directly contradicts the claim that transaction order never affects a contract reward.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly states that a race condition vulnerability occurs when code depends on the order of transactions, using an example where a contract rewards the first person to solve a problem. This directly contradicts the claim that transaction order never affects a contract reward."
+    },
+    "skeptical": null,
+    "latency_seconds": 5.689,
+    "input_tokens": 1590,
+    "output_tokens": 80
+  },
+  {
+    "id": "H17",
+    "evidence_id": "SWC-114",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "Pending transactions are invisible to people running Ethereum nodes.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly states that a person running an Ethereum node can see transactions before they are finalized, which directly contradicts the claim that pending transactions are invisible to such nodes.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly states that a person running an Ethereum node can see transactions before they are finalized, which directly contradicts the claim that pending transactions are invisible to such nodes."
+    },
+    "skeptical": null,
+    "latency_seconds": 5.086,
+    "input_tokens": 1596,
+    "output_tokens": 65
+  },
+  {
+    "id": "H18",
+    "evidence_id": "SWC-114",
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "category": "unsupported_mechanism",
+    "claim": "An Ethereum node operator can rewrite every finalized block at will.",
+    "actual": "CONTRADICTED",
+    "reason": "The source states that a node operator can see transactions 'before they are finalized' (SWC-114#3), implying finalization precedes visibility of the content. The claim asserts an operator can rewrite 'every finalized block,' which contradicts the fundamental concept of finalization described in the source where blocks become confirmed and immutable after this process.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source states that a node operator can see transactions 'before they are finalized' (SWC-114#3), implying finalization precedes visibility of the content. The claim asserts an operator can rewrite 'every finalized block,' which contradicts the fundamental concept of finalization described in the source where blocks become confirmed and immutable after this process."
+    },
+    "skeptical": null,
+    "latency_seconds": 6.003,
+    "input_tokens": 1602,
+    "output_tokens": 102
+  },
+  {
+    "id": "H19",
+    "evidence_id": "SWC-107",
+    "expected": "CONTRADICTED",
+    "category": "incorrect_negation",
+    "claim": "External contract calls cannot transfer control flow.",
+    "actual": "CONTRADICTED",
+    "reason": "The source explicitly states that a major danger of calling external contracts is that 'they can take over the control flow,' which directly contradicts the claim that such calls 'cannot transfer control flow.'",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source explicitly states that a major danger of calling external contracts is that 'they can take over the control flow,' which directly contradicts the claim that such calls 'cannot transfer control flow.'"
+    },
+    "skeptical": null,
+    "latency_seconds": 5.379,
+    "input_tokens": 1385,
+    "output_tokens": 70
+  },
+  {
+    "id": "H20",
+    "evidence_id": "SWC-113",
+    "expected": "INSUFFICIENT_EVIDENCE",
+    "category": "unsupported_guarantee",
+    "claim": "Recipient-initiated withdrawals guarantee that external calls never fail.",
+    "actual": "CONTRADICTED",
+    "reason": "The source states that external calls can fail accidentally or deliberately, causing DoS conditions, and recommends isolating them to minimize damage. It explicitly suggests letting users withdraw funds (recipient-initiated) rather than pushing funds automatically to reduce failure risks and gas limit problems. This directly contradicts the claim that recipient-initiated withdrawals guarantee that external calls never fail.",
+    "initial": {
+      "verdict": "CONTRADICTED",
+      "support_option_ids": [],
+      "reason": "The source states that external calls can fail accidentally or deliberately, causing DoS conditions, and recommends isolating them to minimize damage. It explicitly suggests letting users withdraw funds (recipient-initiated) rather than pushing funds automatically to reduce failure risks and gas limit problems. This directly contradicts the claim that recipient-initiated withdrawals guarantee that external calls never fail."
+    },
+    "skeptical": null,
+    "latency_seconds": 6.076,
+    "input_tokens": 1199,
+    "output_tokens": 101
+  }
+]

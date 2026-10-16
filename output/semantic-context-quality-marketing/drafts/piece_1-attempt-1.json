@@ -1,0 +1,19 @@
+{
+  "tweets": [
+    "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic."
+  ],
+  "claims": [
+    {
+      "text": "execution will resume even if the called contract throws an exception",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    },
+    {
+      "text": "may cause unexpected behaviour in subsequent program logic",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

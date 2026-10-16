@@ -1,0 +1,19 @@
+{
+  "tweets": [
+    "Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether."
+  ],
+  "claims": [
+    {
+      "text": "Review how your contract handles initialization functions",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

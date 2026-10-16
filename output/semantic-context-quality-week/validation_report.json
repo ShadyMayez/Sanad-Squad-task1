@@ -1,0 +1,79 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      [
+        "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text provides a general recommendation to 'Use a reentrancy lock' as part of the Checks-Effects-Interactions pattern, citing OpenZeppelin's ReentrancyGuard as an example ('ie.'). However, it does not explicitly state that this measure mitigates the specific risk of reentrancy attacks in the context of the broader SWC-107 guidance (which focuses on state changes before calls). The claim asserts a causal relationship ('to mitigate the risk') which is implied but not explicitly entailed by the selected span alone. Furthermore, the source scope metadata indicates 'Legacy SWC guidance; check compiler and EVM applicability,' suggesting the advice may have version-specific limitations that are omitted due to truncation. Without explicit confirmation that OpenZeppelin's ReentrancyGuard mitigates reentrancy risk within this specific legacy context, the entailment is not fully supported."
+      ],
+      [
+        "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source defines the attack as a scenario where a malicious contract 'calls back', but it does not explicitly state that this action allows the malicious contract to 'execute code in your function'. While calling back implies entering the function, the specific phrasing 'execute code in your function' is an interpretive leap not strictly entailed by the text 'calls back into the calling contract'. Furthermore, the source scope is marked as 'Legacy SWC guidance; check compiler and EVM applicability', and the context is truncated (`truncated=true`), meaning necessary conditions regarding modern execution environments or specific code execution mechanics may be omitted. The claim attributes a specific capability ('execute code') that is not explicitly confirmed in the provided text, which only confirms the act of 'calling back'."
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      [
+        "Tweet 1 has an unmapped sentence: 'Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.'"
+      ],
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      [
+        "Atomic claim t2s1c1: AMBIGUOUS: Skeptical span audit: The source text states the bug is 'sometimes caused by' exposing initialization functions, while the claim asserts it 'often stems from' the same cause. In risk assessment contexts, 'sometimes' implies a low-to-moderate frequency (occasional occurrence), whereas 'often' implies a high frequency. The semantic shift from 'sometimes' to 'often' alters the severity and expected recurrence of the risk without additional evidence in the source text to justify this increase in frequency. Therefore, the claim overstates the causal relationship's prevalence compared to the source.",
+        "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: The source text describes a specific vulnerability (unprotected Ether withdrawal) caused by missing access controls on initialization functions, but it does not provide general guidance for reviewers to verify 'all' state-changing functions. The claim makes a broad prescriptive requirement ('should verify all') that is not entailed by the descriptive example in SWC-105 regarding constructor re-initialization.",
+        "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text describes a specific mechanism where 'wrongly naming a function intended to be a constructor' creates an unintended entry point. It does not explicitly state that *all* unintended entry points must be avoided or that the claim is universally true for any entry point; it only illustrates one cause (misnamed constructors). The claim's phrasing ('Ensure no...') implies a universal requirement, while the evidence provides a specific example of a vulnerability rather than a comprehensive rule covering all potential entry points. Additionally, the source mentions 'sometimes caused by', indicating this is not the sole or guaranteed cause for such issues, further weakening support for a blanket 'ensure' statement without additional context on other entry point types."
+      ],
+      [
+        "Atomic claim t5s1c1: INSUFFICIENT_EVIDENCE: The source text describes a vulnerability where missing access controls allow Ether withdrawal and notes that this bug is sometimes caused by exposing initialization functions. However, it does not state or imply that checking for exposed initialization functions is part of the 'review process' or constitutes a recommended action for developers. The claim prescribes a procedural step ('Check for... during your review process') which is not supported by the descriptive nature of the source material.",
+        "Atomic claim t6s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text describes a specific vulnerability scenario where 'wrongly naming' a function causes constructor code to be callable by anyone, leading to Ether withdrawal. It does not make a universal claim that *all* constructor logic is unprotected or that the only way to protect it is via naming conventions. The atomic claim ('Verify that constructor logic remains protected from external invocation') implies a general requirement for all constructors, whereas the evidence only supports verifying protection in the specific context of functions wrongly named as constructors. The source does not explicitly state that every constructor must be verified against external invocation as a blanket rule, making the entailment too broad."
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      [
+        "Claim text is absent from tweets: 'missing or insufficient access controls'",
+        "Claim text is absent from tweets: 'malicious parties can withdraw some or all Ether from the contract account'",
+        "Claim text is absent from tweets: 'By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract'",
+        "Tweet 1 has an unmapped sentence: 'Review how your contract handles initialization functions, since missing access controls allow malicious parties to withdraw Ether by re-initializing the contract.'",
+        "Tweet 1 sentence 1 has no Writer evidence mapping",
+        "Tweet 1 contains uncovered substantive text: 'ReviewhowyourcontracthandlesinitializationfunctionssincemissingaccesscontrolsallowmaliciouspartiestowithdrawEtherbyreinitializingthecontract'",
+        "No atomic claims extracted"
+      ],
+      [
+        "Tweet 1 has an unmapped sentence: 'Review how your contract handles initialization functions, since wrongly naming a function intended as a constructor causes runtime re-initialization that allows anyone to withdraw Ether.'"
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      [
+        "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text defines 'Price Oracle manipulation' as a general phenomenon leading to unauthorized actions and loss of funds, but it does not explicitly state that this risk stems from relying on a *single* data source. While the remediation suggests using 'multiple' oracles, implying single-source reliance is a vulnerability, the source does not make the specific causal claim that 'This risk stems from relying on a single data source.' The connection between the general definition of manipulation and the specific condition of 'single source' relies on external inference rather than explicit textual entailment. Additionally, the context is truncated, preventing verification of whether other conditions for this specific risk description exist.",
+        "Atomic claim t3s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text provides a remediation instruction ('Leverage multiple decentralized oracles') but lacks the specific causal context required to support the claim that this is a 'primary defense' against 'manipulation'. The truncated nature of the source and the absence of explicit qualifiers linking the action to the threat of manipulation prevent unambiguous entailment. A mitigation for price data does not inherently prove it stops manipulation without additional context defining the threat model.",
+        "Atomic claim t4s1c2: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text states 'Reject outliers and anomalous deviations' as a general instruction within the context of aggregating data sources. It does not explicitly state the *purpose* or *result* of this action (i.e., 'to prevent skewed pricing decisions'). While the claim's proposition is plausible, the selected span lacks the causal link or explicit intent required to support the full atomic claim. The truncated nature of the context further prevents verification of whether this specific phrasing is tied to that specific outcome in the original document."
+      ],
+      [
+        "Atomic claim t2s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text explicitly recommends leveraging multiple decentralized oracles 'for price data,' which limits the scope to price data specifically. The atomic claim makes a universal assertion about remediation in general ('Remediation requires...'), omitting the critical qualifier that this requirement applies only to price data. Without evidence confirming whether other types of data require the same multi-oracle approach, the source does not support the unqualified universal claim."
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      [
+        "Claim text is absent from tweets: 'External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract.'",
+        "Tweet 1 has an unmapped sentence: 'Review how your contract handles external call failures, since accidental or deliberate failures can cause DoS conditions in the contract.'",
+        "Tweet 1 sentence 1 has no Writer evidence mapping",
+        "Tweet 1 contains uncovered substantive text: 'ReviewhowyourcontracthandlesexternalcallfailuressinceaccidentalordeliberatefailurescancauseDoSconditionsinthecontract'",
+        "No atomic claims extracted"
+      ],
+      []
+    ]
+  }
+]

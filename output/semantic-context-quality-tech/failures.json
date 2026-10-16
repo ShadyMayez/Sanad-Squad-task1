@@ -1,0 +1,7 @@
+[
+  {
+    "slot_id": "piece_1",
+    "status": "failed",
+    "reason": "Reviewer failed: ValueError: Reviewer returned approval=false with passing scores and no failed mandatory gate after one consistency retry"
+  }
+]

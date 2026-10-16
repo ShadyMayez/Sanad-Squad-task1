@@ -1,0 +1,21 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 1,
+  "shipped": 0,
+  "dropped": 1,
+  "failed": 0,
+  "reasons": [
+    {
+      "slot_id": "piece_1",
+      "status": "dropped",
+      "reason": "Claim t4 ('To prevent this, perform all critical state changes before making external calls.') fails factual support because the source (SWC-107) specifies 'all internal state changes', whereas the claim narrows this to 'critical' state changes. The semantic report confirms that 'internal' defines location within the contract, while 'critical' implies a subset; the source does not entail that only critical states must be changed before an external call.; This discrepancy constitutes a mandatory gate failure (INSUFFICIENT_EVIDENCE) for claim t4s1c1. Per the decision procedure, any atomic verdict other than SUPPORTED blocks approval.; No verified supporting excerpt for claim: Calling external contracts can transfer control flow before your function finishes, allowing another contract to execute first.; No verified supporting excerpt for claim: In a reentrancy attack, a malicious contract calls back into the original contract while the first invocation is still active.; No verified supporting excerpt for claim: This allows multiple invocations of the same function to interact in ways that may not be intended by the developer.; No verified supporting excerpt for claim: To prevent this, perform all critical state changes before making external calls.; No verified supporting excerpt for claim: This approach is known as the Checks-Effects-Interactions pattern.; No verified supporting excerpt for claim: Alternatively, you can use a reentrancy lock mechanism like OpenZeppelin's ReentrancyGuard.; Atomic claim t4s1c1: INSUFFICIENT_EVIDENCE: Skeptical span audit: The source text specifies 'all internal state changes', whereas the claim asserts 'all critical state changes'. The term 'internal' defines the location of the state (within the contract), while 'critical' implies a subset of states essential to the transaction's logic. A malicious actor could theoretically perform non-critical internal state changes before an external call without triggering reentrancy, meaning the source's instruction does not strictly entail the claim's requirement to prevent *all* critical changes if interpreted as a universal rule for every possible state change. Furthermore, the source uses 'internal' while the claim uses 'external calls'; while the context discusses reentrancy (calling back), the specific mapping of 'internal state changes' to 'critical state changes' is an interpretive leap not explicitly supported by the text.; Scores below rubric threshold: ['factual_support']"
+    }
+  ],
+  "elapsed_seconds": 322.535,
+  "prompt_tokens_recorded": 51633,
+  "completion_tokens_recorded": 4663,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured"
+}

@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Review how your contract handles initialization function exposure, since missing access controls allow malicious parties to withdraw Ether from the contract account."
+  ],
+  "claims": [
+    {
+      "text": "Review how your contract handles initialization function exposure, since missing access controls allow malicious parties to withdraw Ether from the contract account.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    }
+  ]
+}

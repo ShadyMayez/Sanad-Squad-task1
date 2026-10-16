@@ -93,7 +93,7 @@ def build_piece_graph(model, lookup: EvidenceLookup, registry: Registry, brand_t
     async def semantic(state: PieceState):
         if state["extraction_errors"] or state["provenance_errors"] or not state["claims"]:
             report = error_report(state["claims"], "; ".join(state["extraction_errors"] + state["provenance_errors"]) or "No atomic claims")
-            usage, latency = {}, 0.0
+            usage, latency = None, 0.0
         else:
             report, usage, latency = await semantic_verifier.run(state["claims"], state["topic"].evidence)
         verification_errors = [v.reason for v in report.verdicts if v.verdict == "VERIFICATION_ERROR"]
@@ -104,7 +104,7 @@ def build_piece_graph(model, lookup: EvidenceLookup, registry: Registry, brand_t
                 "semantic_reports": state.get("semantic_reports", []) + [report],
                 "verification_latencies_seconds": state.get("verification_latencies_seconds", []) + [latency],
                 **({"error": "Semantic verifier failed: " + "; ".join(failure)} if failure else {}),
-                **add_usage(state, usage)}
+                **(add_usage(state, usage) if usage is not None else {})}
 
     async def evaluate(state: PieceState):
         topic = state["topic"]

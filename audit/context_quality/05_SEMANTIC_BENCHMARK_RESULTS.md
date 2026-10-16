@@ -1,0 +1,24 @@
+# Semantic benchmark results
+
+All results below are real local `qwen3.5:4b` calls except the two deliberate snapshot-hash failures, which Python rejected before inference. Labels were fixed before each evaluation. `benchmark-results.json`, `heldout-v2-results.json`, and `supplemental-results.json` contain every claim, source ID, actual verdict, reason, latency, and available usage measurement.
+
+| Evaluation | Supported recall | Supported precision | Adverse false accepts | Exact label accuracy | Mean claim latency | Prompt / completion tokens |
+|---|---:|---:|---:|---:|---:|---:|
+| Historical A–T, previous verifier | 2/2 | 100% | 0/15 | 80% (16/20) | 6.19 s | 22,440 / 1,867 |
+| Initial 60-case context version | 29/30 | 100% | 0/30 | 81.7% (49/60) | 9.44 s | 100,727 / 8,280 |
+| Revised 60-case replay after coreference prompt | 29/30 | 100% | 0/30 | 80% (48/60) | 9.85 s | 115,563 / 8,905 |
+| Final 60-case replay after context flag correction | 28/30 | 100% | 0/30 | 78.3% (47/60) | 9.90 s | 116,470 / 8,756 |
+| Fresh revised-prompt held-out v2 | 10/10 | 100% | 0/10 | 80% (16/20) | 9.52 s | 42,239 / 2,737 |
+| Fresh final-code held-out v3 | 8/10 | 100% | 0/10 | 65% (13/20) | 9.88 s | 39,019 / 2,994 |
+
+The first 60-case run had 40 development and 20 initially held-out examples. A supplemental ambiguity probe then exposed a false acceptance, and the prompts were calibrated. The old 60 labels were replayed without modification, but its last 20 are **not** claimed as unseen for the revised prompt. The fresh v2 set was frozen before its evaluation and met the predeclared minimums: supported recall ≥70%, supported precision ≥90%, false acceptance ≤10%. Its ten supported and ten adverse examples all fell on the correct side of the publication gate. Four adverse cases were called CONTRADICTED instead of the reference INSUFFICIENT_EVIDENCE, accounting for its 80% exact-label accuracy.
+
+The supplemental source said, “The oracle and bridge update the price. It can be stale.” Initially the model incorrectly accepted “The bridge can be stale.” After explicit pronoun-resolution guidance, both synthetic ambiguous-reference cases returned AMBIGUOUS, and both corrupted-hash cases returned VERIFICATION_ERROR. These four probes exercise the two classes absent from the primary 60-case reference labels. The original unsafe result remains in `supplemental-pre-coreference-results.json`.
+
+The revised 60 replay falsely rejected supported case 54, a source-attributed conditional `assert`/`require` recommendation. The skeptic inferred a universal current-version claim that the text did not make; a direct recheck remained adverse. The final flag correction did not fix case 54 and also rejected supported case 34, a source-attributed randomness-oracle remediation recommendation. Both are observed false negatives, not reasons to force approval. Many unsupported cases received the stricter-sounding CONTRADICTED label where the evidence was merely insufficient. Both outcomes are adverse to publication, but the distinction matters for feedback quality.
+
+The final 60-case replay is a regression set previously observed during prompt calibration. Its supported recall fell from 29/30 to 28/30 while adverse false acceptance stayed at 0/30. The new flag semantics were therefore not an unqualified accuracy improvement. The final fresh v3 holdout is reported below; its exact claims were frozen before the final verifier saw them.
+
+The fresh v3 holdout met the predeclared publication-side thresholds: 80% supported recall (minimum 70%), 100% supported precision (minimum 90%), and 0% adverse false acceptance (maximum 10%). It falsely rejected two supported source-attributed recommendations, V03 and V10. V03's source heading says the listed practices are “to avoid Reentrancy weaknesses,” but the skeptic failed to connect that heading to the lock bullet. V10 repeats the conditional `assert`/`require` false-negative pattern. Five adverse examples were given CONTRADICTED rather than the reference INSUFFICIENT_EVIDENCE, lowering exact five-label accuracy to 13/20; all remained adverse at the publication gate. This holdout was authored by the implementing engineer, not independently double reviewed by a security specialist.
+
+The context and coreference changes increased average prompt usage: the revised 60 replay used 115,563 versus 100,727 prompt tokens in the prior 60-case version (about 14.7% more), and mean verification latency rose from 9.44 to 9.85 seconds (about 4.3%). Completion usage was 8,905 versus 8,280. Usage metadata was complete in these evaluations. The old 20-case set is much smaller and differently composed, so its percentages are not a direct performance delta. The curated benchmark does not estimate production error rates or prove that unsupported content can never ship.

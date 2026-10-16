@@ -1,0 +1,75 @@
+[
+  {
+    "slot_id": "piece_1",
+    "attempts": [
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 132,
+          "span": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "proposition": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.",
+          "qualifiers": [
+            "if"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        },
+        {
+          "id": "t1s1c2",
+          "tweet_index": 0,
+          "start": 137,
+          "end": 196,
+          "span": "may cause unexpected behaviour in subsequent program logic.",
+          "proposition": "may cause unexpected behaviour in subsequent program logic.",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behaviour in subsequent program logic.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        }
+      ],
+      [
+        {
+          "id": "t1s1c1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 132,
+          "span": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "proposition": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic.",
+          "qualifiers": [
+            "if"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        },
+        {
+          "id": "t1s1c2",
+          "tweet_index": 0,
+          "start": 137,
+          "end": 187,
+          "span": "may cause unexpected behavior in subsequent logic.",
+          "proposition": "may cause unexpected behavior in subsequent logic.",
+          "sentence": "Review how your contract handles low-level call results, since execution will resume even if the called contract throws an exception and may cause unexpected behavior in subsequent logic.",
+          "qualifiers": [
+            "may"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ]
+        }
+      ]
+    ]
+  }
+]

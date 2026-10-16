@@ -1,0 +1,544 @@
+{
+  "status": "ValueError: Reviewer returned approval=false with passing scores and no failed mandatory gate after one consistency retry",
+  "rows": [
+    {
+      "review": {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 3,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "The draft is factually and technically sound but fails the platform_format gate. The input contains 6 tweets, yet they are provided as a single string without line breaks or separators. X renders this as one long post rather than a thread, violating the requirement for separately readable tweets.",
+          "To achieve approval, the Writer must split the content into six distinct lines (one per tweet) within the JSON array strings."
+        ],
+        "corrections": [
+          "Replace the single string in draft.tweets[0] with a multi-line string containing exactly six lines, each representing one tweet. Ensure no line breaks exist inside any individual string element.",
+          "Example structure: \"Tweet 1 text...\\n\\nTweet 2 text...\""
+        ],
+        "grounding_assessment": "All six claims are fully supported by the SWC-107 excerpt with verbatim evidence. The thread accurately describes the reentrancy mechanism (control transfer before function completion), the consequence (undesirable interactions between invocations), and both remediation strategies (Checks-Effects-Interactions pattern and OpenZeppelin's ReentrancyGuard). No invented facts, negation errors, or unsupported causal links exist.",
+        "claim_support": []
+      },
+      "usage": {
+        "input_tokens": 4247,
+        "output_tokens": 329,
+        "total_tokens": 4576
+      },
+      "task": {
+        "brand_voice_guidance": "# SanadSquad content voice\n\nIdentity: an educational smart contract security auditing firm. Audience: protocol engineers and teams evaluating contract risk.\n\nTone: precise, practical, calm, and useful. Technical threads teach a failure mode and a concrete review habit. Marketing posts invite teams to examine risk without implying that SanadSquad has audited any particular client.\n\nAvoid hype, guarantees, invented incidents, fabricated client work, performance claims, and sales pressure. Use plain language. No hashtags, em dashes, or promotional URLs. A source may appear in internal metadata without appearing in the post.\n\nThe JSON block below is the enforceable rule contract. Edit both prose and JSON when changing policy.",
+        "evidence": [
+          {
+            "id": "SWC-107",
+            "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/entries/docs/SWC-107.md",
+            "source_title": "SWC-107 Reentrancy, official SWC Registry",
+            "source_type": "official registry Markdown, normalized excerpt",
+            "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+            "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+            "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+          }
+        ],
+        "draft": {
+          "tweets": [
+            "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+            "This allows a malicious contract to call back into you before the original invocation completes.",
+            "Different invocations of the same function may then interact in undesirable ways.",
+            "To avoid this, perform all internal state changes before making any external calls.",
+            "This approach is known as the Checks-Effects-Interactions pattern.",
+            "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard."
+          ],
+          "claims": [
+            {
+              "text": "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "This allows a malicious contract to call back into you before the original invocation completes.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "Different invocations of the same function may then interact in undesirable ways.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "To avoid this, perform all internal state changes before making any external calls.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "This approach is known as the Checks-Effects-Interactions pattern.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            }
+          ]
+        },
+        "deterministic_errors": [],
+        "tweet_count": 6,
+        "tweet_character_counts": [
+          122,
+          96,
+          81,
+          83,
+          66,
+          81
+        ],
+        "tweet_array_semantics": "Each draft.tweets element is one independent rendered tweet; numbering is added only during CSV export.",
+        "semantic_report": {
+          "verdicts": [
+            {
+              "claim_id": "t1s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+                },
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 458,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 361
+                },
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 613,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 516
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t2s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 613,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 516
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t3s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 670,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 573
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t4s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "Make sure all internal state changes are performed before the call is executed."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 197,
+                  "end": 732,
+                  "text": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 535
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t5s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "This is known as the Checks-Effects-Interactions pattern"
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 369,
+                  "end": 732,
+                  "text": "This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 363
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t6s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 534,
+                  "end": 732,
+                  "text": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 198
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            }
+          ]
+        },
+        "task": "Score only the current draft. Return a concise Review. A rejection needs a current-draft defect and matching low score or mandatory gate; never override a hard or atomic gate."
+      }
+    },
+    {
+      "review": {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 3,
+        "usefulness": 4,
+        "approved": false,
+        "reasons": [
+          "The draft contains six separate tweets but lacks explicit numbering (e.g., '1/6') in the text itself. While Python's `tweet_count` correctly identifies six elements, the absence of visual delimiters reduces immediate platform readability for users scanning a thread without metadata.",
+          "Per brand_voice_guidance, while hashtags are banned, adding simple numeric markers like '1/6' is standard practice for threads to ensure separate readability and does not violate the 'no promotional URLs' or 'hype' constraints."
+        ],
+        "corrections": [
+          "Prepend '1/6', '2/6', etc. to each tweet string to explicitly demarcate the thread structure.",
+          "Example: Change 'Calling external contracts...' to '1/6 Calling external contracts...'"
+        ],
+        "grounding_assessment": "All six claims are fully supported by the SWC-107 excerpt with verbatim evidence. The technical explanation of control flow transfer, reentrancy mechanics, and the Checks-Effects-Interactions pattern is accurate. The brand voice remains sober and precise without hype or fabricated authority.",
+        "claim_support": []
+      },
+      "usage": {
+        "input_tokens": 4308,
+        "output_tokens": 313,
+        "total_tokens": 4621
+      },
+      "task": {
+        "brand_voice_guidance": "# SanadSquad content voice\n\nIdentity: an educational smart contract security auditing firm. Audience: protocol engineers and teams evaluating contract risk.\n\nTone: precise, practical, calm, and useful. Technical threads teach a failure mode and a concrete review habit. Marketing posts invite teams to examine risk without implying that SanadSquad has audited any particular client.\n\nAvoid hype, guarantees, invented incidents, fabricated client work, performance claims, and sales pressure. Use plain language. No hashtags, em dashes, or promotional URLs. A source may appear in internal metadata without appearing in the post.\n\nThe JSON block below is the enforceable rule contract. Edit both prose and JSON when changing policy.",
+        "evidence": [
+          {
+            "id": "SWC-107",
+            "url": "https://github.com/SmartContractSecurity/SWC-registry/blob/master/entries/docs/SWC-107.md",
+            "source_title": "SWC-107 Reentrancy, official SWC Registry",
+            "source_type": "official registry Markdown, normalized excerpt",
+            "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+            "source_quote": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+            "scope": "Legacy SWC guidance; check compiler and EVM applicability"
+          }
+        ],
+        "draft": {
+          "tweets": [
+            "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+            "This allows a malicious contract to call back into you before the original invocation completes.",
+            "Different invocations of the same function may then interact in undesirable ways.",
+            "To avoid this, perform all internal state changes before making any external calls.",
+            "This approach is known as the Checks-Effects-Interactions pattern.",
+            "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard."
+          ],
+          "claims": [
+            {
+              "text": "Calling external contracts can transfer control before your function finishes, allowing another contract to execute first.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "This allows a malicious contract to call back into you before the original invocation completes.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "Different invocations of the same function may then interact in undesirable ways.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "To avoid this, perform all internal state changes before making any external calls.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "This approach is known as the Checks-Effects-Interactions pattern.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            },
+            {
+              "text": "Alternatively, you can use a reentrancy lock like OpenZeppelin's ReentrancyGuard.",
+              "evidence_ids": [
+                "SWC-107"
+              ]
+            }
+          ]
+        },
+        "deterministic_errors": [],
+        "tweet_count": 6,
+        "tweet_character_counts": [
+          122,
+          96,
+          81,
+          83,
+          66,
+          81
+        ],
+        "tweet_array_semantics": "Each draft.tweets element is one independent rendered tweet; numbering is added only during CSV export.",
+        "semantic_report": {
+          "verdicts": [
+            {
+              "claim_id": "t1s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+                },
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 458,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 361
+                },
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 613,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 516
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t2s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 613,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed.",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 516
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t3s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 97,
+                  "end": 670,
+                  "text": "One of the major dangers of calling external contracts is that they can take over the control flow. In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 573
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t4s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "Make sure all internal state changes are performed before the call is executed."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 197,
+                  "end": 732,
+                  "text": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished. This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 535
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t5s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "This is known as the Checks-Effects-Interactions pattern"
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 369,
+                  "end": 732,
+                  "text": "This may cause the different invocations of the function to interact in undesirable ways.\n\n## Remediation\n\nThe best practices to avoid Reentrancy weaknesses are:\n\n- Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 363
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            },
+            {
+              "claim_id": "t6s1c1",
+              "verdict": "SUPPORTED",
+              "supporting_spans": [
+                {
+                  "evidence_id": "SWC-107",
+                  "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+                }
+              ],
+              "context_windows": [
+                {
+                  "evidence_id": "SWC-107",
+                  "snapshot_sha256": "b1a810b94f58b53a49f5f8f47f576e9bf32eef561b0312cbf6e55abc37c22f7a",
+                  "source_scope": "Legacy SWC guidance; check compiler and EVM applicability",
+                  "start": 534,
+                  "end": 732,
+                  "text": "Make sure all internal state changes are performed before the call is executed. This is known as the Checks-Effects-Interactions pattern\n- Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard).",
+                  "truncated": true,
+                  "token_budget_upper_bound": 1400,
+                  "token_upper_bound": 198
+                }
+              ],
+              "initial_verdict": "SUPPORTED",
+              "skeptical_verdict": "SUPPORTED"
+            }
+          ]
+        },
+        "task": "Score only the current draft. Return a concise Review. A rejection needs a current-draft defect and matching low score or mandatory gate; never override a hard or atomic gate.",
+        "review_consistency_feedback": "Previous Review had approved=false with every score at or above threshold and no failed mandatory gate. Reassess only this draft: approve if no specific defect exists, or lower the affected score and state a concise current-draft defect. Do not repeat speculative self-dialogue."
+      }
+    }
+  ]
+}
