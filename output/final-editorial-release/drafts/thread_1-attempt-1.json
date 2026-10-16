@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "External contracts can seize execution control flow when called.",
+    "In reentrancy attacks, they call back before the initial invocation finishes.",
+    "These recursive callbacks let separate function invocations interact undesirably.",
+    "The Checks-Effects-Interactions pattern updates state before making external calls.",
+    "Using OpenZeppelin ReentrancyGuard prevents protected functions from executing recursively."
+  ],
+  "claims": [
+    {
+      "text": "External contracts can seize execution control flow when called.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "In reentrancy attacks, they call back before the initial invocation finishes.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "These recursive callbacks let separate function invocations interact undesirably.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "The Checks-Effects-Interactions pattern updates state before making external calls.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    },
+    {
+      "text": "Using OpenZeppelin ReentrancyGuard prevents protected functions from executing recursively.",
+      "evidence_ids": [
+        "SWC-107"
+      ]
+    }
+  ]
+}

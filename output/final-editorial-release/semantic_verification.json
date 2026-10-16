@@ -1,0 +1,878 @@
+[
+  {
+    "schema_version": "2.0",
+    "slot_id": "thread_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "thread_1_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#0"
+            ],
+            "reason": "The generated text faithfully paraphrases the approved canonical proposition ('Calling external contracts allows them to take over the execution control flow.') without introducing unapproved technical concepts, consequences, severity modifiers, or comparative rankings. The statement accurately reflects the mechanism of SWC-107 (Control Flow Flaw) as defined in the plan.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_1_claim_2",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              },
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#1",
+              "SWC-107#0"
+            ],
+            "reason": "The tweet text accurately paraphrases the approved canonical propositions regarding the mechanism of reentrancy attacks (calling back before completion) and control flow takeover. It introduces no unapproved consequences, severity modifiers, comparative rankings, or foreign vulnerability concepts. The causal relationship implied by the plan is preserved without escalation.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "In the reentrancy attack (a.k.a. recursive call attack), a malicious contract calls back into the calling contract before the first invocation of the function is finished."
+              },
+              {
+                "evidence_id": "SWC-107",
+                "quote": "One of the major dangers of calling external contracts is that they can take over the control flow."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_1_claim_3",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#2"
+            ],
+            "reason": "The generated text faithfully paraphrases the approved canonical proposition (PROP_SWC107_UNDESIRABLE_INTERACTION) regarding recursive callbacks causing undesirable interactions between separate function invocations. It introduces no unapproved technical concepts, consequences, severity modifiers, or comparative rankings. The epistemic modality and causal direction remain strictly aligned with the approved plan.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This may cause the different invocations of the function to interact in undesirable ways."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_1_claim_4",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              },
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This is known as the Checks-Effects-Interactions pattern"
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#3",
+              "SWC-107#4"
+            ],
+            "reason": "The tweet text accurately paraphrases the approved canonical proposition (PROP_SWC107_CEI_PATTERN) regarding the Checks-Effects-Interactions pattern. It correctly identifies the core mechanism described in the plan: performing internal state changes before external calls. No unapproved consequences, severity modifiers, comparative rankings, or causal inversions are present. The text remains faithful to the licensed content.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Make sure all internal state changes are performed before the call is executed."
+              },
+              {
+                "evidence_id": "SWC-107",
+                "quote": "This is known as the Checks-Effects-Interactions pattern"
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_1_claim_5",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-107"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-107#5"
+            ],
+            "reason": "The generated tweet text accurately paraphrases the approved canonical proposition (PROP_SWC107_REENTRANCY_GUARD) regarding the use of OpenZeppelin ReentrancyGuard to prevent recursive execution. It strictly adheres to the approved relation (MITIGATES) without introducing unapproved consequences, severity modifiers, comparative rankings, or foreign vulnerability concepts. The text faithfully expresses the intended meaning within the licensed scope.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-107",
+                "quote": "Use a reentrancy lock (ie. OpenZeppelin's ReentrancyGuard)."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      432.44
+    ]
+  },
+  {
+    "schema_version": "2.0",
+    "slot_id": "post_1",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "post_1_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-104"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Description The return value of a message call is not checked."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-104#0",
+              "SWC-104#3",
+              "SWC-104#2"
+            ],
+            "reason": "The tweet text faithfully expresses the meaning of all approved propositions without introducing unapproved technical facts, consequences, severity modifiers, or comparative rankings. It accurately reflects that unchecked calls can lead to unexpected behavior (PROP_SWC104_UNEXPECTED_BEHAVIOUR) and recommends checking return values to handle failures (PROP_SWC104_CHECK_RETURN), maintaining the causal link that checking mitigates unexpected behavior (REL_SWC104_CHECKING_MITIGATES_UNEXPECTED_BEHAVIOUR). No epistemic modality was escalated, and no foreign vulnerability concepts were introduced.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Description The return value of a message call is not checked."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "Remediation If you choose to use low-level call methods, make sure to handle the possibility that the call will fail by checking the return value."
+              },
+              {
+                "evidence_id": "SWC-104",
+                "quote": "If the call fails accidentally or an attacker forces the call to fail, this may cause unexpected behaviour in the subsequent program logic."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      164.83
+    ]
+  },
+  {
+    "schema_version": "2.0",
+    "slot_id": "thread_2",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "thread_2_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-105"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-105#0"
+            ],
+            "reason": "The generated tweet text faithfully paraphrases the approved canonical proposition (PROP_SWC105_UNPROTECTED_WITHDRAWAL). It preserves the causal mechanism (missing access controls -> withdrawal by malicious parties), the specific asset involved (Ether), and the target (contract accounts) without introducing unapproved consequences, severity modifiers, comparative rankings, or foreign vulnerability concepts.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_2_claim_2",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-105"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "This bug is sometimes caused by unintentionally exposing initialization functions."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-105#1"
+            ],
+            "reason": "The generated tweet text is a direct paraphrase of the approved canonical proposition (PROP_SWC105_EXPOSING_INIT). It preserves the exact epistemic modality ('sometimes'), the causal mechanism ('stem from' vs 'caused by'), and all technical terms without introducing unapproved consequences, severity modifiers, comparative rankings, or foreign concepts.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "This bug is sometimes caused by unintentionally exposing initialization functions."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_2_claim_3",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-105"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-105#2"
+            ],
+            "reason": "The tweet text accurately paraphrases the approved canonical proposition (PROP_SWC105_LEGACY_CONSTRUCTOR) regarding the mechanism of wrongly naming a constructor in legacy Solidity versions. It correctly preserves the version boundary (<0.4.22), the causal mechanism (misnaming places code in runtime bytecode), and the consequence (anyone can call it). No unapproved technical concepts, severity modifiers, comparative rankings, or epistemic escalations are introduced.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "By wrongly naming a function intended to be a constructor, the constructor code ends up in the runtime byte code and can be called by anyone to re-initialize the contract."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_2_claim_4",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-105"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-105#3"
+            ],
+            "reason": "The generated tweet text faithfully paraphrases the approved canonical proposition (PROP_SWC105_RESTRICT_WITHDRAWALS) regarding access controls for Ether withdrawals. It preserves the core meaning, mechanism, and scope without introducing unapproved consequences, severity modifiers, comparative rankings, or foreign vulnerability concepts. The epistemic modality and causal direction remain consistent with the plan.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_2_claim_5",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "OZ-OWNABLE"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "OZ-OWNABLE",
+                "quote": "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions."
+              },
+              {
+                "evidence_id": "OZ-OWNABLE",
+                "quote": "It will make available the modifier onlyOwner, which can be applied to your functions to restrict their use to the owner."
+              }
+            ],
+            "supporting_span_ids": [
+              "OZ-OWNABLE#0",
+              "OZ-OWNABLE#4"
+            ],
+            "reason": "The generated text accurately paraphrases the approved canonical proposition (PROP_OZ_OWNABLE_MODULE) regarding the provision of the onlyOwner modifier and its function to restrict execution. It correctly reflects the implied mitigation relation by stating the mechanism without introducing unapproved consequences, severity modifiers, or comparative rankings. The text remains faithful to the licensed content.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "OZ-OWNABLE",
+                "quote": "Contract module which provides a basic access control mechanism, where there is an account (an owner) that can be granted exclusive access to specific functions."
+              },
+              {
+                "evidence_id": "OZ-OWNABLE",
+                "quote": "It will make available the modifier onlyOwner, which can be applied to your functions to restrict their use to the owner."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      370.998
+    ]
+  },
+  {
+    "schema_version": "2.0",
+    "slot_id": "post_2",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "post_2_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-105"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account."
+              },
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-105#0",
+              "SWC-105#3"
+            ],
+            "reason": "The tweet text faithfully expresses the meaning of the approved propositions and relations without introducing unapproved technical facts, consequences, severity modifiers, or comparative rankings. It accurately paraphrases the fact that missing access controls allow withdrawals (PROP_SWC105_UNPROTECTED_WITHDRAWAL) and the recommendation to restrict withdrawals to authorized parties (PROP_SWC105_RESTRICT_WITHDRAWALS), while correctly maintaining the causal link that implementing these controls mitigates the risk of unauthorized withdrawals (REL_SWC105_RESTRICT_WITHDRAWALS_MITIGATES). No unapproved harms, severity escalations, or foreign vulnerability concepts are present.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Description Due to missing or insufficient access controls, malicious parties can withdraw some or all Ether from the contract account."
+              },
+              {
+                "evidence_id": "SWC-105",
+                "quote": "Remediation Implement controls so withdrawals can only be triggered by authorized parties or according to the specs of the smart contract system."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      120.113
+    ]
+  },
+  {
+    "schema_version": "2.0",
+    "slot_id": "thread_3",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "thread_3_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SCWE-028"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Description ¶ Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic."
+              }
+            ],
+            "supporting_span_ids": [
+              "SCWE-028#0"
+            ],
+            "reason": "The generated text 'Price oracle manipulation exploits vulnerabilities to alter contract execution logic' is a faithful paraphrase of the approved proposition PROP_SCWE028_EXPLOITATION ('Price oracle manipulation refers to exploiting vulnerabilities in price oracles to manipulate contract execution logic'). It preserves the definition, mechanism (exploiting vulnerabilities), and consequence (altering/manipulating execution logic) without introducing unapproved technical details, severity modifiers, comparative rankings, or causal inversions. The phrase 'price oracles' is implicit in the subject 'Price oracle manipulation', which does not constitute an ungrounded universal claim but rather maintains the specific scope of the proposition.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Description ¶ Price Oracle manipulation refers to the exploitation of vulnerabilities in price oracles to manipulate contract logic."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_3_claim_2",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SCWE-028"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "This can lead to: - Unauthorized actions by malicious actors."
+              },
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Loss of funds or data."
+              },
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Exploitation of the contract's logic."
+              }
+            ],
+            "supporting_span_ids": [
+              "SCWE-028#1",
+              "SCWE-028#2",
+              "SCWE-028#3"
+            ],
+            "reason": "The generated text faithfully paraphrases the approved canonical proposition ('Oracle manipulation can lead to unauthorized actions, loss of funds, and exploitation of contract logic') without introducing unapproved technical concepts, consequences, severity modifiers, or comparative rankings. The terms 'unauthorized actions', 'fund loss', and 'logic exploitation' strictly match the approved propositions. No causal mechanisms were inverted, and no epistemic modality was escalated beyond the original 'can lead to'.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "This can lead to: - Unauthorized actions by malicious actors."
+              },
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Loss of funds or data."
+              },
+              {
+                "evidence_id": "SCWE-028",
+                "quote": "Exploitation of the contract's logic."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_3_claim_3",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "OWASP-SC03"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Aggregate multiple sources : Use median/mean of several DEXs / oracles."
+              },
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Reject outliers and anomalous deviations."
+              }
+            ],
+            "supporting_span_ids": [
+              "OWASP-SC03#0",
+              "OWASP-SC03#1"
+            ],
+            "reason": "The generated tweet text is a direct paraphrase of the approved canonical proposition (PROP_OWASP_AGGREGATE_FEEDS). It preserves the core recommendation to aggregate multiple sources and reject outliers without introducing unapproved technical concepts, consequences, severity modifiers, or comparative rankings. The text strictly adheres to the licensed content.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Aggregate multiple sources : Use median/mean of several DEXs / oracles."
+              },
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Reject outliers and anomalous deviations."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_3_claim_4",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "OWASP-SC03"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations."
+              },
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Reject prices older than a maximum staleness threshold."
+              }
+            ],
+            "supporting_span_ids": [
+              "OWASP-SC03#2",
+              "OWASP-SC03#3"
+            ],
+            "reason": "The generated tweet text faithfully paraphrases the approved canonical proposition 'PROP_OWASP_TWAP_DEFENSE' without introducing unapproved technical concepts, consequences, severity modifiers, or comparative rankings. The phrase 'exceeding thresholds' is a direct semantic equivalent to the approved 'maximum staleness thresholds'. No new claims, causal inversions, or epistemic escalations are present.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Time-based defenses : Use TWAPs over sufficient windows to resist short-lived manipulations."
+              },
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Reject prices older than a maximum staleness threshold."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          },
+          {
+            "claim_id": "thread_3_claim_5",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "OWASP-SC03"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations)."
+              }
+            ],
+            "supporting_span_ids": [
+              "OWASP-SC03#6"
+            ],
+            "reason": "The generated tweet text faithfully paraphrases the approved canonical proposition (PROP_OWASP_FAILSAFE_BEHAVIOR) regarding the implementation of fail-safe behaviors to halt sensitive operations when oracle data is suspicious or unavailable. The specific examples ('borrowing or liquidations') from the source proposition were omitted, which constitutes a reduction in granularity rather than an expansion, but the core technical claim and causal mechanism remain strictly aligned with the approved content. No unapproved consequences, severity modifiers, comparative rankings, or foreign vulnerability concepts were introduced.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "OWASP-SC03",
+                "quote": "Fail-safe behavior : On suspicious or unavailable data, halt sensitive operations (borrowing, liquidations)."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      318.143
+    ]
+  },
+  {
+    "schema_version": "2.0",
+    "slot_id": "post_3",
+    "attempts": [
+      {
+        "verdicts": [
+          {
+            "claim_id": "post_3_claim_1",
+            "verdict": "SUPPORTED",
+            "evidence_ids": [
+              "SWC-113"
+            ],
+            "supporting_spans": [
+              {
+                "evidence_id": "SWC-113",
+                "quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract."
+              },
+              {
+                "evidence_id": "SWC-113",
+                "quote": "To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call."
+              },
+              {
+                "evidence_id": "SWC-113",
+                "quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract."
+              }
+            ],
+            "supporting_span_ids": [
+              "SWC-113#0",
+              "SWC-113#1",
+              "SWC-113#0"
+            ],
+            "reason": "The tweet text faithfully expresses the meaning of all approved propositions and relations without introducing unapproved technical facts, consequences, severity modifiers, or comparative rankings. Specifically: (1) It accurately states that external calls can fail (PROP_SWC113_CALLS_CAN_FAIL); (2) It correctly identifies that these failures can lead to a denial-of-service condition (REL_SWC113_CALL_FAILURES_CAUSE_DOS); (3) It recommends isolating calls into recipient-initiated transactions to mitigate this impact (PROP_SWC113_ISOLATE_CALLS, REL_SWC113_ISOLATE_CALLS_MITIGATES_DOS). The phrasing 'potentially causing' preserves the epistemic modality of the approved relation 'CAN_LEAD_TO', and 'To reduce this impact' accurately reflects the rationale without escalating severity or implying elimination of risk. No foreign concepts, unapproved harms (like fund draining), or comparative exclusivity are present.",
+            "missing_information": "",
+            "scope_mismatch": "",
+            "confidence": null,
+            "verification_error": null,
+            "context_windows": [],
+            "proposed_supporting_spans": [
+              {
+                "evidence_id": "SWC-113",
+                "quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract."
+              },
+              {
+                "evidence_id": "SWC-113",
+                "quote": "To minimize the damage caused by such failures, it is better to isolate each external call into its own transaction that can be initiated by the recipient of the call."
+              },
+              {
+                "evidence_id": "SWC-113",
+                "quote": "Description External calls can fail accidentally or deliberately, which can cause a DoS condition in the contract."
+              }
+            ],
+            "initial_pass": null,
+            "skeptical_pass": null,
+            "claim_relations": [
+              "DESCRIPTIVE_FACT"
+            ],
+            "evidence_relation": "DIRECT_DESCRIPTIVE_SUPPORT",
+            "relationship_verdict": "ENTAILED",
+            "relation_integrity_passed": true,
+            "relation_error": "",
+            "selected_source_roles": {}
+          }
+        ],
+        "sentence_relations": []
+      }
+    ],
+    "latencies_seconds": [
+      86.546
+    ]
+  }
+]

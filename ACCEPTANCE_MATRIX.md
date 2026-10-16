@@ -256,6 +256,24 @@ Following the independent submission audit of `SANADSQUAD_FINAL_CONTENT_YIELD_CL
 | **Fresh Final Full Six-Slot Week Run** | `output/sanadsquad-final-v2-grounded-week/` | **6 planned, 6 shipped, 0 dropped, 0 failed in 383.899s (~6.40 min)**. 36,672 prompt / 3,104 completion tokens (39,776 total tokens). Concurrency strictly 1. Exact `Post Text,Image` CSV header. All 6 written visual specs exist. All tweets under 280 characters. Zero universal scope overclaims, zero ungrounded instrumental mechanisms. 9 cited sources verified with exact SHA-256 and byte offsets against snapshots. Historical runs preserved. | **VERIFIED** |
 | **Final Publication Clearance** | Handoff Archive | Final archive `SANADSQUAD_FINAL_CONTENT_YIELD_CLOSURE_HANDOFF.zip` validated with `testzip() == None`. Disposition: **UNCONDITIONAL PUBLICATION CLEARANCE PASS**. | **VERIFIED** |
 
+---
+
+## Final Editorial Freeze & Docker Release Matrix — Directive SANADSQUAD_V2_FINAL_EDITORIAL_AND_DOCKER_RELEASE_01 (2026-10-17)
+
+| Requirement | Implementation / File | Verification Evidence | Status |
+|---|---|---|---|
+| **A. Access Control Grammar Repair** | `content_pipeline/content_planning.py`, `instructions/tech-thread.md`, `instructions/marketing-post.md` | Eliminated ungrammatical blend (*"trigger only when authorized parties or as specified"*). Shipped `thread_2` tweet 4: *"4/5 Implement access controls so only authorized parties can initiate withdrawals per contract requirements."* Shipped `post_2`: *"Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so only authorized parties can initiate withdrawals, according to the contract's requirements."* | **VERIFIED** |
+| **B. Factual Certainty & Qualified Language** | `instructions/marketing-post.md`, `instructions/tech-thread.md`, `instructions/evidence-first-writer.md` | Replaced absolute prevention claims (*"To prevent these outcomes..."*) with appropriately qualified risk reduction (*"To reduce this risk..."*, *"To mitigate these risks..."*, *"To reduce this impact..."*). Shipped `post_3`: *"To reduce this impact, isolate each external call into its own recipient-initiated transaction rather than batching them together."* | **VERIFIED** |
+| **C. Technical Usefulness (Reentrancy)** | `instructions/tech-thread.md`, `instructions/marketing-post.md` | Replaced abstract *"interact undesirably"* with concrete EVM execution consequence: *"separate function invocations can interact in unintended, conflicting ways before execution finishes"*. | **VERIFIED** |
+| **D. Freeze Architecture & 170-Test Suite** | Full codebase | All 170 tests in `tests/` and `audit/tests/` pass in 1.79s native and 2.91s container. Zero architectural changes. | **VERIFIED** |
+| **E. Native Six-Slot Qualification** | `output/final-editorial-release/` | 6 planned, 6 shipped, 0 dropped, 0 failed in 618.972s (~10.3 min). Exact `posts.csv` format, 6 visual specs, full cryptographic provenance. | **VERIFIED** |
+| **F. Self-Contained Offline Docker Rebuild** | `Dockerfile`, `docker/` | Built image `sanadsquad:v2-final` (Image ID `d02dc9aaaeaf`). Embedded Ollama and pre-baked `qwen3.5:4b` model. Verified zero network dependency. | **VERIFIED** |
+| **G. Container Offline Automated Tests** | `docker run --rm --network none sanadsquad:v2-final pytest -q` | 170 passed in 2.91s in isolated container with `--network none`. Clean daemon shutdown. | **VERIFIED** |
+| **H. Container Offline Standalone Generation** | `output/docker-standalone/` | 1 planned, 1 shipped in 168.559s pure CPU offline. 271 chars, qualified mitigation language. | **VERIFIED** |
+| **I. Container Full Six-Slot Weekly Execution** | `output/docker-final-week/v2-week/` | 6 planned, 6 shipped, 0 dropped, 0 failed in 1,144.168s (~19.07 min CPU) with `--network none`. Exact CSV and 6 visual specs generated. | **VERIFIED** |
+| **J. External Image Export & Verification** | `/home/shady/sandsquad_archive/sanadsquad-v2-final.tar` | Exported 12 GB tarball outside Git. SHA-256: `557ebde6962e4251a046d4c8b136b34b5d46410f1443ee984fa8e7b27842d9b0`. Tested `podman load` and offline execution successfully. | **VERIFIED** |
+| **Final Release Disposition** | Final Repository & Archive | Disposition: **SANADSQUAD_V2_FINAL_RELEASE_READY**. | **VERIFIED** |
+
 
 
 

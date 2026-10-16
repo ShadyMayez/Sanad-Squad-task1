@@ -1,0 +1,334 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      [
+        {
+          "id": "thread_1_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 64,
+          "span": "External contracts can seize execution control flow when called.",
+          "proposition": "Calling external contracts allows them to take over the execution control flow.",
+          "sentence": "External contracts can seize execution control flow when called.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_1_claim_2",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 77,
+          "span": "In reentrancy attacks, they call back before the initial invocation finishes.",
+          "proposition": "In a reentrancy attack, an external contract calls back into the caller before the initial invocation completes.",
+          "sentence": "In reentrancy attacks, they call back before the initial invocation finishes.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_1_claim_3",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 81,
+          "span": "These recursive callbacks let separate function invocations interact undesirably.",
+          "proposition": "Recursive callbacks can cause separate function invocations to interact in undesirable ways.",
+          "sentence": "These recursive callbacks let separate function invocations interact undesirably.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_1_claim_4",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 83,
+          "span": "The Checks-Effects-Interactions pattern updates state before making external calls.",
+          "proposition": "The Checks-Effects-Interactions pattern recommends performing all internal state changes before external calls are executed.",
+          "sentence": "The Checks-Effects-Interactions pattern updates state before making external calls.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_1_claim_5",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 91,
+          "span": "Using OpenZeppelin ReentrancyGuard prevents protected functions from executing recursively.",
+          "proposition": "Using a reentrancy lock, such as OpenZeppelin ReentrancyGuard, mitigates recursive call attacks by preventing reentrant execution of protected functions.",
+          "sentence": "Using OpenZeppelin ReentrancyGuard prevents protected functions from executing recursively.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-107"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      [
+        {
+          "id": "post_1_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 178,
+          "span": "Unchecked low-level calls can fail while execution continues, causing unexpected behavior. Review low-level call sites and check their return values to handle failures correctly.",
+          "proposition": "The return value of low-level message calls is not checked by default.",
+          "sentence": "Unchecked low-level calls can fail while execution continues, causing unexpected behavior. Review low-level call sites and check their return values to handle failures correctly.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-104"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      [
+        {
+          "id": "thread_2_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 83,
+          "span": "Missing access controls let malicious actors withdraw Ether from contract accounts.",
+          "proposition": "Due to missing or insufficient access controls, malicious parties can withdraw Ether from the contract account.",
+          "sentence": "Missing access controls let malicious actors withdraw Ether from contract accounts.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_2_claim_2",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 98,
+          "span": "Unprotected withdrawal bugs sometimes stem from unintentionally exposing initialization functions.",
+          "proposition": "Unprotected withdrawal bugs are sometimes caused by unintentionally exposing contract initialization functions.",
+          "sentence": "Unprotected withdrawal bugs sometimes stem from unintentionally exposing initialization functions.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_2_claim_3",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 103,
+          "span": "In legacy Solidity <0.4.22, misnaming a constructor places code in runtime bytecode for anyone to call.",
+          "proposition": "In legacy Solidity versions prior to 0.4.22, wrongly naming a function intended to be a constructor places the code in runtime bytecode where anyone can call it to re-initialize the contract.",
+          "sentence": "In legacy Solidity <0.4.22, misnaming a constructor places code in runtime bytecode for anyone to call.",
+          "qualifiers": [
+            "<0.4.22"
+          ],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_2_claim_4",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 104,
+          "span": "Implement access controls so only authorized parties can initiate withdrawals per contract requirements.",
+          "proposition": "Implement access controls so Ether withdrawals can be initiated only by authorized parties or as specified by the contract.",
+          "sentence": "Implement access controls so only authorized parties can initiate withdrawals per contract requirements.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_2_claim_5",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 94,
+          "span": "Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution.",
+          "proposition": "Inheriting OpenZeppelin Ownable module provides an onlyOwner modifier to restrict function execution to the authorized owner address.",
+          "sentence": "Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OZ-OWNABLE"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      [
+        {
+          "id": "post_2_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 209,
+          "span": "Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so only authorized parties can initiate withdrawals, according to the contract's requirements.",
+          "proposition": "Due to missing or insufficient access controls, malicious parties can withdraw Ether from the contract account.",
+          "sentence": "Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so only authorized parties can initiate withdrawals, according to the contract's requirements.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-105"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      [
+        {
+          "id": "thread_3_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 85,
+          "span": "Price oracle manipulation exploits vulnerabilities to alter contract execution logic.",
+          "proposition": "Price oracle manipulation refers to exploiting vulnerabilities in price oracles to manipulate contract execution logic.",
+          "sentence": "Price oracle manipulation exploits vulnerabilities to alter contract execution logic.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_3_claim_2",
+          "tweet_index": 1,
+          "start": 0,
+          "end": 81,
+          "span": "This can lead to unauthorized actions, fund loss, and broader logic exploitation.",
+          "proposition": "Oracle manipulation can lead to unauthorized actions, loss of funds, and exploitation of contract logic.",
+          "sentence": "This can lead to unauthorized actions, fund loss, and broader logic exploitation.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SCWE-028"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_3_claim_3",
+          "tweet_index": 2,
+          "start": 0,
+          "end": 94,
+          "span": "Contracts should aggregate multiple oracle and DEX sources while rejecting anomalous outliers.",
+          "proposition": "Contracts should aggregate multiple oracle and DEX price sources and reject anomalous outlier deviations.",
+          "sentence": "Contracts should aggregate multiple oracle and DEX sources while rejecting anomalous outliers.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_3_claim_4",
+          "tweet_index": 3,
+          "start": 0,
+          "end": 110,
+          "span": "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding thresholds.",
+          "proposition": "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding maximum staleness thresholds.",
+          "sentence": "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding thresholds.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        },
+        {
+          "id": "thread_3_claim_5",
+          "tweet_index": 4,
+          "start": 0,
+          "end": 107,
+          "span": "Implement fail-safe behaviors that halt sensitive operations when oracle data is suspicious or unavailable.",
+          "proposition": "Implement fail-safe behaviors that halt sensitive operations like borrowing or liquidations when oracle data is suspicious or unavailable.",
+          "sentence": "Implement fail-safe behaviors that halt sensitive operations when oracle data is suspicious or unavailable.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "OWASP-SC03"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      [
+        {
+          "id": "post_3_claim_1",
+          "tweet_index": 0,
+          "start": 0,
+          "end": 259,
+          "span": "External calls can fail accidentally or deliberately, potentially causing a denial-of-service condition in the calling contract. To reduce this impact, isolate each external call into its own recipient-initiated transaction rather than batching them together.",
+          "proposition": "External calls can fail accidentally or deliberately.",
+          "sentence": "External calls can fail accidentally or deliberately, potentially causing a denial-of-service condition in the calling contract. To reduce this impact, isolate each external call into its own recipient-initiated transaction rather than batching them together.",
+          "qualifiers": [],
+          "claim_type": "factual",
+          "candidate_evidence_ids": [
+            "SWC-113"
+          ],
+          "relation_hints": [],
+          "sentence_relation": null
+        }
+      ]
+    ]
+  }
+]

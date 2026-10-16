@@ -278,14 +278,14 @@ def build_evidence_first_plan(
             guidance = (
                 "Write EXACTLY ONE single tweet under 280 characters. "
                 "Pair the unprotected withdrawal hazard with an actionable access control recommendation. "
-                "Example pattern: 'Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so withdrawals trigger only when authorized to prevent this risk.'"
+                "Example pattern: 'Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so only authorized parties can initiate withdrawals to reduce this risk.'"
             )
         else:
             guidance = (
                 "Write EXACTLY ONE single tweet under 280 characters. "
                 "You MUST include a clear, actionable security recommendation or review invitation to the reader. "
                 "Strictly preserve approved outcomes and scope from assigned propositions. "
-                "Never invent guarantees, universal scope expansions (such as 'all external calls'), or unlicensed instrumental outcomes (such as 'prevents execution from continuing on failure')."
+                "Never invent guarantees (use 'to reduce this risk' or 'to mitigate this risk' rather than absolute prevention guarantees like 'to prevent these outcomes'), universal scope expansions (such as 'all external calls'), or unlicensed instrumental outcomes (such as 'prevents execution from continuing on failure')."
             )
 
         units.append(ContentUnit(
@@ -407,6 +407,12 @@ def build_evidence_first_plan(
         if rec_props:
             r0 = rec_props[0]
             mit_rel = next((r.id for r in rels if r.relation_type == "MITIGATES" and r.source_id == r0.id), None)
+            guidance = (
+                "Explain recommended defensive patterns (e.g. state-updating sequence or access controls). "
+                "Use complete, natural, grammatically correct English: ensure access controls allow only authorized parties to initiate withdrawals, according to contract requirements. "
+                "Never write ungrammatical blends like 'trigger only when authorized parties or as specified'. "
+                "Do NOT claim this defense is 'the primary defense' or 'most important' unless explicitly specified."
+            )
             units.append(ContentUnit(
                 id=f"{slot_id}_u{unit_idx}",
                 role="MITIGATION",
@@ -414,7 +420,7 @@ def build_evidence_first_plan(
                 relation_ids=[mit_rel] if mit_rel else [],
                 realization_mode="MODE_B_NATURAL",
                 max_chars=280,
-                guidance="Explain recommended defensive patterns (e.g. state-updating sequence or access controls). Use clean, grammatically valid English (e.g. 'Implement controls so withdrawals can only be triggered...' or 'Implementing access controls ensures that withdrawals trigger only according to specifications...'). Do NOT claim this defense is 'the primary defense' or 'most important' unless explicitly specified."
+                guidance=guidance,
             ))
             unit_idx += 1
 

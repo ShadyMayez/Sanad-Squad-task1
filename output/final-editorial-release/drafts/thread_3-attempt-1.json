@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "Price oracle manipulation exploits vulnerabilities to alter contract execution logic.",
+    "This can lead to unauthorized actions, fund loss, and broader logic exploitation.",
+    "Contracts should aggregate multiple oracle and DEX sources while rejecting anomalous outliers.",
+    "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding thresholds.",
+    "Implement fail-safe behaviors that halt sensitive operations when oracle data is suspicious or unavailable."
+  ],
+  "claims": [
+    {
+      "text": "Price oracle manipulation exploits vulnerabilities to alter contract execution logic.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "This can lead to unauthorized actions, fund loss, and broader logic exploitation.",
+      "evidence_ids": [
+        "SCWE-028"
+      ]
+    },
+    {
+      "text": "Contracts should aggregate multiple oracle and DEX sources while rejecting anomalous outliers.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding thresholds.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    },
+    {
+      "text": "Implement fail-safe behaviors that halt sensitive operations when oracle data is suspicious or unavailable.",
+      "evidence_ids": [
+        "OWASP-SC03"
+      ]
+    }
+  ]
+}

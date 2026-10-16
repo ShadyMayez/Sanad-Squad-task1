@@ -1,0 +1,13 @@
+{
+  "tweets": [
+    "Unchecked low-level calls can fail while execution continues, causing unexpected behavior. Review low-level call sites and check their return values to handle failures correctly."
+  ],
+  "claims": [
+    {
+      "text": "Unchecked low-level calls can fail while execution continues, causing unexpected behavior. Review low-level call sites and check their return values to handle failures correctly.",
+      "evidence_ids": [
+        "SWC-104"
+      ]
+    }
+  ]
+}

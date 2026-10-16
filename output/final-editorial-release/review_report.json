@@ -1,0 +1,110 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are directly supported by verbatim spans in the SWC-107 source text. The draft accurately reflects the definition of reentrancy, the mechanism of control flow takeover, the consequence of recursive interactions, and both the Checks-Effects-Interactions pattern and OpenZeppelin's ReentrancyGuard as standard mitigations.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 3,
+        "clarity": 4,
+        "platform_format": 5,
+        "usefulness": 4,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-104 guidance regarding unchecked return values in low-level calls. The claim that execution continues despite failures and causes unexpected behavior is directly supported by the source text ('Execution will resume even if the called contract throws an exception' and 'this may cause unexpected behaviour'). The remediation advice to check return values aligns with the source's recommendation.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are fully supported by the provided evidence. Claim 1 and 2 accurately reflect SWC-105's description of unprotected withdrawals and initialization exposure. Claim 3 correctly details the legacy Solidity constructor misnaming mechanism described in SWC-105. Claim 4 aligns with the remediation guidance in SWC-105 regarding authorized triggers. Claim 5 is accurately supported by OpenZeppelin's documentation on Ownable and the onlyOwner modifier.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      {
+        "factual_support": 4,
+        "technical_correctness": 4,
+        "brand_voice": 5,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-105 description regarding malicious withdrawals due to missing access controls and correctly cites the remediation principle of restricting withdrawals to authorized parties. The claim is fully supported by the provided evidence spans without inventing facts or misrepresenting scope.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "All five claims are fully supported by the provided OWASP and SCWE sources. The draft accurately reflects the threat model (vulnerability exploitation leading to unauthorized actions and fund loss) and aligns precisely with documented remediations (aggregation, TWAPs, staleness checks, fail-safes). No facts are invented or misattributed.",
+        "claim_support": []
+      }
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      {
+        "factual_support": 5,
+        "technical_correctness": 5,
+        "brand_voice": 4,
+        "clarity": 5,
+        "platform_format": 5,
+        "usefulness": 5,
+        "approved": true,
+        "reasons": [],
+        "corrections": [],
+        "grounding_assessment": "The tweet accurately reflects the SWC-113 guidance regarding external call failures and DoS risks. The recommendation to isolate calls into recipient-initiated transactions is directly supported by the source text without overreach or misinterpretation of cause-and-effect relationships.",
+        "claim_support": []
+      }
+    ]
+  }
+]

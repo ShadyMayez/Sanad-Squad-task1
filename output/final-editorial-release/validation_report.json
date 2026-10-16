@@ -1,0 +1,38 @@
+[
+  {
+    "slot_id": "thread_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_1",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_2",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_2",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "thread_3",
+    "attempts": [
+      []
+    ]
+  },
+  {
+    "slot_id": "post_3",
+    "attempts": [
+      []
+    ]
+  }
+]

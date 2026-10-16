@@ -403,6 +403,53 @@ Following the independent audit of `SANADSQUAD_FINAL_CONTENT_YIELD_CLOSURE_HANDO
    - Visual Specifications: All 6 written specifications exist under `output/sanadsquad-final-v2-grounded-week/visual_specs/` and strictly reflect the faithful takeaways.
    - Pinned Evidence Alignment: All 9 cited evidence snapshots match on disk with identical SHA-256 hashes and byte-accurate quote slices. Historical runs preserved unchanged.
 
+---
+
+## Phase 15 — Directive SANADSQUAD_V2_FINAL_EDITORIAL_AND_DOCKER_RELEASE_01 (Editorial Freeze & Full Offline Container Qualification)
+
+### 1. Final Editorial Corrections Verified
+1. **Grammar Repair (SWC-105 Access Control):**
+   - Repaired ungrammatical blend (*"trigger only when authorized parties or as specified"*) in `content_planning.py`, `instructions/tech-thread.md`, and `instructions/marketing-post.md`.
+   - Verified in standalone access control run: `thread_2` tweet 4 ships as *"Implement access controls so only authorized parties can initiate withdrawals per contract requirements."*
+   - Verified in `post_2`: *"Implement access controls so only authorized parties can initiate withdrawals, according to the contract's requirements."*
+2. **Factual Certainty & Qualified Language:**
+   - Qualified mitigation statements across `instructions/marketing-post.md` and `instructions/tech-thread.md` (*"To reduce this risk..."*, *"To mitigate these risks..."*, *"To reduce this impact..."* rather than ungrounded absolute prevention guarantees like *"To prevent these outcomes..."*).
+   - Verified in `post_3`: *"To reduce this impact, isolate each external call into its own recipient-initiated transaction rather than batching them together."*
+3. **Technical Usefulness (SWC-107 Reentrancy):**
+   - Deepened mechanism explanation from abstract *"interact undesirably"* to concrete EVM control flow consequences (*"separate function invocations can interact in unintended, conflicting ways before execution finishes"*).
+
+### 2. Native Test & Run Results
+- **Regression Suite:** `170 passed in 1.79s` via `.venv/bin/pytest tests/ audit/tests/`.
+- **Standalone Reentrancy Tech-Thread:** 1 planned, 1 shipped in 144.71s (5 tweets, clean active hooks).
+- **Standalone Reentrancy Marketing-Post:** 1 planned, 1 shipped in 77.98s (272 chars, qualified mitigation language).
+- **Standalone Access Control Tech-Thread:** 1 planned, 1 shipped in 137.05s (tweet 4 verified grammatical).
+- **Native Six-Slot Weekly Qualification (`output/final-editorial-release/`):**
+  - Planned: 6, Shipped: 6, Dropped: 0, Failed: 0.
+  - Runtime: 618.972s (~10.3 min).
+  - Tokens: 36,270 prompt tokens, 2,492 completion tokens (38,762 total tokens).
+  - Peak concurrency: 1. Cost: $0.00.
+  - CSV: `posts.csv` exact `Post Text,Image` with 6 accepted rows.
+  - Visual specs: 6 specifications matching accepted content.
+
+### 3. Full Offline Docker Qualification (`sanadsquad:v2-final`)
+- **Image Metadata:** Tagged `localhost/sanadsquad:v2-final`, Image ID `d02dc9aaaeaf`, 15.8 GB virtual size.
+- **Offline Automated Tests (Gate A):**
+  - Command: `podman run --rm --network none sanadsquad:v2-final pytest -q`
+  - Result: **170 passed in 2.91s** with zero network access. Clean daemon shutdown.
+- **Offline Standalone Inference (Gate B):**
+  - Command: `podman run --rm --network none --userns=keep-id -v output/docker-standalone:/app/output:Z sanadsquad:v2-final python /app/run_piece.py ...`
+  - Result: **1 planned, 1 shipped in 168.559s** pure CPU. Output: 271 chars, qualified mitigation language.
+- **Offline Six-Slot Weekly Run (Gate C):**
+  - Command: `podman run --rm --network none --userns=keep-id -v output/docker-final-week:/app/output:Z sanadsquad:v2-final python /app/run_week.py ...`
+  - Result: **6 planned, 6 shipped, 0 dropped, 0 failed in 1,144.168s (~19.07 minutes)** pure CPU.
+  - Token consumption: 36,272 prompt tokens, 2,479 completion tokens.
+  - Full audit deliverables verified: `posts.csv`, 6 visual specs, `accepted_content.json`, `summary.json`.
+- **Image Export & Restoration Verification:**
+  - Export: `sanadsquad-v2-final.tar` (12 GB) exported to `/home/shady/sandsquad_archive/sanadsquad-v2-final.tar`.
+  - SHA-256 Checksum: `557ebde6962e4251a046d4c8b136b34b5d46410f1443ee984fa8e7b27842d9b0`.
+  - Load Test: `podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar` successfully restored image.
+  - Restored Execution: Ran 170 tests offline in 2.91s.
+
 
 
 

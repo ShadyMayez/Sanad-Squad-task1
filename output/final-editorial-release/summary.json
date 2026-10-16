@@ -1,0 +1,17 @@
+{
+  "model": "qwen3.5:4b",
+  "planned": 6,
+  "shipped": 6,
+  "ready_for_human_review": 0,
+  "dropped": 0,
+  "failed": 0,
+  "reasons": [],
+  "elapsed_seconds": 618.972,
+  "prompt_tokens_recorded": 36270,
+  "completion_tokens_recorded": 2492,
+  "usage_complete": true,
+  "peak_simultaneous_ollama_calls": 1,
+  "external_model_api_charges_usd": 0.0,
+  "local_inference_cost": "Electricity and hardware excluded; not measured",
+  "pipeline_mode": "evidence_first_v2"
+}

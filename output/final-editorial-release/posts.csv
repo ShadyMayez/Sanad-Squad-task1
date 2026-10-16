@@ -1,0 +1,31 @@
+Post Text,Image
+"1/5 External contracts can seize execution control flow when called.
+
+2/5 In reentrancy attacks, they call back before the initial invocation finishes.
+
+3/5 These recursive callbacks let separate function invocations interact undesirably.
+
+4/5 The Checks-Effects-Interactions pattern updates state before making external calls.
+
+5/5 Using OpenZeppelin ReentrancyGuard prevents protected functions from executing recursively.",spec:visual_specs/thread_1.md
+"Unchecked low-level calls can fail while execution continues, causing unexpected behavior. Review low-level call sites and check their return values to handle failures correctly.",spec:visual_specs/post_1.md
+"1/5 Missing access controls let malicious actors withdraw Ether from contract accounts.
+
+2/5 Unprotected withdrawal bugs sometimes stem from unintentionally exposing initialization functions.
+
+3/5 In legacy Solidity <0.4.22, misnaming a constructor places code in runtime bytecode for anyone to call.
+
+4/5 Implement access controls so only authorized parties can initiate withdrawals per contract requirements.
+
+5/5 Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution.",spec:visual_specs/thread_2.md
+"Missing access controls allow malicious actors to withdraw Ether from contract accounts. Implement access controls so only authorized parties can initiate withdrawals, according to the contract's requirements.",spec:visual_specs/post_2.md
+"1/5 Price oracle manipulation exploits vulnerabilities to alter contract execution logic.
+
+2/5 This can lead to unauthorized actions, fund loss, and broader logic exploitation.
+
+3/5 Contracts should aggregate multiple oracle and DEX sources while rejecting anomalous outliers.
+
+4/5 Use Time-Weighted Average Prices (TWAPs) over sufficient windows and reject stale prices exceeding thresholds.
+
+5/5 Implement fail-safe behaviors that halt sensitive operations when oracle data is suspicious or unavailable.",spec:visual_specs/thread_3.md
+"External calls can fail accidentally or deliberately, potentially causing a denial-of-service condition in the calling contract. To reduce this impact, isolate each external call into its own recipient-initiated transaction rather than batching them together.",spec:visual_specs/post_3.md

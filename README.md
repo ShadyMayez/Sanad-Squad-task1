@@ -17,12 +17,13 @@ SanadSquad generates a weekly six-slot content schedule for an enterprise smart 
 
 Unlike conventional pipelines that generate unconstrained prose and attempt fragile post-hoc fact checking, SanadSquad operates on an **Evidence-First V2** architecture: factual propositions and typed relations are selected, validated, and bounded **before** natural language generation. Conformance verification then strictly enforces that generated copy does not exceed the approved factual plan.
 
-### Key Operational Metrics (Canonical Six-Slot Week)
-- **Content Yield:** **6 planned, 6 shipped, 0 dropped, 0 failed** (100% acceptance yield).
-- **Inference Runtime:** **383.899 seconds (~6.4 minutes)** on workstation CPU with concurrency strictly clamped to 1.
-- **Token Efficiency:** **36,672 prompt tokens, 3,104 completion tokens** (39,776 total tokens; ~86% reduction vs. V1).
-- **Cost:** **$0.00 external API charges** (100% local inference with zero internet dependency).
-- **Deliverables:** Validated CSV (`posts.csv` with exact `Post Text,Image` columns), six visual specifications (`spec:visual_specs/*.md`), and a full cryptographic audit trail.
+### Key Operational Metrics (Final Frozen Editorial Release)
+- **Content Yield:** **6 planned, 6 shipped, 0 dropped, 0 failed** (100% acceptance yield, 0 drops).
+- **Native Inference Runtime:** **618.972 seconds (~10.3 minutes)** on workstation CPU (peak concurrency strictly clamped to 1).
+- **Offline Docker Runtime:** **1,144.168 seconds (~19.07 minutes)** on pure CPU inside isolated container (`--network none`).
+- **Token Efficiency:** **36,270 prompt tokens, 2,492 completion tokens** (38,762 total tokens).
+- **Cost:** **$0.00 external API charges** (100% local Ollama inference with zero network dependency).
+- **Deliverables:** Validated CSV ([output/final-editorial-release/posts.csv](output/final-editorial-release/posts.csv) with exact `Post Text,Image` columns), six visual specifications ([output/final-editorial-release/visual_specs/](output/final-editorial-release/visual_specs/)), and full cryptographic audit trails.
 
 ---
 
@@ -78,33 +79,35 @@ For the complete architectural evolution and negative benchmark data, see:
 
 ## 3. Quick Start — Offline Docker (Recommended)
 
-A single self-contained, offline Docker image bundles Python 3.12, locked dependencies, the Ollama daemon, and the pre-baked `qwen3.5:4b` model weights. It runs completely offline with `--network none` and requires no host-installed Ollama or GPU drivers.
+A single self-contained, offline Docker image (`sanadsquad:v2-final`) bundles Python 3.12, locked dependencies, the Ollama daemon, and the pre-baked `qwen3.5:4b` model weights. It runs completely offline with `--network none` and requires no host-installed Ollama or GPU drivers.
 
 ```bash
-# 1. Load the pre-built image archive (if evaluating external TAR)
-docker load -i /path/to/sanadsquad-v2-offline-amd64.tar
+# 1. Load the pre-built image archive (exported outside Git)
+podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar
+# SHA-256: 557ebde6962e4251a046d4c8b136b34b5d46410f1443ee984fa8e7b27842d9b0
 
-# 2. Or build locally using Podman / Docker (network allowed during build only)
-docker build -t sanadsquad:v2-offline .
+# 2. Or rebuild locally using Podman / Docker (offline layers pre-bundled)
+podman build -t sanadsquad:v2-final .
 
-# 3. Execute the full 6-slot weekly pipeline strictly offline
-mkdir -p output/reviewer-week
-docker run --rm --network none \
-  --mount type=bind,src="$(pwd)/output/reviewer-week",dst=/app/output \
-  sanadsquad:v2-offline \
+# 3. Execute the full 6-slot weekly pipeline strictly offline (--network none)
+mkdir -p output/docker-eval
+podman run --rm --network none \
+  --userns=keep-id \
+  -v "$(pwd)/output/docker-eval":/app/output:Z \
+  sanadsquad:v2-final \
   --plan /app/plan.json \
   --mode evidence_first_v2 \
   --authorization-mode publication_eligible \
-  --output /app/output/reviewer-week
+  --output /app/output/v2-week
 
 # 4. Inspect the generated deliverables
-cat output/reviewer-week/posts.csv
-cat output/reviewer-week/summary.json
+cat output/docker-eval/v2-week/posts.csv
+cat output/docker-eval/v2-week/summary.json
 ```
 
 For automated container offline validation, execute:
 ```bash
-bash docker/verify_offline_image.sh sanadsquad:v2-offline
+bash docker/verify_offline_image.sh sanadsquad:v2-final
 ```
 
 ---
@@ -210,13 +213,16 @@ sanadsquad/
 
 ---
 
-## 7. Canonical Audited Run (`output/final-v2-sample/`)
+## 7. Canonical Release Sample (`output/final-editorial-release/`)
 
-The maintained repository retains one canonical, fully auditable six-slot V2 sample run under [output/final-v2-sample/](output/final-v2-sample/):
+The active repository preserves the final frozen release sample generated under Directive `SANADSQUAD_V2_FINAL_EDITORIAL_AND_DOCKER_RELEASE_01`:
+- **Location:** [output/final-editorial-release/](output/final-editorial-release/)
+- **Editorial Upgrades:** Access control grammar repaired (*"Implement access controls so only authorized parties can initiate withdrawals per contract requirements"*), qualified factual certainty (*"To reduce this impact..."*, *"To mitigate this risk..."*), and improved technical usefulness for reentrancy mechanisms.
 - **`posts.csv`:** Exact `Post Text,Image` columns; 6 accepted content rows (three 5-tweet threads, three 1-tweet marketing posts).
 - **`visual_specs/`:** All 6 referenced written specifications (`post_1.md` through `thread_3.md`).
 - **Audit Trails:** Complete `accepted_content.json`, `claims.json`, `evidence_provenance.json`, `semantic_verification.json`, `review_report.json`, and `summary.json`.
-- **Integrity:** Verified by `HASH_MANIFEST.sha256` (100% cryptographic match).
+
+*(The previous baseline run under [output/final-v2-sample/](output/final-v2-sample/) is retained for independent audit rollback history).*
 
 ---
 

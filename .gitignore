@@ -12,6 +12,8 @@ SANADSQUAD_RECALL_RECOVERY_HANDOFF/
 output/*
 !output/final-v2-sample/
 !output/final-v2-sample/**
+!output/final-editorial-release/
+!output/final-editorial-release/**
 !output/sample-week/
 !output/sample-week/**
 docker/bin/

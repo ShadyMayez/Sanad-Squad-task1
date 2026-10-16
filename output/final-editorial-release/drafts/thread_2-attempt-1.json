@@ -1,0 +1,41 @@
+{
+  "tweets": [
+    "Missing access controls let malicious actors withdraw Ether from contract accounts.",
+    "Unprotected withdrawal bugs sometimes stem from unintentionally exposing initialization functions.",
+    "In legacy Solidity <0.4.22, misnaming a constructor places code in runtime bytecode for anyone to call.",
+    "Implement access controls so only authorized parties can initiate withdrawals per contract requirements.",
+    "Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution."
+  ],
+  "claims": [
+    {
+      "text": "Missing access controls let malicious actors withdraw Ether from contract accounts.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Unprotected withdrawal bugs sometimes stem from unintentionally exposing initialization functions.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "In legacy Solidity <0.4.22, misnaming a constructor places code in runtime bytecode for anyone to call.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Implement access controls so only authorized parties can initiate withdrawals per contract requirements.",
+      "evidence_ids": [
+        "SWC-105"
+      ]
+    },
+    {
+      "text": "Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution.",
+      "evidence_ids": [
+        "OZ-OWNABLE"
+      ]
+    }
+  ]
+}

@@ -68,22 +68,25 @@ head -n 10 output/repro-week-01/posts.csv
 ## 4. Step-by-Step Offline Docker Reproduction
 
 ```bash
-# 1. Load the pre-built self-contained offline container image
-docker load -i sanadsquad-v2-offline-amd64.tar
+# 1. Load the pre-built self-contained offline container image (exported outside Git)
+podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar
+# (Or using docker): docker load -i sanadsquad-v2-final.tar
 
 # 2. Prepare an output directory
 mkdir -p output/docker-repro-week
 
-# 3. Execute the full week inside the offline container
-docker run --rm --network none \
-  --mount type=bind,src="$(pwd)/output/docker-repro-week",dst=/app/output \
-  sanadsquad:v2-offline \
-  --plan /app/plan.json --mode evidence_first_v2 \
+# 3. Execute the full week inside the offline container (--network none)
+podman run --rm --network none \
+  --userns=keep-id \
+  -v "$(pwd)/output/docker-repro-week":/app/output:Z \
+  sanadsquad:v2-final \
+  --plan /app/plan.json \
+  --mode evidence_first_v2 \
   --authorization-mode publication_eligible \
-  --output /app/output/docker-repro-week
+  --output /app/output/v2-week
 
 # 4. Verify output files on the host
-ls -la output/docker-repro-week/
-cat output/docker-repro-week/summary.json
-head -n 10 output/docker-repro-week/posts.csv
+ls -la output/docker-repro-week/v2-week/
+cat output/docker-repro-week/v2-week/summary.json
+head -n 10 output/docker-repro-week/v2-week/posts.csv
 ```
