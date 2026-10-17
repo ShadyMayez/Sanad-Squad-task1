@@ -79,35 +79,79 @@ For the complete architectural evolution and negative benchmark data, see:
 
 ## 3. Quick Start — Offline Docker (Recommended)
 
-A single self-contained, offline Docker image (`sanadsquad:v2-final`) bundles Python 3.12, locked dependencies, the Ollama daemon, and the pre-baked `qwen3.5:4b` model weights. It runs completely offline with `--network none` and requires no host-installed Ollama or GPU drivers.
+A self-contained, offline container image (`ghcr.io/shadymayez/sanad-squad-task1:v2-final`) bundles Python 3.12, locked dependencies, the embedded Ollama daemon, and pre-baked `qwen3.5:4b` model weights. It runs completely offline with `--network none` and requires no host-installed Ollama or GPU drivers.
 
+### A. Pull Public Image from GHCR
+Reviewers can pull the verified image directly without authentication:
 ```bash
-# 1. Load the pre-built image archive (exported outside Git)
-podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar
-# SHA-256: 557ebde6962e4251a046d4c8b136b34b5d46410f1443ee984fa8e7b27842d9b0
+# Using Docker:
+docker pull ghcr.io/shadymayez/sanad-squad-task1:v2-final
 
-# 2. Or rebuild locally using Podman / Docker (offline layers pre-bundled)
-podman build -t sanadsquad:v2-final .
+# Or using Podman:
+podman pull ghcr.io/shadymayez/sanad-squad-task1:v2-final
+```
 
-# 3. Execute the full 6-slot weekly pipeline strictly offline (--network none)
+### B. Offline Execution (Strict `--network none`)
+To execute the pipeline strictly offline with a host output directory:
+```bash
+# Prepare host output directory
 mkdir -p output/docker-eval
+
+# Using Podman (rootless, Fedora / RHEL compatible with :Z and --userns=keep-id):
 podman run --rm --network none \
   --userns=keep-id \
   -v "$(pwd)/output/docker-eval":/app/output:Z \
-  sanadsquad:v2-final \
+  ghcr.io/shadymayez/sanad-squad-task1:v2-final \
   --plan /app/plan.json \
   --mode evidence_first_v2 \
   --authorization-mode publication_eligible \
   --output /app/output/v2-week
 
-# 4. Inspect the generated deliverables
+# Or using Docker:
+docker run --rm --network none \
+  -v "$(pwd)/output/docker-eval":/app/output \
+  ghcr.io/shadymayez/sanad-squad-task1:v2-final \
+  --plan /app/plan.json \
+  --mode evidence_first_v2 \
+  --authorization-mode publication_eligible \
+  --output /app/output/v2-week
+
+# Inspect generated deliverables
 cat output/docker-eval/v2-week/posts.csv
 cat output/docker-eval/v2-week/summary.json
 ```
 
+### C. Run Regression Tests Inside Container (Offline)
+```bash
+# Verify 170 tests offline with zero network connectivity:
+podman run --rm --network none ghcr.io/shadymayez/sanad-squad-task1:v2-final pytest -q
+# Or via Docker:
+docker run --rm --network none ghcr.io/shadymayez/sanad-squad-task1:v2-final pytest -q
+```
+
+### D. Rebuilding the Image from a Fresh Clone
+A clean clone can rebuild the self-contained image using the version-pinned, checksum-verified bootstrap script:
+```bash
+# 1. Clone repository
+git clone https://github.com/ShadyMayez/Sanad-Squad-task1.git
+cd Sanad-Squad-task1
+
+# 2. Bootstrap and verify version-pinned Ollama binaries, libraries, and model blobs
+./docker/bootstrap.sh
+
+# 3. Build image
+docker build -t ghcr.io/shadymayez/sanad-squad-task1:v2-final .
+```
+
+### E. Hardware Requirements & Architecture
+- **Supported Architecture:** Linux `x86_64` (AMD64).
+- **CPU Requirements:** Minimum 4 physical cores, 8 GB RAM (16 GB recommended).
+- **Runtime Performance:** ~10.3 minutes (native workstation) / ~19.07 minutes (containerized CPU) for a complete 6-slot weekly run.
+- **Output Volume Configuration:** Bind-mount to `/app/output`. On SELinux-enforcing distributions (Fedora, RHEL), use `:Z` and `--userns=keep-id`.
+
 For automated container offline validation, execute:
 ```bash
-bash docker/verify_offline_image.sh sanadsquad:v2-final
+bash docker/verify_offline_image.sh ghcr.io/shadymayez/sanad-squad-task1:v2-final
 ```
 
 ---

@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zstd \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy pinned Ollama binary and shared runner libraries
+# Copy pinned Ollama binary and shared runner libraries (verified via docker/bootstrap.sh)
 COPY docker/bin/ollama /usr/local/bin/ollama
 COPY docker/lib/ollama /usr/local/lib/ollama
 RUN chmod +x /usr/local/bin/ollama && ldconfig
@@ -36,9 +36,9 @@ RUN mkdir -p /app/models /app/output /home/appuser/.ollama && \
 COPY docker/models /app/models
 RUN chown -R appuser:appuser /app/models
 
-# Install locked Python site-packages directly (100% deterministic, zero network dependency)
-COPY docker/site-packages /usr/local/lib/python3.12/site-packages
+# Install locked Python dependencies from requirements.txt during build
 COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Create helper wrappers in /usr/local/bin
 RUN printf '#!/bin/sh\nexec python -m pytest "$@"\n' > /usr/local/bin/pytest && \

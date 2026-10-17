@@ -67,25 +67,39 @@ head -n 10 output/repro-week-01/posts.csv
 
 ## 4. Step-by-Step Offline Docker Reproduction
 
+### Option 1: Pull Pre-Built Image from GHCR (Public / No Auth Required)
 ```bash
-# 1. Load the pre-built self-contained offline container image (exported outside Git)
-podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar
-# (Or using docker): docker load -i sanadsquad-v2-final.tar
+# Pull image
+docker pull ghcr.io/shadymayez/sanad-squad-task1:v2-final
+# Or via Podman:
+podman pull ghcr.io/shadymayez/sanad-squad-task1:v2-final
+```
 
-# 2. Prepare an output directory
+### Option 2: Rebuild from Clean Clone via Pinned Bootstrap
+```bash
+# Bootstrap version-pinned Ollama binaries, libraries, and model blobs with checksum verification:
+./docker/bootstrap.sh
+
+# Rebuild container image
+docker build -t ghcr.io/shadymayez/sanad-squad-task1:v2-final .
+```
+
+### Execution (Strict `--network none`)
+```bash
+# 1. Prepare an output directory
 mkdir -p output/docker-repro-week
 
-# 3. Execute the full week inside the offline container (--network none)
+# 2. Execute the full week inside the offline container (--network none)
 podman run --rm --network none \
   --userns=keep-id \
   -v "$(pwd)/output/docker-repro-week":/app/output:Z \
-  sanadsquad:v2-final \
+  ghcr.io/shadymayez/sanad-squad-task1:v2-final \
   --plan /app/plan.json \
   --mode evidence_first_v2 \
   --authorization-mode publication_eligible \
   --output /app/output/v2-week
 
-# 4. Verify output files on the host
+# 3. Verify output files on the host
 ls -la output/docker-repro-week/v2-week/
 cat output/docker-repro-week/v2-week/summary.json
 head -n 10 output/docker-repro-week/v2-week/posts.csv
