@@ -6,7 +6,7 @@ verified propositions and typed relations in the catalog before natural language
 from __future__ import annotations
 
 import hashlib
-from typing import Literal
+from typing import Literal, Any
 from pydantic import BaseModel, Field
 
 from .proposition_catalog import PropositionCatalog, VerifiedProposition, TypedRelation
@@ -33,18 +33,21 @@ class ContentUnit(BaseModel):
     realization_mode: RealizationMode = "MODE_B_NATURAL"
     max_chars: int = 280
     guidance: str = ""
+    source_evidence_ids: list[str] = Field(default_factory=list)
 
 
 class EvidenceFirstPlan(BaseModel):
     slot_id: str
     topic_id: str
     content_type: str
+    source_strategy: str = "catalog"  # "catalog", "web_research", "external_technical"
     catalog_version: str = "2.0.0"
     policy_id: str = "security_audit_firm"
     policy_version: str = "1.0.0"
     policy_hash: str | None = None
     authorization_mode: str = "pilot_evaluation"  # "pilot_evaluation" or "publication_eligible"
     units: list[ContentUnit]
+    evidence_items: list[Any] = Field(default_factory=list)
     plan_hash: str | None = None
 
     def compute_plan_hash(self) -> str:
@@ -60,6 +63,19 @@ class EvidenceFirstPlan(BaseModel):
         evaluation_mode: bool | None = None,
     ) -> list[str]:
         errors: list[str] = []
+
+        # Handle runtime research plans (marketing web research and external technical research)
+        if self.source_strategy in {"web_research", "external_technical"}:
+            if self.content_type == "marketing-post" and len(self.units) != 1:
+                errors.append(f"Marketing plan must contain exactly 1 unit, got {len(self.units)}")
+            elif self.content_type == "tech-thread" and not (5 <= len(self.units) <= 10):
+                errors.append(f"Technical plan must contain 5-10 units, got {len(self.units)}")
+            valid_ev_ids = {e.id if hasattr(e, "id") else e.get("id") for e in self.evidence_items}
+            for u in self.units:
+                for eid in u.source_evidence_ids:
+                    if eid not in valid_ev_ids:
+                        errors.append(f"Unit {u.id} references unknown evidence ID '{eid}'")
+            return errors
 
         # 1. Catalog version authority
         if self.catalog_version != catalog.catalog_version:
@@ -471,3 +487,143 @@ def build_evidence_first_plan(
     plan.plan_hash = plan.compute_plan_hash()
     return plan
 
+
+def build_marketing_evidence_plan(
+    slot_id: str,
+    service_line: str,
+    marketing_format: str | None = None,
+    evidence: list[Any] | None = None,
+    evidence_items: list[Any] | None = None,
+    format_spec: Any | None = None,
+    has_cta: bool = False,
+    contact_config: Any | None = None,
+    guidance: str = "",
+    policy: Any = None,
+    authorization_mode: str = "pilot_evaluation",
+) -> EvidenceFirstPlan:
+    """Build an EvidenceFirstPlan for a marketing-post grounded in retrieved runtime evidence."""
+    ev_list = evidence if evidence is not None else (evidence_items or [])
+    fmt_str = marketing_format
+    if not fmt_str and format_spec is not None:
+        if hasattr(format_spec, "format_name"):
+            fn = format_spec.format_name
+            fmt_str = fn.value if hasattr(fn, "value") else str(fn)
+        elif hasattr(format_spec, "format"):
+            fmt_str = format_spec.format.value if hasattr(format_spec.format, "value") else str(format_spec.format)
+        elif hasattr(format_spec, "name"):
+            fmt_str = format_spec.name
+        else:
+            fmt_str = str(format_spec)
+    fmt_str = fmt_str or "short-tip"
+
+    ev_ids = [e.id if hasattr(e, "id") else e.get("id") for e in ev_list]
+    first_ev = ev_list[0] if ev_list else None
+    excerpt = getattr(first_ev, "excerpt", "") if first_ev else ""
+    ev_url = getattr(first_ev, "url", "") if first_ev else ""
+
+    if has_cta and contact_config and hasattr(contact_config, "is_operational") and contact_config.is_operational():
+        from .contact_config import build_contextual_cta
+        approved_cta = build_contextual_cta(service_line, contact_config)
+        cta_instruction = (
+            f"Include this exact company-approved contact CTA at the end of the tweet: '{approved_cta}'. "
+            f"Ensure the entire post (including this CTA) is strictly within 280 characters. "
+            "Do not invent contact details or alter the approved contact channel."
+        )
+    elif has_cta:
+        cta_instruction = (
+            "CTA eligibility is reserved for this slot, but company contact details are not yet approved by project owner. "
+            "Do NOT include any email, phone, or unapproved commercial CTA. Focus strictly on educational observation."
+        )
+    else:
+        cta_instruction = "Do NOT include commercial CTAs, email addresses, or phone numbers; focus purely on educational observation."
+
+    format_specific_guidance = ""
+    if fmt_str == "news-reaction":
+        format_specific_guidance = (
+            f"NEWS REACTION FORMAT: You MUST include: "
+            f"(1) an event marker (e.g. 'reported', 'disclosed', 'advisory', 'released'), "
+            f"(2) an attributable source (e.g. 'OWASP', 'researchers', 'documentation'), "
+            f"(3) an analytical interpretation (e.g. 'shows why...', 'demonstrates that...'), "
+            f"and (4) Include source link: {ev_url}. MANDATORY: You MUST include this exact source URL in your tweet text (keep copy brief so total length including URL is strictly under 280 chars). "
+        )
+    elif fmt_str == "learning-resource":
+        format_specific_guidance = (
+            f"LEARNING RESOURCE FORMAT: You MUST explain why the resource is worth reading "
+            f"(e.g. 'breakdown of payment mechanics', 'specification breakdown', 'guide') "
+            f"and Include source link: {ev_url}. MANDATORY: You MUST include this exact source URL in your tweet text (keep copy brief so total length including URL is strictly under 280 chars). "
+            "If discussing x402, distinguish HTTP 402 signaling from facilitator verification and settlement. "
+        )
+    elif fmt_str == "differentiation":
+        format_specific_guidance = (
+            "DIFFERENTIATION FORMAT: Highlight the gap between contract-only audits and connected infrastructure risks. "
+            "Do NOT include links. Do NOT claim SanadSquad secures the entire connected stack; state our specific auditing and pentest services. "
+        )
+    else:
+        format_specific_guidance = "SHORT TIP FORMAT: One sharp observation. Strictly NO links. "
+
+    unit_guidance = (
+        f"Format: {fmt_str}. Service line: {service_line}. "
+        f"{format_specific_guidance}"
+        f"Grounded evidence: '{excerpt}'. "
+        "LENGTH CONSTRAINT: The entire tweet MUST be strictly under 250 characters (platform limit is 280). Aim for 180-230 characters. Be concise. "
+        "Epistemic boundaries: Ground facts strictly in evidence. Differentiate facts from interpretations. Do NOT claim SanadSquad audited the affected protocol or discovered the vulnerability unless explicitly stated in evidence. "
+        f"CTA policy: {cta_instruction}. "
+        f"{guidance}"
+    )
+
+    unit = ContentUnit(
+        id=f"{slot_id}_u1",
+        role="HOOK",
+        max_chars=280,
+        guidance=unit_guidance,
+        source_evidence_ids=ev_ids,
+    )
+
+    pol_id = getattr(policy, "policy_id", "sanadsquad_marketing_rules") if policy else "sanadsquad_marketing_rules"
+    pol_ver = getattr(policy, "policy_version", "1.0.0") if policy else "1.0.0"
+
+    plan = EvidenceFirstPlan(
+        slot_id=slot_id,
+        topic_id=f"MKTG-{service_line.upper().replace('-', '_')}",
+        content_type="marketing-post",
+        source_strategy="web_research",
+        policy_id=pol_id,
+        policy_version=pol_ver,
+        authorization_mode=authorization_mode,
+        units=[unit],
+        evidence_items=ev_list,
+    )
+    plan.plan_hash = plan.compute_plan_hash()
+    return plan
+
+
+def build_external_technical_plan(
+    slot_id: str,
+    resource_brief: Any,
+    evidence: list[Any],
+) -> EvidenceFirstPlan:
+    """Build an EvidenceFirstPlan for a technical thread grounded in an external technical resource."""
+    ev_ids = [e.id if hasattr(e, "id") else e.get("id") for e in evidence]
+    url = getattr(resource_brief, "url", "") if resource_brief else ""
+    summary = getattr(resource_brief, "summary_brief", "") if resource_brief else ""
+
+    units = [
+        ContentUnit(id=f"{slot_id}_u1", role="HOOK", max_chars=280, guidance=f"Technical incident hook from {url}: {summary[:100]}", source_evidence_ids=ev_ids),
+        ContentUnit(id=f"{slot_id}_u2", role="MECHANISM", max_chars=280, guidance="Explain the core technical breakdown or execution vulnerability.", source_evidence_ids=ev_ids),
+        ContentUnit(id=f"{slot_id}_u3", role="CONSEQUENCE", max_chars=280, guidance="Detail the operational impact and exploit consequence.", source_evidence_ids=ev_ids),
+        ContentUnit(id=f"{slot_id}_u4", role="RECOMMENDATION", max_chars=280, guidance="Provide defensive mitigation and engineering review safeguards.", source_evidence_ids=ev_ids),
+        ContentUnit(id=f"{slot_id}_u5", role="SUMMARY", max_chars=280, guidance=f"Provide the practitioner takeaway and cite the verified resource link: {url}", source_evidence_ids=ev_ids),
+    ]
+
+    plan = EvidenceFirstPlan(
+        slot_id=slot_id,
+        topic_id="TECH-EXT-INCIDENT",
+        content_type="tech-thread",
+        source_strategy="external_technical",
+        policy_id="security_audit_firm",
+        policy_version="1.0.0",
+        units=units,
+        evidence_items=evidence,
+    )
+    plan.plan_hash = plan.compute_plan_hash()
+    return plan

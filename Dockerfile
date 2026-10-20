@@ -54,6 +54,7 @@ COPY schemas /app/schemas
 COPY tests /app/tests
 COPY audit /app/audit
 COPY brand-voice.md kb.json plan.json content-types.json pyproject.toml pytest.ini run_week.py run_piece.py /app/
+COPY sources.json source.json marketing-rules.md writing-quality-rules.json audits.json /app/
 COPY docker/entrypoint.sh /entrypoint.sh
 
 # Fix ownership and permissions
@@ -68,6 +69,8 @@ ENV OLLAMA_HOST=127.0.0.1:11434
 ENV OLLAMA_MODELS=/app/models
 ENV OLLAMA_MODEL=qwen3.5:4b
 ENV OUTPUT_BASE=/app/output
+ENV SANADSQUAD_MODE=v3
+ENV SANADSQUAD_RESEARCH_MODE=fixture
 
 VOLUME ["/app/output"]
 

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompanyContactConfig",
+  "description": "Company contact configuration for SanadSquad commercial marketing CTAs.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string",
+      "const": "SanadSquad",
+      "description": "Company name, strictly SanadSquad."
+    },
+    "business_inquiries_email": {
+      "type": "string",
+      "description": "Verified business inquiries email address."
+    },
+    "business_phone_number": {
+      "type": ["string", "null"],
+      "description": "Optional approved business phone number with country code. Omitted when company has no verified public phone number."
+    },
+    "contact_form_url": {
+      "type": ["string", "null"],
+      "description": "Verified official contact form URL (https://sanadsquad.com/contact/)."
+    },
+    "telegram": {
+      "type": ["string", "null"],
+      "description": "Verified official Telegram handle or link."
+    },
+    "x_handle": {
+      "type": ["string", "null"],
+      "description": "Verified official X handle."
+    },
+    "official_website": {
+      "type": ["string", "null"],
+      "description": "Official website URL (https://sanadsquad.com)."
+    },
+    "approved": {
+      "type": "boolean",
+      "description": "Explicit approval flag. If false, contact details must not be used in any public CTA."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["APPROVED", "AWAITING_OWNER_APPROVAL", "SUSPENDED"],
+      "default": "AWAITING_OWNER_APPROVAL",
+      "description": "Lifecycle state of the contact details."
+    },
+    "approved_by": {
+      "type": ["string", "null"],
+      "description": "Signer or authority who approved the contact information."
+    },
+    "approved_at": {
+      "type": ["string", "null"],
+      "description": "ISO 8601 timestamp of approval."
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Internal editorial notes and provenance records."
+    }
+  },
+  "required": [
+    "company_name",
+    "business_inquiries_email",
+    "approved"
+  ],
+  "additionalProperties": false
+}

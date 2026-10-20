@@ -81,11 +81,32 @@ class BusinessPolicy(BaseModel):
         violations: list[str] = []
 
         # 1. Allowed topic check
-        # Match topic ID or topic name
-        topic_allowed = any(
-            t.lower() in topic_id.lower() or topic_id.lower() in t.lower()
-            for t in self.allowed_topics
-        )
+        # For marketing posts or external tech posts, topics are dynamic research topics
+        is_marketing = content_type == "marketing-post" or topic_id.startswith("MKT_")
+        is_external_tech = topic_id.startswith("TECH_EXT_")
+
+        if is_marketing:
+            valid_marketing_services = {
+                "web3-security", "pentesting", "agentic-security", "agentic-payments",
+                "web3", "web2", "ai", "payments", "solana", "evm", "infrastructure",
+                "prompt injection", "x402", "mpp", "smart contract", "access control",
+                "reentrancy", "oracle manipulation", "wallet",
+            }
+            topic_lower = topic_id.lower()
+            topic_allowed = (
+                topic_id.startswith("MKT_")
+                or any(s in topic_lower for s in valid_marketing_services)
+                or any(t.lower() in topic_lower or topic_lower in t.lower() for t in self.allowed_topics)
+            )
+        elif is_external_tech:
+            topic_allowed = True
+        else:
+            # Match static KB topic ID or topic name
+            topic_allowed = any(
+                t.lower() in topic_id.lower() or topic_id.lower() in t.lower()
+                for t in self.allowed_topics
+            )
+
         if not topic_allowed:
             violations.append(f"Hard Policy Violation: Topic {topic_id!r} is not in allowed_topics: {self.allowed_topics}")
 
@@ -96,6 +117,10 @@ class BusinessPolicy(BaseModel):
         # 3. Approved source IDs check
         unapproved_sources = []
         for sid in used_source_ids:
+            if is_marketing and (sid.startswith("ev_web_") or sid.startswith("supp_")):
+                continue
+            if is_external_tech and sid.startswith("ev_tech_ext_"):
+                continue
             normalized_sids = {sid, f"SRC_{sid.replace('-', '_')}", sid.replace("SRC_", "").replace("_", "-")}
             if not any(ns in self.approved_source_ids for ns in normalized_sids):
                 unapproved_sources.append(sid)

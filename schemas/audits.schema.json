@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CompanyAudits",
+  "description": "Schema for SanadSquad company audit records. Private by default and empty unless public disclosure is authorized.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "audit_id": { "type": "string", "pattern": "^AUD-[0-9]{4}-[0-9]+$" },
+      "client_name": { "type": "string" },
+      "service_line": { "type": "string", "enum": ["web3-security", "pentesting", "agentic-security", "agentic-payments"] },
+      "audit_date": { "type": "string", "format": "date" },
+      "public_summary_approved": { "type": "boolean" },
+      "report_url": { "type": "string", "format": "uri" }
+    },
+    "required": ["audit_id", "service_line", "audit_date", "public_summary_approved"]
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "_comment": "SanadSquad Canonical Marketing Research Allowlist and Denylist Configuration",
+  "version": "1.0.0",
+  "service_lines": {
+    "web3-security": {
+      "description": "Smart contract audits across EVM and Solana/SVM, protocol design review, formal reasoning about invariants.",
+      "blogs": [
+        "openzeppelin.com",
+        "paradigm.xyz",
+        "samczsun.com",
+        "zellic.io",
+        "trailofbits.com",
+        "solodit.xyz",
+        "rekt.news"
+      ],
+      "docs": [
+        "ethereum.org",
+        "solana.com",
+        "docs.soliditylang.org",
+        "docs.rs"
+      ],
+      "production": [
+        "github.com/ethereum",
+        "github.com/solana-labs",
+        "eips.ethereum.org",
+        "spl.solana.com"
+      ],
+      "analysis": [
+        "defillama.com",
+        "dune.com",
+        "chainalysis.com",
+        "slowmist.com"
+      ],
+      "figures": [
+        "vitalik.eth.limo"
+      ]
+    },
+    "pentesting": {
+      "description": "The infrastructure around the protocol: APIs, cloud, CI/CD, dependencies, internal access, and frontends.",
+      "blogs": [
+        "portswigger.net",
+        "troyhunt.com",
+        "krebsonsecurity.com",
+        "bishopfox.com"
+      ],
+      "docs": [
+        "owasp.org",
+        "csrc.nist.gov",
+        "mitre.org",
+        "cve.org"
+      ],
+      "production": [
+        "github.com/projectdiscovery",
+        "kubernetes.io",
+        "aws.amazon.com"
+      ],
+      "analysis": [
+        "cisa.gov",
+        "mandiant.com"
+      ],
+      "figures": [
+        "schneier.com"
+      ]
+    },
+    "agentic-security": {
+      "description": "AI agent systems: prompt injection, tool abuse, unauthorized action, agent wallets and spending policy.",
+      "blogs": [
+        "simonwillison.net",
+        "embracethered.com",
+        "lakera.ai",
+        "hiddenlayer.com"
+      ],
+      "docs": [
+        "genai.owasp.org",
+        "attack.mitre.org",
+        "nist.gov"
+      ],
+      "production": [
+        "github.com",
+        "modelcontextprotocol.io"
+      ],
+      "analysis": [
+        "arxiv.org",
+        "cset.georgetown.edu"
+      ],
+      "figures": [
+        "simonwillison.net"
+      ]
+    },
+    "agentic-payments": {
+      "description": "x402 and MPP: integration review, facilitator trust, payment policy design.",
+      "blogs": [
+        "tempo.stream",
+        "stripe.com",
+        "x402.org"
+      ],
+      "docs": [
+        "x402.org",
+        "mpp.dev",
+        "docs.stripe.com"
+      ],
+      "production": [
+        "github.com/coinbase/x402",
+        "github.com/tempo-stream",
+        "github.com/stripe"
+      ],
+      "analysis": [
+        "dune.com",
+        "defillama.com"
+      ],
+      "figures": [
+        "x402.org"
+      ]
+    }
+  },
+  "_deny": [
+    "medium.com",
+    "substack.com",
+    "twitter.com",
+    "x.com",
+    "reddit.com",
+    "pastebin.com",
+    "bit.ly",
+    "tinyurl.com",
+    "t.co",
+    "localhost",
+    "127.0.0.1",
+    "0.0.0.0",
+    "169.254.169.254"
+  ]
+}

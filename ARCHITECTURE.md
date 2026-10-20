@@ -201,6 +201,159 @@ Following independent audit findings F1 (role-specific instructions bypassed in 
    - Neutralized hook guidance in planner and instructions to eliminate causal superlatives ("the core mechanism") in reentrancy content.
    - Enhanced marketing prompt to consistently generate actionable, evidence-backed review recommendations.
 
+---
 
+## 8. SanadSquad V3 Architecture: Source Separation, Marketing Research & Writing Quality
 
+Operating under Directive `SANADSQUAD_V3_ADDITIONAL_REQUIREMENTS_01`, the V3 architecture introduces layered source separation, allowlisted marketing research, deterministic writing quality gates, and marketing guide policy constraints.
 
+```mermaid
+flowchart TD
+    subgraph PlanDispatch[Weekly Plan & Diversity Gate]
+        PLN[6-Slot Weekly Plan] --> MKTG_PLAN[MarketingSlotPlanner]
+        MKTG_PLAN -->|Diversified Metadata| SCHED[Parallel Worker Dispatch]
+    end
+
+    subgraph AuthorityRouting[Source Authority Routing]
+        SCHED -->|tech-thread| TECH_GATE{Technical Strategy?}
+        TECH_GATE -->|Strategy 1| KB_AUTH[KB Proposition Catalog & Snapshots]
+        TECH_GATE -->|Strategy 2| EXT_TECH[External Technical Research Brief]
+
+        SCHED -->|marketing-post| MKTG_AUTH{Marketing Source?}
+        MKTG_AUTH -->|Default: Barred from KB| WEB_RES[Allowlisted Web Research]
+        MKTG_AUTH -.->|Vulnerability Class Exception| SUPP_KB[Supplemental KB Grounding]
+    end
+
+    subgraph ResearchSubsystem[Marketing Research Subsystem]
+        WEB_RES --> ALLOW[Canonical sources.json Allowlist]
+        ALLOW --> DENY[Global _deny Precedence Filter]
+        DENY --> FETCHER[SafeFetcher: HTTPS, SSRF, Private IP & 1MB Limit]
+        FETCHER --> AUDIT_LOG[Zero-Credential Masked Audit Log]
+    end
+
+    subgraph RealizationGates[Realization & Deterministic Code Gates]
+        AUDIT_LOG --> WRITER[Role-Specific Writer Agent]
+        KB_AUTH --> WRITER
+        EXT_TECH --> WRITER
+        WRITER --> WQ_GATE[Deterministic Writing Quality Gate]
+        WQ_GATE -->|Pass| MKT_POL[Marketing Policy & Claims Gate]
+        WQ_GATE -->|Fail: Buzzword / Banned Char| RETRY[Targeted Revision Feedback]
+        MKT_POL -->|Pass| REV[Independent Rubric Reviewer]
+        MKT_POL -->|Fail: Competitor / Guarantee / Accretion| RETRY
+    end
+
+    subgraph ExportGate[Final Export & Platform Gating]
+        REV --> EXP_VAL[Export Validator: Single-Tweet 280 Char & Link Verification]
+        EXP_VAL --> CSV[Accepted-Only posts.csv Post Text,Image]
+        EXP_VAL --> SPECS[Visual Specifications visual_specs/]
+        EXP_VAL --> JSONS[Per-Run Cryptographic JSON Audit Trails]
+    end
+
+    classDef primary fill:#2563eb,stroke:#1d4ed8,color:#fff
+    classDef gate fill:#d97706,stroke:#b45309,color:#fff
+    classDef success fill:#16a34a,stroke:#15803d,color:#fff
+    class TECH_GATE,MKTG_AUTH,DENY,FETCHER,WQ_GATE,MKT_POL,EXP_VAL gate
+    class CSV,SPECS,JSONS success
+```
+
+### 1. Two-Tier Content & Source Authority Separation
+- **`tech-thread` (5–10 tweets):** Focuses on technical education and vulnerability mechanics. Operates under either:
+  - **Strategy 1 (Knowledge Base):** Uses curated, checksummed propositions from `kb.json` and catalog snapshots.
+  - **Strategy 2 (External Technical Research Brief):** Retains an external technical resource cited by URL with an accompanying structured research brief.
+- **`marketing-post` (strictly 1 tweet $\le 280$ chars):** Focuses on firm service offerings and industry context.
+  - **KB Isolation Invariant:** Marketing posts are strictly barred from querying `kb.json` by default (`SourceAuthorityError: Access to knowledge_base is forbidden`).
+  - **Bounded Exception:** Only under an explicit vulnerability class exception may KB entries be attached as supplemental context (`supp_*`), while primary evidence remains external research.
+
+### 2. Marketing Research Subsystem
+- **Canonical Configuration (`sources.json`, `source.json`):** Defines strict domain allowlists across four service lines:
+  - `web3-security`: Smart contract audits, SVM/EVM protocol reviews, formal invariant verification.
+  - `pentesting`: Protocol infrastructure, cloud IAM, CI/CD pipeline supply chain security, developer access.
+  - `agentic-security`: Autonomous agent red teaming, prompt injection defenses, tool authorization boundaries.
+  - `agentic-payments`: x402 vs MPP settlement mechanics, autonomous treasury management, spend policy enforcement.
+- **Five Structured Source Groups:** `blogs`, `docs`, `production`, `analysis`, `figures`.
+- **Global Denylist (`_deny`):** Domains on `_deny` are strictly rejected across all service lines, overriding any allowlist inclusion.
+- **Security & SSRF Protection (`SafeFetcher`):**
+  - Strictly enforces HTTPS; plaintext HTTP is immediately rejected with HTTP 400.
+  - Blocks loopback (`127.0.0.0/8`, `::1`), private IP subnets (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), link-local/cloud metadata (`169.254.169.254`), and unspecified addresses (`0.0.0.0`).
+  - Enforces a 1 MB response payload ceiling and max 3 redirects.
+  - Sanitizes HTML into plain text, stripping scripts, styles, and tags.
+- **Audit Logging & Credential Masking (`ResearchLogger`):** Every search query and fetch attempt is recorded in `research_log.json`. Sensitive tokens (`api_key=...`, `Bearer ...`) are masked with `[REDACTED]`.
+
+### 3. Marketing Guide Policy & Content Guardrails
+- **Platform Length Contract:** Strictly enforces single-tweet marketing copy ($\le 280$ characters).
+- **Supported Formats:** Validates 5 single-tweet formats from the Marketing Guide:
+  - `short-tip`: One to three sentences. Concrete observation or review habit. Link forbidden.
+  - `differentiation`: Medium length. Names a gap contract-only firms leave open and shows how SanadSquad closes it.
+  - `service-overview`: Explains what a service line covers and why it matters now.
+  - `news-reaction`: Recent event plus SanadSquad technical interpretation. Source link mandatory.
+  - `learning-resource`: Highlights an article, doc, or roadmap worth reading with rationale. Source link mandatory.
+  - *Future Format:* `marketing-thread` (3–7 tweets) is defined and reserved in schema, but strictly blocked in execution under the current single-tweet contract.
+- **Claims Restrictions:**
+  - *Competitor Attacks:* Strictly blocks naming or attacking competitors (e.g. CertiK, OpenZeppelin, Trail of Bits, ConsenSys Diligence).
+  - *Absolute Guarantees:* Deterministically rejects absolute security guarantees ("100% secure", "hack-proof", "guaranteed vulnerability-free").
+  - *Accretion Audit Isolation:* Third-party audit reports (such as the 20 Accretion findings) are strictly isolated as external reference evidence and never claimed as SanadSquad work or client stats. The canonical audit file `audits.json` is strictly maintained as an empty array (`[]`) conforming to `schemas/audits.schema.json`.
+
+### 4. Weekly Diversity Planning Engine (`MarketingSlotPlanner`)
+- **Commercial CTA Ceiling:** At most 1 commercial CTA out of 3 marketing posts ($\le 1/3$).
+- **Service Line Uniqueness:** Every weekly schedule covers 3 distinct service lines across its 3 marketing posts.
+- **Format Variety:** No single format may appear more than twice in a single week.
+- **Link Distribution:** Both link-required (`news-reaction` / `learning-resource`) and link-forbidden (`short-tip`) formats must be represented.
+- **Topic Fingerprinting:** MD5-based fingerprinting prevents duplicate research angles within the same week.
+
+### 5. Deterministic Human Writing Quality Gates
+Machine-enforced code checks (`writing-quality-rules.json` and `content_pipeline/writing_quality.py`) eliminate common LLM stylistic markers:
+- **Banned Characters:** Em dash (`—`), separator en dash (`–`), curly quotes (`“ ” ‘ ’`), emojis, unicode obfuscation.
+- **14 Banned Buzzwords:** `delve`, `testament`, `tapestry`, `vital`, `crucial`, `beacon`, `game-changer`, `synergy`, `unleash`, `elevate`, `paramount`, `revolutionize`, `cornerstone`, `foster` (detected via word-boundary regex).
+- **Negative Parallelisms:** Detects and blocks stylistic clichés (`not just X, but Y`, `not only X, but Y`).
+- **Copula Overuse:** Flags drafts dominated by weak linking verbs (`is`, `are`, `was`, `were`).
+- **Filler Openings:** Vetoes empty conversational throat-clearing (`in today's world`, `as we all know`, `let's explore`).
+- **Rule of Three:** Blocks sentences exhibiting repetitive ternary rhythmic phrasing (`A, B, and C`).
+- **Variance & Hedging:** Enforces sentence length standard deviation $\ge 3.0$ and bounds hedging adverb density $\le 0.15$.
+
+### 6. Company Contact Configuration & Deterministic CTA Engine (Directive SANADSQUAD_V3_CONTACT_CTA_CLOSURE_01)
+Commercial marketing posts may invite readers to contact SanadSquad for commercial inquiries using approved contact details:
+- **Canonical Configuration (`company-contact.json`):** Bound by `schemas/company-contact.schema.json` and parsed by `content_pipeline/contact_config.py`. Enforces strict company name (`SanadSquad`), business email, phone with country code (`+`), optional website, and explicit approval status (`approved: bool`).
+- **Contextual CTA Generation (`build_contextual_cta`):** Generates service-line-specific invitations:
+  - *Web3 Security:* Reviewing protocol security? Contact SanadSquad to discuss risks.
+  - *Web2 Pentesting:* Assessing developer infrastructure risks? Consult SanadSquad.
+  - *Agentic Security:* Evaluating agent wallet permissions? Contact SanadSquad.
+  - *Agentic Payments:* Integrating agentic payment protocols? Discuss with SanadSquad.
+  All CTA separators strictly use clean ASCII (`|` or `,`), never banned unicode dashes (`—`, `–`).
+- **Deterministic Contact Validation (`validate_contact_cta`):**
+  1. *Approval Verification:* Rejects any contact details if `approved: false` or fields are empty.
+  2. *Exact Value Matching:* Any email or phone in text must byte-for-byte match the approved configuration.
+  3. *Weekly Frequency Enforcement:* $\le 1$ commercial CTA across 3 weekly marketing posts.
+  4. *Single Post Limit:* At most 1 CTA per post.
+  5. *Tech Thread Prohibition:* Strictly 0 CTAs or contact details in technical threads.
+  6. *Single-Tweet Character Limit:* Complete post must remain $\le 280$ characters post-insertion.
+  7. *Non-Evidence Metadata Rule:* Contact information is approved company metadata, never external research evidence or claim support.
+
+### 7. Official Brand Integration & Service Catalog Architecture (Directive SANADSQUAD_V3_OFFICIAL_BRAND_INTEGRATION_01)
+To ensure that marketing outputs authentically reflect SanadSquad's official public positioning, the architecture integrates verified information from the official company website (`https://sanadsquad.com/`):
+
+- **Five Official Commercial Services:**
+  1. *Blockchain security audits* (`https://sanadsquad.com/services/blockchain-security-audits/`): EVM and non-EVM (Solana/SVM, Sui) manual review of invariants, accounting/rounding, access control, price manipulation, reentrancy, and economic mechanisms; optional fuzzing and formal verification.
+  2. *Penetration testing* (`https://sanadsquad.com/services/penetration-testing/`): Real-world simulated attacks against web apps, APIs, blockchain infrastructure, and Web3 off-chain components.
+  3. *Agentic security tooling* (`https://sanadsquad.com/services/ai-security-tooling/`): Custom AI security software including protocol-specific detectors, automated PR reviewers, and monitoring agents.
+  4. *Agentic payments* (`https://sanadsquad.com/services/agentic-payments/`): Building payment agents for x402 and MPP, MCP server review, facilitator integrations, and payment authorization security.
+  5. *Security consulting* (`https://sanadsquad.com/services/consulting/`): Early security design review before implementation, system architecture guidance, and continuous security review.
+
+- **Dual-Layer Commercial-to-Research Mapping:**
+  The 5 commercial services map onto the 4 canonical marketing research categories in `sources.json`:
+  - `blockchain-security-audits` $\to$ `web3-security`
+  - `penetration-testing` $\to$ `pentesting`
+  - `agentic-security-tooling` $\to$ `agentic-security`
+  - `agentic-payments` $\to$ `agentic-payments`
+  - `security-consulting` $\to$ `web3-security` (or cross-cutting allowlists)
+
+- **Verified Public Business Contacts & Fail-Closed Approval:**
+  - Business email: `frank@sanadsquad.com`
+  - Contact form: `https://sanadsquad.com/contact/`
+  - Telegram: `@castle_chain`
+  - X (Twitter): `@SanadSquad`
+  - Phone: `None` (verified absent on website). Fictional phone numbers (`+1-555-0199`) and fictional emails are strictly prohibited. The recruitment email (`career@sanadsquad.com`) is strictly isolated from commercial inquiries.
+  - Fail-closed approval: `company-contact.json` is maintained with `approved: false` (`AWAITING_OWNER_APPROVAL`), ensuring that unapproved contact data does not emit commercial CTAs.
+
+- **Confidentiality & Epistemic Boundaries:**
+  - Private audit records are excluded: `audits.json` remains strictly empty (`[]`). Publicly displayed website audit counts or success metrics are barred from marketing claims without explicit marketing authorization.
+  - Third-party technical evidence (e.g. OWASP, Coinbase, Solana) provides technical grounding for risk, not proof of SanadSquad client work.

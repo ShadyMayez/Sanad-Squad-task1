@@ -1,8 +1,18 @@
+"""Central deterministic validation for brand, platform, writing quality, and marketing policies."""
 from __future__ import annotations
 
 import re
 from .schemas import BrandRules, Draft, Evidence, WriterConfig
 from .skills import EvidenceLookup
+from .writing_quality import validate_writing_quality, WritingQualityReport
+from .marketing_policy import (
+    validate_marketing_claims,
+    validate_contact_cta,
+    MarketingPolicy,
+    load_marketing_policy,
+)
+from .contact_config import CompanyContactConfig, load_company_contact
+from .marketing_format import validate_marketing_format, MarketingFormat
 
 
 def check_marketing_action(text: str) -> bool:
@@ -44,6 +54,8 @@ def validate_brand_and_platform(
     tweets: list[str],
     brand: BrandRules,
     spec: WriterConfig | None = None,
+    allowed_run_links: list[str] | None = None,
+    enforce_review_invitation: bool = True,
 ) -> list[str]:
     """Central deterministic validation for brand, platform, and content-type rules."""
     errors: list[str] = []
@@ -52,7 +64,7 @@ def validate_brand_and_platform(
     if spec:
         if not (spec.min_tweets <= len(tweets) <= spec.max_tweets):
             errors.append(f"Expected {spec.min_tweets}-{spec.max_tweets} tweets, got {len(tweets)}")
-        if spec.require_review_invitation:
+        if spec.require_review_invitation and enforce_review_invitation:
             full_text = " ".join(tweets)
             if not check_marketing_action(full_text):
                 errors.append("Marketing post requires a practical security action")
@@ -64,15 +76,25 @@ def validate_brand_and_platform(
 
     # 3. Per-tweet constraints: length, brand rules, banned characters, hashtags, banned words, unapproved links
     max_chars = spec.max_chars if spec else 280
+    valid_links = set(brand.allowed_links)
+    if allowed_run_links:
+        valid_links.update(l.rstrip(".,;") for l in allowed_run_links)
+
     for i, tweet in enumerate(tweets, 1):
         if not tweet.strip():
             errors.append(f"Tweet {i} is empty")
         serialized_length = len(tweet) + (len(f"{i}/{len(tweets)} ") if len(tweets) > 1 else 0)
         if serialized_length > max_chars:
             errors.append(f"Tweet {i} exceeds {max_chars} characters")
-        if re.search(r"\bSanadSquad\b", tweet, re.IGNORECASE) and re.search(r"\b\d+(?:[.,]\d+)?\b", tweet):
-            if not any(stat.casefold() in tweet.casefold() for stat in brand.approved_statistics):
-                errors.append(f"Tweet {i} contains an unapproved company statistic")
+        stat_clean_text = re.sub(r"(?:phone|tel):\s*[^\s|]+", "", tweet, flags=re.IGNORECASE)
+        stat_clean_text = re.sub(r"https?://[^\s)]+", "", stat_clean_text)
+        stat_clean_text = re.sub(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b", "", stat_clean_text)
+        sentences_for_stat = re.split(r"(?<=[.!?])\s+|\n+", stat_clean_text)
+        for s in sentences_for_stat:
+            if re.search(r"\bSanadSquad\b", s, re.IGNORECASE) and re.search(r"\b\d+(?:[.,]\d+)?\b", s):
+                if not any(stat.casefold() in s.casefold() for stat in brand.approved_statistics):
+                    errors.append(f"Tweet {i} contains an unapproved company statistic")
+                    break
         for char in brand.banned_characters:
             if char in tweet:
                 errors.append(f"Tweet {i} contains banned character {char!r}")
@@ -83,10 +105,72 @@ def validate_brand_and_platform(
                 errors.append(f"Tweet {i} contains banned phrase {word!r}")
         links = re.findall(r"https?://[^\s)]+", tweet)
         for link in links:
-            if link.rstrip(".,") not in brand.allowed_links:
+            if link.rstrip(".,;") not in valid_links:
                 errors.append(f"Tweet {i} contains unapproved link {link}")
 
     return errors
+
+
+def validate_piece_deterministic(
+    tweets: list[str],
+    brand: BrandRules,
+    spec: WriterConfig | None = None,
+    allowed_run_links: list[str] | None = None,
+    marketing_format: str | None = None,
+    marketing_policy: MarketingPolicy | None = None,
+    writing_rules: dict | None = None,
+    contact_config: CompanyContactConfig | None = None,
+    allow_cta: bool = False,
+    content_type: str | None = None,
+    enforce_review_invitation: bool = False,
+) -> tuple[bool, list[str], WritingQualityReport]:
+    """Execute all deterministic checks in sequence: brand/platform -> writing quality -> claims -> format -> contact CTA."""
+    all_errors: list[str] = []
+
+    # 1. Brand and platform rules
+    is_marketing = bool(
+        (content_type == "marketing-post") or (spec and spec.max_tweets == 1 and spec.min_tweets == 1)
+    )
+    should_enforce_invitation = enforce_review_invitation and not is_marketing
+    bp_errors = validate_brand_and_platform(
+        tweets,
+        brand,
+        spec,
+        allowed_run_links=allowed_run_links,
+        enforce_review_invitation=should_enforce_invitation,
+    )
+    all_errors.extend(bp_errors)
+
+    # 2. Writing quality rules (anti-AI markers, banned vocabulary, hedging, variance)
+    wq_report = validate_writing_quality(tweets, rules=writing_rules)
+    if not wq_report.passed:
+        all_errors.extend(wq_report.errors)
+
+    # 3. Marketing policy and format rules if applicable
+    if is_marketing:
+        policy = marketing_policy or load_marketing_policy()
+        claim_errors = validate_marketing_claims(tweets, policy=policy)
+        all_errors.extend(claim_errors)
+
+        if marketing_format:
+            fmt_errors = validate_marketing_format(
+                tweets,
+                selected_format=marketing_format,
+                fetched_urls=allowed_run_links,
+            )
+            all_errors.extend(fmt_errors)
+
+    # 4. Commercial contact CTA validation
+    ctype = content_type or (spec.name if spec and hasattr(spec, "name") else ("marketing-post" if is_marketing else "tech-thread"))
+    contact_errors = validate_contact_cta(
+        tweets=tweets,
+        contact_config=contact_config,
+        allow_cta=allow_cta,
+        content_type=ctype,
+    )
+    all_errors.extend(contact_errors)
+
+    return len(all_errors) == 0, all_errors, wq_report
 
 
 def validate_draft(
@@ -97,7 +181,8 @@ def validate_draft(
     lookup: EvidenceLookup,
 ) -> list[str]:
     """Validate full draft including brand/platform rules and claim mappings."""
-    errors = validate_brand_and_platform(draft.tweets, brand, spec)
+    allowed_links = [e.url for e in evidence if e.url]
+    errors = validate_brand_and_platform(draft.tweets, brand, spec, allowed_run_links=allowed_links)
 
     mapped = {c.text.strip(): c for c in draft.claims}
     if len(mapped) != len(draft.claims):

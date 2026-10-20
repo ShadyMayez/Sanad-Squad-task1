@@ -247,8 +247,8 @@ class EvidenceFirstWriterAgent:
         targeted_feedback: list[dict] | None = None,
         previous_tweets: list[str] | None = None,
     ) -> tuple[Draft, dict]:
-        prop_map = {p.id: p for p in catalog.propositions}
-        rel_map = {r.id: r for r in catalog.relations}
+        prop_map = {p.id: p for p in catalog.propositions} if catalog and hasattr(catalog, "propositions") else {}
+        rel_map = {r.id: r for r in catalog.relations} if catalog and hasattr(catalog, "relations") else {}
         is_marketing = (plan.content_type == "marketing-post")
         exact_count = 1 if is_marketing else len(plan.units)
         draft_schema = (
@@ -259,9 +259,9 @@ class EvidenceFirstWriterAgent:
 
         if is_marketing:
             count_inst = (
-                "CRITICAL: The 'tweets' array in your output MUST contain EXACTLY 1 string (under 280 characters). "
-                "Multiple sentences inside this single tweet are permitted (e.g. combining the hazard and the recommended review action). "
-                "Do NOT produce multiple tweets or separate array items."
+                "CRITICAL: The 'tweets' array in your output MUST contain EXACTLY 1 string (strictly under 250 characters total, platform limit is 280). "
+                "Multiple sentences inside this single tweet are permitted. "
+                "Do NOT produce multiple tweets or separate array items. Keep the text concise (aim for 180-230 characters) so it never exceeds the platform character limit."
             )
         else:
             count_inst = (
@@ -269,12 +269,22 @@ class EvidenceFirstWriterAgent:
                 "(one tweet corresponding to each planned unit, strictly 5 to 10 tweets total)."
             )
 
+        evidence_payload = []
+        if hasattr(plan, "evidence_items") and plan.evidence_items:
+            for ev in plan.evidence_items:
+                evidence_payload.append({
+                    "id": getattr(ev, "id", str(ev)),
+                    "url": getattr(ev, "url", ""),
+                    "excerpt": getattr(ev, "excerpt", getattr(ev, "source_quote", "")),
+                })
+
         plan_prompt_payload = {
             "slot_id": plan.slot_id,
             "topic_id": plan.topic_id,
             "content_type": plan.content_type,
             "exact_required_tweet_count": exact_count,
             "count_instruction": count_inst,
+            "verified_evidence": evidence_payload,
             "units": [
                 {
                     "unit_id": u.id,

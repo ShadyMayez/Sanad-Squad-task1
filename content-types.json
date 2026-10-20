@@ -4,4 +4,3 @@
     "marketing-post": {"instruction_file": "instructions/marketing-post.md", "min_tweets": 1, "max_tweets": 1, "max_chars": 280, "require_review_invitation": true}
   }
 }
-

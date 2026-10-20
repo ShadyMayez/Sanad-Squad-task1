@@ -1,0 +1,15 @@
+{
+  "$schema": "schemas/company-contact.schema.json",
+  "company_name": "SanadSquad",
+  "business_inquiries_email": "frank@sanadsquad.com",
+  "business_phone_number": null,
+  "contact_form_url": "https://sanadsquad.com/contact/",
+  "telegram": "@castle_chain",
+  "x_handle": "@SanadSquad",
+  "official_website": "https://sanadsquad.com",
+  "approved": false,
+  "status": "AWAITING_OWNER_APPROVAL",
+  "approved_by": null,
+  "approved_at": null,
+  "notes": "Official brand integration per Directive SANADSQUAD_V3_OFFICIAL_BRAND_INTEGRATION_01. Verified public contact details retrieved from https://sanadsquad.com/contact/ on 2026-10-20. Approval status remains AWAITING_OWNER_APPROVAL pending explicit project owner sign-off prior to commercial publication."
+}

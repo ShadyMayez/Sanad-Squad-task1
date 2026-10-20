@@ -1,0 +1,7 @@
+{
+  "slots": [
+    {"id": "post_1", "type": "marketing-post", "focus": "web3-security"},
+    {"id": "post_2", "type": "marketing-post", "focus": "agentic-security"},
+    {"id": "post_3", "type": "marketing-post", "focus": "agentic-payments"}
+  ]
+}

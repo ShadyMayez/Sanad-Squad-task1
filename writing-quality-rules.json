@@ -1,0 +1,92 @@
+{
+  "version": "1.0.0",
+  "description": "Deterministic rules for rejecting AI-generated text markers and enforcing human writing quality.",
+  "banned_characters": [
+    "—",
+    "–",
+    "“",
+    "”",
+    "‘",
+    "’"
+  ],
+  "forbid_emoji": true,
+  "banned_vocabulary": [
+    "delve",
+    "testament",
+    "tapestry",
+    "vital",
+    "crucial",
+    "beacon",
+    "game-changer",
+    "game changer",
+    "synergy",
+    "unleash",
+    "elevate",
+    "paramount",
+    "revolutionize",
+    "cornerstone",
+    "foster",
+    "leverage",
+    "underscore",
+    "pivotal",
+    "realm",
+    "landscape",
+    "seamless",
+    "robust",
+    "navigate",
+    "ever-evolving"
+  ],
+  "banned_constructions": [
+    {
+      "name": "negative_parallelism",
+      "patterns": [
+        "\\bnot\\s+only\\b[\\w\\s,']+\\bbut\\s+(?:also\\s+)?",
+        "\\bnot\\s+just\\b[\\w\\s,']+\\bbut\\b",
+        "\\bnot\\s+simply\\b[\\w\\s,']+\\bbut\\b"
+      ],
+      "reason": "Avoid negative parallelism ('not just X, but Y' or 'not only ... but also'); state the positive point directly."
+    },
+    {
+      "name": "copula_avoidance",
+      "patterns": [
+        "\\bserves\\s+as\\b",
+        "\\bstands\\s+as\\b",
+        "\\bboasts\\b"
+      ],
+      "reason": "Avoid copula avoidance ('serves as', 'stands as', 'boasts'); use direct verbs."
+    },
+    {
+      "name": "filler_openers",
+      "patterns": [
+        "(?:^|\\n|[.!?]\\s+)\\s*in\\s+today['’]s\\s+fast-paced\\s+world\\b",
+        "(?:^|\\n|[.!?]\\s+)\\s*it\\s+is\\s+important\\s+to\\s+note\\b",
+        "(?:^|\\n|[.!?]\\s+)\\s*at\\s+the\\s+end\\s+of\\s+the\\s+day\\b",
+        "(?:^|\\n|[.!?]\\s+)\\s*it['’]s\\s+worth\\s+noting\\b",
+        "(?:^|\\n|[.!?]\\s+)\\s*in\\s+the\\s+realm\\s+of\\b"
+      ],
+      "reason": "Avoid canned filler openers; start immediately with the substantive observation."
+    }
+  ],
+  "rule_of_three": {
+    "enabled": true,
+    "max_allowed_per_piece": 1,
+    "description": "Flags sentences built on three parallel items when the pattern repeats within a single piece."
+  },
+  "hedging": {
+    "max_hedge_words_per_100_words": 10.0,
+    "max_hedge_words_short_text": 3,
+    "hedge_words": [
+      "may",
+      "might",
+      "could",
+      "generally",
+      "typically",
+      "possibly",
+      "presumably"
+    ]
+  },
+  "sentence_length_variance": {
+    "log_metric": true,
+    "min_sentences_required": 2
+  }
+}

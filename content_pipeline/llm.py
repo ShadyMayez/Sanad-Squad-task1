@@ -23,7 +23,8 @@ class LocalModel:
         self.transport_retries = transport_retries
         self.active = 0
         self._shared = None
-        self.model = ChatOllama(model=model, base_url=base_url, temperature=0, num_ctx=8192, num_predict=1800, reasoning=False)
+        num_predict = int(os.getenv("OLLAMA_NUM_PREDICT", "1800"))
+        self.model = ChatOllama(model=model, base_url=base_url, temperature=0, num_ctx=8192, num_predict=num_predict, reasoning=False)
 
     @property
     def peak_active(self) -> int:

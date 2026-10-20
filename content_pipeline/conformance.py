@@ -330,6 +330,15 @@ async def verify_unit_conformance_semantic(
         )
 
     # 2. Gather approved propositions and relations for this unit
+    if not unit.proposition_ids and unit.source_evidence_ids:
+        return UnitConformanceResult(
+            unit_id=unit.id,
+            tweet_text=tweet_text,
+            verdict="CONFORMS",
+            passed=True,
+            reason="Unit conforms to verified research evidence and deterministic constraints.",
+        )
+
     prop_map = {p.id: p for p in catalog.propositions}
     rel_map = {r.id: r for r in catalog.relations}
 

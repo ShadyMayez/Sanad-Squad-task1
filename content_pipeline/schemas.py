@@ -164,6 +164,8 @@ class Slot(BaseModel):
     id: str = Field(pattern=r"^[a-z][a-z0-9_]*$")
     type: str
     focus: str | None = None
+    service_line: str | None = None
+    has_cta: bool = False
 
 
 class Plan(BaseModel):
@@ -304,6 +306,7 @@ class HumanApprovalRecord(BaseModel):
 class SlotResult(BaseModel):
     slot: Slot
     status: Literal["accepted", "dropped", "failed"]
+    has_cta: bool = False
     topic: str | None = None
     source_ids: list[str] = Field(default_factory=list)
     evidence: list[Evidence] = Field(default_factory=list)
@@ -330,6 +333,9 @@ class SlotResult(BaseModel):
     publication_status: str = "SHIPPED"
     business_policy_version: str | None = None
     pipeline_mode: str = "legacy"
+    fetched_urls: list[str] = Field(default_factory=list)
+    writing_quality_report: dict | None = None
+    source_strategy: str | None = None
 
 
 class ResearchRecord(BaseModel):

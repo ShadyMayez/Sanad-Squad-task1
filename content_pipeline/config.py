@@ -60,3 +60,18 @@ def load_kb() -> KnowledgeBase:
     # belong to the selected slot, so one broken snapshot cannot stop a week.
     return read_json(ROOT / "kb.json", KnowledgeBase)
 
+
+def load_sources(path: Path = ROOT / "sources.json"):
+    from .research.config import load_sources_config
+    return load_sources_config(path)
+
+
+def load_writing_rules(path: Path = ROOT / "writing-quality-rules.json") -> dict:
+    from .writing_quality import load_writing_quality_rules
+    return load_writing_quality_rules(path)
+
+
+def load_marketing_rules(path: Path = ROOT / "marketing-rules.md") -> tuple[str, Any]:
+    from .marketing_policy import load_marketing_policy
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    return text, load_marketing_policy(path)

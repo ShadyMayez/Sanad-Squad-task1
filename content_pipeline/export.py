@@ -95,12 +95,113 @@ def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: flo
 
             from .validation import validate_brand_and_platform
             from .config import load_brand, load_registry
+            from .writing_quality import validate_writing_quality
             _, brand_rules = load_brand()
             registry = load_registry()
             spec = registry.types.get(r.slot.type)
-            bp_errors = validate_brand_and_platform(final_draft.tweets, brand_rules, spec)
+            is_mktg = (r.slot.type == "marketing-post")
+            allowed_run_urls = [e.url for e in r.evidence if getattr(e, "url", None)]
+            bp_errors = validate_brand_and_platform(
+                final_draft.tweets,
+                brand_rules,
+                spec,
+                allowed_run_links=allowed_run_urls,
+                enforce_review_invitation=(not is_mktg if mode in ("v3", "evidence_first_v3") else True),
+            )
             if bp_errors:
                 raise ValueError(f"Accepted V2 slot {r.slot.id} failed deterministic brand/platform gate: {bp_errors}")
+
+            wq_rep = validate_writing_quality(final_draft.tweets)
+            if not wq_rep.passed:
+                raise ValueError(f"Accepted slot {r.slot.id} failed writing quality gate at export: {wq_rep.errors}")
+
+            if r.slot.type == "marketing-post":
+                from .marketing_policy import validate_marketing_claims, validate_contact_cta
+                from .contact_config import (
+                    load_company_contact,
+                    SYNTHETIC_DEMO_CONTACTS,
+                    EMAIL_PATTERN,
+                    PHONE_PATTERN,
+                    ROOT as CONTACT_ROOT,
+                )
+                import re
+
+                claim_errs = validate_marketing_claims(final_draft.tweets)
+                if claim_errs:
+                    raise ValueError(f"Accepted marketing slot {r.slot.id} failed claims gate at export: {claim_errs}")
+
+                full_slot_text = " ".join(final_draft.tweets)
+
+                # Check on-disk company-contact.json directly (fail closed against mocked authorization)
+                disk_file = CONTACT_ROOT / "company-contact.json"
+                disk_approved = False
+                if disk_file.exists():
+                    try:
+                        with open(disk_file, "r", encoding="utf-8") as f:
+                            disk_data = json.load(f)
+                            disk_approved = bool(disk_data.get("approved", False))
+                    except Exception:
+                        disk_approved = False
+                from .contact_config import extract_emails, extract_phone_numbers
+                found_emails = extract_emails(full_slot_text)
+                found_phones = extract_phone_numbers(full_slot_text)
+                has_contacts = bool(found_emails or found_phones)
+
+                # Mode check: Never export synthetic demo contacts or unapproved contacts in publication-eligible runs
+                is_pub_eligible = (
+                    mode in ("publication_eligible", "production")
+                    or getattr(r, "authorization_mode", "") == "publication_eligible"
+                    or not model_name.startswith("mock_")
+                )
+
+                if is_pub_eligible:
+                    for demo in SYNTHETIC_DEMO_CONTACTS:
+                        if demo.lower() in full_slot_text.lower():
+                            raise ValueError(
+                                f"Export integrity rejection: Slot {r.slot.id} contains demonstration placeholder '{demo}'. "
+                                "Demonstration placeholders must never be exported as publication-eligible content."
+                            )
+
+                    # Never export contacts if disk configuration is unapproved
+                    if has_contacts and not disk_approved:
+                        raise ValueError(
+                            f"Export integrity rejection: Slot {r.slot.id} contains contact details, "
+                            "but company-contact.json has approved=false on disk. Mocked approval cannot be represented as project-owner authorization."
+                        )
+
+                # URL verification at export: Require permitted domain and verified retrieval
+                from .research.config import load_sources_config
+                sources_cfg = load_sources_config()
+                urls_in_post = re.findall(r"https?://[^\s)]+", full_slot_text)
+                for u in urls_in_post:
+                    clean_u = u.rstrip(".,;")
+                    if not sources_cfg.is_domain_allowed(clean_u, ["web3-security", "pentesting", "agentic-security", "agentic-payments"]):
+                        raise ValueError(f"Export integrity rejection: Slot {r.slot.id} contains unallowlisted URL '{clean_u}'.")
+                    verified_urls = {v.rstrip(".,;") for v in (r.fetched_urls or [])}
+                    for ev in r.evidence:
+                        if getattr(ev, "url", None):
+                            verified_urls.add(ev.url.rstrip(".,;"))
+                    if clean_u not in verified_urls:
+                        raise ValueError(f"Export integrity rejection: Slot {r.slot.id} contains unverified URL '{clean_u}' not present in retrieved evidence.")
+
+                contact_cfg = load_company_contact()
+                has_cta = bool(getattr(r, "has_cta", False) or getattr(r.slot, "has_cta", False))
+                contact_errs = validate_contact_cta(
+                    tweets=final_draft.tweets,
+                    contact_config=contact_cfg,
+                    allow_cta=has_cta,
+                    content_type="marketing-post",
+                )
+                if contact_errs:
+                    raise ValueError(f"Accepted marketing slot {r.slot.id} failed contact CTA gate at export: {contact_errs}")
+            elif r.slot.type == "tech-thread":
+                from .marketing_policy import validate_contact_cta
+                contact_errs = validate_contact_cta(
+                    tweets=final_draft.tweets,
+                    content_type="tech-thread",
+                )
+                if contact_errs:
+                    raise ValueError(f"Accepted technical slot {r.slot.id} failed contact CTA gate at export: {contact_errs}")
 
             review_ok = bool(r.reviews and r.reviews[-1].approved)
             validation_ok = bool(r.validations and not r.validations[-1])
@@ -233,6 +334,25 @@ def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: flo
         for r in ready_review_slots
     ]
     dump_json(output / "ready_for_human_review.json", ready_review_records)
+
+    # Verify weekly marketing CTA limits (at most 1 CTA across three weekly marketing posts)
+    mktg_shipped = [r for r in shipped_slots if r.slot.type == "marketing-post"]
+    if mktg_shipped:
+        from .contact_config import EMAIL_PATTERN
+        from .marketing_policy import detect_commercial_cta
+        ctas = sum(
+            1 for r in mktg_shipped
+            if r.drafts and (
+                detect_commercial_cta(" ".join(r.drafts[-1].tweets))[0]
+                or bool(EMAIL_PATTERN.search(" ".join(r.drafts[-1].tweets)))
+                or "phone:" in " ".join(r.drafts[-1].tweets).lower()
+            )
+        )
+        max_allowed = 1 if len(mktg_shipped) <= 3 else max(1, len(mktg_shipped) // 3)
+        if ctas > max_allowed:
+            raise ValueError(
+                f"Accepted marketing slots violate weekly CTA limit at export: {ctas} posts contain CTAs (maximum allowed is {max_allowed} across {len(mktg_shipped)} posts)."
+            )
 
     with (output / "posts.csv").open("w", newline="") as file:
         writer = csv.writer(file)

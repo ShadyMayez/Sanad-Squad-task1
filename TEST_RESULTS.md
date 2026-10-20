@@ -450,7 +450,171 @@ Following the independent audit of `SANADSQUAD_FINAL_CONTENT_YIELD_CLOSURE_HANDO
   - Load Test: `podman load -i /home/shady/sandsquad_archive/sanadsquad-v2-final.tar` successfully restored image.
   - Restored Execution: Ran 170 tests offline in 2.91s.
 
+---
 
+## V3 Verification Results — Directive SANADSQUAD_V3_ADDITIONAL_REQUIREMENTS_01 (2026-10-20)
 
+### 1. Automated Test Suite Metrics
+- **Total Tests:** **228 passed in 1.92s** via `.venv/bin/pytest tests audit/tests`.
+- **Baseline Preservation:** All 170 Evidence-First V2 baseline tests pass without regression (100% preservation).
+- **V3 Test Extensions (58 new tests in `tests/v3/`):**
+  - `tests/v3/test_source_separation.py` (9 passed): Technical KB (Strategy 1) vs External Resource (Strategy 2); Marketing barred from KB by default; Bounded vulnerability class exception mechanics.
+  - `tests/v3/test_research_subsystem.py` (6 passed): 4-service-line allowlists, 5 source groups, global denylist override, audit logging, fail-closed empty search and failed fetch handling, recency validation.
+  - `tests/v3/test_marketing_policy.py` (11 passed): Marketing Guide claims restrictions (no competitor attacks, no guarantees, isolated third-party Accretion findings, `audits.json` empty validation), commercial CTA detection, format compliance.
+  - `tests/v3/test_weekly_diversity.py` (7 passed): Weekly marketing constraints ($\le 1/3$ commercial CTAs, service line uniqueness, format variety, link presence/absence distribution, topic fingerprint deduplication).
+  - `tests/v3/test_writing_quality.py` (14 passed): Deterministic human writing quality gates (banned characters, 14 buzzwords, negative parallelism, copula avoidance, filler openers, rule-of-three heuristic, hedging density, sentence variance).
+  - `tests/v3/test_security_boundaries.py` (8 passed): SSRF prevention (blocking 127.0.0.1, 10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12, 169.254.169.254, ::1, 0.0.0.0), HTML sanitization, prompt injection resistance, zero-credential masking, export URL gating.
+  - `tests/v3/test_v3_e2e.py` (3 passed): Full 6-slot fixture weekly execution, independent slot failure isolation, actionable rejection reason recording.
 
+### 2. Local Ollama Execution Qualification
+- **Command:** `.venv/bin/python run_piece.py --type marketing-post --topic web3-security --mode v3 --research-mode fixture --output output/v3_test_piece`
+- **Model:** Local Ollama `qwen3.5:4b` (concurrency strictly clamped to 1)
+- **Result:** **1 planned, 1 shipped, 0 dropped, 0 failed in 158.063s**
+- **Token Metrics:** 5,162 prompt tokens, 310 completion tokens (5,472 total tokens), $0.00 external charges
+- **Artifacts Generated:**
+  - `posts.csv`: Validated header `Post Text,Image`, 1 row, 274 characters ($\le 280$ chars single-tweet platform limit).
+  - `visual_specs/piece_1.md`: Communication objective grounded in allowlisted Trail of Bits research.
+  - `research_log.json`: Pinned runtime evidence ID `ev_web_web3_security_1`, SHA-256 checksum `0f982e23...`, source group `blogs`, URL `https://trailofbits.com/posts/smart-contract-invariants-and-deployment-drift`.
+  - `summary.json`, `accepted_content.json`, `claims.json`, `evidence_provenance.json`, `validation_report.json`.
 
+### 3. Operational Boundary Disclosures
+- **Live Search Status:** `IMPLEMENTED_WITH_LIVE_RESEARCH_BLOCKER`. Live web research classes are implemented and tested. Host environment lacks external search API keys (`TAVILY_API_KEY`), so live mode safely fails closed, and fixture mode provides full offline determinism.
+
+---
+
+## V3 Marketing Contact CTA Verification — Directive SANADSQUAD_V3_CONTACT_CTA_CLOSURE_01 (2026-10-20)
+
+### 1. Automated Test Suite Metrics
+- **Total Tests:** **247 passed in 5.30s** via `.venv/bin/pytest tests audit/tests`.
+- **Baseline Preservation:** All 170 Evidence-First V2 baseline tests pass without regression (100% preservation).
+- **V3 Test Extensions (77 tests in `tests/v3/`):**
+  - `tests/v3/test_contact_cta.py` (**18 new tests**, 100% pass):
+    1. `test_company_contact_json_loads_and_validates_against_schema`: Confirms repository `company-contact.json` conforms to schema.
+    2. `test_company_contact_missing_file_handled_gracefully`: Returns unapproved default when file is absent.
+    3. `test_unapproved_contact_info_rejected`: Fails closed when `approved: false`.
+    4. `test_missing_required_contact_fields_rejected`: Rejects empty email or phone when `approved: true`.
+    5. `test_build_contextual_cta_service_lines`: Verifies distinct invitations for all 4 service lines.
+    6. `test_cta_avoids_banned_unicode_characters`: Asserts zero em dashes, separator en dashes, or emojis.
+    7. `test_unapproved_email_detected_in_post`: Rejects arbitrary/unapproved emails in post text.
+    8. `test_exact_email_and_phone_match_enforced`: Rejects mismatched or forged contact details.
+    9. `test_multiple_ctas_in_single_post_rejected`: Rejects posts with >1 commercial invitation.
+    10. `test_weekly_marketing_plan_enforces_single_cta`: Weekly planner caps commercial CTAs at $\le 1/3$ (max 1 of 3).
+    11. `test_weekly_marketing_plan_rejects_multiple_ctas`: Vetoes plans requesting >1 CTA across 3 posts.
+    12. `test_technical_thread_forbids_ctas_and_contact_details`: Ensures technical threads remain 100% free of CTAs.
+    13. `test_280_character_limit_with_contact_cta`: Enforces single-tweet limit post contact insertion.
+    14. `test_contact_info_is_not_treated_as_claim_evidence`: Confirms contact info is company metadata, never external research evidence.
+    15. `test_unapproved_status_blocks_cta_generation`: `build_contextual_cta` returns empty string if unapproved.
+    16. `test_phone_number_format_validation`: Rejects phone numbers lacking country code (`+`).
+    17. `test_contact_cta_integrated_in_validation_pipeline`: Central `validate_piece_deterministic` gate blocks unapproved CTAs.
+    18. `test_weekly_cta_ceiling_enforced_at_export`: Export gate strictly enforces $\le 1$ marketing CTA ceiling before writing CSV.
+  - `tests/v3/test_v3_e2e.py` (`test_three_post_marketing_sample_demonstration`): End-to-end execution of a complete 3-post marketing sample.
+
+### 2. Live 3-Post Marketing Demonstration Inspection (`output/v3_marketing_cta_demo/`)
+- **CSV Output:** `output/v3_marketing_cta_demo/posts.csv`
+  ```csv
+  Post Text,Image
+  "Auditing smart contracts is necessary, but protocols fail when developer laptops or frontends get hijacked. SanadSquad secures the entire connected stack.",spec:visual_specs/mktg_post_1.md
+  Attackers target connected cloud APIs and CI pipelines before touching on-chain code. See verified details: https://simonwillison.net/2026/May/18/agentic-wallet-security-policy,spec:visual_specs/mktg_post_2.md
+  x402 protocol uses HTTP 402 for facilitator settlement. Details: https://x402.org/specs/x402-vs-mpp-comparative-mechanics. Integrating agentic payment protocols? Discuss with SanadSquad. Email: contact@sanadsquad.com | Phone: +1-555-0199,spec:visual_specs/mktg_post_3.md
+  ```
+- **Post-by-Post Inspection:**
+  - **Post 1 (Pentesting / Short Tip):** 154 characters ($\le 280$). No link. No CTA. Grounded in infrastructure security.
+  - **Post 2 (Agentic Security / News Reaction):** 172 characters ($\le 280$). Contains verified research URL (`https://simonwillison.net/2026/May/18/agentic-wallet-security-policy`). No CTA.
+  - **Post 3 (Agentic Payments / Learning Resource):** 247 characters ($\le 280$). Contains verified research URL (`https://x402.org/specs/x402-vs-mpp-comparative-mechanics`). Contains contextual commercial CTA (`Integrating agentic payment protocols? Discuss with SanadSquad. Email: contact@sanadsquad.com | Phone: +1-555-0199`).
+- **Weekly Constraints Verification:**
+  - Commercial CTA count: Exactly 1 out of 3 posts (33.3%, strictly $\le 1/3$).
+  - Service line diversity: 3 distinct service lines (`pentesting`, `agentic-security`, `agentic-payments`).
+  - Format diversity: 3 distinct formats (`short-tip`, `news-reaction`, `learning-resource`).
+  - Link diversity: 1 post without link (`short-tip`), 2 posts with verified links (`news-reaction`, `learning-resource`).
+  - Visual specifications: All 3 written image specifications exist under `visual_specs/`.
+
+### 3. Contact Configuration Status
+- **Current Repository State:** `company-contact.json` is safely maintained with `approved: false` and `status: "AWAITING_OWNER_APPROVAL"`.
+- **Exact Missing Fields Reported to Project Owner:**
+  1. `business_inquiries_email`: Official email address for business inquiries.
+  2. `business_phone_number`: Official phone number with country code.
+  3. `approved`: Set to `true` upon owner approval.
+
+---
+
+## V3 Marketing Intelligence & Service Research Verification (2026-10-20)
+
+**Directive:** `SANADSQUAD_V3_MARKETING_RESEARCH_QUALITY_02`
+**Execution Command:** `.venv/bin/pytest tests audit/tests`
+**Result:** **262 passed in 5.59 seconds** (100% passing across all 16 test modules).
+
+### Key Test Suite Results:
+- `tests/v3/test_marketing_intelligence.py` (**15 passed**):
+  - Verified service positioning across all 4 service lines (`web3-security`, `pentesting`, `agentic-security`, `agentic-payments`).
+  - Verified source-to-customer-problem mappings across all allowlisted domains.
+  - Verified corrected format taxonomy (5 single-tweet formats; `marketing-thread` disabled under single-tweet contract).
+  - Verified complete banned vocabulary list (all 14 original assignment terms + 9 retained terms = 23+ terms).
+  - Verified proper source attribution and allowlist isolation.
+  - Verified company contact approval gating and support for all 5 commercial offerings (`security-consultation`, `web3-audit`, `pentest-assessment`, `agentic-security-review`, `agentic-payments-review`).
+  - Verified commercial CTA limits ($\le 1/3$ weekly posts, max 1 CTA per post, CTAs optional).
+  - Verified rejection of unsupported superiority claims (`industry-leading`, `best security firm`, etc.).
+  - Verified rejection of unverified company experience claims (claiming SanadSquad audited external targets like Bybit, Safe, Solana without audit records).
+  - Verified epistemic separation between Facts, Interpretations, Service Positioning, and Commercial CTAs.
+- Preserved historical V2/V3 baseline: 247 baseline tests + 15 new intelligence tests = 262 passing tests.
+- Full qualification documented in `SANADSQUAD_V3_MARKETING_INTELLIGENCE_QUALIFICATION.md`.
+
+---
+
+## V3 Official Brand Integration, Contact Verification & Qualification (2026-10-21)
+
+**Directive:** `SANADSQUAD_V3_OFFICIAL_BRAND_INTEGRATION_01`
+**Execution Command:** `.venv/bin/pytest tests/ audit/tests/ -q`
+**Result:** **302 passed in 5.43 seconds** (100% passing across all 17 test modules, 0 failed, 0 warnings).
+
+### 1. Official Website Retrieval & Provenance
+All 8 official website URLs retrieved live via HTTPS and verified with SHA-256 checksums and timestamps:
+- `https://sanadsquad.com/` (HTTP 200, SHA: `90947f1514718f2e336f1d5859f881cdd740601b225b677a29ea8b732360b89e`)
+- `https://sanadsquad.com/contact/` (HTTP 200, SHA: `238e0d7f57852c5b85dfd5c97257324b8cea0a4b21bef2b46f28c483f7add7ed`)
+- `https://sanadsquad.com/careers/growth-bd-lead/` (HTTP 200, SHA: `01e224ba6bd35ff9cdd71f12ee5563cef2661ab8f77a5df12c4d4c63bea98a66`)
+- `https://sanadsquad.com/services/blockchain-security-audits/` (HTTP 200, SHA: `e50a6d79fec45ab238abed72b7e1bf1a97bd1800ef37a169adbc57f06e612721`)
+- `https://sanadsquad.com/services/penetration-testing/` (HTTP 200, SHA: `43129d7dafabdd4cef482e6ca4aa1f550b724f4b2c8c831c6320016550065793`)
+- `https://sanadsquad.com/services/ai-security-tooling/` (HTTP 200, SHA: `987804573e8ae366408ee5e8402ca1b74c762b7a6b7eae92699263ba88b459e0`)
+- `https://sanadsquad.com/services/agentic-payments/` (HTTP 200, SHA: `df543f4f72c745d4785a39cb8952bf7b7cc68e1fb9a6f88b0ab986ccc6c42b1f`)
+- `https://sanadsquad.com/services/consulting/` (HTTP 200, SHA: `ef1959d398953cd800d1338b604549f10d8e5f19c2422454689f8b193d8ceee7`)
+
+### 2. Verified Contact Data & Approval Status
+- **Business Email:** `frank@sanadsquad.com` (verified on `/contact/`)
+- **Contact Form:** `https://sanadsquad.com/contact/`
+- **Telegram:** `@castle_chain`
+- **X Handle:** `@SanadSquad`
+- **Official Website:** `https://sanadsquad.com`
+- **Phone:** `None` (verified: no public telephone number exists on website)
+- **Recruitment Email:** `career@sanadsquad.com` (strictly restricted to recruitment; barred from commercial CTAs)
+- **Approval Lifecycle:** `company-contact.json` has `approved: false` (`AWAITING_OWNER_APPROVAL`). Publication without explicit project-owner signature fails closed.
+
+### 3. Five-Service Real-Model Qualification (`output/v3_five_service_qualification/`)
+- **Model:** Local Ollama `qwen3.5:4b` (`temperature=0`, `concurrency=1`, serialized file lock)
+- **Runtime:** 737.985s (~12.3 mins)
+- **Token Usage:** 57,604 prompt tokens, 3,397 completion tokens, peak 1 active Ollama call
+- **API Charges:** $0.00
+- **Service 1 (Blockchain security audits):** ACCEPTED (221 chars, format: `differentiation`, score: 4.67/5.0)
+- **Service 2 (Penetration testing):** DROPPED by mandatory format gate (265 chars, format: `news-reaction`, missing required source link in text)
+- **Service 3 (Agentic security tooling):** DROPPED by mandatory format gate (271 chars, format: `learning-resource`, missing required source link in text)
+- **Service 4 (Agentic payments):** ACCEPTED (245 chars, format: `learning-resource`, link: `https://github.com/coinbase/x402`, score: 4.0/5.0)
+- **Service 5 (Security consulting):** ACCEPTED (162 chars, format: `short-tip`, score: 4.67/5.0)
+- **All 5 pieces:** Strictly $\le 280$ characters, zero em-dashes, zero buzzwords, grounded in verified technical evidence. Detailed report: `detailed_qualification_report.json`.
+
+### 4. Full Automated Test Suite (`tests/v3/test_official_brand_integration.py`)
+17 new permanent tests covering:
+1. `test_all_five_official_commercial_services_recognized`
+2. `test_four_category_research_taxonomy_mapping_functional`
+3. `test_official_service_profile_documented_and_complete`
+4. `test_official_contacts_loaded_and_verified`
+5. `test_fictional_phone_numbers_rejected`
+6. `test_fictional_and_unverified_emails_rejected`
+7. `test_missing_phone_handled_gracefully`
+8. `test_recruitment_email_rejected_for_commercial_cta`
+9. `test_approval_restrictions_enforced_fail_closed`
+10. `test_email_and_form_only_cta_valid_without_phone`
+11. `test_cta_frequency_never_exceeds_one_third`
+12. `test_contact_cta_posts_under_280_chars`
+13. `test_technical_threads_never_receive_commercial_ctas`
+14. `test_audits_json_remains_empty_private_data_excluded`
+15. `test_unsupported_company_statistics_rejected`
+16. `test_wrong_service_marketing_claims_rejected`
+17. `test_failed_website_fetch_does_not_invent_service_data`

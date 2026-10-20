@@ -9,6 +9,31 @@ from .schemas import Evidence, EvidenceContext, KnowledgeBase
 
 def evidence_errors(item: Evidence, root: Path = ROOT) -> list[str]:
     errors: list[str] = []
+    source_type = item.source_type or ""
+    is_runtime_research = source_type.startswith("web_research") or source_type == "external_technical_resource"
+
+    if is_runtime_research:
+        # Runtime web research provenance authority:
+        # Requires valid HTTPS URL, source title, retrieval timestamp, 64-char content sha256, quote, and scope.
+        required = ("source_title", "source_type", "snapshot_sha256", "retrieved_at", "source_quote", "scope")
+        for field in required:
+            if not getattr(item, field):
+                errors.append(f"{item.id}: missing {field}")
+        if not item.url or not item.url.startswith("https://"):
+            errors.append(f"{item.id}: runtime research evidence must have secure HTTPS url")
+        if item.snapshot_sha256 and len(item.snapshot_sha256) != 64:
+            errors.append(f"{item.id}: invalid sha256 checksum format")
+        if item.snapshot_path:
+            path = (root / item.snapshot_path).resolve()
+            if not path.is_relative_to(root.resolve()):
+                errors.append(f"{item.id}: snapshot path escapes repository")
+            elif path.exists():
+                raw = path.read_bytes()
+                if hashlib.sha256(raw).hexdigest() != item.snapshot_sha256:
+                    errors.append(f"{item.id}: source snapshot hash mismatch")
+        return errors
+
+    # Static KB evidence provenance authority:
     required = ("source_title", "source_type", "snapshot_path", "snapshot_sha256", "retrieved_at", "source_quote", "scope")
     for field in required:
         if not getattr(item, field):

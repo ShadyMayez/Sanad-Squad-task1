@@ -3,7 +3,7 @@ from __future__ import annotations
 import operator
 import time
 from pathlib import Path
-from typing import Annotated, TypedDict
+from typing import Annotated, TypedDict, Any, Optional
 from langgraph.graph import StateGraph, START, END
 from langgraph.types import Send
 from .config import ROOT
@@ -11,15 +11,24 @@ from .agents import ResearchAgent, ReviewerAgent, VisualAgent, WriterAgent, Evid
 from .schemas import BrandRules, Claim, Draft, KnowledgeBase, Plan, Registry, Review, Slot, SlotResult, Vulnerability
 from .schemas import AtomicClaim, SemanticReport, SentenceRelationRecord, SemanticVerdict, SupportingSpan
 from .skills import EvidenceLookup
-from .validation import validate_draft, validate_brand_and_platform
+from .validation import validate_draft, validate_brand_and_platform, validate_piece_deterministic
 from .claim_extraction import extract_claims, extract_sentence_relations
 from .provenance import evidence_errors
 from .relation_integrity import verify_sentence_relation
 from .semantic_verification import SemanticVerifier, error_report
 from .proposition_catalog import load_catalog, PropositionCatalog
-from .content_planning import build_evidence_first_plan, check_evidence_sufficiency, EvidenceFirstPlan
+from .content_planning import (
+    build_evidence_first_plan,
+    check_evidence_sufficiency,
+    EvidenceFirstPlan,
+    build_marketing_evidence_plan,
+    build_external_technical_plan,
+)
 from .conformance import verify_plan_conformance, ConformanceReport
 from .business_policy import load_business_policy, BusinessPolicy
+from .source_authority import TechnicalSourceStrategy, MarketingSourceStrategy, SourceAuthorityContext
+from .research import ResearchService, load_sources_config
+from .marketing_planner import MarketingSlotPlanner, validate_weekly_marketing_results
 
 
 class PieceState(TypedDict, total=False):
@@ -28,6 +37,13 @@ class PieceState(TypedDict, total=False):
     topic: Vulnerability
     topic_id: str
     plan_v2: EvidenceFirstPlan
+    source_context: Any
+    marketing_meta: Any
+    writing_quality_report: Any
+    fetched_urls: list[str]
+    resource_brief: Any
+    evidence_items: list[Any]
+    research_service: Any
     conformance_report: ConformanceReport
     business_policy: BusinessPolicy
     draft: Draft
@@ -261,15 +277,21 @@ def build_v2_piece_graph(
     registry: Registry,
     brand_text: str,
     brand_rules: BrandRules,
+    mode: str | None = None,
     catalog: PropositionCatalog | None = None,
     business_policy: BusinessPolicy | None = None,
     authorization_mode: str = "pilot_evaluation",
+    research_service: ResearchService | None = None,
 ):
+    import os
+    selected_mode = mode or os.getenv("SANADSQUAD_MODE", "evidence_first_v2")
+
     if catalog is None:
         catalog = load_catalog(ROOT / "knowledge" / "evidence_first_v2" / "catalog.json")
     if business_policy is None:
         business_policy = load_business_policy(ROOT / "knowledge" / "evidence_first_v2" / "policies" / "security_audit_firm.json")
 
+    res_service = research_service or ResearchService()
     prop_map = {p.id: p for p in catalog.propositions}
     witness_map = catalog.evidence_witnesses
 
@@ -285,6 +307,92 @@ def build_v2_piece_graph(
     visual_agent = VisualAgent()
 
     def research(state: PieceState):
+        slot = state["slot"]
+        slot_type = slot.type
+
+        # 1. Marketing research pathway
+        if slot_type == "marketing-post":
+            use_marketing_research = (
+                state.get("marketing_meta") is not None
+                or state.get("research_mode") in ["fixture", "live"]
+                or getattr(slot, "source_strategy", None) == "web_research"
+                or (slot.focus and slot.focus in ["web3-security", "pentesting", "agentic-security", "agentic-payments"])
+            )
+            if use_marketing_research:
+                meta = state.get("marketing_meta")
+                service_line = "web3-security"
+                if meta and hasattr(meta, "service_line"):
+                    service_line = meta.service_line
+                elif isinstance(meta, dict) and meta.get("service_line"):
+                    service_line = meta["service_line"]
+                elif slot.focus and slot.focus in ["web3-security", "pentesting", "agentic-security", "agentic-payments"]:
+                    service_line = slot.focus
+
+                is_vuln_exception = bool(state.get("is_vulnerability_class_exception", False))
+                supp_kb = None
+                if is_vuln_exception and slot.focus:
+                    try:
+                        supp_kb = [lookup.select(slot.focus, state.get("index", 0))]
+                    except Exception:
+                        supp_kb = None
+
+                ev_list, source_ids, err = res_service.conduct_marketing_research(
+                    slot_id=slot.id,
+                    service_line=service_line,
+                    topic_focus=slot.focus,
+                    is_vulnerability_class_exception=is_vuln_exception,
+                    supplemental_kb_vulnerabilities=supp_kb,
+                )
+                if err:
+                    return {"error": f"INSUFFICIENT_EVIDENCE: {err}"}
+
+                topic = Vulnerability(
+                    id=f"MKT_{service_line.upper().replace('-', '_')}_{slot.id}",
+                    name=f"Marketing Security Brief: {service_line.title()}",
+                    severity="medium",
+                    category=f"service:{service_line}",
+                    description=f"Marketing research for {service_line}",
+                    root_cause=f"External research findings for {service_line}",
+                    evidence=ev_list,
+                )
+                fetched_urls = [e.url for e in ev_list if e.url]
+                return {
+                    "topic": topic,
+                    "topic_id": topic.id,
+                    "fetched_urls": fetched_urls,
+                    "evidence_items": ev_list,
+                }
+
+        # 2. Tech-thread Strategy 2 (External Technical Resource)
+        if slot_type == "tech-thread":
+            is_external_tech = (
+                state.get("tech_strategy") == "external"
+                or (slot.focus and slot.focus.startswith("http"))
+            )
+            if is_external_tech:
+                url = slot.focus if (slot.focus and slot.focus.startswith("http")) else "https://blog.openzeppelin.com/post-mortem"
+                ev_list, brief, err = res_service.conduct_technical_external_research(slot.id, url)
+                if err:
+                    return {"error": f"RESEARCH_FAILED: {err}"}
+
+                topic = Vulnerability(
+                    id=f"TECH_EXT_{slot.id}",
+                    name=brief.title if brief else "External Technical Report",
+                    severity="high",
+                    category="external_technical",
+                    description=brief.summary_brief if brief else "External technical brief",
+                    root_cause="External technical post-mortem analysis",
+                    evidence=ev_list,
+                )
+                return {
+                    "topic": topic,
+                    "topic_id": topic.id,
+                    "resource_brief": brief,
+                    "fetched_urls": [brief.url] if brief else [],
+                    "evidence_items": ev_list,
+                }
+
+        # 3. Default Strategy 1: Knowledge Base (KB)
         try:
             topic = lookup.select(state["slot"].focus, state["index"])
             topic_id = topic.id
@@ -302,6 +410,49 @@ def build_v2_piece_graph(
     def plan(state: PieceState):
         try:
             mode = state.get("authorization_mode") or authorization_mode
+            slot = state["slot"]
+            # Marketing research plan
+            ev_list = state.get("evidence_items") or (state.get("topic").evidence if state.get("topic") else None)
+            if ev_list and slot.type == "marketing-post":
+                meta = state.get("marketing_meta")
+                service_line = "web3-security"
+                fmt_spec = None
+                has_cta = False
+                if meta:
+                    service_line = getattr(meta, "service_line", None) or (meta.get("service_line") if isinstance(meta, dict) else "web3-security")
+                    fmt_val = getattr(meta, "selected_format", None) or (meta.get("selected_format") if isinstance(meta, dict) else None)
+                    has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
+                    if fmt_val:
+                        from .marketing_format import FORMAT_SPECS
+                        fmt_spec = FORMAT_SPECS.get(fmt_val)
+
+                from .contact_config import load_company_contact
+                contact_cfg = load_company_contact()
+
+                p = build_marketing_evidence_plan(
+                    slot_id=slot.id,
+                    service_line=service_line,
+                    evidence_items=ev_list,
+                    format_spec=fmt_spec,
+                    has_cta=has_cta,
+                    contact_config=contact_cfg,
+                    policy=business_policy,
+                    authorization_mode=mode,
+                )
+                return {"plan_v2": p}
+
+            # External technical resource plan
+            if state.get("resource_brief") and slot.type == "tech-thread":
+                p = build_external_technical_plan(
+                    slot_id=slot.id,
+                    resource_brief=state["resource_brief"],
+                    evidence_items=state.get("evidence_items", []),
+                    policy=business_policy,
+                    authorization_mode=mode,
+                )
+                return {"plan_v2": p}
+
+            # Standard KB catalog plan
             p = build_evidence_first_plan(
                 state["slot"].id,
                 state["topic_id"],
@@ -545,9 +696,30 @@ def build_v2_piece_graph(
         )
 
         spec = registry.types.get(state["slot"].type)
-        brand_platform_errors = validate_brand_and_platform(state["draft"].tweets, brand_rules, spec)
+        allowed_urls = state.get("fetched_urls", [])
+        meta = state.get("marketing_meta")
+        fmt_name = None
+        has_cta = False
+        if meta:
+            fmt_name = meta.selected_format.value if hasattr(meta, "selected_format") else (meta.get("format") if isinstance(meta, dict) else None)
+            has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
 
-        all_errors = conf_errors + policy_violations + brand_platform_errors + state.get("provenance_errors", [])
+        from .contact_config import load_company_contact
+        contact_cfg = load_company_contact()
+
+        passed, det_errors, writing_report = validate_piece_deterministic(
+            tweets=state["draft"].tweets,
+            brand=brand_rules,
+            spec=spec,
+            allowed_run_links=allowed_urls,
+            marketing_format=fmt_name,
+            contact_config=contact_cfg,
+            allow_cta=has_cta,
+            content_type=state["slot"].type,
+            enforce_review_invitation=(selected_mode == "legacy"),
+        )
+
+        all_errors = conf_errors + policy_violations + det_errors + state.get("provenance_errors", [])
 
         try:
             review, usage = await reviewer_agent.run(
@@ -573,8 +745,9 @@ def build_v2_piece_graph(
             if review.usefulness < qt.min_usefulness:
                 threshold_errors.append(f"Quality threshold failed: usefulness {review.usefulness} < {qt.min_usefulness}")
 
-            if threshold_errors:
-                review = review.model_copy(update={"approved": False, "reasons": review.reasons + threshold_errors})
+            # Hard deterministic quality violations immediately veto approval
+            if det_errors or threshold_errors:
+                review = review.model_copy(update={"approved": False, "reasons": review.reasons + det_errors + threshold_errors})
                 all_errors = all_errors + threshold_errors
 
             return {
@@ -582,6 +755,7 @@ def build_v2_piece_graph(
                 "review": review,
                 "validations": state.get("validations", []) + [all_errors],
                 "reviews": state.get("reviews", []) + [review],
+                "writing_quality_report": writing_report.model_dump() if writing_report else None,
                 **add_usage(state, usage),
             }
         except Exception as exc:
@@ -619,10 +793,16 @@ def build_v2_piece_graph(
         is_approved = bool(state.get("human_approved", False) or approval_rec is not None)
         pub_status = "APPROVED_FOR_EXPORT" if (not req_human or (is_approved and approval_rec is not None)) else "READY_FOR_HUMAN_REVIEW"
         mode = state.get("authorization_mode") or authorization_mode
+        meta = state.get("marketing_meta")
+        has_cta = False
+        if meta:
+            has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
+        slot_obj = slot.model_copy(update={"has_cta": has_cta}) if hasattr(slot, "model_copy") else slot
 
         return {
             "result": SlotResult(
-                slot=slot,
+                slot=slot_obj,
+                has_cta=has_cta,
                 status="accepted",
                 topic=topic.name,
                 source_ids=[e.id for e in topic.evidence],
@@ -649,6 +829,9 @@ def build_v2_piece_graph(
                 publication_status=pub_status,
                 business_policy_version=business_policy.policy_version,
                 pipeline_mode="evidence_first_v2",
+                fetched_urls=state.get("fetched_urls", []),
+                writing_quality_report=state.get("writing_quality_report"),
+                source_strategy=getattr(state.get("plan_v2"), "source_strategy", None),
             )
         }
 
@@ -746,6 +929,7 @@ def build_piece_graph(
     catalog: PropositionCatalog | None = None,
     business_policy: BusinessPolicy | None = None,
     authorization_mode: str = "pilot_evaluation",
+    research_service: ResearchService | None = None,
 ):
     import os
     selected_mode = mode or os.getenv("SANADSQUAD_MODE", "legacy")
@@ -760,6 +944,7 @@ def build_piece_graph(
         catalog=catalog,
         business_policy=business_policy,
         authorization_mode=authorization_mode,
+        research_service=research_service,
     )
 
 
@@ -773,10 +958,12 @@ def build_week_graph(
     catalog: PropositionCatalog | None = None,
     business_policy: BusinessPolicy | None = None,
     authorization_mode: str = "pilot_evaluation",
+    research_service: ResearchService | None = None,
 ):
     import os
     selected_mode = mode or os.getenv("SANADSQUAD_MODE", "legacy")
     lookup = EvidenceLookup(kb)
+    res_service = research_service or ResearchService()
     if selected_mode == "legacy":
         piece_graph = build_piece_graph(model, lookup, registry, brand_text, brand_rules)
     else:
@@ -790,18 +977,32 @@ def build_week_graph(
             catalog=catalog,
             business_policy=business_policy,
             authorization_mode=authorization_mode,
+            research_service=res_service,
         )
 
     def dispatch(state: WeekState):
         mode_val = state.get("authorization_mode") or authorization_mode
-        return [
-            Send("worker", {
+        marketing_plan = None
+        has_marketing = any(s.type == "marketing-post" for s in state["plan"].slots)
+        if has_marketing and (selected_mode in ["v3", "evidence_first_v3"] or state.get("research_mode") in ["fixture", "live"]):
+            try:
+                marketing_plan = MarketingSlotPlanner.plan_weekly_slots(state["plan"].slots)
+            except Exception:
+                marketing_plan = None
+
+        tasks = []
+        for index, slot in enumerate(state["plan"].slots):
+            meta = None
+            if marketing_plan and slot.type == "marketing-post":
+                meta = next((m for m in marketing_plan.slots if m.slot_id == slot.id), None)
+            tasks.append(Send("worker", {
                 "slot": slot,
                 "index": index,
                 "authorization_mode": mode_val,
-            })
-            for index, slot in enumerate(state["plan"].slots)
-        ]
+                "marketing_meta": meta,
+                "research_mode": state.get("research_mode"),
+            }))
+        return tasks
 
     async def worker(state: PieceState):
         try:

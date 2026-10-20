@@ -73,8 +73,8 @@ echo "[sanadsquad-entrypoint] Verified model '$TARGET_MODEL' is pre-baked and re
 
 # Determine command to execute
 if [ $# -eq 0 ]; then
-    echo "[sanadsquad-entrypoint] No CLI arguments passed. Running default 6-slot Evidence-First V2 weekly execution..."
-    set -- python /app/run_week.py --plan /app/plan.json --mode evidence_first_v2 --authorization-mode publication_eligible --output /app/output/v2-week
+    echo "[sanadsquad-entrypoint] No CLI arguments passed. Running default 6-slot Evidence-First V3 weekly execution..."
+    set -- python /app/run_week.py --plan /app/plan.json --mode v3 --research-mode fixture --authorization-mode publication_eligible --output /app/output/v3-week
 elif [[ "$1" == --* ]]; then
     echo "[sanadsquad-entrypoint] Forwarding flags to run_week.py..."
     set -- python /app/run_week.py "$@"
