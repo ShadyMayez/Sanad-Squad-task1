@@ -140,7 +140,7 @@ Post Text,Image
 4/5 Implement access controls so Ether withdrawals initiate only by authorized parties or as specified by the contract requirements.
 
 5/5 Inheriting OpenZeppelin Ownable provides an onlyOwner modifier to restrict function execution to the authorized owner address.",spec:visual_specs/thread_2.md
-OWASP defines execution boundaries outside LLM context to restrict unauthorized tool actions. SanadSquad builds custom detectors and automated PR reviewers for these gaps. Review the spec: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/,spec:visual_specs/post_2.md
+OWASP defines execution boundaries outside LLM context to restrict unauthorized tool actions. SanadSquad builds custom detectors and automated PR reviewers for these gaps. Review the framework: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/,spec:visual_specs/post_2.md
 "1/5 Price oracle manipulation exploits vulnerabilities to alter contract execution logic.
 
 2/5 This can lead to unauthorized actions, loss of funds, and exploitation of contract logic.

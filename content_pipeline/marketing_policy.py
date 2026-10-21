@@ -522,6 +522,18 @@ def validate_editorial_semantic_conformance(
                 errors.append(
                     f"Publisher attribution mismatch: Post cites an OWASP URL ('{link}') while attributing the content to Simon Willison."
                 )
+            if "owasp-top-10-for-agentic-applications" in link_lower or "top10.owasp.org" in link_lower:
+                if has_acs_claim:
+                    errors.append(
+                        f"Publisher attribution mismatch: Post links to OWASP Top 10 for Agentic Applications ('{link}') "
+                        "while citing the Agent Control Standard (ACS). The Top 10 is an autonomous agent risk framework, "
+                        "not the Agent Control Standard (ACS)."
+                    )
+                if re.search(r"\b(?:review|read|inspect|check)\s+the\s+spec\b.*?" + re.escape(link), full_text, re.IGNORECASE):
+                    errors.append(
+                        f"Publisher attribution mismatch: OWASP Top 10 for Agentic Applications ('{link}') is a risk framework, "
+                        "not a formal technical specification. Refer to it as 'Review the framework:' or 'Review the resource:'."
+                    )
 
         # Canonical x402 upstream check
         if "github.com/coinbase/x402" in link_lower and re.search(r"\bcanonical\s+(?:upstream\s+)?spec\b", full_text, re.IGNORECASE):

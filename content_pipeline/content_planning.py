@@ -563,13 +563,27 @@ def build_marketing_evidence_plan(
             f"3. MANDATORY URL: You MUST include the exact source link: '{final_url}'.\n"
         )
     elif final_fmt == "learning-resource":
+        url_lower = (final_url or "").lower()
+        if "owasp-top-10" in url_lower or "top10" in url_lower:
+            url_prompt_label = "Review the framework:"
+            pattern_hint = f"OWASP defines <risk/boundary>. SanadSquad builds <service feature>. Review the framework: {final_url}"
+        elif "docs.github.com" in url_lower or "/docs/" in url_lower or "docs." in url_lower:
+            url_prompt_label = "Review the docs:"
+            pattern_hint = f"<Org> docs define <tool/feature>. SanadSquad builds <service feature>. Review the docs: {final_url}"
+        elif "blog" in url_lower:
+            url_prompt_label = "Read the article:"
+            pattern_hint = f"<Author/Project> outlines <insight>. SanadSquad builds <service feature>. Read the article: {final_url}"
+        else:
+            url_prompt_label = "Review the spec:"
+            pattern_hint = f"<Spec/Org> defines <mechanic>. SanadSquad builds <service feature>. Review the spec: {final_url}"
+
         format_specific_guidance = (
             f"LEARNING RESOURCE FORMAT (Strictly 1–2 concise sentences):\n"
-            f"1. State the core specification mechanic in ONE compact sentence (under 120 characters).\n"
+            f"1. State the core observation or mechanic in ONE compact sentence (under 120 characters).\n"
             f"2. Explain SanadSquad's official service alignment concisely.\n"
-            f"3. MANDATORY URL: You MUST include the exact source link preceded by 'Review the spec:': 'Review the spec: {final_url}'.\n"
+            f"3. MANDATORY URL: You MUST include the exact source link preceded by '{url_prompt_label}': '{url_prompt_label} {final_url}'.\n"
             f"4. Attribution Rule: The URL must belong to the exact publisher/organization cited in the tweet.\n"
-            f"5. COMPACT PATTERN: '<Spec/Org> defines <mechanic>. SanadSquad builds <service feature>. Review the spec: {final_url}'\n"
+            f"5. COMPACT PATTERN: '{pattern_hint}'\n"
             f"Note: If discussing x402, distinguish HTTP 402 signaling from optional facilitator verification and settlement.\n"
         )
     elif final_fmt == "differentiation":
@@ -592,6 +606,7 @@ def build_marketing_evidence_plan(
         service_specific_guidance = (
             "SERVICE RELEVANCE (Agentic security tooling):\n"
             "- Meaningfully explain SanadSquad's official agentic security tooling: custom security detectors, automated PR reviewers, or real-time monitoring agents.\n"
+            "- If citing the OWASP Top 10 for Agentic Applications (https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/), describe it accurately as a risk framework ('Review the framework:'), NOT the OWASP Agent Control Standard (ACS) and NOT 'the spec'.\n"
             "- If citing the OWASP Agent Control Standard (ACS), the mandatory URL MUST be 'https://genai.owasp.org/resource/agent-control-standard-acs/'. Never cite Simon Willison's blog as an OWASP standard.\n"
             "- If citing Simon Willison, attribute it directly as his personal research blog. Never refer to it as 'the spec' or an OWASP standard.\n"
             "- Do NOT claim tool execution boundaries universally 'prevent prompt injection' (they restrict unauthorized actions and mitigate exploit blast radius).\n"

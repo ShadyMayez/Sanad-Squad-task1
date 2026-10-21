@@ -266,3 +266,50 @@ def test_accepts_properly_attributed_agentic_payments_counterexample(default_bra
     )
     assert passed is True, f"Expected acceptance, got errors: {errors}"
     assert len(errors) == 0
+
+
+# =========================================================================
+# 13. OWASP Top 10 Framework Described as Spec or ACS Rejection
+# =========================================================================
+def test_rejects_owasp_top_10_described_as_spec_or_acs():
+    """Verify rejection when OWASP Top 10 for Agentic Applications is described as a spec or ACS."""
+    # Misdescribing as "the spec"
+    tweet_spec = (
+        "OWASP defines execution boundaries outside LLM context to restrict unauthorized tool actions. "
+        "SanadSquad builds custom detectors and automated PR reviewers for these gaps. "
+        "Review the spec: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    )
+    errors_spec = validate_editorial_semantic_conformance([tweet_spec], service_line="agentic-security-tooling")
+    assert any("risk framework, not a formal technical specification" in e.lower() for e in errors_spec)
+
+    # Conflating with Agent Control Standard (ACS)
+    tweet_acs = (
+        "OWASP Agent Control Standards define execution boundaries outside LLM context for agents. "
+        "SanadSquad builds custom detectors and PR reviewers. "
+        "Review the framework: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    )
+    errors_acs = validate_editorial_semantic_conformance([tweet_acs], service_line="agentic-security-tooling")
+    assert any("top 10 is an autonomous agent risk framework, not the agent control standard" in e.lower() for e in errors_acs)
+
+
+# =========================================================================
+# 14. Counterexample: Accepted OWASP Top 10 Framework Post
+# =========================================================================
+def test_accepts_properly_attributed_owasp_top_10_framework_counterexample(default_brand, marketing_spec):
+    """Verify acceptance of OWASP Top 10 for Agentic Applications accurately described as a framework."""
+    tweet = (
+        "OWASP defines execution boundaries outside LLM context to restrict unauthorized tool actions. "
+        "SanadSquad builds custom detectors and automated PR reviewers for these gaps. "
+        "Review the framework: https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+    )
+    passed, errors, _ = validate_piece_deterministic(
+        tweets=[tweet],
+        brand=default_brand,
+        spec=marketing_spec,
+        allowed_run_links=["https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"],
+        marketing_format="learning-resource",
+        service_line="agentic-security-tooling",
+    )
+    assert passed is True, f"Expected acceptance, got errors: {errors}"
+    assert len(errors) == 0
+

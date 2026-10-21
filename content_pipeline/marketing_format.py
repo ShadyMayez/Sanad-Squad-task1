@@ -179,7 +179,7 @@ def validate_marketing_format(
     elif fmt_enum == MarketingFormat.LEARNING_RESOURCE:
         # A learning-resource must link to a verified resource and explain why it is worth reading
         has_learning_rationale = bool(re.search(
-            r"\b(deep dive|guide|breakdown|explains?|walkthrough|overview|specification|spec|mechanics|reference|primer|worth reading|essential reading|details? (?:how|on|in)|analyzes?|covers?|study)\b",
+            r"\b(deep dive|guide|breakdown|explains?|walkthrough|overview|specification|spec|mechanics|frameworks?|reference|primer|worth reading|essential reading|details? (?:how|on|in)|analyzes?|covers?|study)\b",
             full_text,
             re.IGNORECASE,
         ))
