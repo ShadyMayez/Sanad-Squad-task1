@@ -622,6 +622,7 @@ def build_marketing_evidence_plan(
         else:
             service_specific_guidance = (
                 "SERVICE RELEVANCE (Blockchain security audits):\n"
+                "- Explain bytecode correspondence vs invariant audits concisely in 1–2 short sentences (target under 230 characters total).\n"
                 "- Clarify that verified builds establish source-to-deployment correspondence (bytecode matches Git commit) but NOT application security or freedom from logic flaws.\n"
                 "- An upgrade alters the deployed executable and calls for verification of the new version and continuous invariant audits; do NOT imply that upgrades automatically bypass all verification.\n"
                 "- Audits review point-in-time logic and known vulnerability patterns; do NOT claim audits prove code correctness.\n"

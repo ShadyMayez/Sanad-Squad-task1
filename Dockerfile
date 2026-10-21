@@ -54,7 +54,7 @@ COPY schemas /app/schemas
 COPY tests /app/tests
 COPY audit /app/audit
 COPY brand-voice.md kb.json plan.json content-types.json pyproject.toml pytest.ini run_week.py run_piece.py /app/
-COPY sources.json source.json marketing-rules.md writing-quality-rules.json audits.json /app/
+COPY sources.json source.json marketing-rules.md writing-quality-rules.json audits.json company-contact.json /app/
 COPY docker/entrypoint.sh /entrypoint.sh
 
 # Fix ownership and permissions

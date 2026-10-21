@@ -83,7 +83,8 @@ def compute_character_budget(
         spacing += 1
 
     fixed_overhead = url_len + cta_len + spacing
-    max_body = max_total - fixed_overhead - safety_margin
+    effective_margin = max(safety_margin, 40) if fixed_overhead == 0 else safety_margin
+    max_body = max_total - fixed_overhead - effective_margin
 
     is_practical = (max_body >= min_viable_body)
     rejection_reason = None
