@@ -272,6 +272,8 @@ def build_precise_marketing_feedback(
         first_ev = plan.evidence_items[0]
         exc = getattr(first_ev, "excerpt", getattr(first_ev, "source_quote", ""))
         if exc:
+            if len(exc) > 120 and "." in exc:
+                exc = exc.split(".")[0].strip()
             required_facts.append(exc.strip())
     elif plan and hasattr(plan, "units") and plan.units:
         u = plan.units[0]

@@ -25,11 +25,12 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "web3-security",
             "source_group": "docs",
             "published_date": "2024-11-15",
-            "quote": "Solana verified builds provide deterministic proof that on-chain executable bytecode matches the audited source commit. Build verification establishes source provenance but does not ensure contract security if the code contains logic flaws, and upgrade authority management remains necessary to prevent post-deployment program alterations.",
+            "quote": "Solana verified builds provide deterministic proof that on-chain bytecode matches the audited source commit, establishing source-to-deployment correspondence, but does not ensure contract security if the code contains logic flaws. An upgrade alters the deployed executable, calling for verification of the new version and continuous invariant audits.",
             "cleaned_text": (
                 "Solana Verified Builds and Program Deployment Authority. "
                 "Deterministic verification via solana-verify proves that on-chain bytecode corresponds directly to the specified Git commit, establishing binary build provenance. "
-                "Build verification confirms source identity rather than functional correctness, so upgrade authority must still be transferred to a multi-sig or burned to prevent unverified program modifications."
+                "Build verification confirms source identity rather than functional logic correctness; a verified build can still contain severe economic or invariant flaws. "
+                "When a program is upgraded, the deployed executable changes, calling for re-verification of the new commit and manual smart contract audits."
             ),
         },
         {
@@ -40,12 +41,12 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "web3-security",
             "source_group": "docs",
             "published_date": "2024-10-01",
-            "quote": "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. Without transferring upgrade authority to a multi-sig or revoking it entirely, the designated upgrade authority can alter program code at any time without community source verification.",
+            "quote": "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. Until transferred to a multi-sig or revoked, the designated authority retains unilateral power to deploy new bytecode, an operational centralization risk that requires pre-deployment architecture review and governance design.",
             "cleaned_text": (
                 "Solana Program Deployment and Core Architecture. "
                 "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. "
                 "Until transferred to a multi-sig or revoked, the upgrade authority keyholder retains unilateral power to deploy modified bytecode. "
-                "This represents a centralization and governance control risk where code can be modified post-audit without re-verification, rather than an unauthorized third-party exploit."
+                "This represents an operational governance and centralization risk. SanadSquad provides security consulting to help protocol teams design secure governance frameworks and multi-sig architectures before launch."
             ),
         },
         {
@@ -74,7 +75,7 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "pentesting",
             "source_group": "docs",
             "published_date": "2023-12-01",
-            "quote": "Broken Object Level Authorization (BOLA) occurs when an API fails to validate whether an authenticated user is permitted to access a specific resource object. BOLA is an authorization failure distinct from user authentication; penetration testing validates off-chain dApp API endpoints, admin gateways, and data access controls.",
+            "quote": "Broken Object Level Authorization (BOLA, API1:2023) occurs when an API fails to validate whether an authenticated user is authorized to access a specific resource object. Penetration testing identifies these authorization gaps across dApp backend APIs, admin gateways, and off-chain infrastructure before attackers can exfiltrate sensitive user data.",
             "cleaned_text": (
                 "OWASP API Security Top 10. "
                 "Broken Object Level Authorization (BOLA, API1:2023) allows authenticated users to access objects belonging to other tenants when endpoints omit object-level permission checks. "
@@ -100,6 +101,22 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
     ],
     "agentic-security": [
         {
+            "title": "OWASP Agent Control Standard (ACS) for Runtime Execution Boundaries",
+            "url": "https://genai.owasp.org/resource/agent-control-standard-acs/",
+            "domain": "genai.owasp.org",
+            "publisher": "OWASP GenAI Security Project",
+            "service_line": "agentic-security",
+            "source_group": "docs",
+            "published_date": "2026-09-01",
+            "quote": "The OWASP Agent Control Standard (ACS) defines runtime execution boundaries around AI agent tools to restrict unauthorized actions without claiming to universally prevent prompt injection.",
+            "cleaned_text": (
+                "OWASP GenAI Agent Control Standard (ACS). "
+                "The Agent Control Standard defines declarative safety controls and middleware hooks across AI agent frameworks. "
+                "Runtime execution controls restrict what tools autonomous agents can invoke and provide observability into agent actions, reducing the impact of prompt injection without claiming to universally prevent it. "
+                "SanadSquad builds custom security detectors, PR reviewers, and monitoring agents to enforce tool boundaries across development and production."
+            ),
+        },
+        {
             "title": "OWASP Agentic Security Initiative: Autonomous Agent Control and Tool Boundaries",
             "url": "https://genai.owasp.org/initiatives/agentic-security-initiative/",
             "domain": "genai.owasp.org",
@@ -122,11 +139,11 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "agentic-security",
             "source_group": "blogs",
             "published_date": "2023-04-14",
-            "quote": "Prompt injection affects any AI agent system with access to tools or sensitive data. Mitigating tool misuse requires hard execution boundaries outside the LLM context.",
+            "quote": "Simon Willison analyzes prompt injection risks when autonomous agents are given tools and private API credentials. Mitigating tool misuse requires hard execution boundaries outside model context, though prompt injection remains an active research challenge.",
             "cleaned_text": (
-                "Prompt injection: What's the worst that can happen? Simon Willison explores the security risks when autonomous agents are given tools, private data access, and API credentials. "
-                "Relying on prompt instructions alone is insufficient; hard cryptographic and operational boundaries must prevent unauthorized tool execution. "
-                "Agentic wallet security requires decoupled signing policies rather than model self-restraint."
+                "Simon Willison Research: Prompt injection risks in tool-enabled AI agents. "
+                "When autonomous models access tools and sensitive data, indirect prompt injection can hijack tool invocations. "
+                "Mitigating unauthorized tool execution requires hard operational boundaries outside LLM context."
             ),
         },
         {
@@ -137,29 +154,44 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "agentic-security",
             "source_group": "docs",
             "published_date": "2024-12-15",
-            "quote": "Autonomous agents executing financial transactions must decouple signing authority from text-generation models via deterministic spending policies and strict tool access boundaries.",
+            "quote": "Autonomous agents executing transactions must decouple signing authority from text-generation models via deterministic policies and strict tool access boundaries.",
             "cleaned_text": (
                 "OWASP Top 10 for Agentic Applications (2026 Edition). "
-                "Autonomous agents executing financial transactions must decouple signing authority from text-generation models via deterministic spending policies and strict tool access boundaries. "
-                "Tool misuse occurs when indirect prompt injection directs an agent to invoke privileged wallet execution tools."
+                "Autonomous agents executing transactions must decouple signing authority from text-generation models via deterministic policies and strict tool access boundaries. "
+                "Tool misuse occurs when indirect prompt injection directs an agent to invoke privileged tools."
             ),
         },
     ],
     "agentic-payments": [
         {
-            "title": "Coinbase x402 Protocol Specification: HTTP 402 Payment Required",
+            "title": "x402 Payment Required: Internet-Native Payment Signaling Protocol",
+            "url": "https://github.com/x402-foundation/x402",
+            "domain": "github.com",
+            "publisher": "x402 Foundation",
+            "service_line": "agentic-payments",
+            "source_group": "production",
+            "published_date": "2024-11-01",
+            "quote": "The x402 standard defines HTTP 402 payment signaling where resource servers specify payment requirements in response headers. Facilitator-based verification and settlement are optional; clients and resource servers can settle directly peer-to-peer or connect to off-chain facilitators for multi-party coordination.",
+            "cleaned_text": (
+                "x402 Foundation: HTTP 402 Payment Required Protocol Specification. "
+                "The x402 protocol standardizes payment signaling via HTTP 402 status codes. "
+                "Facilitator integration is optional; architectures can settle directly peer-to-peer or utilize third-party facilitators for verification and settlement. "
+                "SanadSquad reviews payment agent architectures, tool authorization ceilings, and replay protection across agentic payment flows."
+            ),
+        },
+        {
+            "title": "Coinbase x402 Implementation: HTTP 402 Payment Required",
             "url": "https://github.com/coinbase/x402",
             "domain": "github.com",
             "publisher": "Coinbase Developer Documentation",
             "service_line": "agentic-payments",
             "source_group": "production",
             "published_date": "2024-10-15",
-            "quote": "The x402 protocol standardizes HTTP 402 payment signaling where resource servers specify payment requirements in response headers, while off-chain facilitators verify client authorizations and handle final settlement.",
+            "quote": "The x402 protocol standardizes HTTP 402 payment signaling where resource servers specify payment requirements in response headers. Facilitator-based settlement is an optional pattern for off-chain verification, while direct settlement remains fully supported.",
             "cleaned_text": (
-                "Coinbase x402 Protocol Specification. "
-                "The x402 protocol standardizes HTTP 402 payment signaling where resource servers specify payment requirements in response headers, "
-                "while off-chain facilitators verify client authorizations and handle final settlement. "
-                "HTTP 402 acts as the negotiation protocol; facilitator trust and replay protection are required to prevent double-spending."
+                "Coinbase x402 Protocol Implementation. "
+                "The x402 protocol standardizes HTTP 402 payment signaling where resource servers specify payment requirements in response headers. "
+                "Facilitators are optional multi-party settlement coordinators; direct settlement is supported. Replay protection and payment authorization are required to prevent double-spending."
             ),
         },
         {

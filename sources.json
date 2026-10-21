@@ -100,6 +100,8 @@
         "docs.stripe.com"
       ],
       "production": [
+        "github.com/x402-foundation/x402",
+        "github.com/x402-foundation",
         "github.com/coinbase/x402",
         "github.com/tempo-stream",
         "github.com/stripe"

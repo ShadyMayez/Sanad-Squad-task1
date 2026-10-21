@@ -565,11 +565,12 @@ def build_marketing_evidence_plan(
     elif final_fmt == "learning-resource":
         format_specific_guidance = (
             f"LEARNING RESOURCE FORMAT (Strictly 1–2 concise sentences):\n"
-            f"1. State the core specification mechanic or distinction in ONE compact sentence (under 160 characters).\n"
-            f"2. Note why it is worth reviewing or reading.\n"
-            f"3. MANDATORY URL: You MUST include the exact source link: '{final_url}'.\n"
-            f"4. Structure example: '<Spec> specifies <core mechanism/boundary>. Review the spec: {final_url}'\n"
-            f"Note: If discussing x402, distinguish HTTP 402 signaling from facilitator verification and settlement.\n"
+            f"1. State the core specification mechanic in ONE compact sentence (under 120 characters).\n"
+            f"2. Explain SanadSquad's official service alignment concisely.\n"
+            f"3. MANDATORY URL: You MUST include the exact source link preceded by 'Review the spec:': 'Review the spec: {final_url}'.\n"
+            f"4. Attribution Rule: The URL must belong to the exact publisher/organization cited in the tweet.\n"
+            f"5. COMPACT PATTERN: '<Spec/Org> defines <mechanic>. SanadSquad builds <service feature>. Review the spec: {final_url}'\n"
+            f"Note: If discussing x402, distinguish HTTP 402 signaling from optional facilitator verification and settlement.\n"
         )
     elif final_fmt == "differentiation":
         format_specific_guidance = (
@@ -590,33 +591,51 @@ def build_marketing_evidence_plan(
     if "tool" in sl_clean or "agentic-security" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Agentic security tooling):\n"
-            "- Focus on custom security software: protocol-specific security detectors, automated PR reviewers, or real-time monitoring agents.\n"
-            "- Note: Do NOT claim OWASP specifies cryptographic wallet policies or spending caps; OWASP defines Agent Control Standards (ACS) and execution boundaries.\n"
+            "- Meaningfully explain SanadSquad's official agentic security tooling: custom security detectors, automated PR reviewers, or real-time monitoring agents.\n"
+            "- If citing the OWASP Agent Control Standard (ACS), the mandatory URL MUST be 'https://genai.owasp.org/resource/agent-control-standard-acs/'. Never cite Simon Willison's blog as an OWASP standard.\n"
+            "- If citing Simon Willison, attribute it directly as his personal research blog. Never refer to it as 'the spec' or an OWASP standard.\n"
+            "- Do NOT claim tool execution boundaries universally 'prevent prompt injection' (they restrict unauthorized actions and mitigate exploit blast radius).\n"
         )
     elif "consulting" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Security consulting):\n"
-            "- Focus on early architecture design review before code is written, pre-implementation threat modeling, or continuous development review.\n"
+            "- Meaningfully connect observations to SanadSquad's official security consulting service: early architecture design review before code is written, pre-implementation threat modeling, governance design, or ongoing development review.\n"
+            "- For Solana upgrade authority, explain that the keyholder centralization risk requires pre-deployment architecture review and multi-sig governance design; do NOT describe it as enabling 'unauthorized' changes or bypassing all verification.\n"
         )
     elif "pentest" in sl_clean or "penetration" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Penetration testing):\n"
             "- Focus on the realistic off-chain attack surface: dApp backend APIs, RPC gateways, relayer infrastructure, and CI/CD pipelines.\n"
-            "- Distinguish authorization (access to specific objects/actions) from authentication (identity verification); do NOT confuse BOLA with identity checks.\n"
+            "- Preserve the correct BOLA explanation (object-level authorization failure) and improve the opening; distinguish authorization (accessing specific objects) from authentication (identity verification).\n"
         )
     elif "audit" in sl_clean or "blockchain" in sl_clean or "web3" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Blockchain security audits):\n"
+            "- Clarify that verified builds establish source-to-deployment correspondence (bytecode matches Git commit) but NOT application security or freedom from logic flaws.\n"
+            "- An upgrade alters the deployed executable and calls for verification of the new version and continuous invariant audits; do NOT imply that upgrades automatically bypass all verification.\n"
             "- Audits review point-in-time logic and known vulnerability patterns; do NOT claim audits prove code correctness.\n"
-            "- Formal verification checks invariant properties against specifications; do NOT claim formal verification 'prevents' vulnerabilities.\n"
-            "- Solana upgrade authority is a keyholder centralization risk allowing modification without re-verification; do NOT describe it as enabling 'unauthorized' changes.\n"
+        )
+    elif "payment" in sl_clean:
+        service_specific_guidance = (
+            "SERVICE RELEVANCE (Agentic payments):\n"
+            "- Distinguish HTTP 402 payment signaling from optional facilitator-based verification and settlement.\n"
+            "- Do NOT imply that all x402 deployments require a third-party facilitator; direct peer-to-peer settlement is supported. Canonical upstream spec: https://github.com/x402-foundation/x402.\n"
+            "- Represent payment agent architecture, tool authorization limits, or replay protection.\n"
         )
 
     # Concise single-point evidence framing to avoid token bloat and cognitive overload
+    conciseness_guidance = (
+        "TARGET LENGTH & CONCISENESS:\n"
+        "- Aim for 200–245 characters total for the complete post (including link and CTA if present).\n"
+        "- Keep prose to 1–2 crisp, substantive sentences.\n"
+        "- Do NOT exceed 250 characters on your first draft so the post safely passes within the 280-character ceiling without revisions.\n"
+    )
+
     unit_guidance = (
         f"Format: {final_fmt}. Service line: {service_line}.\n"
         f"{format_specific_guidance}\n"
         f"{service_specific_guidance}\n"
+        f"{conciseness_guidance}\n"
         f"PRIORITIZED EVIDENCE FACT: '{excerpt}'\n"
         f"Epistemic boundaries: Differentiate verified facts from analytical interpretation. "
         f"Do NOT claim SanadSquad audited the protocol unless stated in the evidence.\n"

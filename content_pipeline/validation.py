@@ -7,6 +7,7 @@ from .skills import EvidenceLookup
 from .writing_quality import validate_writing_quality, WritingQualityReport
 from .marketing_policy import (
     validate_marketing_claims,
+    validate_editorial_semantic_conformance,
     validate_contact_cta,
     MarketingPolicy,
     load_marketing_policy,
@@ -123,8 +124,10 @@ def validate_piece_deterministic(
     allow_cta: bool = False,
     content_type: str | None = None,
     enforce_review_invitation: bool = False,
+    service_line: str | None = None,
+    evidence: list[Evidence] | None = None,
 ) -> tuple[bool, list[str], WritingQualityReport]:
-    """Execute all deterministic checks in sequence: brand/platform -> writing quality -> claims -> format -> contact CTA."""
+    """Execute all deterministic checks in sequence: brand/platform -> writing quality -> claims -> editorial semantic -> format -> contact CTA."""
     all_errors: list[str] = []
 
     # 1. Brand and platform rules
@@ -146,11 +149,19 @@ def validate_piece_deterministic(
     if not wq_report.passed:
         all_errors.extend(wq_report.errors)
 
-    # 3. Marketing policy and format rules if applicable
+    # 3. Marketing policy, claims, and editorial semantic conformance if applicable
     if is_marketing:
         policy = marketing_policy or load_marketing_policy()
-        claim_errors = validate_marketing_claims(tweets, policy=policy)
+        claim_errors = validate_marketing_claims(tweets, policy=policy, service_line=service_line)
         all_errors.extend(claim_errors)
+
+        editorial_errors = validate_editorial_semantic_conformance(
+            tweets=tweets,
+            service_line=service_line,
+            fetched_urls=allowed_run_links,
+            evidence=evidence,
+        )
+        all_errors.extend(editorial_errors)
 
         if marketing_format:
             fmt_errors = validate_marketing_format(

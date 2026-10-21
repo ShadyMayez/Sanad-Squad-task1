@@ -440,3 +440,182 @@ def validate_marketing_claims(
         )
 
     return errors
+
+
+def validate_editorial_semantic_conformance(
+    tweets: list[str],
+    service_line: str | None = None,
+    fetched_urls: list[str] | None = None,
+    evidence: list[Any] | None = None,
+) -> list[str]:
+    """Bounded semantic-conformance validation for editorial accuracy, publisher concordance, and service alignment.
+
+    Directive: SANADSQUAD_V3_EDITORIAL_SEMANTIC_CLOSURE_02
+
+    Enforces:
+    1. Publisher-URL Concordance:
+       - If post attributes claims to OWASP (e.g. 'OWASP Agent Control Standards', 'OWASP ACS', 'OWASP spec'),
+         the cited link must resolve to an authentic OWASP domain (owasp.org, genai.owasp.org, api-security.owasp.org),
+         NOT a third-party personal blog (e.g. simonwillison.net).
+       - If post cites simonwillison.net, it must not describe the linked resource as an OWASP standard or specification.
+       - Legitimate sources cannot be described as an official standard of a different organization.
+       - Successful HTTP retrieval does not authorize misattributing content to an unrelated publisher.
+    2. Epistemic Scope and Stated Certainty:
+       - No absolute claims that security controls 'prevent prompt injection' (they restrict unauthorized actions
+         and mitigate exploit consequences, but prompt injection remains an active research challenge).
+       - No claims stating that all x402 deployments require third-party facilitators (facilitator settlement is optional;
+         direct peer-to-peer settlement is supported).
+       - No claims that verified builds guarantee application security or prove code correctness (they establish
+         source-to-deployment correspondence).
+       - No claims that program upgrades automatically bypass all verification.
+    3. Meaningful Service Representation:
+       - Agentic security tooling must represent SanadSquad's official software offering (custom security detectors,
+         automated PR reviewers, or monitoring agents).
+       - Security consulting must connect observations to consulting services (architecture review, threat modeling,
+         governance design, security requirements, or ongoing development review).
+       - Penetration testing must connect observations to dApp APIs, RPC gateways, relayer infrastructure, or off-chain pentesting.
+       - Blockchain security audits must connect to smart contract audits, invariant verification, or access control reviews.
+       - Agentic payments must represent payment agent architecture, tool authorization limits, or replay protection.
+    """
+    errors: list[str] = []
+    full_text = " ".join(tweets).strip()
+    links = [l.rstrip(".,;") for l in re.findall(r"https?://[^\s)]+", full_text)]
+
+    # 1. Publisher-URL Concordance
+    has_owasp_claim = bool(re.search(r"\bowasp\b", full_text, re.IGNORECASE))
+    has_acs_claim = bool(re.search(r"\b(?:agent\s+control\s+standards?|acs)\b", full_text, re.IGNORECASE))
+    has_simon_claim = bool(re.search(r"\bsimon\s+willison\b", full_text, re.IGNORECASE))
+
+    # Reject claiming OWASP specification/standard when URL is non-OWASP
+    if re.search(r"\bowasp\s+(?:genai\s+)?(?:specifications?|standards?|docs?|guidance|project)\b", full_text, re.IGNORECASE):
+        for link in links:
+            if not any(domain in link.lower() for domain in ("owasp.org", "genai.owasp.org")):
+                errors.append(
+                    f"Publisher attribution mismatch: Post attributes specification/standard to OWASP, "
+                    f"but cites non-OWASP resource '{link}'."
+                )
+
+    for link in links:
+        link_lower = link.lower()
+        # Defect 1: Simon Willison URL linked to OWASP / ACS claim
+        if "simonwillison.net" in link_lower:
+            if has_owasp_claim or (has_acs_claim and not has_simon_claim):
+                errors.append(
+                    f"Publisher attribution mismatch: Post links to Simon Willison's personal blog ('{link}') "
+                    "while attributing the claim or specification to OWASP / Agent Control Standard. "
+                    "Simon Willison's article is not an OWASP standard; cite the authentic OWASP ACS standard "
+                    "('https://genai.owasp.org/resource/agent-control-standard-acs/') or attribute the research directly to Simon Willison."
+                )
+            if re.search(r"\b(?:review|read|inspect|check)\s+the\s+spec\b.*?" + re.escape(link), full_text, re.IGNORECASE):
+                errors.append(
+                    f"Publisher attribution mismatch: Simon Willison's personal blog ('{link}') is an analytical research article, "
+                    "not a formal specification. Do not refer to it as 'the spec'."
+                )
+        elif "genai.owasp.org" in link_lower or "owasp.org" in link_lower:
+            if has_simon_claim and not has_owasp_claim:
+                errors.append(
+                    f"Publisher attribution mismatch: Post cites an OWASP URL ('{link}') while attributing the content to Simon Willison."
+                )
+
+        # Canonical x402 upstream check
+        if "github.com/coinbase/x402" in link_lower and re.search(r"\bcanonical\s+(?:upstream\s+)?spec\b", full_text, re.IGNORECASE):
+            errors.append(
+                "Upstream specification mismatch: 'https://github.com/coinbase/x402' is Coinbase's protocol implementation. "
+                "The canonical upstream specification repository is 'https://github.com/x402-foundation/x402'."
+            )
+
+    # 2. Epistemic Scope & Stated Certainty
+    # 2a. Universal Prompt Injection Prevention
+    if re.search(r"\b(?:to\s+prevent|prevents?|preventing)\s+prompt\s+injection\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Overstated certainty: Runtime execution controls restrict tool execution and mitigate exploit blast radius, "
+            "but do not universally 'prevent prompt injection'."
+        )
+
+    # 2b. Mandatory x402 Facilitator Claim
+    if re.search(r"\b(?:all\s+x402\s+(?:deployments\s+)?requires?\s+(?:a\s+)?(?:third-party\s+)?facilitator|mandatory\s+facilitators?|requires?\s+facilitators?\s+for\s+all|facilitators?\s+are\s+mandatory|must\s+use\s+(?:a\s+)?facilitator)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate x402 requirement: x402 standardizes HTTP 402 payment signaling where facilitator-based verification "
+            "and settlement is optional; clients and servers can settle directly peer-to-peer."
+        )
+
+    # 2c. Verified Builds Confusing Bytecode Matching with Security
+    if re.search(r"\bverified\s+builds?\b.*?\b(?:guarantees?|ensures?|proves?)\s+(?:application\s+security|contract\s+safety|protocol\s+security|security|code\s+safety|safe\s+code|bug-free)\b", full_text, re.IGNORECASE) or \
+       re.search(r"\bverified\s+builds?\s+(?:guarantees?|proves?|ensures?)\s+(?:application\s+security|contract\s+safety|security|code\s+safety|safe\s+code|bug-free)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate verified build claim: Verified builds establish source-to-deployment correspondence "
+            "(proving deployed bytecode matches audited Git commit), but do not guarantee application security or functional correctness."
+        )
+
+    # 2d. Upgrades Bypassing All Verification
+    if re.search(r"\b(?:upgrades?\s+automatically\s+bypass(?:es)?\s+all\s+verification|without\s+(?:community\s+)?verification|alters?\s+code\s+anytime\s+without\s+verification)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate upgrade authority claim: An upgrade changes the deployed executable and calls for re-verification "
+            "of the new version; avoid implying that upgrades automatically bypass all verification."
+        )
+
+    # 3. Official SanadSquad Service Alignment
+    sl_norm = (service_line or "").lower().strip()
+    if sl_norm:
+        if "tool" in sl_norm or "agentic-security" in sl_norm:
+            has_tooling_mention = bool(re.search(
+                r"\b(?:detectors?|pr\s+reviewers?|monitoring\s+agents?|custom\s+(?:security\s+)?tools?|security\s+tooling|security\s+software|automated\s+reviewers?|guardrail\s+tools?|enforcement\s+tooling)\b",
+                full_text,
+                re.IGNORECASE,
+            ))
+            if not has_tooling_mention:
+                errors.append(
+                    "Weak service alignment: Agentic security tooling posts must meaningfully represent SanadSquad's official "
+                    "software offering (custom security detectors, automated PR reviewers, or monitoring agents)."
+                )
+
+        elif "consulting" in sl_norm:
+            has_consulting_mention = bool(re.search(
+                r"\b(?:consulting|architecture\s+reviews?|threat\s+model(?:ing)?|governance\s+design|security\s+requirements|ongoing\s+review|pre-implementation\s+review|design\s+reviews?|advisory)\b",
+                full_text,
+                re.IGNORECASE,
+            ))
+            if not has_consulting_mention:
+                errors.append(
+                    "Weak service alignment: Security consulting posts must meaningfully connect observations to consulting "
+                    "services (architecture review, threat modeling, governance design, or ongoing development review)."
+                )
+
+        elif "pentest" in sl_norm or "penetration" in sl_norm:
+            has_pentest_mention = bool(re.search(
+                r"\b(?:penetration\s+testing|pentest\w*|dapp\s+apis?|rpc\s+gateways?|relayer|off-chain\s+infrastructure|admin\s+gateways?|backend\s+apis?)\b",
+                full_text,
+                re.IGNORECASE,
+            ))
+            if not has_pentest_mention:
+                errors.append(
+                    "Weak service alignment: Penetration testing posts must meaningfully connect observations to dApp APIs, "
+                    "RPC gateways, relayer infrastructure, or off-chain penetration testing."
+                )
+
+        elif "audit" in sl_norm or "blockchain" in sl_norm or "web3" in sl_norm:
+            has_audit_mention = bool(re.search(
+                r"\b(?:audits?|smart\s+contract\s+audits?|invariant\s+verification|protocol\s+invariants?|code\s+review|access\s+control\s+reviews?)\b",
+                full_text,
+                re.IGNORECASE,
+            ))
+            if not has_audit_mention:
+                errors.append(
+                    "Weak service alignment: Blockchain security audit posts must meaningfully represent audit services "
+                    "(smart contract audits, invariant verification, or access control reviews)."
+                )
+
+        elif "payment" in sl_norm:
+            has_payment_mention = bool(re.search(
+                r"\b(?:payment|x402|mpp|facilitator|authorization\s+ceilings?|replay\s+protection|settlement)\b",
+                full_text,
+                re.IGNORECASE,
+            ))
+            if not has_payment_mention:
+                errors.append(
+                    "Weak service alignment: Agentic payment posts must meaningfully represent payment agent review, "
+                    "tool authorization limits, or replay protection."
+                )
+
+    return errors
+

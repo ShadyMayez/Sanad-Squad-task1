@@ -62,7 +62,11 @@ Maintain clear boundaries across four categories:
 - **No guarantees:** Never claim unhackable, 100% secure, zero risk, or bulletproof security.
 - **No unevidenced client experience:** Never claim third-party audits or breaches as SanadSquad clients.
 - **No technical overstatements:** Never claim formal verification "prevents" vulnerabilities (it checks invariant properties against specifications) or that audits "prove code correctness".
-- **Accurate governance & source attribution:** Solana upgrade authority is a keyholder centralization risk, not "unauthorized" changes. Do not attribute cryptographic spending caps or wallet policies to OWASP. Distinguish BOLA (object-level authorization) from authentication (identity verification).
+- **Accurate governance & upgrade claims:** Solana upgrade authority is a keyholder centralization risk allowing modification without re-verification, not "unauthorized" changes; do NOT imply upgrades automatically bypass all verification. Verified builds establish source-to-deployment correspondence, NOT application security or logic correctness.
+- **Accurate attribution & publisher concordance:** When citing an external organization (e.g. OWASP, Solana Foundation, x402 Foundation), the mandatory URL must point directly to that organization's authentic domain. Never describe Simon Willison's personal research blog as an OWASP standard or specification. If citing Simon Willison, attribute it to his research blog.
+- **Non-absolute prompt injection claims:** Never claim tool boundaries or runtime controls universally "prevent prompt injection"; they restrict unauthorized tool execution and mitigate exploit impact.
+- **Accurate payment mechanics:** Distinguish HTTP 402 payment signaling from optional facilitator verification and settlement; never imply all x402 deployments require third-party facilitators.
+- **Mandatory service representation:** Every post must meaningfully connect to its assigned official SanadSquad service (e.g. consulting posts must mention architecture review, threat modeling, or governance design; tooling posts must mention custom detectors, PR reviewers, or monitoring agents).
 
 ---
 

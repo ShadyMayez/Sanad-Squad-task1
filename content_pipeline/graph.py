@@ -737,6 +737,8 @@ def build_v2_piece_graph(
             allow_cta=has_cta,
             content_type=state["slot"].type,
             enforce_review_invitation=(selected_mode == "legacy"),
+            service_line=getattr(state["slot"], "service_line", None),
+            evidence=getattr(state["topic"], "evidence", None),
         )
 
         all_errors = conf_errors + policy_violations + det_errors + state.get("provenance_errors", [])
