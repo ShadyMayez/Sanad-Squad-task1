@@ -5,7 +5,20 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage, SystemMessage
 from .config import ROOT
 from .llm import LocalModel
-from .schemas import AtomicClaim, Draft, Evidence, MarketingDraft, Review, SemanticReport, Slot, TechThreadDraft, Vulnerability, WriterConfig
+from .schemas import (
+    AtomicClaim,
+    Claim,
+    Draft,
+    Evidence,
+    MarketingDraft,
+    MarketingDraftWithLink,
+    Review,
+    SemanticReport,
+    Slot,
+    TechThreadDraft,
+    Vulnerability,
+    WriterConfig,
+)
 from .skills import EvidenceLookup
 
 
@@ -103,9 +116,6 @@ class ReviewerAgent:
         rubric = instruction("instructions/reviewer-rubric.md")
         semantic_brief = ({"verdicts": [{"claim_id": item.claim_id, "verdict": item.verdict,
             "supporting_spans": [span.model_dump() for span in item.supporting_spans],
-            "context_windows": [window.model_dump() for window in item.context_windows],
-            "initial_verdict": item.initial_pass.verdict if item.initial_pass else None,
-            "skeptical_verdict": item.skeptical_pass.verdict if item.skeptical_pass else None,
             "claim_relations": item.claim_relations, "evidence_relation": item.evidence_relation,
             "relationship_verdict": item.relationship_verdict,
             "relation_integrity_passed": item.relation_integrity_passed,
@@ -237,6 +247,8 @@ class EvidenceFirstWriterAgent:
                 role_file = "instructions/marketing-post.md"
         if role_file:
             role_text = instruction(role_file)
+            if self.content_type == "marketing-post":
+                return role_text
             return f"{role_text}\n\n---\n\n{base_rules}"
         return base_rules
 
@@ -251,18 +263,34 @@ class EvidenceFirstWriterAgent:
         rel_map = {r.id: r for r in catalog.relations} if catalog and hasattr(catalog, "relations") else {}
         is_marketing = (plan.content_type == "marketing-post")
         exact_count = 1 if is_marketing else len(plan.units)
-        draft_schema = (
-            MarketingDraft
-            if is_marketing
-            else (TechThreadDraft if plan.content_type == "tech-thread" else Draft)
+
+        has_mandatory_link = bool(
+            getattr(plan, "mandatory_url", None)
+            or (plan.units and getattr(plan.units[0], "mandatory_url", None))
         )
+        if is_marketing:
+            draft_schema = MarketingDraftWithLink if has_mandatory_link else MarketingDraft
+        else:
+            draft_schema = (TechThreadDraft if plan.content_type == "tech-thread" else Draft)
 
         if is_marketing:
-            count_inst = (
-                "CRITICAL: The 'tweets' array in your output MUST contain EXACTLY 1 string (strictly under 250 characters total, platform limit is 280). "
-                "Multiple sentences inside this single tweet are permitted. "
-                "Do NOT produce multiple tweets or separate array items. Keep the text concise (aim for 180-230 characters) so it never exceeds the platform character limit."
-            )
+            budget_obj = getattr(plan, "character_budget", None) or {}
+            max_b = budget_obj.get("max_body_chars", 180)
+            mand_url = getattr(plan, "mandatory_url", None) or budget_obj.get("mandatory_url")
+            if mand_url:
+                count_inst = (
+                    f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
+                    f"Total tweet length (including URL) MUST be strictly under 280 characters. "
+                    f"The mandatory URL is '{mand_url}' and MUST be included in the tweet text. "
+                    f"Your body prose BEFORE the URL must not exceed {max_b} characters. "
+                    f"Set mandatory_link='{mand_url}' in the output."
+                )
+            else:
+                count_inst = (
+                    f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
+                    f"Total tweet length MUST be strictly under 280 characters (target {max_b} characters). "
+                    f"Strictly NO links or hashtags. Leave 'mandatory_link' as null."
+                )
         else:
             count_inst = (
                 f"CRITICAL: The 'tweets' array in your output MUST contain EXACTLY {exact_count} strings "
@@ -271,7 +299,8 @@ class EvidenceFirstWriterAgent:
 
         evidence_payload = []
         if hasattr(plan, "evidence_items") and plan.evidence_items:
-            for ev in plan.evidence_items:
+            items_to_serialize = plan.evidence_items[:1] if is_marketing else plan.evidence_items
+            for ev in items_to_serialize:
                 evidence_payload.append({
                     "id": getattr(ev, "id", str(ev)),
                     "url": getattr(ev, "url", ""),
@@ -289,13 +318,13 @@ class EvidenceFirstWriterAgent:
                 {
                     "unit_id": u.id,
                     "role": u.role,
-                    "required_qualifiers": u.required_qualifiers,
                     "guidance": u.guidance,
-                    "canonical_propositions": [prop_map[pid].canonical_text for pid in u.proposition_ids if pid in prop_map],
-                    "approved_relations": [
+                    **({"required_qualifiers": u.required_qualifiers} if u.required_qualifiers else {}),
+                    **({"canonical_propositions": [prop_map[pid].canonical_text for pid in u.proposition_ids if pid in prop_map]} if u.proposition_ids else {}),
+                    **({"approved_relations": [
                         f"{rel_map[rid].source_id} --({rel_map[rid].relation_type})--> {rel_map[rid].target_id}"
                         for rid in u.relation_ids if rid in rel_map
-                    ],
+                    ]} if u.relation_ids else {}),
                 }
                 for u in plan.units
             ],
@@ -312,6 +341,11 @@ class EvidenceFirstWriterAgent:
                     f"Marketing posts must contain exactly one tweet. Your draft contained {count_in_draft}. "
                     "Rewrite the content as one coherent, source-grounded tweet within the platform character limit. "
                     "Preserve only approved propositions and relations."
+                )
+            elif is_marketing:
+                revision_instruction = (
+                    "Your previous marketing draft failed validation. Follow the PRECISE MARKETING REVISION INSTRUCTIONS "
+                    "below: adhere to the exact character budget, include mandatory URL if required, and produce exactly 1 tweet."
                 )
             else:
                 revision_instruction = (

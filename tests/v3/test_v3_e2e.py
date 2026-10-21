@@ -17,6 +17,7 @@ from content_pipeline.graph import build_week_graph
 from content_pipeline.schemas import (
     Draft,
     MarketingDraft,
+    MarketingDraftWithLink,
     TechThreadDraft,
     Plan,
     Slot,
@@ -55,7 +56,7 @@ class V3EndToEndMockModel:
                 if self.fail_slot_id and self.fail_slot_id in user_msg:
                     raise RuntimeError(f"Simulated model failure for slot {self.fail_slot_id}")
 
-                if schema in (Draft, TechThreadDraft, MarketingDraft):
+                if schema in (Draft, TechThreadDraft, MarketingDraft, MarketingDraftWithLink):
                     if "Technical Writer" in system:
                         if '"topic_id": "SWC-105"' in user_msg or '"slot_id": "thread_2"' in user_msg:
                             tweets = [
@@ -84,25 +85,29 @@ class V3EndToEndMockModel:
                         return TechThreadDraft(tweets=tweets), {"prompt_tokens": 120, "completion_tokens": 80}
                     else:
                         import re
-                        m = re.search(r'Include source link:\s*(https://[^\s",\']+)', user_msg)
-                        m_cta = re.search(r"Include this exact company-approved contact CTA at the end of the tweet:\s*'([^']+)'", user_msg)
+                        m = re.search(r'(?:Mandatory Source URL|Include source link|exact source link|mandatory URL is)[:\s]*[\'"]?(https://[^\s",\']+)', user_msg)
+                        m_cta = re.search(r"(?:Include this exact company-approved contact CTA at the end of the tweet|Approved Contact CTA)[:\s]*'([^']+)'", user_msg)
                         cta_suffix = f" {m_cta.group(1)}" if m_cta else ""
-                        if m:
-                            target_url = m.group(1).rstrip(".,;")
-                            if "learning" in user_msg or "x402" in target_url or "stripe" in target_url or "coinbase" in target_url:
+                        target_url = m.group(1).rstrip(".,;'\"") if m else None
+                        if target_url and ("learning" in user_msg.lower() or "news" in user_msg.lower() or schema == MarketingDraftWithLink):
+                            if "x402" in target_url or "stripe" in target_url or "coinbase" in target_url or "payments" in user_msg.lower():
                                 tweet = f"Coinbase x402 specification defines HTTP 402 signaling while facilitators verify and settle payments. Breakdown: {target_url}.{cta_suffix}".rstrip(".")
-                            elif "simonwillison.net" in target_url or "genai.owasp.org" in target_url:
-                                tweet = f"OWASP reported prompt injection allows attackers to manipulate agentic tool calls. This disclosure shows why deterministic spending limits must be enforced: {target_url}"
-                            elif "top10.owasp.org" in target_url or "api-security" in target_url:
-                                tweet = f"OWASP reported software integrity failures in CI/CD pipelines allow attackers to alter deployment artifacts. This highlights why build pipelines need penetration testing: {target_url}"
+                            elif "simonwillison.net" in target_url or "genai.owasp.org" in target_url or "agent" in user_msg.lower():
+                                tweet = f"OWASP reported in their Agentic Security guide how prompt injection reaches tool execution and why spending limits must be enforced outside the model context: {target_url}"
+                            elif "top10.owasp.org" in target_url or "api-security" in target_url or "pentest" in user_msg.lower():
+                                tweet = f"OWASP guide explains software integrity failures in CI/CD pipelines. Essential breakdown for engineering teams on securing deployment build infrastructure: {target_url}"
                             else:
-                                tweet = f"Solana Foundation documented verified builds proving bytecode matches audited commits. This disclosure shows why upgrade authority must be locked: {target_url}"
-                        elif "differentiation" in user_msg:
+                                tweet = f"Solana documentation guide explains verified builds proving bytecode matches audited Git commits. Essential breakdown on locking upgrade authority: {target_url}"
+                            if schema == MarketingDraftWithLink:
+                                return MarketingDraftWithLink(tweets=[tweet], mandatory_link=target_url), {"prompt_tokens": 100, "completion_tokens": 40}
+                            return MarketingDraft(tweets=[tweet], mandatory_link=target_url), {"prompt_tokens": 100, "completion_tokens": 40}
+                        elif "differentiation" in user_msg.lower():
                             tweet = f"Auditing smart contracts is necessary, but protocols also face infrastructure and frontend risks. SanadSquad audits smart contracts and assesses deployment infrastructure.{cta_suffix}"
+                            return MarketingDraft(tweets=[tweet]), {"prompt_tokens": 100, "completion_tokens": 40}
                         else:
                             # Short tip: sharp observation, strictly no link
                             tweet = f"Prompt injection can reach signing tools if policies rely on authentication rather than strict wallet limits. Scope your agent execution budgets tightly.{cta_suffix}"
-                        return MarketingDraft(tweets=[tweet]), {"prompt_tokens": 100, "completion_tokens": 40}
+                            return MarketingDraft(tweets=[tweet]), {"prompt_tokens": 100, "completion_tokens": 40}
 
                 if schema == Review:
                     return Review(

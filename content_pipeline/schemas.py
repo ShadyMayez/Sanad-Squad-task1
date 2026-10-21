@@ -195,6 +195,45 @@ class MarketingDraft(Draft):
         max_length=1,
         description="Exactly one marketing post tweet (multiple sentences inside this single tweet are permitted, strictly under 280 characters).",
     )
+    mandatory_link: str | None = Field(
+        default=None,
+        description="When the task specifies a required source URL, you MUST repeat that exact URL in this field as an explicit structured constraint.",
+    )
+
+    @model_validator(mode="after")
+    def _ensure_mandatory_link_in_tweet(self) -> MarketingDraft:
+        if self.mandatory_link:
+            link = self.mandatory_link.strip()
+            if self.tweets and link and link not in self.tweets[0]:
+                candidate = f"{self.tweets[0].rstrip()} {link}"
+                if len(candidate) <= 280:
+                    self.tweets[0] = candidate
+                    for c in self.claims:
+                        if c.text in candidate:
+                            c.text = candidate
+        return self
+
+
+class MarketingDraftWithLink(MarketingDraft):
+    mandatory_link: str = Field(
+        ...,
+        description="MANDATORY: You MUST provide the exact authorized source URL specified in the prompt as a structured constraint.",
+    )
+
+    @model_validator(mode="after")
+    def _validate_mandatory_link_present(self) -> MarketingDraftWithLink:
+        link = self.mandatory_link.strip() if self.mandatory_link else ""
+        if not link:
+            raise ValueError("mandatory_link must not be empty")
+        if not self.tweets or link not in self.tweets[0]:
+            candidate = f"{self.tweets[0].rstrip()} {link}" if self.tweets else link
+            if len(candidate) <= 280:
+                self.tweets[0] = candidate
+            else:
+                raise ValueError(
+                    f"Draft tweet must contain the mandatory link: '{link}', but incorporating it exceeds 280 characters ({len(candidate)} chars)."
+                )
+        return self
 
 
 class TechThreadDraft(Draft):

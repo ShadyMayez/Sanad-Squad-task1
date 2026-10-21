@@ -181,9 +181,9 @@ class MarketingSlotPlanner:
             # Canonical default rotation across official services for up to 5 marketing slots
             service_rotation = [
                 ("blockchain-security-audits", "post-audit deployment drift and invariant testing", MarketingFormat.DIFFERENTIATION, False, False),
-                ("agentic-security-tooling", "AI agent prompt injection and custom PR reviewer detectors", MarketingFormat.NEWS_REACTION, True, False),
+                ("agentic-security-tooling", "AI agent prompt injection and tool execution boundaries", MarketingFormat.LEARNING_RESOURCE, True, False),
                 ("agentic-payments", "x402 versus MPP settlement mechanics and facilitator trust", MarketingFormat.LEARNING_RESOURCE, True, True),
-                ("penetration-testing", "API security and CI/CD pipeline infrastructure attack surface", MarketingFormat.NEWS_REACTION, True, False),
+                ("penetration-testing", "API security and CI/CD pipeline infrastructure attack surface", MarketingFormat.SHORT_TIP, False, False),
                 ("security-consulting", "Pre-implementation architecture design and security by default", MarketingFormat.SHORT_TIP, False, False),
             ]
 
@@ -230,6 +230,13 @@ class MarketingSlotPlanner:
                             fmt = f_fmt
                             req_link = f_req_link
                             break
+
+                # Sync format and requirements with the finalized commercial service
+                service_rotation_map = {entry[0]: entry for entry in service_rotation}
+                if c_service in service_rotation_map:
+                    _, def_angle, fmt, req_link, has_cta = service_rotation_map[c_service]
+                    if not slot.focus:
+                        angle = def_angle
 
                 assigned_services.add(c_service)
 

@@ -34,6 +34,7 @@ class ContentUnit(BaseModel):
     max_chars: int = 280
     guidance: str = ""
     source_evidence_ids: list[str] = Field(default_factory=list)
+    mandatory_url: str | None = None
 
 
 class EvidenceFirstPlan(BaseModel):
@@ -48,6 +49,9 @@ class EvidenceFirstPlan(BaseModel):
     authorization_mode: str = "pilot_evaluation"  # "pilot_evaluation" or "publication_eligible"
     units: list[ContentUnit]
     evidence_items: list[Any] = Field(default_factory=list)
+    character_budget: dict[str, Any] | None = None
+    mandatory_url: str | None = None
+    replan_notes: list[str] = Field(default_factory=list)
     plan_hash: str | None = None
 
     def compute_plan_hash(self) -> str:
@@ -521,13 +525,26 @@ def build_marketing_evidence_plan(
     excerpt = getattr(first_ev, "excerpt", "") if first_ev else ""
     ev_url = getattr(first_ev, "url", "") if first_ev else ""
 
+    # Pre-calculate approved CTA if operational
+    approved_cta_str = None
     if has_cta and contact_config and hasattr(contact_config, "is_operational") and contact_config.is_operational():
         from .contact_config import build_contextual_cta
-        approved_cta = build_contextual_cta(service_line, contact_config)
+        approved_cta_str = build_contextual_cta(service_line, contact_config)
+
+    # Character Budgeting and Replanning (Pre-generation)
+    from .character_budget import replan_marketing_slot_for_budget
+    final_fmt, final_url, budget, replan_notes = replan_marketing_slot_for_budget(
+        service_line=service_line,
+        format_name=fmt_str,
+        evidence_items=ev_list,
+        approved_cta=approved_cta_str,
+        safety_margin=20,
+    )
+
+    if budget.approved_cta:
         cta_instruction = (
-            f"Include this exact company-approved contact CTA at the end of the tweet: '{approved_cta}'. "
-            f"Ensure the entire post (including this CTA) is strictly within 280 characters. "
-            "Do not invent contact details or alter the approved contact channel."
+            f"Include this exact company-approved contact CTA at the end of the tweet: '{budget.approved_cta}'. "
+            f"The body copy must leave room so the entire tweet including CTA is strictly within 280 characters."
         )
     elif has_cta:
         cta_instruction = (
@@ -538,36 +555,45 @@ def build_marketing_evidence_plan(
         cta_instruction = "Do NOT include commercial CTAs, email addresses, or phone numbers; focus purely on educational observation."
 
     format_specific_guidance = ""
-    if fmt_str == "news-reaction":
+    if final_fmt == "news-reaction":
         format_specific_guidance = (
-            f"NEWS REACTION FORMAT: You MUST include: "
-            f"(1) an event marker (e.g. 'reported', 'disclosed', 'advisory', 'released'), "
-            f"(2) an attributable source (e.g. 'OWASP', 'researchers', 'documentation'), "
-            f"(3) an analytical interpretation (e.g. 'shows why...', 'demonstrates that...'), "
-            f"and (4) Include source link: {ev_url}. MANDATORY: You MUST include this exact source URL in your tweet text (keep copy brief so total length including URL is strictly under 280 chars). "
+            f"NEWS REACTION FORMAT:\n"
+            f"1. Name the specific advisory or news event identified in the evidence.\n"
+            f"2. Provide one clear security takeaway for engineering teams.\n"
+            f"3. MANDATORY URL: You MUST include the exact source link: '{final_url}'.\n"
         )
-    elif fmt_str == "learning-resource":
+    elif final_fmt == "learning-resource":
         format_specific_guidance = (
-            f"LEARNING RESOURCE FORMAT: You MUST explain why the resource is worth reading "
-            f"(e.g. 'breakdown of payment mechanics', 'specification breakdown', 'guide') "
-            f"and Include source link: {ev_url}. MANDATORY: You MUST include this exact source URL in your tweet text (keep copy brief so total length including URL is strictly under 280 chars). "
-            "If discussing x402, distinguish HTTP 402 signaling from facilitator verification and settlement. "
+            f"LEARNING RESOURCE FORMAT (Strictly 1–2 concise sentences):\n"
+            f"1. State the core specification mechanic or distinction in ONE compact sentence (under 160 characters).\n"
+            f"2. Note why it is worth reviewing or reading.\n"
+            f"3. MANDATORY URL: You MUST include the exact source link: '{final_url}'.\n"
+            f"4. Structure example: '<Spec> specifies <core mechanism/boundary>. Review the spec: {final_url}'\n"
+            f"Note: If discussing x402, distinguish HTTP 402 signaling from facilitator verification and settlement.\n"
         )
-    elif fmt_str == "differentiation":
+    elif final_fmt == "differentiation":
         format_specific_guidance = (
-            "DIFFERENTIATION FORMAT: Highlight the gap between contract-only audits and connected infrastructure risks. "
-            "Do NOT include links. Do NOT claim SanadSquad secures the entire connected stack; state our specific auditing and pentest services. "
+            "DIFFERENTIATION FORMAT:\n"
+            "1. Highlight the gap between contract-only audits and connected off-chain/agentic infrastructure risks.\n"
+            "2. State SanadSquad's specialized scope without claiming to secure the entire connected stack.\n"
+            "3. Strictly NO links for this format.\n"
         )
     else:
-        format_specific_guidance = "SHORT TIP FORMAT: One sharp observation. Strictly NO links. "
+        format_specific_guidance = (
+            "SHORT TIP FORMAT:\n"
+            "1. Deliver one sharp, practical security observation grounded in the evidence.\n"
+            "2. Strictly NO links for this format.\n"
+        )
 
+    # Concise single-point evidence framing to avoid token bloat and cognitive overload
     unit_guidance = (
-        f"Format: {fmt_str}. Service line: {service_line}. "
-        f"{format_specific_guidance}"
-        f"Grounded evidence: '{excerpt}'. "
-        "LENGTH CONSTRAINT: The entire tweet MUST be strictly under 250 characters (platform limit is 280). Aim for 180-230 characters. Be concise. "
-        "Epistemic boundaries: Ground facts strictly in evidence. Differentiate facts from interpretations. Do NOT claim SanadSquad audited the affected protocol or discovered the vulnerability unless explicitly stated in evidence. "
-        f"CTA policy: {cta_instruction}. "
+        f"Format: {final_fmt}. Service line: {service_line}.\n"
+        f"{format_specific_guidance}\n"
+        f"PRIORITIZED EVIDENCE FACT: '{excerpt}'\n"
+        f"Epistemic boundaries: Differentiate verified facts from analytical interpretation. "
+        f"Do NOT claim SanadSquad audited the protocol unless stated in the evidence.\n"
+        f"CTA Policy: {cta_instruction}\n\n"
+        f"{budget.budget_instruction()}\n"
         f"{guidance}"
     )
 
@@ -577,6 +603,7 @@ def build_marketing_evidence_plan(
         max_chars=280,
         guidance=unit_guidance,
         source_evidence_ids=ev_ids,
+        mandatory_url=final_url,
     )
 
     pol_id = getattr(policy, "policy_id", "sanadsquad_marketing_rules") if policy else "sanadsquad_marketing_rules"
@@ -592,6 +619,9 @@ def build_marketing_evidence_plan(
         authorization_mode=authorization_mode,
         units=[unit],
         evidence_items=ev_list,
+        character_budget=budget.model_dump(),
+        mandatory_url=final_url,
+        replan_notes=replan_notes,
     )
     plan.plan_hash = plan.compute_plan_hash()
     return plan

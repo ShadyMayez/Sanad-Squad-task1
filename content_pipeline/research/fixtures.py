@@ -25,12 +25,11 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "web3-security",
             "source_group": "docs",
             "published_date": "2024-11-15",
-            "quote": "Solana verified builds provide deterministic proof that on-chain executable bytecode matches the audited source commit, preserving smart contract invariants. Without verified builds and locked upgrade authority, deployed programs can be altered post-audit without re-review.",
+            "quote": "Solana verified builds provide deterministic proof that on-chain executable bytecode matches the audited source commit. Build verification establishes source provenance but does not ensure contract security if the code contains logic flaws, and upgrade authority management remains necessary to prevent post-deployment program alterations.",
             "cleaned_text": (
                 "Solana Verified Builds and Program Deployment Authority. "
-                "Deterministic verification via solana-verify proves that deployed on-chain bytecode matches the audited Git commit. "
-                "Managing upgrade authority through multi-sig governance or burning authority to immutable prevents unverified post-deployment alterations. "
-                "Security audits must verify both the source repository and the on-chain deployed program binary, enforcing protocol invariants."
+                "Deterministic verification via solana-verify proves that on-chain bytecode corresponds directly to the specified Git commit, establishing binary build provenance. "
+                "Build verification confirms source identity rather than functional correctness, so upgrade authority must still be transferred to a multi-sig or burned to prevent unverified program modifications."
             ),
         },
         {
@@ -83,19 +82,18 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             ),
         },
         {
-            "title": "OWASP Top 10 Vulnerabilities and Supply Chain Security",
+            "title": "OWASP Top 10 Vulnerabilities: Software and Data Integrity Failures",
             "url": "https://top10.owasp.org/",
             "domain": "top10.owasp.org",
             "publisher": "OWASP Foundation",
             "service_line": "pentesting",
             "source_group": "docs",
             "published_date": "2024-09-24",
-            "quote": "Vulnerable and outdated components along with software and data integrity failures in CI/CD build pipelines enable attackers to inject malicious calldata and modify deployment artifacts before signing.",
+            "quote": "Software and data integrity failures in CI/CD pipelines enable attackers to introduce unauthorized dependencies and modify deployment artifacts prior to distribution. Securing build infrastructure and verifying component provenance protects against supply chain compromise across application deployments.",
             "cleaned_text": (
-                "OWASP Top 10 Vulnerabilities. "
-                "Vulnerable and outdated components along with software and data integrity failures in CI/CD build pipelines "
-                "enable attackers to inject malicious calldata and modify deployment artifacts before signing. "
-                "Frontend signing scripts, developer workstations, and developer build environments represent critical supply-chain attack surfaces in web infrastructure."
+                "OWASP Top 10 Vulnerabilities: Software and Data Integrity Failures. "
+                "CI/CD build pipelines and auto-update mechanisms that lack integrity checks allow unauthorized code modification before deployment. "
+                "Rigorous penetration testing of build pipelines, dependency manifests, and artifact signing protects developer and deployment infrastructure."
             ),
         },
     ],

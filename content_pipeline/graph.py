@@ -28,7 +28,14 @@ from .conformance import verify_plan_conformance, ConformanceReport
 from .business_policy import load_business_policy, BusinessPolicy
 from .source_authority import TechnicalSourceStrategy, MarketingSourceStrategy, SourceAuthorityContext
 from .research import ResearchService, load_sources_config
-from .marketing_planner import MarketingSlotPlanner, validate_weekly_marketing_results
+from .marketing_planner import (
+    MarketingSlotPlanner,
+    validate_weekly_marketing_results,
+    normalize_commercial_service,
+    map_service_to_research_category,
+    OFFICIAL_COMMERCIAL_SERVICES,
+    COMMERCIAL_TO_RESEARCH_TAXONOMY,
+)
 
 
 class PieceState(TypedDict, total=False):
@@ -313,20 +320,22 @@ def build_v2_piece_graph(
         # 1. Marketing research pathway
         if slot_type == "marketing-post":
             use_marketing_research = (
-                state.get("marketing_meta") is not None
+                selected_mode in ["v3_marketing_research", "v3"]
+                or state.get("marketing_meta") is not None
                 or state.get("research_mode") in ["fixture", "live"]
                 or getattr(slot, "source_strategy", None) == "web_research"
-                or (slot.focus and slot.focus in ["web3-security", "pentesting", "agentic-security", "agentic-payments"])
+                or getattr(slot, "service_line", None) is not None
+                or (slot.focus and (slot.focus in OFFICIAL_COMMERCIAL_SERVICES or slot.focus in COMMERCIAL_TO_RESEARCH_TAXONOMY))
             )
             if use_marketing_research:
                 meta = state.get("marketing_meta")
-                service_line = "web3-security"
-                if meta and hasattr(meta, "service_line"):
-                    service_line = meta.service_line
-                elif isinstance(meta, dict) and meta.get("service_line"):
-                    service_line = meta["service_line"]
-                elif slot.focus and slot.focus in ["web3-security", "pentesting", "agentic-security", "agentic-payments"]:
-                    service_line = slot.focus
+                raw_service = getattr(slot, "service_line", None)
+                if not raw_service and meta:
+                    raw_service = getattr(meta, "service_line", None) or (meta.get("service_line") if isinstance(meta, dict) else None)
+                if not raw_service:
+                    raw_service = slot.focus
+
+                service_line = map_service_to_research_category(raw_service) if raw_service else "web3-security"
 
                 is_vuln_exception = bool(state.get("is_vulnerability_class_exception", False))
                 supp_kb = None
@@ -415,11 +424,15 @@ def build_v2_piece_graph(
             ev_list = state.get("evidence_items") or (state.get("topic").evidence if state.get("topic") else None)
             if ev_list and slot.type == "marketing-post":
                 meta = state.get("marketing_meta")
-                service_line = "web3-security"
+                raw_service = getattr(slot, "service_line", None)
+                if not raw_service and meta:
+                    raw_service = getattr(meta, "service_line", None) or (meta.get("service_line") if isinstance(meta, dict) else None)
+                if not raw_service:
+                    raw_service = slot.focus
+                service_line = normalize_commercial_service(raw_service) if raw_service else "blockchain-security-audits"
                 fmt_spec = None
                 has_cta = False
                 if meta:
-                    service_line = getattr(meta, "service_line", None) or (meta.get("service_line") if isinstance(meta, dict) else "web3-security")
                     fmt_val = getattr(meta, "selected_format", None) or (meta.get("selected_format") if isinstance(meta, dict) else None)
                     has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
                     if fmt_val:
@@ -474,26 +487,32 @@ def build_v2_piece_graph(
 
     async def write(state: PieceState):
         p = state["plan_v2"]
+        slot_type = state["slot"].type
+        is_marketing = (slot_type == "marketing-post" or p.content_type == "marketing-post")
         feedback = None
-        if state.get("conformance_report") and not state["conformance_report"].all_conforming:
-            feedback = []
-            exact_count = 1 if p.content_type == "marketing-post" else len(p.units)
-            had_count_mismatch = (len(state["draft"].tweets) != exact_count)
-            if had_count_mismatch:
-                if p.content_type == "marketing-post":
-                    feedback.append({
-                        "unit_id": "COUNT_MISMATCH",
-                        "tweet_index": -1,
-                        "failing_text": f"Generated {len(state['draft'].tweets)} tweets",
-                        "verdict": "FORMAT_VIOLATION",
-                        "reasons": [f"Marketing posts must contain exactly one tweet. Your draft contained {len(state['draft'].tweets)}."],
-                        "feedback": (
-                            f"Marketing posts must contain exactly one tweet. Your draft contained {len(state['draft'].tweets)}. "
-                            "Rewrite the content as one coherent, source-grounded tweet within the platform character limit. "
-                            "Preserve only approved propositions and relations."
-                        ),
-                    })
-                else:
+
+        if is_marketing:
+            val_errors = state.get("validation", [])
+            conf = state.get("conformance_report")
+            conf_errors = [r.reason for r in conf.results if not r.passed] if conf else []
+            rev = state.get("review")
+            rev_reasons = rev.reasons if rev else []
+            all_issue_reasons = val_errors + conf_errors
+
+            if all_issue_reasons or (rev and not rev.approved):
+                from .character_budget import build_precise_marketing_feedback
+                feedback = build_precise_marketing_feedback(
+                    draft=state.get("draft"),
+                    plan=p,
+                    validation_errors=all_issue_reasons,
+                    review_reasons=rev_reasons,
+                )
+        else:
+            if state.get("conformance_report") and not state["conformance_report"].all_conforming:
+                feedback = []
+                exact_count = len(p.units)
+                had_count_mismatch = (len(state["draft"].tweets) != exact_count)
+                if had_count_mismatch:
                     feedback.append({
                         "unit_id": "COUNT_MISMATCH",
                         "tweet_index": -1,
@@ -502,33 +521,32 @@ def build_v2_piece_graph(
                         "reasons": [f"Expected exactly {exact_count} tweet(s), got {len(state['draft'].tweets)}."],
                         "feedback": f"CRITICAL: The tweets list MUST contain EXACTLY {exact_count} string(s).",
                     })
-            for idx, r in enumerate(state["conformance_report"].results):
-                if had_count_mismatch and "Plan unit count mismatch" in r.reason:
-                    continue
-                if not r.passed:
+                for idx, r in enumerate(state["conformance_report"].results):
+                    if had_count_mismatch and "Plan unit count mismatch" in r.reason:
+                        continue
+                    if not r.passed:
+                        feedback.append({
+                            "unit_id": r.unit_id,
+                            "tweet_index": idx,
+                            "failing_text": r.tweet_text,
+                            "verdict": r.verdict,
+                            "reasons": [r.reason],
+                            "feedback": f"Revise unit {r.unit_id} to strictly conform to its canonical propositions. Do NOT overstate mitigations as absolute guarantees, do NOT add unapproved causal claims, and preserve scope.",
+                        })
+            if state.get("validation"):
+                if feedback is None:
+                    feedback = []
+                for err in state["validation"]:
                     feedback.append({
-                        "unit_id": r.unit_id,
-                        "tweet_index": idx,
-                        "failing_text": r.tweet_text,
-                        "verdict": r.verdict,
-                        "reasons": [r.reason],
-                        "feedback": f"Revise unit {r.unit_id} to strictly conform to its canonical propositions. Do NOT overstate mitigations as absolute guarantees, do NOT add unapproved causal claims, and preserve scope.",
+                        "unit_id": "VALIDATION_ERROR",
+                        "tweet_index": 0,
+                        "failing_text": state["draft"].tweets[0] if state.get("draft") and state["draft"].tweets else "",
+                        "verdict": "VALIDATION_FAILURE",
+                        "reasons": [err],
+                        "feedback": f"Format/Brand/Action violation: {err}. Please correct this in the revised draft.",
                     })
-        if state.get("validation"):
-            if feedback is None:
-                feedback = []
-            for err in state["validation"]:
-                feedback.append({
-                    "unit_id": "VALIDATION_ERROR",
-                    "tweet_index": 0,
-                    "failing_text": state["draft"].tweets[0] if state.get("draft") and state["draft"].tweets else "",
-                    "verdict": "VALIDATION_FAILURE",
-                    "reasons": [err],
-                    "feedback": f"Format/Brand/Action violation: {err}. Please correct this in the revised draft.",
-                })
         try:
             prev_tweets = state["draft"].tweets if state.get("draft") else None
-            slot_type = state["slot"].type
             current_writer = writer_agents.get(slot_type) or EvidenceFirstWriterAgent(model, content_type=slot_type)
             draft, usage = await current_writer.run(p, catalog, targeted_feedback=feedback, previous_tweets=prev_tweets)
             # Bind draft claims deterministically to the plan unit's approved evidence IDs
@@ -544,6 +562,8 @@ def build_v2_piece_graph(
                             ev_id = s_ref.split("#")[0]
                             if ev_id in evidence_by_id:
                                 u_ev_ids.append(ev_id)
+                if not u_ev_ids and getattr(u, "source_evidence_ids", None):
+                    u_ev_ids = [eid for eid in u.source_evidence_ids if eid in evidence_by_id]
                 if not u_ev_ids and state["topic"].evidence:
                     u_ev_ids = [state["topic"].evidence[0].id]
                 claims.append(Claim(text=tweet, evidence_ids=sorted(list(set(u_ev_ids)))))
