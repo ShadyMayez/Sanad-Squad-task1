@@ -65,7 +65,9 @@ class LiveResearchProvider(ResearchProvider):
     ):
         self.config = sources_config
         self.api_key = api_key or os.getenv("SANADSQUAD_SEARCH_API_KEY")
-        self.search_endpoint = search_endpoint or os.getenv("SANADSQUAD_SEARCH_ENDPOINT")
+        self.search_endpoint = search_endpoint or os.getenv(
+            "SANADSQUAD_SEARCH_ENDPOINT", "https://api.search.brave.com/res/v1/web/search"
+        )
         self.fetcher = SafeFetcher(sources_config)
 
     @property
@@ -77,8 +79,8 @@ class LiveResearchProvider(ResearchProvider):
         return "live"
 
     def is_available(self) -> bool:
-        """Available only when a live search API key or endpoint is configured."""
-        return bool(self.api_key or self.search_endpoint)
+        """Available only when a live search API key is configured."""
+        return bool(self.api_key)
 
     def search(
         self,
@@ -89,7 +91,7 @@ class LiveResearchProvider(ResearchProvider):
     ) -> list[SearchResult]:
         if not self.is_available():
             raise RuntimeError(
-                "LiveResearchProvider is unavailable: no search API key or endpoint configured. "
+                "LiveResearchProvider is unavailable: no search API key configured. "
                 "Set SANADSQUAD_SEARCH_API_KEY or use FixtureResearchProvider."
             )
 
@@ -98,17 +100,90 @@ class LiveResearchProvider(ResearchProvider):
         if not allowed_domains:
             return []
 
-        # In live mode with configured API, query scoped search
-        # Simulated live search query scoped to allowed domains:
-        site_filter = " OR ".join(f"site:{d}" for d in allowed_domains[:5])
-        scoped_query = f"{query} ({site_filter})"
+        # Build site filter
+        if "site:" in query.lower():
+            scoped_query = query
+        else:
+            # Score domains by query relevance
+            q_lower = query.lower()
+            scored: list[tuple[int, str]] = []
+            for d in allowed_domains:
+                base = d.split("/")[0].split(".")[0]
+                score = 2 if (base in q_lower or d in q_lower) else 0
+                scored.append((score, d))
+            scored.sort(key=lambda x: x[0], reverse=True)
+            top_domains = [d for _, d in scored[:6]]
+            site_filter = " OR ".join(f"site:{d}" for d in top_domains)
+            scoped_query = f"{query} ({site_filter})" if site_filter else query
 
-        # If live HTTP search is configured, query endpoint; otherwise raise explicit error
-        # rather than faking search results
-        raise NotImplementedError(
-            f"Live search API integration configured with key, but endpoint '{self.search_endpoint}' "
-            "requires live network execution."
+        # Execute search against search_endpoint
+        results = self._execute_search_query(scoped_query, service_line, group, max_results)
+        if not results and scoped_query != query:
+            # Fallback to broader query if scoped query yielded no results,
+            # still filtering results strictly through domain allowlist
+            results = self._execute_search_query(query, service_line, group, max_results * 2)
+
+        return results[:max_results]
+
+    def _execute_search_query(
+        self,
+        search_query: str,
+        service_line: str,
+        group: str | None,
+        count: int,
+    ) -> list[SearchResult]:
+        import json
+        import urllib.error
+        import urllib.parse
+        import urllib.request
+        from .models import SearchResult
+
+        params = urllib.parse.urlencode({"q": search_query, "count": count})
+        url = f"{self.search_endpoint}?{params}"
+        req = urllib.request.Request(
+            url,
+            headers={
+                "Accept": "application/json",
+                "X-Subscription-Token": self.api_key,
+                "User-Agent": "SanadSquad-Research-Agent/3.0 (+https://sanadsquad.com/bot; security-research)",
+            },
         )
+        try:
+            with urllib.request.urlopen(req, timeout=12) as response:
+                if response.status != 200:
+                    return []
+                data = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as http_err:
+            raise RuntimeError(f"Live search API returned HTTP {http_err.code}: {http_err.reason}") from http_err
+        except Exception as exc:
+            raise RuntimeError(f"Live search API request failed: {type(exc).__name__}: {exc}") from exc
+
+        web_items = data.get("web", {}).get("results", [])
+        search_results: list[SearchResult] = []
+        for item in web_items:
+            item_url = item.get("url", "").strip()
+            if not item_url:
+                continue
+            # Enforce service line domain allowlist strictly
+            if not self.config.is_domain_allowed(item_url, service_line):
+                continue
+
+            title = item.get("title", "")
+            snippet = item.get("description", "")
+            published_date = item.get("page_age")
+            domain = self.config.extract_domain(item_url)
+            search_results.append(
+                SearchResult(
+                    title=title,
+                    url=item_url,
+                    domain=domain,
+                    snippet=snippet,
+                    published_date=published_date,
+                    service_line=service_line,
+                    source_group=group,
+                )
+            )
+        return search_results
 
     def fetch(
         self,

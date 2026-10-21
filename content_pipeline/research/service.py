@@ -18,13 +18,26 @@ class ResearchService:
         provider: ResearchProvider | None = None,
         logger: ResearchLogger | None = None,
     ):
+        import os
         self.config = config or load_sources_config()
         self.logger = logger or ResearchLogger()
+        self.fixture_provider = FixtureResearchProvider(self.config)
+        self.live_provider = LiveResearchProvider(self.config)
         if provider is not None:
             self.provider = provider
         else:
-            live = LiveResearchProvider(self.config)
-            self.provider = live if live.is_available() else FixtureResearchProvider(self.config)
+            env_mode = os.getenv("SANADSQUAD_RESEARCH_MODE", "fixture").lower()
+            if env_mode == "live" and self.live_provider.is_available():
+                self.provider = self.live_provider
+            else:
+                self.provider = self.fixture_provider
+
+    def _resolve_provider(self, research_mode: str | None = None) -> ResearchProvider:
+        if research_mode == "live":
+            return self.live_provider
+        if research_mode == "fixture":
+            return self.fixture_provider
+        return self.provider
 
     def conduct_marketing_research(
         self,
@@ -34,6 +47,7 @@ class ResearchService:
         source_group: str | None = None,
         is_vulnerability_class_exception: bool = False,
         supplemental_kb_vulnerabilities: list[Vulnerability] | None = None,
+        research_mode: str | None = None,
     ) -> tuple[list[Evidence], list[str], str | None]:
         """Conduct external research for a marketing post slot.
         
@@ -43,11 +57,12 @@ class ResearchService:
         - Fails closed if no current verified source is retrieved.
         - KB entries can only be supplemental under an explicit vulnerability class exception.
         """
+        active_provider = self._resolve_provider(research_mode)
         self.logger.init_slot_audit(
             slot_id=slot_id,
             service_line=service_line,
-            provider=self.provider.provider_name,
-            mode=self.provider.mode,
+            provider=active_provider.provider_name,
+            mode=active_provider.mode,
         )
 
         # 1. Construct search query
@@ -55,7 +70,7 @@ class ResearchService:
 
         # 2. Execute allowlist-scoped search
         try:
-            results = self.provider.search(
+            results = active_provider.search(
                 query=query_text,
                 service_line=service_line,
                 group=source_group,
@@ -65,8 +80,8 @@ class ResearchService:
                 slot_id=slot_id,
                 query_text=query_text,
                 service_line=service_line,
-                provider_name=self.provider.provider_name,
-                mode=self.provider.mode,
+                provider_name=active_provider.provider_name,
+                mode=active_provider.mode,
                 results_count=len(results),
                 returned_urls=[r.url for r in results],
                 source_group=source_group,
@@ -76,8 +91,8 @@ class ResearchService:
                 slot_id=slot_id,
                 query_text=query_text,
                 service_line=service_line,
-                provider_name=self.provider.provider_name,
-                mode=self.provider.mode,
+                provider_name=active_provider.provider_name,
+                mode=active_provider.mode,
                 results_count=0,
                 error=f"{type(exc).__name__}: {exc}",
             )
@@ -91,7 +106,7 @@ class ResearchService:
         source_ids: list[str] = []
 
         for idx, res in enumerate(results[:2]):
-            fetch_res = self.provider.fetch(res.url, service_line, res.source_group or "")
+            fetch_res = active_provider.fetch(res.url, service_line, res.source_group or "")
             self.logger.log_fetch(slot_id, fetch_res)
 
             if fetch_res.http_status == 200 and fetch_res.eligible_for_public_posting:
@@ -140,9 +155,11 @@ class ResearchService:
         self,
         slot_id: str,
         url: str,
+        research_mode: str | None = None,
     ) -> tuple[list[Evidence], TechnicalResourceBrief | None, str | None]:
         """Fetch and verify an external technical resource for a technical thread."""
-        fetch_res = self.provider.fetch(url, "web3-security")
+        active_provider = self._resolve_provider(research_mode)
+        fetch_res = active_provider.fetch(url, "web3-security")
         self.logger.log_fetch(slot_id, fetch_res)
 
         if fetch_res.http_status != 200 or not fetch_res.eligible_for_public_posting:

@@ -138,3 +138,89 @@ def test_research_unavailable_causes_slot_failure_not_fabrication():
     assert "No allowlisted search results" in err
     assert len(ev_list) == 0
     assert len(source_ids) == 0
+
+
+def test_live_research_provider_search_enforces_allowlist_filtering():
+    """LiveResearchProvider must discard results from domains not on the service allowlist."""
+    from unittest.mock import patch
+    config = load_sources_config()
+    provider = LiveResearchProvider(config, api_key="test_api_key_mock")
+    assert provider.is_available() is True
+
+    mock_search_payload = {
+        "web": {
+            "results": [
+                {
+                    "title": "Legitimate Ethereum Formal Verification",
+                    "url": "https://ethereum.org/developers/docs/smart-contracts/formal-verification/",
+                    "description": "Formal verification overview.",
+                    "page_age": "2026-01-01",
+                },
+                {
+                    "title": "Random Unauthorized Blog",
+                    "url": "https://unauthorized-crypto-blog.com/post-1",
+                    "description": "Unauthorized crypto post.",
+                    "page_age": "2026-01-01",
+                },
+                {
+                    "title": "Solidity Documentation",
+                    "url": "https://docs.soliditylang.org/en/latest/smtchecker.html",
+                    "description": "SMTChecker formal verification.",
+                    "page_age": "2026-01-01",
+                },
+            ]
+        }
+    }
+
+    import json
+    from unittest.mock import MagicMock
+    mock_resp = MagicMock()
+    mock_resp.status = 200
+    mock_resp.read.return_value = json.dumps(mock_search_payload).encode("utf-8")
+    mock_resp.__enter__.return_value = mock_resp
+
+    with patch("urllib.request.urlopen", return_value=mock_resp):
+        results = provider.search("formal verification", "web3-security")
+        assert len(results) == 2
+        domains = [r.domain for r in results]
+        assert "ethereum.org" in domains
+        assert "docs.soliditylang.org" in domains
+        assert "unauthorized-crypto-blog.com" not in domains
+
+
+def test_live_research_provider_site_scoping_query_construction():
+    """LiveResearchProvider constructs site-scoped queries from service allowlist."""
+    from unittest.mock import patch
+    config = load_sources_config()
+    provider = LiveResearchProvider(config, api_key="test_api_key_mock")
+
+    recorded_queries = []
+
+    def fake_execute(search_query, service_line, group, count):
+        recorded_queries.append(search_query)
+        return []
+
+    with patch.object(provider, "_execute_search_query", side_effect=fake_execute):
+        provider.search("formal verification", "web3-security")
+        assert len(recorded_queries) >= 1
+        query_sent = recorded_queries[0]
+        assert "site:" in query_sent
+        assert "formal verification" in query_sent
+
+
+def test_live_research_provider_real_brave_search_live():
+    """If SANADSQUAD_SEARCH_API_KEY is present, verify live Brave Search execution."""
+    import os
+    if not os.getenv("SANADSQUAD_SEARCH_API_KEY"):
+        pytest.skip("SANADSQUAD_SEARCH_API_KEY not configured in environment.")
+
+    config = load_sources_config()
+    provider = LiveResearchProvider(config)
+    assert provider.is_available() is True
+
+    results = provider.search("formal verification smart contracts", "web3-security", max_results=3)
+    assert len(results) >= 1
+    for r in results:
+        assert config.is_domain_allowed(r.url, "web3-security")
+        assert r.url.startswith("https://")
+

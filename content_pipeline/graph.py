@@ -345,12 +345,14 @@ def build_v2_piece_graph(
                     except Exception:
                         supp_kb = None
 
+                r_mode = state.get("research_mode")
                 ev_list, source_ids, err = res_service.conduct_marketing_research(
                     slot_id=slot.id,
                     service_line=service_line,
                     topic_focus=slot.focus,
                     is_vulnerability_class_exception=is_vuln_exception,
                     supplemental_kb_vulnerabilities=supp_kb,
+                    research_mode=r_mode,
                 )
                 if err:
                     return {"error": f"INSUFFICIENT_EVIDENCE: {err}"}
@@ -380,7 +382,8 @@ def build_v2_piece_graph(
             )
             if is_external_tech:
                 url = slot.focus if (slot.focus and slot.focus.startswith("http")) else "https://ethereum.org/developers/docs/smart-contracts/formal-verification/"
-                ev_list, brief, err = res_service.conduct_technical_external_research(slot.id, url)
+                r_mode = state.get("research_mode")
+                ev_list, brief, err = res_service.conduct_technical_external_research(slot.id, url, research_mode=r_mode)
                 if err:
                     return {"error": f"RESEARCH_FAILED: {err}"}
 
