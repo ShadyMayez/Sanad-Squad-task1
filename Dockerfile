@@ -51,6 +51,7 @@ COPY knowledge /app/knowledge
 COPY instructions /app/instructions
 COPY skills /app/skills
 COPY schemas /app/schemas
+COPY docs /app/docs
 COPY tests /app/tests
 COPY audit /app/audit
 COPY brand-voice.md kb.json plan.json content-types.json pyproject.toml pytest.ini run_week.py run_piece.py /app/
@@ -69,8 +70,6 @@ ENV OLLAMA_HOST=127.0.0.1:11434
 ENV OLLAMA_MODELS=/app/models
 ENV OLLAMA_MODEL=qwen3.5:4b
 ENV OUTPUT_BASE=/app/output
-ENV SANADSQUAD_MODE=v3
-ENV SANADSQUAD_RESEARCH_MODE=fixture
 
 VOLUME ["/app/output"]
 
