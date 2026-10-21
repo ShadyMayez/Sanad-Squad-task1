@@ -157,7 +157,7 @@ class FixtureResearchProvider(ResearchProvider):
             if not self.config.is_domain_allowed(target_check, service_line):
                 continue
 
-            combined_text = (item["title"] + " " + item["cleaned_text"]).lower()
+            combined_text = (item["title"] + " " + item.get("quote", "") + " " + item["cleaned_text"] + " " + item.get("service_line", "")).lower()
             score = sum(1 for term in q_terms if term in combined_text)
             res = SearchResult(
                 title=item["title"],

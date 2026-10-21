@@ -102,7 +102,7 @@ def test_technical_external_source_strategy_accepted():
     provider = FixtureResearchProvider(config)
     service = ResearchService(config=config, provider=provider)
 
-    url = "https://blog.openzeppelin.com/post-mortem-example"
+    url = "https://ethereum.org/developers/docs/smart-contracts/formal-verification/"
     ev_list, brief, err = service.conduct_technical_external_research(
         slot_id="tech_ext_slot",
         url=url,

@@ -585,10 +585,38 @@ def build_marketing_evidence_plan(
             "2. Strictly NO links for this format.\n"
         )
 
+    service_specific_guidance = ""
+    sl_clean = service_line.lower().strip()
+    if "tool" in sl_clean or "agentic-security" in sl_clean:
+        service_specific_guidance = (
+            "SERVICE RELEVANCE (Agentic security tooling):\n"
+            "- Focus on custom security software: protocol-specific security detectors, automated PR reviewers, or real-time monitoring agents.\n"
+            "- Note: Do NOT claim OWASP specifies cryptographic wallet policies or spending caps; OWASP defines Agent Control Standards (ACS) and execution boundaries.\n"
+        )
+    elif "consulting" in sl_clean:
+        service_specific_guidance = (
+            "SERVICE RELEVANCE (Security consulting):\n"
+            "- Focus on early architecture design review before code is written, pre-implementation threat modeling, or continuous development review.\n"
+        )
+    elif "pentest" in sl_clean or "penetration" in sl_clean:
+        service_specific_guidance = (
+            "SERVICE RELEVANCE (Penetration testing):\n"
+            "- Focus on the realistic off-chain attack surface: dApp backend APIs, RPC gateways, relayer infrastructure, and CI/CD pipelines.\n"
+            "- Distinguish authorization (access to specific objects/actions) from authentication (identity verification); do NOT confuse BOLA with identity checks.\n"
+        )
+    elif "audit" in sl_clean or "blockchain" in sl_clean or "web3" in sl_clean:
+        service_specific_guidance = (
+            "SERVICE RELEVANCE (Blockchain security audits):\n"
+            "- Audits review point-in-time logic and known vulnerability patterns; do NOT claim audits prove code correctness.\n"
+            "- Formal verification checks invariant properties against specifications; do NOT claim formal verification 'prevents' vulnerabilities.\n"
+            "- Solana upgrade authority is a keyholder centralization risk allowing modification without re-verification; do NOT describe it as enabling 'unauthorized' changes.\n"
+        )
+
     # Concise single-point evidence framing to avoid token bloat and cognitive overload
     unit_guidance = (
         f"Format: {final_fmt}. Service line: {service_line}.\n"
         f"{format_specific_guidance}\n"
+        f"{service_specific_guidance}\n"
         f"PRIORITIZED EVIDENCE FACT: '{excerpt}'\n"
         f"Epistemic boundaries: Differentiate verified facts from analytical interpretation. "
         f"Do NOT claim SanadSquad audited the protocol unless stated in the evidence.\n"

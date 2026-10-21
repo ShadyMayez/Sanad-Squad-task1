@@ -40,78 +40,78 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             "service_line": "web3-security",
             "source_group": "docs",
             "published_date": "2024-10-01",
-            "quote": "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. Without transferring upgrade authority to a multi-sig or revoking it entirely, the program can be altered at any time without source verification.",
+            "quote": "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. Without transferring upgrade authority to a multi-sig or revoking it entirely, the designated upgrade authority can alter program code at any time without community source verification.",
             "cleaned_text": (
                 "Solana Program Deployment and Core Architecture. "
                 "Deploying a Solana program assigns an initial upgrade authority stored in the ProgramData account. "
-                "Without transferring upgrade authority to a multi-sig or revoking it entirely, the program can be altered at any time without source verification. "
-                "Verifying upgrade authority is essential to ensure post-audit immutability and contract invariants."
+                "Until transferred to a multi-sig or revoked, the upgrade authority keyholder retains unilateral power to deploy modified bytecode. "
+                "This represents a centralization and governance control risk where code can be modified post-audit without re-verification, rather than an unauthorized third-party exploit."
             ),
         },
         {
-            "title": "OpenZeppelin Post-Mortem Analysis and Invariant Testing",
-            "url": "https://blog.openzeppelin.com/post-mortem-example",
-            "domain": "blog.openzeppelin.com",
-            "publisher": "OpenZeppelin Security",
+            "title": "Smart Contract Formal Verification and Invariant Specification",
+            "url": "https://ethereum.org/developers/docs/smart-contracts/formal-verification/",
+            "domain": "ethereum.org",
+            "publisher": "Ethereum Foundation Documentation",
             "service_line": "web3-security",
-            "source_group": "blogs",
-            "published_date": "2024-05-10",
-            "quote": "Post-mortem analysis shows invariant violations occur when state changes precede authorization checks. Rigorous formal invariant verification is critical.",
+            "source_group": "docs",
+            "published_date": "2024-08-20",
+            "quote": "Formal verification refers to evaluating the correctness of a contract with respect to a formal specification. Formal verification mathematically checks whether implementation logic conforms to declared invariant properties, but does not prevent vulnerabilities outside the modeled specifications.",
             "cleaned_text": (
-                "OpenZeppelin Security Research Post-Mortem. "
-                "Detailed technical analysis of smart contract state machine transitions and protocol invariants. "
-                "Verifying invariant assertions prevents state desynchronization and reentrancy exploits."
+                "Ethereum Foundation Smart Contract Formal Verification Guide. "
+                "Formal verification evaluates whether smart contract implementation satisfies a formal mathematical specification. "
+                "Formal methods test invariant assertions and state transitions against defined preconditions and postconditions. "
+                "However, formal verification only verifies conformance to the modeled properties; it does not dynamically prevent runtime flaws or prove complete correctness if assumptions or specifications are incomplete."
             ),
         },
     ],
     "pentesting": [
         {
-            "title": "OWASP API Security Top 10: Authorization Flaws and Infrastructure Exposure",
+            "title": "OWASP API Security Top 10: Authorization Flaws and Off-Chain Attack Surfaces",
             "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/",
             "domain": "api-security.owasp.org",
             "publisher": "OWASP Foundation",
             "service_line": "pentesting",
             "source_group": "docs",
             "published_date": "2023-12-01",
-            "quote": "Broken object level authorization (BOLA) and broken function level authorization (BFLA) remain the primary API vulnerability classes allowing attackers to manipulate unauthorized transactions and bypass business logic.",
+            "quote": "Broken Object Level Authorization (BOLA) occurs when an API fails to validate whether an authenticated user is permitted to access a specific resource object. BOLA is an authorization failure distinct from user authentication; penetration testing validates off-chain dApp API endpoints, admin gateways, and data access controls.",
             "cleaned_text": (
                 "OWASP API Security Top 10. "
-                "Broken object level authorization (BOLA) and broken function level authorization (BFLA) "
-                "remain the primary API vulnerability classes allowing attackers to manipulate unauthorized transactions and bypass business logic. "
-                "Securing Web3 dApp infrastructure requires rigorous penetration testing of API endpoints and authorization boundaries."
+                "Broken Object Level Authorization (BOLA, API1:2023) allows authenticated users to access objects belonging to other tenants when endpoints omit object-level permission checks. "
+                "Authorization checks must verify object-level permissions, distinct from user authentication (identity verification). "
+                "Penetration testing targets the realistic off-chain attack surface: dApp backend APIs, RPC gateways, relayer infrastructure, and administrative portals."
             ),
         },
         {
-            "title": "OWASP Top 10 Vulnerabilities: Software and Data Integrity Failures",
+            "title": "OWASP Top 10: Software and Data Integrity Failures in Off-Chain Infrastructure",
             "url": "https://top10.owasp.org/",
             "domain": "top10.owasp.org",
             "publisher": "OWASP Foundation",
             "service_line": "pentesting",
             "source_group": "docs",
             "published_date": "2024-09-24",
-            "quote": "Software and data integrity failures in CI/CD pipelines enable attackers to introduce unauthorized dependencies and modify deployment artifacts prior to distribution. Securing build infrastructure and verifying component provenance protects against supply chain compromise across application deployments.",
+            "quote": "Software and data integrity failures in CI/CD pipelines, package dependencies, and deployment tooling enable attackers to compromise off-chain infrastructure without exploiting on-chain smart contracts. Penetration testing identifies exposed build pipelines, unsigned artifacts, and dependency vulnerabilities across development environments.",
             "cleaned_text": (
-                "OWASP Top 10 Vulnerabilities: Software and Data Integrity Failures. "
-                "CI/CD build pipelines and auto-update mechanisms that lack integrity checks allow unauthorized code modification before deployment. "
-                "Rigorous penetration testing of build pipelines, dependency manifests, and artifact signing protects developer and deployment infrastructure."
+                "OWASP Top 10: Software and Data Integrity Failures (A08:2021). "
+                "CI/CD build pipelines, package registries, and developer tooling lacking integrity verification allow attackers to inject malicious code into deployment artifacts. "
+                "Penetration testing focuses on the real-world off-chain attack surface: CI/CD runners, cloud hosting environments, DNS and frontend signing interfaces, and external dependencies that wrap smart contract protocols."
             ),
         },
     ],
     "agentic-security": [
         {
-            "title": "OWASP Agentic Security Initiative: Prompt Boundaries and Tool Misuse",
+            "title": "OWASP Agentic Security Initiative: Autonomous Agent Control and Tool Boundaries",
             "url": "https://genai.owasp.org/initiatives/agentic-security-initiative/",
             "domain": "genai.owasp.org",
             "publisher": "OWASP GenAI Project",
             "service_line": "agentic-security",
             "source_group": "docs",
             "published_date": "2024-11-20",
-            "quote": "Preventing prompt injection from manipulating an autonomous agent into using its tools cannot be solved by prompt engineering alone. Security depends on cryptographic policy limits, tool authorization scopes, and hard spending caps enforced outside the model context.",
+            "quote": "The Agentic Security Research Initiative explores the emerging security implications of autonomous agents and multi-step AI workflows. Mitigating tool manipulation requires the Agent Control Standard (ACS) to establish hard execution boundaries, tool authorization scopes, and independent policy verification outside the model context.",
             "cleaned_text": (
-                "OWASP Agentic Security Initiative. "
-                "Preventing prompt injection from manipulating an autonomous agent into using its tools cannot be solved by prompt engineering alone. "
-                "Security depends on cryptographic policy limits, tool authorization scopes, and hard spending caps enforced outside the model context. "
-                "Giving an AI agent direct access to transaction signing without an independent policy engine exposes wallet funds to prompt injection."
+                "OWASP Agentic Security Initiative: Securing Autonomous Agents and Multi-Step AI Workflows. "
+                "The Agentic Security Research Initiative explores tool manipulation and execution boundaries across agentic frameworks. "
+                "The Agent Control Standard (ACS) establishes operational transparency, tool authorization boundaries, and independent policy verification outside model context to prevent unauthorized actions."
             ),
         },
         {

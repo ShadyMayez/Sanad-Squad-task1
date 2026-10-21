@@ -379,7 +379,7 @@ def build_v2_piece_graph(
                 or (slot.focus and slot.focus.startswith("http"))
             )
             if is_external_tech:
-                url = slot.focus if (slot.focus and slot.focus.startswith("http")) else "https://blog.openzeppelin.com/post-mortem"
+                url = slot.focus if (slot.focus and slot.focus.startswith("http")) else "https://ethereum.org/developers/docs/smart-contracts/formal-verification/"
                 ev_list, brief, err = res_service.conduct_technical_external_research(slot.id, url)
                 if err:
                     return {"error": f"RESEARCH_FAILED: {err}"}

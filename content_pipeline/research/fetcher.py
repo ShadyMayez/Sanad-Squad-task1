@@ -22,8 +22,8 @@ from typing import Any
 from .config import SourcesConfig
 from .models import FetchedPage
 
-MAX_RESPONSE_BYTES = 1024 * 1024  # 1 MB
-DEFAULT_TIMEOUT_SECONDS = 8
+MAX_RESPONSE_BYTES = int(2.5 * 1024 * 1024)  # 2.5 MB to accommodate modern SPA documentation pages
+DEFAULT_TIMEOUT_SECONDS = 12
 MAX_REDIRECTS = 3
 
 # RFC 1918, RFC 3927 (link-local/metadata), loopback, broadcast, and reserved networks

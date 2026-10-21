@@ -61,6 +61,8 @@ Maintain clear boundaries across four categories:
 - **No wrong-service claims:** Do not claim penetration testing verifies smart contract invariants, or that blockchain audits assess cloud IAM.
 - **No guarantees:** Never claim unhackable, 100% secure, zero risk, or bulletproof security.
 - **No unevidenced client experience:** Never claim third-party audits or breaches as SanadSquad clients.
+- **No technical overstatements:** Never claim formal verification "prevents" vulnerabilities (it checks invariant properties against specifications) or that audits "prove code correctness".
+- **Accurate governance & source attribution:** Solana upgrade authority is a keyholder centralization risk, not "unauthorized" changes. Do not attribute cryptographic spending caps or wallet policies to OWASP. Distinguish BOLA (object-level authorization) from authentication (identity verification).
 
 ---
 

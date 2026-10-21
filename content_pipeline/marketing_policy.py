@@ -401,4 +401,42 @@ def validate_marketing_claims(
                     f"Source-to-claim mismatch: Tweet claims infrastructure/CI mechanisms, but cited source '{link}' is an agentic payment protocol source."
                 )
 
+    # 12. Technical accuracy & source fidelity checks (SANADSQUAD_V3_FINAL_SOURCE_TRUTH_GATE_01)
+    # 12a. Formal verification overstatement check
+    if re.search(r"\bformal\s+verification\s+prevents?\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Technical overstatement: Formal verification evaluates mathematical conformance to formal specifications; "
+            "it does not dynamically 'prevent' runtime vulnerabilities or eliminate unmodeled design flaws."
+        )
+
+    # 12b. Solana upgrade authority inaccuracy check
+    if re.search(r"\benables?\s+unauthorized\s+changes\b", full_text, re.IGNORECASE) or \
+       re.search(r"\b(?:upgrade\s+authority|program\s+deployment)\b.*?\bunauthorized\s+changes\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Technical inaccuracy: Solana upgrade authority allows modifications by the designated keyholder "
+            "(a centralization and governance control risk), not 'unauthorized' changes."
+        )
+
+    # 12c. Smart contract audits proving code correctness check
+    if re.search(r"\b(?:audits?|auditing)\s+(?:proves?|guarantees?)\s+(?:code\s+)?correctness\b|\bproves?\s+(?:code\s+)?correctness\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Technical overstatement: Smart contract audits evaluate point-in-time code logic and known vulnerability classes; "
+            "they do not prove absolute code correctness."
+        )
+
+    # 12d. BOLA vs authentication conflation check
+    if re.search(r"\b(?:broken\s+object\s+level\s+authorization|bola)\b", full_text, re.IGNORECASE) and \
+       re.search(r"\b(?:verify\s+user\s+identity|verifying\s+identity|user\s+identity\s+at\s+every\s+access\s+point)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Technical inaccuracy: Broken Object Level Authorization (BOLA) is an authorization failure "
+            "(accessing another tenant's resource), distinct from user identity verification (authentication)."
+        )
+
+    # 12e. OWASP cryptographic spending caps misattribution check
+    if re.search(r"\bowasp\s+(?:genai\s+)?specifies\s+.*?(?:cryptographic\s+policy|spending\s+caps?)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Source misattribution: OWASP Agentic Security Initiative defines agent risk taxonomies and "
+            "Agent Control Standards (ACS), not specific cryptographic wallet policies or spending caps."
+        )
+
     return errors
