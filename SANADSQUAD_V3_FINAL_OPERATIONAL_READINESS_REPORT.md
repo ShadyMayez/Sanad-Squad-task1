@@ -22,12 +22,12 @@
 
 ## 1. Current Git Revision & Baseline Verification
 
-- **Commit:** `8fceecb51da9ab0c3d31e1b05f89e9bca8977569`
+- **Commit:** `a8f7c5d` (clean working tree)
 - **Pre-existing V3 Baseline:** 351 passing unit/integration/audit tests; 5/5 accepted service qualification posts (`output/v3_five_service_knowledge_integration/posts.csv`).
 - **Operational Adjustments Applied:**
   1. `content_pipeline/character_budget.py`: Raised safety margin to at least 40 characters for link-free marketing posts (`fixed_overhead == 0`), giving a 240-character maximum body target and preventing single-post overflow.
   2. `content_pipeline/content_planning.py`: In `service_specific_guidance` for blockchain security audits (verified builds), added explicit conciseness instructions targeting 1–2 short sentences under 230 characters.
-  3. `Dockerfile`: Added `company-contact.json` to the build `COPY` statement to ensure container parity with the production contact configuration.
+  3. `Dockerfile`: Added `company-contact.json` and `docs/` to the build `COPY` statement to ensure container parity and full test suite compatibility; removed global `SANADSQUAD_MODE` override from container environment to preserve test isolation.
 
 ---
 
@@ -250,6 +250,20 @@ export SANADSQUAD_SEARCH_ENDPOINT="https://<search-api-provider>/v1/search"
 export SANADSQUAD_SEARCH_API_KEY="<your-search-api-key>"
 ```
 
+### Action 3: Container Registry Token with `write:packages` Scope
+The container image has been rebuilt and qualified locally:
+- **Local Tag:** `localhost/sanadsquad:v3-final` (Image ID `f8cf4cb9679d`, 12.5 GB)
+- **GHCR Tags:** `ghcr.io/shadymayez/sanad-squad-task1:v3-final`, `ghcr.io/shadymayez/sanad-squad-task1:latest`
+- **In-Container Verification:** `podman run --rm localhost/sanadsquad:v3-final pytest tests/ audit/tests/ -q` $\to$ **351 passed in 10.33s** (100% pass).
+- **Push Attempt:** `podman push` failed with `permission_denied: The token provided does not match expected scopes` because the active GitHub token only has `'gist', 'read:org', 'repo', 'workflow'` scopes and lacks `write:packages`.
+- **Owner Action:** Re-authenticate with packages permission:
+```bash
+gh auth refresh -s write:packages
+gh auth token | podman login ghcr.io -u ShadyMayez --password-stdin
+podman push ghcr.io/shadymayez/sanad-squad-task1:v3-final
+podman push ghcr.io/shadymayez/sanad-squad-task1:latest
+```
+
 ---
 
 ## 11. Final Readiness Disposition
@@ -260,4 +274,4 @@ export SANADSQUAD_SEARCH_API_KEY="<your-search-api-key>"
 1. **Live Web Research:** Fetcher, domain validation, SSRF guards, and provenance tracking are verified, but autonomous web search requires live search credentials (`LIVE_RESEARCH_AWAITING_CONFIGURATION`).
 2. **Business Contact Configuration:** Verified against official public channels, schema-valid with absent telephone number, fail-closed approval gate verified (`CONTACT_CONFIGURATION_VERIFIED_AWAITING_OWNER_APPROVAL`).
 3. **Full-Week Execution:** Successfully demonstrated with real Ollama `qwen3.5:4b` inference achieving **6/6 accepted pieces (100% yield)**, 0 drops, 0 failures, all constraints respected (`FULL_WEEK_QUALIFIED`).
-4. **Automated Verification:** 351/351 tests pass cleanly with zero regressions.
+4. **Automated Verification:** 351/351 tests pass cleanly on host and inside the self-contained container image with zero regressions.
