@@ -290,7 +290,7 @@ def validate_marketing_claims(
         word = m.group(1).lower()
         if word.startswith("guarantee"):
             preceding = full_text[:m.start()]
-            if re.search(r"\b(?:not|never|neither|nor|cannot|can't|no|don't|doesn't|does\s+not|do\s+not)\b[\s\w,]*$", preceding, re.IGNORECASE):
+            if re.search(r"\b(?:not|never|neither|nor|cannot|can't|no|don't|doesn't|does\s+not|do\s+not|without|fail(?:s)?\s+to)\b[\s\w,]*$", preceding, re.IGNORECASE):
                 continue
         errors.append(
             "Prohibited guarantee claim: SanadSquad reduces risk; we do not eliminate it."

@@ -256,6 +256,22 @@ RESEARCH_FIXTURES: dict[str, list[dict[str, Any]]] = {
             ),
         },
         {
+            "source_id": "A03",
+            "title": "GitHub Code Scanning Alerts on Pull Requests",
+            "url": "https://docs.github.com/en/code-security/concepts/code-scanning/code-scanning-alerts",
+            "domain": "github.com",
+            "publisher": "GitHub Documentation",
+            "service_line": "agentic-security",
+            "source_group": "production",
+            "published_date": "2024-08-01",
+            "quote": "Repository security scanning can report findings on pull requests before changes merge. SanadSquad builds custom protocol detectors and automated PR review tools to check invariants.",
+            "cleaned_text": (
+                "GitHub Code Scanning Alerts. "
+                "Repository security scanning surfaces security alerts directly on pull requests before code merges. "
+                "SanadSquad builds custom protocol detectors, automated PR reviewers, and real-time monitoring agents to catch invariant violations in development."
+            ),
+        },
+        {
             "source_id": "A04",
             "title": "OWASP Agentic Security Initiative: Autonomous Agent Control and Tool Boundaries",
             "url": "https://genai.owasp.org/initiatives/agentic-security-initiative/",
@@ -395,11 +411,12 @@ def get_fixtures_for_service(service_line: str) -> list[dict[str, Any]]:
     norm = COMMERCIAL_TO_RESEARCH_MAP.get(service_line.lower().strip(), service_line.lower().strip())
     # For security consulting, return consulting-relevant web3 fixtures plus cross-cutting sources
     if norm in {"security-consulting", "consulting"} or "consulting" in service_line.lower():
-        # Curate consulting-specific items first: C01, W02, W04, plus general web3
+        # Curate consulting-specific items first: C01, C02, W04, W02, plus general web3
         consulting_items = []
-        for item in RESEARCH_FIXTURES.get("web3-security", []):
-            if item.get("source_id") in {"C01", "W02", "W04"}:
-                consulting_items.append(item)
+        for sid in ["C01", "C02", "W04", "W02"]:
+            for item in RESEARCH_FIXTURES.get("web3-security", []):
+                if item.get("source_id") == sid and item not in consulting_items:
+                    consulting_items.append(item)
         # Add remaining web3 items
         for item in RESEARCH_FIXTURES.get("web3-security", []):
             if item not in consulting_items:

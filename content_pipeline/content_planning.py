@@ -520,7 +520,7 @@ def build_marketing_evidence_plan(
             fmt_str = str(format_spec)
     fmt_str = fmt_str or "short-tip"
 
-    ev_ids = [e.id if hasattr(e, "id") else e.get("id") for e in ev_list]
+    ev_ids = [str(getattr(e, "id", None) or (e.get("id") or e.get("source_id") if isinstance(e, dict) else str(e))) for e in ev_list]
     first_ev = ev_list[0] if ev_list else None
     excerpt = getattr(first_ev, "excerpt", "") if first_ev else ""
     ev_url = getattr(first_ev, "url", "") if first_ev else ""
@@ -549,10 +549,10 @@ def build_marketing_evidence_plan(
     elif has_cta:
         cta_instruction = (
             "CTA eligibility is reserved for this slot, but company contact details are not yet approved by project owner. "
-            "Do NOT include any email, phone, or unapproved commercial CTA. Focus strictly on educational observation."
+            "Do NOT include any email, phone, or unapproved commercial CTA (e.g. frank@sanadsquad.com). Focus strictly on educational observation."
         )
     else:
-        cta_instruction = "Do NOT include commercial CTAs, email addresses, or phone numbers; focus purely on educational observation."
+        cta_instruction = "Do NOT include commercial CTAs, email addresses, or phone numbers (e.g. frank@sanadsquad.com); focus purely on educational observation."
 
     format_specific_guidance = ""
     if final_fmt == "news-reaction":
@@ -597,24 +597,35 @@ def build_marketing_evidence_plan(
             "- Do NOT claim tool execution boundaries universally 'prevent prompt injection' (they restrict unauthorized actions and mitigate exploit blast radius).\n"
         )
     elif "consulting" in sl_clean:
+        solana_note = ""
+        if "solana" in excerpt.lower():
+            solana_note = "- For Solana upgrade authority, explain that the keyholder centralization risk requires pre-deployment architecture review and multi-sig governance design; do NOT describe it as enabling 'unauthorized' changes or bypassing all verification.\n"
         service_specific_guidance = (
             "SERVICE RELEVANCE (Security consulting):\n"
             "- Meaningfully connect observations to SanadSquad's official security consulting service: early architecture design review before code is written, pre-implementation threat modeling, governance design, or ongoing development review.\n"
-            "- For Solana upgrade authority, explain that the keyholder centralization risk requires pre-deployment architecture review and multi-sig governance design; do NOT describe it as enabling 'unauthorized' changes or bypassing all verification.\n"
+            f"{solana_note}"
         )
     elif "pentest" in sl_clean or "penetration" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Penetration testing):\n"
             "- Focus on the realistic off-chain attack surface: dApp backend APIs, RPC gateways, relayer infrastructure, and CI/CD pipelines.\n"
-            "- Preserve the correct BOLA explanation (object-level authorization failure) and improve the opening; distinguish authorization (accessing specific objects) from authentication (identity verification).\n"
+            "- Preserve the correct BOLA explanation (object-level authorization failure vs authentication/login) and explain SanadSquad's testing scope concisely in under 240 characters.\n"
         )
     elif "audit" in sl_clean or "blockchain" in sl_clean or "web3" in sl_clean:
-        service_specific_guidance = (
-            "SERVICE RELEVANCE (Blockchain security audits):\n"
-            "- Clarify that verified builds establish source-to-deployment correspondence (bytecode matches Git commit) but NOT application security or freedom from logic flaws.\n"
-            "- An upgrade alters the deployed executable and calls for verification of the new version and continuous invariant audits; do NOT imply that upgrades automatically bypass all verification.\n"
-            "- Audits review point-in-time logic and known vulnerability patterns; do NOT claim audits prove code correctness.\n"
-        )
+        if "4626" in excerpt.lower() or "vault" in excerpt.lower():
+            service_specific_guidance = (
+                "SERVICE RELEVANCE (Blockchain security audits):\n"
+                "- State the ERC-4626 empty vault inflation risk and SanadSquad's invariant accounting review concisely in 1–2 short sentences (target under 230 characters total).\n"
+                "- Connect vault share pricing and rounding defenses to smart contract audits, accounting review, and invariant analysis.\n"
+                "- Do NOT claim every ERC-4626 vault is vulnerable or that mitigations eliminate all risk.\n"
+            )
+        else:
+            service_specific_guidance = (
+                "SERVICE RELEVANCE (Blockchain security audits):\n"
+                "- Clarify that verified builds establish source-to-deployment correspondence (bytecode matches Git commit) but NOT application security or freedom from logic flaws.\n"
+                "- An upgrade alters the deployed executable and calls for verification of the new version and continuous invariant audits; do NOT imply that upgrades automatically bypass all verification.\n"
+                "- Audits review point-in-time logic and known vulnerability patterns; do NOT claim audits prove code correctness.\n"
+            )
     elif "payment" in sl_clean:
         service_specific_guidance = (
             "SERVICE RELEVANCE (Agentic payments):\n"

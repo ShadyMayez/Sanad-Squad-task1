@@ -32,31 +32,31 @@ SERVICES_CONFIG = [
     {
         "slot_id": "service_1_audit",
         "service": "blockchain-security-audits",
-        "focus": "smart contract invariant verification and post-audit deployment drift",
+        "focus": "ERC-4626 vault share price inflation attacks and smart contract invariant audits",
         "official_url": "https://sanadsquad.com/services/blockchain-security-audits/",
     },
     {
         "slot_id": "service_2_pentest",
         "service": "penetration-testing",
-        "focus": "API security and CI/CD build pipeline infrastructure attack surface",
+        "focus": "Broken Object Level Authorization and off-chain dApp API penetration testing",
         "official_url": "https://sanadsquad.com/services/penetration-testing/",
     },
     {
         "slot_id": "service_3_tooling",
         "service": "agentic-security-tooling",
-        "focus": "custom AI security tools and automated PR reviewer detectors",
+        "focus": "pull request security scanning and automated invariant detectors in CI/CD",
         "official_url": "https://sanadsquad.com/services/ai-security-tooling/",
     },
     {
         "slot_id": "service_4_payments",
         "service": "agentic-payments",
-        "focus": "x402 versus MPP payment settlement mechanics and facilitator trust",
+        "focus": "MPP and x402 compatibility in mppx payment agent authorization",
         "official_url": "https://sanadsquad.com/services/agentic-payments/",
     },
     {
         "slot_id": "service_5_consulting",
         "service": "security-consulting",
-        "focus": "security consulting and pre-implementation protocol architecture design",
+        "focus": "NIST SSDF secure development lifecycle and pre-implementation architecture design review",
         "official_url": "https://sanadsquad.com/services/consulting/",
     },
 ]

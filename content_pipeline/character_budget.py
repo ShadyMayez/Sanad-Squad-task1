@@ -286,7 +286,7 @@ def build_precise_marketing_feedback(
         f"1. EXCESS CHARACTERS: Current length is {current_len} chars (platform limit: 280). "
         f"Your draft exceeds the limit by {excess_chars} characters. "
         f"Maximum allowed body prose before URL/CTA is {max_body} characters. "
-        f"CRITICAL ACTION: Delete at least {excess_chars + 15} characters. Condense your text into ONE compact sentence (target under {max_body - 15} characters) before the URL so the final post is strictly under 260 characters.",
+        f"CRITICAL ACTION: Delete at least {excess_chars + 35} characters. Condense your text into ONE compact sentence (target under {max_body - 35} characters) before the URL so the final post is strictly under 240 characters.",
     ]
     if missing_url:
         feedback_lines.append(
