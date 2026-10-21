@@ -308,6 +308,13 @@ def build_precise_marketing_feedback(
     if review_reasons:
         feedback_lines.append(f"6. REVIEWER AUDIT NOTES: {'; '.join(review_reasons[:2])}")
 
+    app_cta = budget_dict.get("approved_cta")
+    if not app_cta:
+        feedback_lines.append(
+            "7. CTA / CONTACT POLICY: Company contact details are NOT approved for this slot. "
+            "Do NOT include any email addresses, phone numbers, or commercial CTAs in your revised draft. Focus purely on educational observation."
+        )
+
     feedback_text = "\n".join(feedback_lines)
 
     return [

@@ -1,0 +1,430 @@
+{
+  "schema_version": "1.0",
+  "name": "SanadSquad external editorial research seed index",
+  "compiled_date": "2026-10-21",
+  "disclaimer": "Research leads and verified descriptions, NOT current production runtime evidence; re-fetch and validate every public claim before publishing",
+  "marketing_service_to_research_groups": {
+    "blockchain-security-audits": [
+      "web3-security"
+    ],
+    "penetration-testing": [
+      "pentesting"
+    ],
+    "agentic-security-tooling": [
+      "agentic-security"
+    ],
+    "agentic-payments": [
+      "agentic-payments"
+    ],
+    "security-consulting": [
+      "web3-security",
+      "pentesting",
+      "agentic-security",
+      "agentic-payments"
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "W01",
+      "research_group": "web3-security",
+      "commercial_services": ["blockchain-security-audits", "security-consulting"],
+      "title": "Verifying Programs",
+      "publisher": "Solana",
+      "url": "https://solana.com/docs/programs/verified-builds",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Verified build matches deployed executable to source",
+        "Source equivalence does not imply security",
+        "Reverify after upgrades"
+      ],
+      "excluded_claims": [
+        "Verified means audited or secure",
+        "Upgrades are inherently unauthorized"
+      ],
+      "relevant_customer_problems": [
+        "Solana teams confusing matching bytecode with logic correctness"
+      ],
+      "suitable_marketing_formats": ["short-tip", "differentiation"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "W02",
+      "research_group": "web3-security",
+      "commercial_services": ["blockchain-security-audits", "security-consulting"],
+      "title": "Deploying Programs",
+      "publisher": "Solana",
+      "url": "https://solana.com/docs/programs/deploying",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Program authority controls updates",
+        "Authority can be transferred or revoked",
+        "ProgramData stores program executable code"
+      ],
+      "excluded_claims": [
+        "Retained authority automatically implies compromise",
+        "Multisig eliminates all governance risk"
+      ],
+      "relevant_customer_problems": [
+        "Protocol governance leads managing post-deployment admin privileges"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "W03",
+      "research_group": "web3-security",
+      "commercial_services": ["blockchain-security-audits", "security-consulting"],
+      "title": "ERC-4626",
+      "publisher": "OpenZeppelin",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/erc4626",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "ERC-4626 empty-vault share-price inflation attack",
+        "Mitigation design and slippage considerations",
+        "Vault share pricing and donation attacks"
+      ],
+      "excluded_claims": [
+        "All vaults exposed or mitigations absolute"
+      ],
+      "relevant_customer_problems": [
+        "DeFi vault developers facing share price manipulation and initial deposit griefing"
+      ],
+      "suitable_marketing_formats": ["short-tip", "learning-resource"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "W04",
+      "research_group": "web3-security",
+      "commercial_services": ["blockchain-security-audits", "security-consulting"],
+      "title": "Proxy",
+      "publisher": "OpenZeppelin",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/api/proxy",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Transparent and UUPS patterns have different upgrade controls",
+        "Proxy admin and implementation authorization require design review",
+        "Upgrade authorization behavior and privileged proxy administrators"
+      ],
+      "excluded_claims": [
+        "Upgradeable means insecure",
+        "OpenZeppelin audited SanadSquad"
+      ],
+      "relevant_customer_problems": [
+        "Protocol architects managing proxy upgrade privileges and storage collision risks"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview", "short-tip"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "P01",
+      "research_group": "pentesting",
+      "commercial_services": ["penetration-testing", "security-consulting"],
+      "title": "OWASP API1:2023, Broken Object Level Authorization",
+      "publisher": "OWASP API Security Project",
+      "url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/",
+      "published_date": "2023",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "An already authenticated user may reach another user's object when object-level authorization fails",
+        "BOLA is distinct from failed login authentication"
+      ],
+      "excluded_claims": [
+        "Every API is affected",
+        "Any specific unverified real dApp is vulnerable"
+      ],
+      "relevant_customer_problems": [
+        "Web3 application engineers assuming user authentication protects tenant resource boundaries"
+      ],
+      "suitable_marketing_formats": ["short-tip", "learning-resource"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "P02",
+      "research_group": "pentesting",
+      "commercial_services": ["penetration-testing", "security-consulting"],
+      "title": "OWASP API Security Top 10 2023",
+      "publisher": "OWASP API Security Project",
+      "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/",
+      "published_date": "2023",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Differentiates API1 BOLA, API2 broken authentication, API5 broken function-level authorization, API7 SSRF",
+        "Function-level permissions and API trust boundaries"
+      ],
+      "excluded_claims": [
+        "A specific calldata/signing-front-end exploit unless separately evidenced"
+      ],
+      "relevant_customer_problems": [
+        "Security leads testing only login endpoints while missing object- and function-level authorization gaps"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "P03",
+      "research_group": "pentesting",
+      "commercial_services": ["penetration-testing", "security-consulting"],
+      "title": "MCP 2026-07-28 specification announcement",
+      "publisher": "MCP maintainers",
+      "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      "published_date": "2026-07-28",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "MCP specification revised auth hardening, request handling and routing architecture",
+        "Authorization changes address server/client trust boundaries"
+      ],
+      "excluded_claims": [
+        "Every deployed MCP server automatically adopts the updated spec or becomes secure"
+      ],
+      "relevant_customer_problems": [
+        "Infrastructure teams integrating AI protocol servers without defining clear RPC trust boundaries"
+      ],
+      "suitable_marketing_formats": ["news-reaction", "short-tip"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "A01",
+      "research_group": "agentic-security",
+      "commercial_services": ["agentic-security-tooling", "security-consulting"],
+      "title": "OWASP Agent Control Standard (ACS)",
+      "publisher": "OWASP GenAI Security Project",
+      "url": "https://genai.owasp.org/resource/agent-control-standard-acs/",
+      "published_date": "2026-09-01",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Agent transparency, runtime middleware hooks, inspectable execution and declarative policy enforcement across agent frameworks",
+        "Runtime execution boundaries to restrict unauthorized agent actions"
+      ],
+      "excluded_claims": [
+        "OWASP promises it prevents all prompt injection",
+        "OWASP specifies a mandatory wallet spending cap in dollars",
+        "Simon Willison is publisher of the OWASP standard"
+      ],
+      "relevant_customer_problems": [
+        "Autonomous agent platforms invoking external APIs and wallets without hard runtime boundaries"
+      ],
+      "suitable_marketing_formats": ["learning-resource", "news-reaction"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "A02",
+      "research_group": "agentic-security",
+      "commercial_services": ["agentic-security-tooling", "security-consulting"],
+      "title": "OWASP Top 10 for Agentic Applications 2026",
+      "publisher": "OWASP GenAI Security Project",
+      "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "published_date": "2025-12-09",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Reference framework for recognizing autonomous-agent security risks and building controls around tool-using workflows"
+      ],
+      "excluded_claims": [
+        "OWASP certifies a particular implementation as safe without independent evaluation"
+      ],
+      "relevant_customer_problems": [
+        "Teams deploying tool-augmented LLMs without formal threat modeling for autonomous delegation"
+      ],
+      "suitable_marketing_formats": ["differentiation", "learning-resource"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "A03",
+      "research_group": "agentic-security",
+      "commercial_services": ["agentic-security-tooling", "security-consulting"],
+      "title": "GitHub Code Scanning on Pull Requests",
+      "publisher": "GitHub",
+      "url": "https://docs.github.com/en/code-security/concepts/code-scanning/code-scanning-on-pull-requests",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Pull-request security analysis can surface findings before merge",
+        "Workflow value of PR security checks"
+      ],
+      "excluded_claims": [
+        "GitHub endorses SanadSquad or its custom AI detectors",
+        "False efficacy percentages"
+      ],
+      "relevant_customer_problems": [
+        "Protocol development teams suffering regressions between periodic point-in-time audits"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "M01",
+      "research_group": "agentic-payments",
+      "commercial_services": ["agentic-payments", "security-consulting"],
+      "title": "x402 Foundation, Facilitator",
+      "publisher": "x402 Foundation",
+      "url": "https://github.com/x402-foundation/x402/blob/main/docs/core-concepts/facilitator.md",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "x402 uses payment-required request/response signaling",
+        "A facilitator is optional but recommended for verifying and settling payments",
+        "Servers can handle verification and settlement directly"
+      ],
+      "excluded_claims": [
+        "Every x402 payment requires a third-party facilitator",
+        "HTTP 402 status alone transfers funds"
+      ],
+      "relevant_customer_problems": [
+        "Agent builders confusing HTTP payment signaling with required third-party settlement intermediaries"
+      ],
+      "suitable_marketing_formats": ["short-tip", "learning-resource"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "M02",
+      "research_group": "agentic-payments",
+      "commercial_services": ["agentic-payments", "security-consulting"],
+      "title": "MPP, EVM and x402 support",
+      "publisher": "MPP",
+      "url": "https://mpp.dev/blog/evm-x402-support",
+      "published_date": "2026-06-08",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "mppx supports MPP EVM charge and compatible x402 exact flows from one SDK interface"
+      ],
+      "excluded_claims": [
+        "Entire specifications are interchangeable or identically secure",
+        "All networks and payment methods are supported"
+      ],
+      "relevant_customer_problems": [
+        "Developers unsure how to design unified client interfaces supporting both x402 and MPP flows"
+      ],
+      "suitable_marketing_formats": ["news-reaction"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "M03",
+      "research_group": "agentic-payments",
+      "commercial_services": ["agentic-payments", "security-consulting"],
+      "title": "MPP, Improved sessions experience",
+      "publisher": "MPP",
+      "url": "https://mpp.dev/blog/sessions-improved",
+      "published_date": "2026-06-17",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "A session can authorize spending once and incrementally extend authorization with usage",
+        "Useful for usage-based APIs"
+      ],
+      "excluded_claims": [
+        "Sessions eliminate authorization, replay, spending or settlement risk",
+        "All session costs universally decrease by the same amount"
+      ],
+      "relevant_customer_problems": [
+        "Autonomous agent applications incurring high overhead from per-request discrete authorizations"
+      ],
+      "suitable_marketing_formats": ["short-tip", "learning-resource"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "C01",
+      "research_group": "web3-security",
+      "commercial_services": ["security-consulting"],
+      "title": "NIST SP 800-218, Secure Software Development Framework v1.1",
+      "publisher": "NIST",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "published_date": "2022-02",
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Security practices belong throughout the development lifecycle, including requirements, design choices, security reviews and software provenance"
+      ],
+      "excluded_claims": [
+        "NIST endorses or certifies SanadSquad",
+        "Following SSDF guarantees zero vulnerabilities"
+      ],
+      "relevant_customer_problems": [
+        "Protocol founders postponing security reviews until code freeze, discovering architectural flaws too late"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    },
+    {
+      "source_id": "C02",
+      "research_group": "web3-security",
+      "commercial_services": ["security-consulting"],
+      "title": "OpenZeppelin Proxy API",
+      "publisher": "OpenZeppelin",
+      "url": "https://docs.openzeppelin.com/contracts/5.x/api/proxy",
+      "published_date": null,
+      "checked_date": "2026-10-21",
+      "verification_status": "external_research_checked_runtime_fetch_required",
+      "supported_claims": [
+        "Upgrade-admin privileges, Transparent/UUPS architectural choices and authorization design create meaningful pre-implementation review questions"
+      ],
+      "excluded_claims": [
+        "Every architecture must be immutable or must use a specific vendor pattern"
+      ],
+      "relevant_customer_problems": [
+        "Founding teams needing architecture reviews before committing to upgrade patterns"
+      ],
+      "suitable_marketing_formats": ["differentiation", "service-overview", "short-tip"],
+      "publication_eligibility": {
+        "status": "eligible_with_fixture_or_live_fetch",
+        "requires_live_fetch_for_publication": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "name": "SanadSquad Marketing Editorial Briefs",
+  "compiled_date": "2026-10-21",
+  "briefs": [
+    {
+      "brief_id": "B01",
+      "service_line": "blockchain-security-audits",
+      "audience": "Solana teams",
+      "technical_problem": "A verified build answers source identity, not whether logic has vulnerabilities.",
+      "source_ids": ["W01"],
+      "suitable_formats": ["short-tip", "differentiation"],
+      "editorial_angle": "Bytecode correspondence vs application security: verified builds match Git commits, but audits check logic flaws and invariant preservation."
+    },
+    {
+      "brief_id": "B02",
+      "service_line": "blockchain-security-audits",
+      "audience": "Protocol governance leads",
+      "technical_problem": "Who can replace code after an audit? Upgrade authority is a control surface.",
+      "source_ids": ["W02", "W04"],
+      "suitable_formats": ["differentiation", "service-overview"],
+      "editorial_angle": "Audit scope must cover both active logic and upgrade authority keys stored in ProgramData or proxy admin accounts."
+    },
+    {
+      "brief_id": "B03",
+      "service_line": "blockchain-security-audits",
+      "audience": "DeFi vault engineers",
+      "technical_problem": "An empty vault can expose share-price inflation attacks; what defenses are needed?",
+      "source_ids": ["W03"],
+      "suitable_formats": ["short-tip", "learning-resource"],
+      "editorial_angle": "ERC-4626 vault share price manipulation and virtual offset decimal mitigation tradeoffs."
+    },
+    {
+      "brief_id": "B04",
+      "service_line": "penetration-testing",
+      "audience": "Web3 app engineers",
+      "technical_problem": "An authenticated user is not automatically authorized to read another user's object.",
+      "source_ids": ["P01"],
+      "suitable_formats": ["short-tip", "learning-resource"],
+      "editorial_angle": "Broken Object Level Authorization (BOLA) distinguishes resource-level permissions from user login authentication."
+    },
+    {
+      "brief_id": "B05",
+      "service_line": "penetration-testing",
+      "audience": "API and security leads",
+      "technical_problem": "BOLA, broken login, and function-level authorization are different tests.",
+      "source_ids": ["P02"],
+      "suitable_formats": ["differentiation", "service-overview"],
+      "editorial_angle": "Penetration testing connects off-chain dApp backend APIs, RPC gateways, and relayer infrastructure."
+    },
+    {
+      "brief_id": "B06",
+      "service_line": "agentic-security-tooling",
+      "audience": "Agent platform owners",
+      "technical_problem": "Runtime policy hooks and action visibility matter when AI is allowed to operate tools.",
+      "source_ids": ["A01"],
+      "suitable_formats": ["learning-resource", "news-reaction"],
+      "editorial_angle": "OWASP Agent Control Standard defines execution boundaries outside LLM context to restrict unauthorized tool actions."
+    },
+    {
+      "brief_id": "B07",
+      "service_line": "agentic-security-tooling",
+      "audience": "Protocol CI maintainers",
+      "technical_problem": "PR-level alerts can make security findings available before merge; tailor checks to protocol invariants.",
+      "source_ids": ["A03"],
+      "suitable_formats": ["differentiation", "service-overview"],
+      "editorial_angle": "SanadSquad builds tailored security detectors, automated PR reviewers, and monitoring agents to detect flaws before merge."
+    },
+    {
+      "brief_id": "B08",
+      "service_line": "agentic-payments",
+      "audience": "Agent/API payment builders",
+      "technical_problem": "x402 facilitators simplify verification and settlement but are optional.",
+      "source_ids": ["M01"],
+      "suitable_formats": ["short-tip", "learning-resource"],
+      "editorial_angle": "x402 uses HTTP 402 signaling; resource servers can settle directly peer-to-peer or delegate to optional facilitators."
+    },
+    {
+      "brief_id": "B09",
+      "service_line": "agentic-payments",
+      "audience": "Payment integrators",
+      "technical_problem": "MPP's June 2026 x402 support makes authorization and verification design a better comparison than protocol tribalism.",
+      "source_ids": ["M02"],
+      "suitable_formats": ["news-reaction"],
+      "editorial_angle": "mppx unified SDK interface supports both MPP EVM charges and compatible x402 flows with per-agent authorization limits."
+    },
+    {
+      "brief_id": "B10",
+      "service_line": "security-consulting",
+      "audience": "Protocol founders",
+      "technical_problem": "Which design decisions must be reviewed before implementation? Privileged upgrades and requirements are early decisions.",
+      "source_ids": ["C01", "C02"],
+      "suitable_formats": ["differentiation", "service-overview"],
+      "editorial_angle": "Pre-deployment architecture reviews, threat modeling, and governance design before code is written."
+    }
+  ]
+}

@@ -62,8 +62,8 @@ SERVICES_CONFIG = [
 ]
 
 
-async def run_five_service_qualification() -> dict:
-    output_base = ROOT / "output" / "v3_five_service_closure"
+async def run_five_service_qualification(output_subdir: str = "v3_five_service_knowledge_integration") -> dict:
+    output_base = ROOT / "output" / output_subdir
     if output_base.exists():
         shutil.rmtree(output_base)
 

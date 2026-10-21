@@ -286,10 +286,16 @@ def validate_marketing_claims(
     full_text = " ".join(tweets)
 
     # 1. Guarantee / absolute outcome check
-    if re.search(r"\b(?:guarantee\w*|unhackable|bulletproof|100%\s*secure|zero\s+risk|bug-free)\b", full_text, re.IGNORECASE):
+    for m in re.finditer(r"\b(guarantee\w*|unhackable|bulletproof|100%\s*secure|zero\s+risk|bug-free)\b", full_text, re.IGNORECASE):
+        word = m.group(1).lower()
+        if word.startswith("guarantee"):
+            preceding = full_text[:m.start()]
+            if re.search(r"\b(?:not|never|neither|nor|cannot|can't|no|don't|doesn't|does\s+not|do\s+not)\b[\s\w,]*$", preceding, re.IGNORECASE):
+                continue
         errors.append(
             "Prohibited guarantee claim: SanadSquad reduces risk; we do not eliminate it."
         )
+        break
     for phrase in policy.prohibited_guarantee_phrases:
         if re.search(rf"\b{re.escape(phrase)}\b", full_text, re.IGNORECASE):
             errors.append(
@@ -540,18 +546,63 @@ def validate_editorial_semantic_conformance(
         )
 
     # 2c. Verified Builds Confusing Bytecode Matching with Security
-    if re.search(r"\bverified\s+builds?\b.*?\b(?:guarantees?|ensures?|proves?)\s+(?:application\s+security|contract\s+safety|protocol\s+security|security|code\s+safety|safe\s+code|bug-free)\b", full_text, re.IGNORECASE) or \
-       re.search(r"\bverified\s+builds?\s+(?:guarantees?|proves?|ensures?)\s+(?:application\s+security|contract\s+safety|security|code\s+safety|safe\s+code|bug-free)\b", full_text, re.IGNORECASE):
+    positive_vb = False
+    for m_vb in re.finditer(r"\b(?:verified\s+builds?|source\s+verification)\b[\s\w,]*?\b(guarantees?|ensures?|proves?)\s+(?:application\s+security|contract\s+safety|protocol\s+security|security|code\s+safety|safe\s+code|bug-free)\b", full_text, re.IGNORECASE):
+        preceding = full_text[:m_vb.start(1)]
+        if not re.search(r"\b(?:not|never|neither|nor|cannot|can't|fail(?:s)?\s+to|without|do\s+not|does\s+not|don't|doesn't)\b[\s\w,]*$", preceding, re.IGNORECASE):
+            positive_vb = True
+            break
+    if positive_vb:
         errors.append(
             "Inaccurate verified build claim: Verified builds establish source-to-deployment correspondence "
             "(proving deployed bytecode matches audited Git commit), but do not guarantee application security or functional correctness."
         )
 
-    # 2d. Upgrades Bypassing All Verification
+    # 2d. Upgrades Bypassing All Verification & Malice False Claims
     if re.search(r"\b(?:upgrades?\s+automatically\s+bypass(?:es)?\s+all\s+verification|without\s+(?:community\s+)?verification|alters?\s+code\s+anytime\s+without\s+verification)\b", full_text, re.IGNORECASE):
         errors.append(
             "Inaccurate upgrade authority claim: An upgrade changes the deployed executable and calls for re-verification "
             "of the new version; avoid implying that upgrades automatically bypass all verification."
+        )
+    if re.search(r"\b(?:upgrade\s+authority\s+(?:is|means)\s+(?:inherently\s+)?(?:malicious|compromised|an\s+exploit))\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate governance claim: Retained upgrade authority is an authorized administrative control surface "
+            "that introduces keyholder centralization risk, not an inherently malicious exploit."
+        )
+
+    # 2e. BOLA vs Authentication Distinction
+    if re.search(r"\b(?:bola\s+is\s+(?:failed\s+)?login|bola\s+is\s+authentication\s+failure|authentication\s+failure\s+called\s+bola)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate BOLA definition: Broken Object Level Authorization (BOLA) is an authorization failure where "
+            "an authenticated user accesses another user's resource objects, distinct from failed login authentication."
+        )
+
+    # 2f. Protocol Interchangeability
+    if re.search(r"\b(?:mpp\s+and\s+x402\s+are\s+(?:completely\s+)?interchangeable|x402\s+is\s+identical\s+to\s+mpp)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate protocol comparison: MPP and x402 have distinct protocol specifications; mppx unified SDK "
+            "interface supports compatible flows, not total interchangeability."
+        )
+
+    # 2g. Spending Cap Mandates in OWASP ACS
+    if re.search(r"\b(?:owasp\s+acs\s+mandates\s+(?:a\s+)?(?:dollar|\$|wallet)\s+spending\s+cap)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate OWASP ACS claim: OWASP Agent Control Standard defines execution boundaries and policy hooks; "
+            "it does not mandate specific dollar amounts or wallet spending caps."
+        )
+
+    # 2h. ERC-4626 Overbroad Vulnerability or Absolute Mitigation Claims
+    if re.search(r"\b(?:all\s+erc-?4626\s+vaults\s+are\s+exploitable|all\s+vaults\s+are\s+vulnerable\s+to\s+inflation|inflation\s+mitigations?\s+eliminate\s+every\s+attack)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate vault claim: Empty-vault inflation attacks affect specific pricing logic under donation scenarios, "
+            "not all ERC-4626 vaults universally, and default mitigations involve tradeoffs rather than absolute elimination."
+        )
+
+    # 2i. NIST SSDF Certification or Zero Vulnerability Claims
+    if re.search(r"\b(?:nist\s+(?:endorses?|certifies?)\s+sanadsquad|ssdf\s+guarantees?\s+(?:zero|no)\s+vulnerabilities)\b", full_text, re.IGNORECASE):
+        errors.append(
+            "Inaccurate compliance claim: NIST SP 800-218 provides secure software development practices; "
+            "NIST does not endorse private firms, and SSDF does not guarantee zero vulnerabilities."
         )
 
     # 3. Official SanadSquad Service Alignment

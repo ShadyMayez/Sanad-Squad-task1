@@ -17,7 +17,9 @@
         "ethereum.org",
         "solana.com",
         "docs.soliditylang.org",
-        "docs.rs"
+        "docs.rs",
+        "openzeppelin.com",
+        "csrc.nist.gov"
       ],
       "production": [
         "github.com/ethereum",
@@ -52,7 +54,8 @@
       "production": [
         "github.com/projectdiscovery",
         "kubernetes.io",
-        "aws.amazon.com"
+        "aws.amazon.com",
+        "modelcontextprotocol.io"
       ],
       "analysis": [
         "cisa.gov",

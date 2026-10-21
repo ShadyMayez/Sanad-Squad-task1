@@ -623,6 +623,98 @@ def build_marketing_evidence_plan(
             "- Represent payment agent architecture, tool authorization limits, or replay protection.\n"
         )
 
+    # -------------------------------------------------------------------------
+    # Structured Editorial Brief Integration (B01–B10)
+    # -------------------------------------------------------------------------
+    brief_id = "B01"
+    brief_data = {
+        "audience": "Protocol engineering teams",
+        "technical_problem": "Addressing critical protocol and infrastructure risks before exploitation.",
+        "editorial_angle": "Grounding in verified specification mechanics and practical security review.",
+    }
+
+    if "audit" in sl_clean or "blockchain" in sl_clean or "web3" in sl_clean:
+        if "4626" in excerpt.lower() or "vault" in excerpt.lower():
+            brief_id = "B03"
+            brief_data = {
+                "audience": "DeFi vault engineers",
+                "technical_problem": "An empty vault can expose share-price inflation attacks; what defenses are needed?",
+                "editorial_angle": "ERC-4626 vault share price manipulation and virtual offset decimal mitigation tradeoffs.",
+            }
+        elif final_fmt in {"differentiation", "service-overview"} or "proxy" in excerpt.lower() or "deploy" in excerpt.lower():
+            brief_id = "B02"
+            brief_data = {
+                "audience": "Protocol governance leads",
+                "technical_problem": "Who can replace code after an audit? Upgrade authority is a control surface.",
+                "editorial_angle": "Audit scope must cover both active logic and upgrade authority keys stored in ProgramData or proxy admin accounts.",
+            }
+        else:
+            brief_id = "B01"
+            brief_data = {
+                "audience": "Solana teams",
+                "technical_problem": "A verified build answers source identity, not whether logic has vulnerabilities.",
+                "editorial_angle": "Bytecode correspondence vs application security: verified builds match Git commits, but audits check logic flaws and invariant preservation.",
+            }
+    elif "pentest" in sl_clean or "penetration" in sl_clean:
+        if final_fmt in {"differentiation", "service-overview"} or "0x11-t10" in (final_url or "") or "function" in excerpt.lower():
+            brief_id = "B05"
+            brief_data = {
+                "audience": "API and security leads",
+                "technical_problem": "BOLA, broken login, and function-level authorization are different tests.",
+                "editorial_angle": "Penetration testing connects off-chain dApp backend APIs, RPC gateways, and relayer infrastructure.",
+            }
+        else:
+            brief_id = "B04"
+            brief_data = {
+                "audience": "Web3 app engineers",
+                "technical_problem": "An authenticated user is not automatically authorized to read another user's object.",
+                "editorial_angle": "Broken Object Level Authorization (BOLA) distinguishes resource-level permissions from user login authentication.",
+            }
+    elif "tool" in sl_clean or "agentic-security" in sl_clean:
+        if final_fmt in {"differentiation", "service-overview"} or "code-scanning" in (final_url or "") or "pr" in excerpt.lower():
+            brief_id = "B07"
+            brief_data = {
+                "audience": "Protocol CI maintainers",
+                "technical_problem": "PR-level alerts can make security findings available before merge; tailor checks to protocol invariants.",
+                "editorial_angle": "SanadSquad builds tailored security detectors, automated PR reviewers, and monitoring agents to detect flaws before merge.",
+            }
+        else:
+            brief_id = "B06"
+            brief_data = {
+                "audience": "Agent platform owners",
+                "technical_problem": "Runtime policy hooks and action visibility matter when AI is allowed to operate tools.",
+                "editorial_angle": "OWASP Agent Control Standard defines execution boundaries outside LLM context to restrict unauthorized tool actions.",
+            }
+    elif "payment" in sl_clean:
+        if final_fmt == "news-reaction" or "mpp" in (final_url or "").lower():
+            brief_id = "B09"
+            brief_data = {
+                "audience": "Payment integrators",
+                "technical_problem": "MPP's June 2026 x402 support makes authorization and verification design a better comparison than protocol tribalism.",
+                "editorial_angle": "mppx unified SDK interface supports both MPP EVM charges and compatible x402 flows with per-agent authorization limits.",
+            }
+        else:
+            brief_id = "B08"
+            brief_data = {
+                "audience": "Agent/API payment builders",
+                "technical_problem": "x402 facilitators simplify verification and settlement but are optional.",
+                "editorial_angle": "x402 uses HTTP 402 signaling; resource servers can settle directly peer-to-peer or delegate to optional facilitators.",
+            }
+    elif "consulting" in sl_clean:
+        brief_id = "B10"
+        brief_data = {
+            "audience": "Protocol founders",
+            "technical_problem": "Which design decisions must be reviewed before implementation? Privileged upgrades and requirements are early decisions.",
+            "editorial_angle": "Pre-deployment architecture reviews, threat modeling, and governance design before code is written.",
+        }
+
+    editorial_brief_instruction = (
+        f"EDITORIAL BRIEF ({brief_id}):\n"
+        f"- Target Audience: {brief_data['audience']}\n"
+        f"- Core Technical Problem: {brief_data['technical_problem']}\n"
+        f"- Strategic Editorial Angle: {brief_data['editorial_angle']}\n"
+    )
+
     # Concise single-point evidence framing to avoid token bloat and cognitive overload
     conciseness_guidance = (
         "TARGET LENGTH & CONCISENESS:\n"
@@ -633,6 +725,7 @@ def build_marketing_evidence_plan(
 
     unit_guidance = (
         f"Format: {final_fmt}. Service line: {service_line}.\n"
+        f"{editorial_brief_instruction}\n"
         f"{format_specific_guidance}\n"
         f"{service_specific_guidance}\n"
         f"{conciseness_guidance}\n"
