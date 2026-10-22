@@ -743,12 +743,19 @@ def build_marketing_evidence_plan(
     )
 
     # Concise single-point evidence framing to avoid token bloat and cognitive overload
-    conciseness_guidance = (
-        "TARGET LENGTH & CONCISENESS:\n"
-        "- Aim for 200–245 characters total for the complete post (including link and CTA if present).\n"
-        "- Keep prose to 1–2 crisp, substantive sentences.\n"
-        "- Do NOT exceed 250 characters on your first draft so the post safely passes within the 280-character ceiling without revisions.\n"
-    )
+    if budget.approved_cta:
+        conciseness_guidance = (
+            "TARGET LENGTH & CONCISENESS:\n"
+            f"- Your body prose BEFORE the CTA must be strictly under {budget.max_body_chars} characters (exactly 1 short sentence).\n"
+            "- An approved company contact CTA is added at the end; leave room so the entire tweet including CTA is strictly within 280 characters.\n"
+        )
+    else:
+        conciseness_guidance = (
+            "TARGET LENGTH & CONCISENESS:\n"
+            "- Aim for 200–245 characters total for the complete post (including link and CTA if present).\n"
+            "- Keep prose to 1–2 crisp, substantive sentences.\n"
+            "- Do NOT exceed 250 characters on your first draft so the post safely passes within the 280-character ceiling without revisions.\n"
+        )
 
     unit_guidance = (
         f"Format: {final_fmt}. Service line: {service_line}.\n"

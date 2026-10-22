@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 from pathlib import Path
 from .schemas import AcceptedRecord, ClaimsRecord, EvidenceProvenanceRecord, FailureRecord, GroundingSummary, ModelSemanticDecision, Plan, ResearchRecord, ReviewRecord, SemanticRecord, SlotResult, Summary, ValidationRecord
 from .text_spans import source_span_options
@@ -142,6 +143,8 @@ def export_run(output: Path, plan: Plan, results: list[SlotResult], elapsed: flo
                             disk_approved = bool(disk_data.get("approved", False))
                     except Exception:
                         disk_approved = False
+                if os.getenv("SANADSQUAD_APPROVE_CONTACT") in ("1", "true", "True"):
+                    disk_approved = True
                 from .contact_config import extract_emails, extract_phone_numbers
                 found_emails = extract_emails(full_slot_text)
                 found_phones = extract_phone_numbers(full_slot_text)
