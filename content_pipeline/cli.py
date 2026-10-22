@@ -98,10 +98,20 @@ def week_main(argv=None) -> int:
         default="publication_eligible",
         help="Authorization clearance mode (default: publication_eligible)",
     )
+    parser.add_argument(
+        "--approve-contact",
+        action="store_true",
+        default=False,
+        help="Approve verified company contact details (frank@sanadsquad.com) for marketing posts",
+    )
     args = parser.parse_args(argv)
+    old_env = os.environ.get("SANADSQUAD_APPROVE_CONTACT")
     try:
         registry = load_registry()
-        plan = load_plan(args.plan, registry)
+        is_default_weekly = (args.plan.resolve() == (ROOT / "plan.json").resolve())
+        plan = load_plan(args.plan, registry, weekly=is_default_weekly)
+        if args.approve_contact:
+            os.environ["SANADSQUAD_APPROVE_CONTACT"] = "1"
         slot_map = {s.id: s for s in plan.slots}
         for assignment in args.set:
             if "=" not in assignment:
@@ -132,6 +142,11 @@ def week_main(argv=None) -> int:
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+    finally:
+        if old_env is None:
+            os.environ.pop("SANADSQUAD_APPROVE_CONTACT", None)
+        else:
+            os.environ["SANADSQUAD_APPROVE_CONTACT"] = old_env
 
 
 def piece_main(argv=None) -> int:
@@ -148,12 +163,23 @@ def piece_main(argv=None) -> int:
         default="publication_eligible",
         help="Authorization clearance mode (default: publication_eligible)",
     )
+    parser.add_argument(
+        "--approve-contact",
+        action="store_true",
+        default=False,
+        help="Approve verified company contact details (frank@sanadsquad.com) for marketing posts",
+    )
     args = parser.parse_args(argv)
+    old_env = os.environ.get("SANADSQUAD_APPROVE_CONTACT")
     try:
         registry = load_registry()
         if args.type not in registry.types:
             raise ValueError(f"Unsupported content type {args.type!r}; supported: {list(registry.types)}")
-        plan = Plan(slots=[Slot(id="piece_1", type=args.type, focus=args.topic)])
+        is_mktg = (args.type == "marketing-post")
+        approved_contact = args.approve_contact or (old_env in ("1", "true", "True"))
+        if is_mktg and approved_contact:
+            os.environ["SANADSQUAD_APPROVE_CONTACT"] = "1"
+        plan = Plan(slots=[Slot(id="piece_1", type=args.type, focus=args.topic, has_cta=(is_mktg and approved_contact))])
         exec_kwargs = {}
         if args.mode:
             exec_kwargs["mode"] = args.mode
@@ -174,6 +200,11 @@ def piece_main(argv=None) -> int:
     except (ValueError, OSError) as exc:
         print(f"Error: {exc}", file=sys.stderr)
         return 2
+    finally:
+        if old_env is None:
+            os.environ.pop("SANADSQUAD_APPROVE_CONTACT", None)
+        else:
+            os.environ["SANADSQUAD_APPROVE_CONTACT"] = old_env
 
 
 if __name__ == "__main__":

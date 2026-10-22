@@ -434,10 +434,13 @@ def build_v2_piece_graph(
                     raw_service = slot.focus
                 service_line = normalize_commercial_service(raw_service) if raw_service else "blockchain-security-audits"
                 fmt_spec = None
-                has_cta = False
+                has_cta = bool(getattr(slot, "has_cta", False))
                 if meta:
                     fmt_val = getattr(meta, "selected_format", None) or (meta.get("selected_format") if isinstance(meta, dict) else None)
-                    has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
+                    if hasattr(meta, "has_cta"):
+                        has_cta = bool(meta.has_cta)
+                    elif isinstance(meta, dict) and "has_cta" in meta:
+                        has_cta = bool(meta["has_cta"])
                     if fmt_val:
                         from .marketing_format import FORMAT_SPECS
                         fmt_spec = FORMAT_SPECS.get(fmt_val)
@@ -722,10 +725,13 @@ def build_v2_piece_graph(
         allowed_urls = state.get("fetched_urls", [])
         meta = state.get("marketing_meta")
         fmt_name = None
-        has_cta = False
+        has_cta = bool(getattr(state["slot"], "has_cta", False))
         if meta:
             fmt_name = meta.selected_format.value if hasattr(meta, "selected_format") else (meta.get("format") if isinstance(meta, dict) else None)
-            has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
+            if hasattr(meta, "has_cta"):
+                has_cta = bool(meta.has_cta)
+            elif isinstance(meta, dict) and "has_cta" in meta:
+                has_cta = bool(meta["has_cta"])
 
         from .contact_config import load_company_contact
         contact_cfg = load_company_contact()
@@ -752,6 +758,7 @@ def build_v2_piece_graph(
                 state["topic"].evidence,
                 all_errors,
                 state["semantic_report"],
+                content_type=state["slot"].type,
             )
 
             # Enforce QualityThresholds from business_policy
@@ -819,9 +826,12 @@ def build_v2_piece_graph(
         pub_status = "APPROVED_FOR_EXPORT" if (not req_human or (is_approved and approval_rec is not None)) else "READY_FOR_HUMAN_REVIEW"
         mode = state.get("authorization_mode") or authorization_mode
         meta = state.get("marketing_meta")
-        has_cta = False
+        has_cta = bool(getattr(slot, "has_cta", False))
         if meta:
-            has_cta = bool(getattr(meta, "has_cta", False) if hasattr(meta, "has_cta") else (meta.get("has_cta", False) if isinstance(meta, dict) else False))
+            if hasattr(meta, "has_cta"):
+                has_cta = bool(meta.has_cta)
+            elif isinstance(meta, dict) and "has_cta" in meta:
+                has_cta = bool(meta["has_cta"])
         slot_obj = slot.model_copy(update={"has_cta": has_cta}) if hasattr(slot, "model_copy") else slot
 
         return {

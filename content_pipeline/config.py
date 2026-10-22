@@ -61,6 +61,12 @@ def load_kb() -> KnowledgeBase:
     return read_json(ROOT / "kb.json", KnowledgeBase)
 
 
+def load_kb_ai(path: Path = ROOT / "kb_ai.json") -> dict:
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
+
+
 def load_sources(path: Path = ROOT / "sources.json"):
     from .research.config import load_sources_config
     return load_sources_config(path)

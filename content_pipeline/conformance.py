@@ -65,7 +65,7 @@ class ModelConformanceDecision(BaseModel):
 def check_deterministic_unit_conformance(
     unit: ContentUnit,
     tweet_text: str,
-    brand_path: str = "brand-voice.md",
+    brand_path: str | Path = ROOT / "brand-voice.md",
     catalog: PropositionCatalog | None = None,
 ) -> tuple[bool, list[str]]:
     """Enforce non-overridable deterministic constraints: qualifiers, length, brand, modality, and scope."""
@@ -253,7 +253,10 @@ def check_deterministic_unit_conformance(
 
     # 10. Brand rules check
     try:
-        _, brand = load_brand(Path(brand_path) if not Path(brand_path).is_absolute() else brand_path)
+        resolved_brand_path = Path(brand_path) if not isinstance(brand_path, Path) else brand_path
+        if not resolved_brand_path.is_absolute():
+            resolved_brand_path = ROOT / resolved_brand_path
+        _, brand = load_brand(resolved_brand_path)
         for char in brand.banned_characters:
             if char in tweet_text:
                 violations.append(f"Brand violation: banned character {char!r}")

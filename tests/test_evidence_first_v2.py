@@ -176,6 +176,24 @@ def test_deterministic_conformance_brand_rules():
     assert any("hashtag detected" in v for v in violations)
 
 
+def test_deterministic_conformance_brand_rules_cwd_independent(tmp_path, monkeypatch):
+    """Brand check must succeed regardless of the current working directory.
+
+    Regression for: running run_piece.py from ~/Pictures caused brand-voice.md
+    to be resolved relative to CWD, leading to a FileNotFoundError caught as
+    'Brand check failure' which propagated as UNLICENSED_ASSERTION drop.
+    """
+    # Change CWD to a temp dir that definitely has no brand-voice.md
+    monkeypatch.chdir(tmp_path)
+    unit = ContentUnit(id="u_cwd", role="HOOK")
+    # A clean tweet should pass regardless of CWD
+    ok, violations = check_deterministic_unit_conformance(unit, "Smart contract audits start with reading the code.")
+    brand_failures = [v for v in violations if "Brand check failure" in v]
+    assert brand_failures == [], f"Brand check failed due to CWD path issue: {brand_failures}"
+
+
+
+
 # ==============================================================================
 # 4. BUSINESS POLICY CONTRACT
 # ==============================================================================

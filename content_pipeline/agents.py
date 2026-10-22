@@ -110,7 +110,7 @@ class ReviewerAgent:
         self.lookup = lookup
         self.brand_text = brand_text
 
-    async def run(self, draft: Draft, evidence: list[Evidence], errors: list[str], semantic: SemanticReport | None = None) -> tuple[Review, dict]:
+    async def run(self, draft: Draft, evidence: list[Evidence], errors: list[str], semantic: SemanticReport | None = None, content_type: str = "tech-thread") -> tuple[Review, dict]:
         # The same evidence skill that Research uses validates the cited IDs here.
         missing = self.lookup.verify_ids(evidence, [id for claim in draft.claims for id in claim.evidence_ids])
         rubric = instruction("instructions/reviewer-rubric.md")
@@ -122,7 +122,9 @@ class ReviewerAgent:
             "relation_error": item.relation_error,
             **({"reason": item.reason} if item.verdict != "SUPPORTED" else {})}
             for item in semantic.verdicts]} if semantic else None)
-        task = {"brand_voice_guidance": self.brand_text.split("```json", 1)[0].strip(),
+        task = {
+            "content_type": content_type,
+            "brand_voice_guidance": self.brand_text.split("```json", 1)[0].strip(),
             "evidence": evidence_task_records(evidence),
             "draft": draft.model_dump(), "deterministic_errors": errors + ([f"Unknown evidence IDs: {missing}"] if missing else []),
             "tweet_count": len(draft.tweets), "tweet_character_counts": [len(tweet) for tweet in draft.tweets],
@@ -131,7 +133,16 @@ class ReviewerAgent:
                 "exporter_adds_thread_numbering": True, "numbering_inside_tweet_text_required": False,
                 "line_breaks_inside_tweet_text_required": False},
             "semantic_report": semantic_brief,
-            "task": "Score only the current draft. Return a concise Review. A rejection needs a current-draft defect and matching low score or mandatory gate; never override a hard or atomic gate."}
+            "task": "Score only the current draft. Return a concise Review. A rejection needs a current-draft defect and matching low score or mandatory gate; never override a hard or atomic gate."
+        }
+        if content_type == "marketing-post":
+            task["content_type_rules"] = (
+                "This piece is a marketing-post. "
+                "Per the rubric section 'Epistemic Separation for Marketing Posts (V3)': "
+                "1. Stating SanadSquad's official services is required service alignment, not a brand voice defect. "
+                "2. When approved contact details (e.g. Email: frank@sanadsquad.com) appear in a marketing post, "
+                "they are authorized commercial inquiries. Do NOT penalize brand voice or reject for promotional contact info in marketing posts."
+            )
         usage_total: dict = {}
         for review_attempt in range(2):
             review, usage = await self.model.structured([SystemMessage(content=rubric), HumanMessage(content=json.dumps(task, ensure_ascii=False))], Review)
@@ -277,7 +288,17 @@ class EvidenceFirstWriterAgent:
             budget_obj = getattr(plan, "character_budget", None) or {}
             max_b = budget_obj.get("max_body_chars", 180)
             mand_url = getattr(plan, "mandatory_url", None) or budget_obj.get("mandatory_url")
-            if mand_url:
+            app_cta = budget_obj.get("approved_cta")
+            if mand_url and app_cta:
+                count_inst = (
+                    f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
+                    f"Total tweet length (including URL and contact CTA) MUST be strictly under 280 characters. "
+                    f"The mandatory URL is '{mand_url}'. "
+                    f"The approved contact CTA is '{app_cta}' and MUST be included at the end of the tweet text. "
+                    f"Your body prose BEFORE the URL and CTA must not exceed {max_b} characters. "
+                    f"Set mandatory_link='{mand_url}' in the output."
+                )
+            elif mand_url:
                 count_inst = (
                     f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
                     f"Total tweet length (including URL) MUST be strictly under 280 characters. "
@@ -285,11 +306,19 @@ class EvidenceFirstWriterAgent:
                     f"Your body prose BEFORE the URL must not exceed {max_b} characters. "
                     f"Set mandatory_link='{mand_url}' in the output."
                 )
+            elif app_cta:
+                count_inst = (
+                    f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
+                    f"Total tweet length (including contact CTA) MUST be strictly under 280 characters. "
+                    f"The approved contact CTA is '{app_cta}' and MUST be included at the end of the tweet text. "
+                    f"Your body prose BEFORE the CTA must not exceed {max_b} characters. "
+                    f"Strictly NO links or hashtags. Leave 'mandatory_link' as null."
+                )
             else:
                 count_inst = (
                     f"CRITICAL MARKETING CONSTRAINT: The 'tweets' array MUST contain EXACTLY 1 string. "
-                    f"Total tweet length MUST be strictly under 280 characters (target {max_b} characters). "
-                    f"Strictly NO links or hashtags. Leave 'mandatory_link' as null."
+                    f"HARD MAXIMUM: {max_b} characters total. Do NOT exceed {max_b} characters under any circumstances. "
+                    f"Count your characters before submitting. Strictly NO links or hashtags. Leave 'mandatory_link' as null."
                 )
         else:
             count_inst = (
@@ -372,5 +401,13 @@ class EvidenceFirstWriterAgent:
         )
         if not isinstance(draft, Draft):
             draft = draft_schema.model_validate(draft)
+        if is_marketing and app_cta and draft.tweets:
+            if app_cta not in draft.tweets[0]:
+                candidate = f"{draft.tweets[0].rstrip()} {app_cta}"
+                if len(candidate) <= 280:
+                    draft.tweets[0] = candidate
+                    for c in draft.claims:
+                        if c.text in candidate:
+                            c.text = candidate
         return draft, usage
 
